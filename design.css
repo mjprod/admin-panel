@@ -70,8 +70,8 @@ body {
 /***** layout ***/
 
 .main-container {
-  background: red;
-  min-height: 100vh;
+  background: rgb(255, 255, 255);
+  height: 100dvh;
   display: grid;
   grid-template-columns: 397px 1fr;
   font-family: var(--font-family01);
@@ -80,7 +80,16 @@ body {
   background: var(--warm-gray);
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 311px 1fr;
+  grid-template-rows: 0.25fr 1fr 10dvh;
+}
+
+.main-container > main {
+  background: rgb(255, 255, 255);
+  height: 90dvh;
+  overflow-y: scroll;
+  display: grid;
+  padding: 2rem 3.5rem;
+  grid-template-rows: 0.11fr 1fr;
 }
 
 /* tools container **/
@@ -131,7 +140,111 @@ body {
   flex-direction: row;
   gap: 0.5rem;
 }
+/* --------- tools container  END **/
 
+/*** conversations container ****/
+
+.conversations-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  padding-top: 2rem;
+  overflow-y: scroll;
+}
+
+.conversations-container .conversation-card:last-of-type {
+  margin-bottom: 3rem;
+}
+.pagination-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2rem;
+  align-items: center;
+
+  & button {
+    background-color: var(--black);
+    color: white;
+    border: none;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+  }
+  & p {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+  }
+}
+
+/* conversation details */
+.conversation-details {
+  border-bottom: 1px solid var(--black-200);
+}
+.conversation-details .row01 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & p {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.conversation-details .row02 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--black-300);
+}
+
+.row02 .leftcol {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.conversation-details .row02 .date-time {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.conversation-details .row02 .rightcol .language-indicator {
+  color: var(--black);
+  font-size: 1rem;
+  padding: 0.3rem;
+}
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+/****** -------------------- ELEMENTS -------------------------------- ****/
 /** badges START */
 .badge-container {
   display: flex;
@@ -212,11 +325,11 @@ body {
 /* --------- Badges END */
 
 /** tags START */
-.tag-container > .row02 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
+.tag-container {
+  margin-top: 1rem;
+  padding: 1rem;
 }
+
 .tag-container > .row01 {
   display: flex;
   flex-direction: row;
@@ -224,7 +337,25 @@ body {
   font-size: 1rem;
   font-style: normal;
   font-weight: 700;
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 0.25rem;
+  margin-bottom: 1rem;
 }
+
+.tag-container > .row02 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  & p {
+    font-weight: bold;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    display: block;
+    width: 100%;
+  }
+}
+
 .tag {
   display: inline-flex;
   min-width: 4.875rem;
@@ -247,9 +378,13 @@ body {
 
 /* language indicator component START */
 .language-indicator {
+  display: inline-flex;
   border-radius: 0.25rem;
-  border: 2px dashed var(--black);
-  background: #fff;
+  border: 1px dashed var(--black);
+  max-width: 1.5rem;
+  justify-content: center;
+  align-content: center;
+
   font-size: 0.625rem;
   font-style: normal;
   font-weight: 600;
@@ -278,7 +413,7 @@ body {
 .conversation-card {
   display: grid;
   grid-template-rows: 23px 1fr 1fr 1fr;
-  max-width: 19rem;
+  width: 19rem;
   border-radius: 0.5rem;
   border: 1px solid var(--black-200);
   background: #fff;
@@ -356,3 +491,98 @@ body {
 }
 
 /* --------- conversation-card END */
+
+/** question card group container ***/
+.question-group-scroll-container {
+  overflow-y: scroll;
+}
+.question-group-container {
+  max-width: 60vw;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.question-strength-tab {
+  background-color: var(--black-200);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: max-content;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  gap: 1rem;
+  align-self: flex-end;
+  & p {
+    font-weight: 600;
+  }
+}
+
+.question-group-main {
+  background-color: var(--black-200);
+  padding: 2rem;
+  border-radius: 8px 0px 8px 8px;
+}
+
+.question-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid var(--black-200);
+  padding: 2rem;
+  border-radius: 8px;
+  gap: 1rem;
+}
+/*row01*/
+.question-container .row01.language {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/*row02*/
+.question-container .row02.subcategory-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+/*row03*/
+.question-container .row03.question-answer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.question-block-container,
+.answer-block-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.question-title,
+.answer-title {
+  font-weight: 700;
+}
+
+/*row04*/
+.question-container .row04.question-button-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap:0.5rem;
+  & button {display: flex;
+    padding: 0.75rem 1.25rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+border:none}
+}
+.pre-approve {border-radius: 0.5rem;
+    background: #D3F9D2;}
+.reject {background: #F9D2D2;}
+
+
+
