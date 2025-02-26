@@ -5,14 +5,14 @@ import Main from "./pages/Main.jsx";
 import { AuthContext } from "./context/AuthContext.tsx";
 
 // PrivateRoute component to handle protected routes
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
-  const { isSignedIn } = useContext(AuthContext);
-  return isSignedIn ? element : <Navigate to="/login" />;
-};
+// const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
+//   const { isSignedIn } = useContext(AuthContext);
+//   return isSignedIn ? element : <Navigate to="/login" />;
+// };
 
-interface PrivateRouteProps {
-  element: React.ReactElement;
-}
+// interface PrivateRouteProps {
+//   element: React.ReactElement;
+// }
 
 const AppRouter = () => {
   const { loadingAuth } = useContext(AuthContext);
@@ -26,7 +26,6 @@ const AppRouter = () => {
     <div
       style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}
     >
-
       <Routes>
         {/* Public routes */}
         {/* <Route path="/login" element={<Login />} /> */}
