@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const ConversationCard = ({ category, progress, title, date, time, lang }) => {
   return (
@@ -22,6 +23,15 @@ const ConversationCard = ({ category, progress, title, date, time, lang }) => {
       </div>
     </div>
   );
+};
+
+ConversationCard.propTypes = {
+  category: PropTypes.string.isRequired,
+  progress: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 export default ConversationCard;

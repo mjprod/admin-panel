@@ -1,8 +1,8 @@
 import React from "react";
-import Language from "../components/Language";
+import CustomButton from "../components/button/CustomButton";
 
 const TestPage = () => {
-  return <Language />;
+  return <CustomButton text="aaa" />;
 };
 
 export default TestPage;

@@ -1,14 +1,12 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import ConversationDetails from "./ConversationDetails";
+import Sidebar from "./components/Sidebar";
+import Sidepage from "./components/Sidepage";
 
 const Main = () => {
   return (
     <div className="main-container">
       <Sidebar />
-      <main>
-        <ConversationDetails />
-      </main>
+      <Sidepage />
     </div>
   );
 };

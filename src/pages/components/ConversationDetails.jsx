@@ -2,7 +2,7 @@ import React from "react";
 
 const ConversationDetails = () => {
   return (
-    <div className="conversation-details">
+    <aside className="conversation-details">
       <div className="row01">
         <p>Conversation 01</p>
         <div className="badge badge-color09">Technical</div>
@@ -16,11 +16,10 @@ const ConversationDetails = () => {
           </div>
         </div>
         <div className="rightcol">
-          <div className="language-indicator">EN</div>
-          &nbsp;English
+          <div className="language-indicator">EN</div>&nbsp;English
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
