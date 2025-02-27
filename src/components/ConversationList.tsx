@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ConversationCard from "./ConversationCard";
 import styles from "./ConversationList.module.css";
 import clsx from "clsx";
@@ -24,11 +24,25 @@ const ConversationList: React.FC<ConversationListProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const handleSelect = (id: number) => {
+    setSelectedId(id);
+  };
+
   return (
     <div className={styles["main-container"]}>
       <div className={styles["conversations-container"]}>
         {conversations.map((conv) => (
-          <ConversationCard key={conv.id} {...conv} />
+          <div
+            key={conv.id}
+            onClick={() => handleSelect(conv.id)}
+            className={clsx(styles["conversation-item"], {
+              [styles["selected"]]: selectedId === conv.id,
+            })}
+          >
+            <ConversationCard key={conv.id} {...conv} />
+          </div>
         ))}
       </div>
       <div className={styles["pagination"]}>
