@@ -1,32 +1,14 @@
 import React from "react";
 import LanguageSelector from "./LanguageSelector";
 import QuestionItem from "./QuestionItem";
+import { Conversation } from "../../util/ExampleData";
 
-const QuestionGroup = () => {
-      const questionsData = [
-        {
-          language: "MY",
-          languageLabel: "Malay",
-          subcategories: ["Subcategory 01", "Subcategory 01"],
-          userQuestion: "Why is my deposit not showing?",
-          aiAnswer: "Why is my deposit not showing?",
-        },
-        {
-          language: "MY",
-          languageLabel: "Malay",
-          subcategories: ["Subcategory 01", "Subcategory 01"],
-          userQuestion: "Why is my deposit not showing?",
-          aiAnswer: "Why is my deposit not showing?",
-        },
-        {
-          language: "MY",
-          languageLabel: "Malay",
-          subcategories: ["Subcategory 01", "Subcategory 01"],
-          userQuestion: "Why is my deposit not showing?",
-          aiAnswer: "Why is my deposit not showing?",
-        },
-      ];
+interface QuestionGroupProps {
+  conversation: Conversation;
+}
 
+const QuestionGroup: React.FC<QuestionGroupProps
+> = ({conversation}) => {
   return (
     <div className="question-group-container">
       <div className="question-strength-tab">
@@ -35,7 +17,7 @@ const QuestionGroup = () => {
       </div>
 
       <div className="question-group-main">
-        {questionsData.map((question, index) => (
+        {conversation.messages.map((question, index) => (
           <QuestionItem key={index} {...question} />
         ))}
       </div>

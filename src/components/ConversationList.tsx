@@ -9,7 +9,7 @@ interface ConversationListProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  onConversationSelect: (id: number) => void;
+  onConversationSelect: (conv: Conversation) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -19,11 +19,11 @@ const ConversationList: React.FC<ConversationListProps> = ({
   onPageChange,
   onConversationSelect,
 }) => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<number>(conversations[0].id);
 
-  const handleSelect = (id: number) => {
-    setSelectedId(id);
-    onConversationSelect(id);
+  const handleSelect = (conv: Conversation) => {
+    setSelectedId(conv.id);
+    onConversationSelect(conv);
   };
 
   return (
@@ -32,7 +32,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         {conversations.map((conv) => (
           <div
             key={conv.id}
-            onClick={() => handleSelect(conv.id)}
+            onClick={() => handleSelect(conv)}
             className={clsx(styles["conversation-item"], {
               [styles["selected"]]: selectedId === conv.id,
             })}
