@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 
 export interface AuthContextType {
   accessToken: string | undefined;
-  loadingAuth: boolean;  
+  loadingAuth: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   logout: (callback?: () => void) => void;
   authErrors: AuthErrors | undefined;
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [loadingAuth] = useState(false);
   const [authErrors, setAuthErrors] = useState<AuthErrors>();
-  
+
   useEffect(() => {
     if (authErrors) {
       const timeout = setTimeout(() => {
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [authErrors]);
 
-  const login = async (email: string, password: string) => {
+  const login = async () => {
     // const response = await loginByUsername(email, password).catch((error) => {
     //   if (error.code === "ERR_NETWORK") {
     //     setAuthErrors({
@@ -74,7 +74,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         logout,
         authErrors,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

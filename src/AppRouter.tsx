@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 import Main from "./pages/Main.jsx";
-import { AuthContext } from "./context/AuthContext.tsx";
+import { AuthContext } from "./context/AuthContext";
+import TestPage from "./pages/TestPage";
 
 // PrivateRoute component to handle protected routes
 // const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
@@ -33,6 +34,7 @@ const AppRouter = () => {
         {/* Authenticated routes */}
         <Route path="/main" element={<Main />} />
 
+        <Route path="/testPage" element={<TestPage />} />
         {/* Redirect to Main for invalid routes */}
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>
