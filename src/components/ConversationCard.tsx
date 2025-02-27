@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./ConversationCard.module.css";
 import Language from "./language/Language";
-import clsx from "clsx";
+import Badge from "./Badge";
 
 interface ConversationCardProps {
   category: string;
@@ -23,7 +23,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   return (
     <div className={style["conversation-card"]}>
       <div className={style["row01"]}>
-        <div className={clsx(style[`badge`])}>{category}</div>
+        <Badge text={category}/>
         <p>{progress}</p>
       </div>
       <div className={style["row02"]}>

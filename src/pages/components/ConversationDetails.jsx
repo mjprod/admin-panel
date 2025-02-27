@@ -1,22 +1,25 @@
 import React from "react";
+import styles from "./ConversationDetails.module.css";
+import Badge from "../../components/Badge";
+import Language from "../../components/language/Language";
 
 const ConversationDetails = () => {
   return (
-    <aside className="conversation-details">
-      <div className="row01">
+    <aside className={styles["conversation-details"]}>
+      <div className={styles["row01"]}>
         <p>Conversation 01</p>
-        <div className="badge badge-color09">Technical</div>
+        <Badge text="Technical"/>
       </div>
-      <div className="row02">
-        <div className="leftcol">
+      <div className={styles["row02"]}>
+        <div className={styles["leftcol"]}>
           <div>Conversation ID: 12345789489s89asda</div>
-          <div className="date-time">
+          <div className={styles["date-time"]}>
             <p>15/2/2025</p>
             <p>12:24:01 pm</p>
           </div>
         </div>
-        <div className="rightcol">
-          <div className="language-indicator">EN</div>&nbsp;English
+        <div className={styles["rightcol"]}>
+          <Language lang="EN"/>&nbsp;English
         </div>
       </div>
     </aside>

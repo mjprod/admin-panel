@@ -1,0 +1,50 @@
+/* conversation details */
+.conversation-details {
+    border-bottom: 1px solid var(--black-200);
+  }
+  .conversation-details .row01 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  
+    & p {
+      font-size: 2rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 100%;
+      margin-bottom: 0.75rem;
+    }
+  }
+  
+  .conversation-details .row02 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--black-300);
+  }
+  
+  .row02 .leftcol {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .conversation-details .row02 .date-time {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+  
+  .conversation-details .row02 .rightcol .language-indicator {
+    color: var(--black);
+    font-size: 1rem;
+    padding: 0.3rem;
+  }

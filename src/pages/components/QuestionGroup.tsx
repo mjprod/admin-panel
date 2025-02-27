@@ -31,7 +31,7 @@ const QuestionGroup = () => {
     <div className="question-group-container">
       <div className="question-strength-tab">
         <p>Question Strength</p>
-        <LanguageSelector />
+        <LanguageSelector showTitle={false}/>
       </div>
 
       <div className="question-group-main">

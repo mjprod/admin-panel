@@ -1,14 +1,15 @@
 import ConversationDetails from "./ConversationDetails";
 import QuestionGroup from "./QuestionGroup";
+import styles from "./Sidepage.module.css";
 
 const Sidepage = () => {
   return (
-    <div>
+    <main>
       <ConversationDetails />
-      <div className="question-group-scroll-container">
+      <div className={styles["question-group-scroll-container"]}>
         <QuestionGroup />
       </div>
-    </div>
+    </main>
   );
 };
 
