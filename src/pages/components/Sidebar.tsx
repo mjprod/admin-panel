@@ -6,9 +6,10 @@ import { Conversation } from "../../util/ExampleData";
 
 interface SidebarProps {
   conversations: Conversation[];
+  onConversationSelect: (id: number) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({conversations}) => {
+const Sidebar: React.FC<SidebarProps> = ({conversations, onConversationSelect}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const totalPages = Math.ceil(conversations.length / itemsPerPage);
@@ -32,6 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({conversations}) => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+        onConversationSelect={onConversationSelect}
       />
     </aside>
   );

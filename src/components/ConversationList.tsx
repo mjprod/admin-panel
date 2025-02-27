@@ -9,6 +9,7 @@ interface ConversationListProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  onConversationSelect: (id: number) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -16,11 +17,13 @@ const ConversationList: React.FC<ConversationListProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  onConversationSelect,
 }) => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const handleSelect = (id: number) => {
     setSelectedId(id);
+    onConversationSelect(id);
   };
 
   return (
