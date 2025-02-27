@@ -2,20 +2,14 @@ import React, { useState } from "react";
 import ConversationCard from "./ConversationCard";
 import styles from "./ConversationList.module.css";
 import clsx from "clsx";
+import { Conversation } from "../util/ExampleData";
 
 interface ConversationListProps {
-  conversations: Array<{
-    id: number;
-    category: string;
-    progress: string;
-    title: string;
-    date: string;
-    time: string;
-    lang: string;
-  }>;
+  conversations: Conversation[];
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  onConversationSelect: (conv: Conversation) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -23,11 +17,13 @@ const ConversationList: React.FC<ConversationListProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  onConversationSelect,
 }) => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<number>(conversations[0].id);
 
-  const handleSelect = (id: number) => {
-    setSelectedId(id);
+  const handleSelect = (conv: Conversation) => {
+    setSelectedId(conv.id);
+    onConversationSelect(conv);
   };
 
   return (
@@ -36,7 +32,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         {conversations.map((conv) => (
           <div
             key={conv.id}
-            onClick={() => handleSelect(conv.id)}
+            onClick={() => handleSelect(conv)}
             className={clsx(styles["conversation-item"], {
               [styles["selected"]]: selectedId === conv.id,
             })}
