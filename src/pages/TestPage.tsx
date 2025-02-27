@@ -1,8 +1,8 @@
 import React from "react";
-import Language from "../components/Language";
+import LanguageList from "../components/language/LanguageList";
 
 const TestPage = () => {
-  return <Language />;
+  return <LanguageList languages={["MY", "CN", "TW", "EN"]} />;
 };
 
 export default TestPage;
