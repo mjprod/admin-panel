@@ -40,7 +40,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({ language, languageLabel, su
       {/* Buttons */}
       <div className="row04 question-button-actions">
         <CustomButton text="Pre-Approve" type={ButtonType.Approve}/>
-        <CustomButton text="reject" type={ButtonType.Reject}></CustomButton>
+        <CustomButton text="reject" type={ButtonType.Reject} ></CustomButton>
       </div>
     </div>
   );
