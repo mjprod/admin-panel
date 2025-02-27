@@ -1,8 +1,8 @@
 import React from "react";
-import LanguageList from "../components/language/LanguageList";
+import CustomButton from "../components/button/CustomButton";
 
 const TestPage = () => {
-  return <LanguageList languages={["MY", "CN", "TW", "EN"]} />;
+  return <CustomButton text="aaa" />;
 };
 
 export default TestPage;
