@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import ConversationCard from "./ConversationCard";
 import styles from "./ConversationList.module.css";
 import clsx from "clsx";
+import { Conversation } from "../util/ExampleData";
 
 interface ConversationListProps {
-  conversations: Array<{
-    id: number;
-    category: string;
-    progress: string;
-    title: string;
-    date: string;
-    time: string;
-    lang: string;
-  }>;
+  conversations: Conversation[];
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
