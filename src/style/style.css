@@ -12,6 +12,9 @@ body {
   /* typography */
   --font-family01: "Roboto", Arial, Helvetica, sans-serif;
 
+  /* white*/
+  --white: rgb(255, 255, 255);
+
   /* blacks*/
   --warm-gray: hsla(0, 0%, 98%, 1);
   --black: hsla(264, 8%, 12%, 1);
@@ -572,17 +575,20 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap:0.5rem;
-  & button {display: flex;
+  gap: 0.5rem;
+  & button {
+    display: flex;
     padding: 0.75rem 1.25rem;
     justify-content: center;
     align-items: center;
     gap: 0.25rem;
-border:none}
+    border: none;
+  }
 }
-.pre-approve {border-radius: 0.5rem;
-    background: #D3F9D2;}
-.reject {background: #F9D2D2;}
-
-
-
+.pre-approve {
+  border-radius: 0.5rem;
+  background: #d3f9d2;
+}
+.reject {
+  background: #f9d2d2;
+}
