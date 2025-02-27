@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FilterSelect from "./FilterSelect";
 import LanguageSelector from "./LanguageSelector";
-import ConversationList from "../components/ConversationList";
+import ConversationList from "../../components/ConversationList";
 
 const Sidebar = () => {
   const conversations = [
