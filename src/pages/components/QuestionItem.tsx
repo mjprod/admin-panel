@@ -1,5 +1,6 @@
 import React from "react";
 import CustomButton, { ButtonType } from "../../components/button/CustomButton";
+import Badge, { BadgeType } from "../../components/Badge";
 
 interface QuestionItemProps {
   language: string;
@@ -20,7 +21,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({ language, languageLabel, su
       {/* Subcategories */}
       <div className="row02 subcategory-container">
         {subcategories.map((subcategory, index) => (
-          <div key={index} className="badge subcategory">{subcategory}</div>
+          <Badge key={index} text={subcategory} type={BadgeType.subcategory}/>
         ))}
       </div>
 
