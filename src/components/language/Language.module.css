@@ -1,0 +1,42 @@
+.language-indicator {
+  display: inline-flex;
+  border-radius: 0.25rem;
+  border: 1px dashed var(--black);
+  max-width: 1.5rem;
+  justify-content: center;
+  align-content: center;
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.01563rem;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--black);
+  padding: 0.3rem;
+}
+
+.language-indicator-solid {
+  border: 2px solid var(--black);
+  background: var(--white);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0px 6px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+.language-indicator:active {
+  border-radius: 0.25rem;
+  border: 2px solid var(--black);
+  background: var(--white);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.01563rem;
+  padding: 0.2rem;
+  transform: translateY(-0.5rem);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0px 6px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+.language-badge-container {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
