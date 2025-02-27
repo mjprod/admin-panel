@@ -4,6 +4,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Main from "./pages/Main.jsx";
 import { AuthContext } from "./context/AuthContext";
 import TestPage from "./pages/TestPage";
+import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 
 // PrivateRoute component to handle protected routes
 // const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
@@ -35,6 +36,8 @@ const AppRouter = () => {
         <Route path="/main" element={<Main />} />
 
         <Route path="/testPage" element={<TestPage />} />
+        <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
+
         {/* Redirect to Main for invalid routes */}
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>
