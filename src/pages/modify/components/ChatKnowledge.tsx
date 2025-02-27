@@ -6,9 +6,13 @@ import CustomButton, {
 
 interface ChatKnowledgeProps {
   type: string;
+  isEditQuestionLocked?: boolean;
 }
 
-const ChatKnowledge: React.FC<ChatKnowledgeProps> = ({ type }) => {
+const ChatKnowledge: React.FC<ChatKnowledgeProps> = ({
+  type,
+  isEditQuestionLocked = false,
+}) => {
   const userQuestion = "Hello, How are you";
   const aiAnswer = "i'm fine";
 
@@ -29,7 +33,7 @@ const ChatKnowledge: React.FC<ChatKnowledgeProps> = ({ type }) => {
             <p className={style["question-title"]}>Question:</p>
             <p>{userQuestion}</p>
           </div>
-          {edit}
+          {!isEditQuestionLocked && <div>{edit}</div>}
         </div>
         <div className={style["block-container"]}>
           <div className={style["answer-block-container"]}>

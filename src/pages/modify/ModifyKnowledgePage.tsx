@@ -6,7 +6,7 @@ const ModifyKnowledgePage = () => {
   return (
     <div className={style["main-container"]}>
       <ChatKnowledge type="Current Chat Info" />
-      <ChatKnowledge type="Knowledge Info" />
+      <ChatKnowledge type="Knowledge Info" isEditQuestionLocked={true} />
     </div>
   );
 };
