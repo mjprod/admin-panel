@@ -75,7 +75,7 @@ export const conversations = [
     id: "0075",
     action_status: {
       total: 3,
-      completed: 1,
+      completed: 0,
     },
     question: {
       text: "Boss, what's the official link to access Pussy888 game, or how do I log in correctly?",
@@ -142,7 +142,7 @@ export const conversations = [
   {
     id: "0076",
     action_status: {
-      total: 2,
+      total: 3,
       completed: 1,
     },
     question: {
@@ -164,7 +164,7 @@ export const conversations = [
       detailed: {
         en: {
           ans: "To create a Pussy888 account, visit https://pussy888.com and click 'Sign Up'. Fill in your details, choose a username, and set a password. Follow the verification steps to activate your account.",
-          status: 1,
+          status: 0,
         },
         ms: {
           ans: "Untuk membuat akaun Pussy888, lawati https://pussy888.com dan klik 'Daftar'. Isikan maklumat anda, pilih nama pengguna, dan tetapkan kata laluan. Ikuti langkah pengesahan untuk mengaktifkan akaun anda.",
@@ -172,7 +172,7 @@ export const conversations = [
         },
         cn: {
           ans: "要創建Pussy888賬戶,請訪問https://pussy888.com並點擊'註冊'。填寫您的詳細信息，選擇用戶名並設置密碼。按照驗證步驟激活您的帳戶。",
-          status: 1,
+          status: 0,
         },
       },
       conditions: ["User must be 18+ to register."],
@@ -212,7 +212,7 @@ export const conversations = [
   {
     id: "0077",
     action_status: {
-      total: 4,
+      total: 3,
       completed: 2,
     },
     question: {
@@ -234,7 +234,7 @@ export const conversations = [
       detailed: {
         en: {
           ans: "If you can't log in, check if you are entering the correct username and password. If you forgot your password, click 'Forgot Password' on the login page to reset it. If your account is locked, contact support at support@pussy888.com.",
-          status: 1,
+          status: 0,
         },
         ms: {
           ans: "Jika anda tidak dapat log masuk, pastikan anda memasukkan nama pengguna dan kata laluan yang betul. Jika anda lupa kata laluan anda, klik 'Lupa Kata Laluan' di halaman log masuk untuk menetapkannya semula. Jika akaun anda dikunci, hubungi sokongan di support@pussy888.com.",

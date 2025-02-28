@@ -6,7 +6,7 @@ import { Conversation } from "../../util/ExampleData";
 
 interface SidebarProps {
   conversations: Conversation[];
-  onConversationSelect: (conv: Conversation) => void;
+  onConversationSelect: (conv: Conversation, index: number) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({conversations, onConversationSelect}) => {
