@@ -11,11 +11,12 @@ const Main = () => {
   const conversationList = useSelector(
     (state: RootState) => state.conversation.conversationList
   );
+
   const [conversations, setConversation] = useState<Conversation[]>(
     useSelector((state: RootState) => state.conversation.conversationList)
   );
 
-  const notCompleted = conversations.filter(
+  const notCompleted = conversationList.filter(
     (conv) => conv.action_status.completed !== conv.action_status.total
   );
 
@@ -31,9 +32,9 @@ const Main = () => {
   useEffect(() => {
     if (conversationList.length > 0) {
       setConversation(conversationList);
-      setSelectedConversation(conversationList[0]);
+      setSelectedConversation(notCompleted[0]);
     }
-  }, [conversationList]);
+  }, [conversationList, selectedConversation]);
 
   return (
     <div className="main-container">
