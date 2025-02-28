@@ -36,8 +36,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   const editAnswer = (
     <div className={"input-container"}>
       {/* Input Field */}
-      <input
-        type="text"
+      <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         className={"input"}
