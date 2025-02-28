@@ -424,3 +424,7 @@ body {
   /* padding: 6px; */
   font-size: 16px;
 }
+
+.action-done {
+  background-color: #ddffdc;
+}

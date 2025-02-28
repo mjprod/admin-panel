@@ -16,6 +16,7 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
         subcategories: conversation.metadata.category,
         userQuestion: conversation.question.languages.en,
         aiAnswer: conversation.answer.detailed.en.ans,
+        status: conversation.answer.detailed.en.status
       },
       {
         language: "MS",
@@ -23,6 +24,7 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
         subcategories: conversation.metadata.category,
         userQuestion: conversation.question.languages.ms,
         aiAnswer: conversation.answer.detailed.ms.ans,
+        status: conversation.answer.detailed.ms.status
       },
       {
         language: "CN",
@@ -30,6 +32,7 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
         subcategories: conversation.metadata.category,
         userQuestion: conversation.question.languages.cn,
         aiAnswer: conversation.answer.detailed.cn.ans,
+        status: conversation.answer.detailed.cn.status
       },
     ];
   };

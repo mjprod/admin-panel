@@ -1,18 +1,39 @@
 .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: Inter;
-    font-weight: var(--font-weight400);
-    gap: 0.5rem;
-    border-radius: var(--border-Radius400);
-    cursor: pointer;
-    position: relative;
-    transition: all 400ms ease;
-  }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Inter;
+  font-weight: var(--font-weight400);
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  transition: all 400ms ease;
+  border: none;
+}
 
-.pre-approve {border-radius: 0.5rem;
-    background: #D3F9D2;}
-    
-.reject {background: #F9D2D2;}
+.pre-approve {
+  background: #d3f9d2;
+}
+
+.pre-approve:hover {
+  background: #a0e89c;
+}
+
+.reject {
+  background: #f9d2d2;
+}
+
+.reject:hover {
+  background: #e89c9c;
+}
+
+.normal {
+  background: #e0d7d7;
+}
+
+.normal:hover {
+  background: #bfb5b5;
+}
