@@ -20,25 +20,25 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
   const [approveText, setApprovedText] = useState("Approve");
-  const [rejectText, setRejectText] = useState("Reject");
+  const [rejectText, setRejectText] = useState("Edit");
   const [actionDone, setActionDone] = useState(false);
 
-  const edit = (
-    <div>
-      {!isEditSelected && !actionDone && (
-        <div
-          className={"edit-container"}
-          onClick={() => {
-            setEditSelected(!isEditSelected)
-            setApprovedText("Done");
-            setRejectText("Cancel");
-          }}
-        >
-          <p> Edit</p>
-        </div>
-      )}
-    </div>
-  );
+  // const edit = (
+  //   <div>
+  //     {!isEditSelected && !actionDone && (
+  //       <div
+  //         className={"edit-container"}
+  //         onClick={() => {
+  //           setEditSelected(!isEditSelected);
+  //           setApprovedText("Done");
+  //           setRejectText("Cancel");
+  //         }}
+  //       >
+  //         <p> Edit</p>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
 
   const editAnswer = (
     <div className={"input-container"}>
@@ -63,10 +63,12 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
     if (isEditSelected) {
       setEditSelected(false);
       setApprovedText("Approve");
-      setRejectText("Reject");
+      setRejectText("Edit");
       setText(aiAnswer);
     } else {
-      setActionDone(true);
+      setEditSelected(!isEditSelected);
+      setApprovedText("Done");
+      setRejectText("Cancel");
     }
   };
 
@@ -74,8 +76,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
     if (isEditSelected) {
       setEditSelected(false);
       setApprovedText("Approve");
-      setRejectText("Reject");
-
+      setRejectText("Edit");
     } else {
       setActionDone(true);
     }
@@ -108,14 +109,26 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
             {ViewOrEditAnswer}
           </div>
 
-          {edit}
+          {/* {edit} */}
         </div>
       </div>
 
       {/* Buttons */}
       <div className="row04 question-button-actions">
-        {!actionDone && <CustomButton text={approveText} type={ButtonType.Approve} onClick={handleApprove}/> }
-        {!actionDone && <CustomButton text={rejectText} type={ButtonType.Reject} onClick={handleReject}></CustomButton> }
+        {!actionDone && (
+          <CustomButton
+            text={approveText}
+            type={ButtonType.Approve}
+            onClick={handleApprove}
+          />
+        )}
+        {!actionDone && (
+          <CustomButton
+            text={rejectText}
+            type={ButtonType.Reject}
+            onClick={handleReject}
+          ></CustomButton>
+        )}
       </div>
     </div>
   );

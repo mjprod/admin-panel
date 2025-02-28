@@ -1,4 +1,15 @@
-export interface LanguageData {
+export interface LanguageStatus {
+  ans: string;
+  status: number;
+}
+
+export interface AnswerLanguageData {
+  en: LanguageStatus;
+  ms: LanguageStatus;
+  cn: LanguageStatus;
+}
+
+export interface QuestionLanguageData {
   en: string;
   ms: string;
   cn: string;
@@ -14,11 +25,11 @@ export interface Question {
   text: string;
   variations: string[];
   intent: string;
-  languages: LanguageData;
+  languages: QuestionLanguageData;
 }
 
 export interface Answer {
-  detailed: LanguageData;
+  detailed: AnswerLanguageData;
   conditions: string[];
 }
 
@@ -48,6 +59,10 @@ export interface Usage {
 
 export interface Conversation {
   id: string;
+  action_status: {
+    total: number;
+    completed: number;
+  };
   question: Question;
   answer: Answer;
   metadata: Metadata;
@@ -58,6 +73,10 @@ export interface Conversation {
 export const conversations = [
   {
     id: "0075",
+    action_status: {
+      total: 3,
+      completed: 1,
+    },
     question: {
       text: "Boss, what's the official link to access Pussy888 game, or how do I log in correctly?",
       variations: [
@@ -76,9 +95,18 @@ export const conversations = [
     },
     answer: {
       detailed: {
-        en: "Pussy888 Link: http://ytl.pussy888.com, https://m-pussy888.com. Go to www.google.com, see the Google search box, then put the game link in the box and search.",
-        ms: "Link Pussy888: http://ytl.pussy888.com, https://m-pussy888.com. Masuk www.google.com, nampak petak Google lepas tu letak game link ke dalam petak dan search.",
-        cn: "Pussy888連結:http://ytl.pussy888.com、https://m-pussy888.com,進入 www.google.com,看到Google搜索框後,將遊戲連結放入搜索框搜索。",
+        en: {
+          ans: "Pussy888 Link: http://ytl.pussy888.com, https://m-pussy888.com. Go to www.google.com, see the Google search box, then put the game link in the box and search.",
+          status: 0,
+        },
+        ms: {
+          ans: "Link Pussy888: http://ytl.pussy888.com, https://m-pussy888.com. Masuk www.google.com, nampak petak Google lepas tu letak game link ke dalam petak dan search.",
+          status: 0,
+        },
+        cn: {
+          ans: "Pussy888連結:http://ytl.pussy888.com、https://m-pussy888.com,進入 www.google.com,看到Google搜索框後,將遊戲連結放入搜索框搜索。",
+          status: 0,
+        },
       },
       conditions: [],
     },
@@ -113,6 +141,10 @@ export const conversations = [
   },
   {
     id: "0076",
+    action_status: {
+      total: 2,
+      completed: 1,
+    },
     question: {
       text: "Boss, how do I create a new account for Pussy888?",
       variations: [
@@ -130,9 +162,18 @@ export const conversations = [
     },
     answer: {
       detailed: {
-        en: "To create a Pussy888 account, visit https://pussy888.com and click 'Sign Up'. Fill in your details, choose a username, and set a password. Follow the verification steps to activate your account.",
-        ms: "Untuk membuat akaun Pussy888, lawati https://pussy888.com dan klik 'Daftar'. Isikan maklumat anda, pilih nama pengguna, dan tetapkan kata laluan. Ikuti langkah pengesahan untuk mengaktifkan akaun anda.",
-        cn: "要創建Pussy888賬戶,請訪問https://pussy888.com並點擊'註冊'。填寫您的詳細信息，選擇用戶名並設置密碼。按照驗證步驟激活您的帳戶。",
+        en: {
+          ans: "To create a Pussy888 account, visit https://pussy888.com and click 'Sign Up'. Fill in your details, choose a username, and set a password. Follow the verification steps to activate your account.",
+          status: 1,
+        },
+        ms: {
+          ans: "Untuk membuat akaun Pussy888, lawati https://pussy888.com dan klik 'Daftar'. Isikan maklumat anda, pilih nama pengguna, dan tetapkan kata laluan. Ikuti langkah pengesahan untuk mengaktifkan akaun anda.",
+          status: 1,
+        },
+        cn: {
+          ans: "要創建Pussy888賬戶,請訪問https://pussy888.com並點擊'註冊'。填寫您的詳細信息，選擇用戶名並設置密碼。按照驗證步驟激活您的帳戶。",
+          status: 1,
+        },
       },
       conditions: ["User must be 18+ to register."],
     },
@@ -170,6 +211,10 @@ export const conversations = [
   },
   {
     id: "0077",
+    action_status: {
+      total: 4,
+      completed: 2,
+    },
     question: {
       text: "Boss, I can't log into my Pussy888 account. What should I do?",
       variations: [
@@ -187,9 +232,18 @@ export const conversations = [
     },
     answer: {
       detailed: {
-        en: "If you can't log in, check if you are entering the correct username and password. If you forgot your password, click 'Forgot Password' on the login page to reset it. If your account is locked, contact support at support@pussy888.com.",
-        ms: "Jika anda tidak dapat log masuk, pastikan anda memasukkan nama pengguna dan kata laluan yang betul. Jika anda lupa kata laluan anda, klik 'Lupa Kata Laluan' di halaman log masuk untuk menetapkannya semula. Jika akaun anda dikunci, hubungi sokongan di support@pussy888.com.",
-        cn: "如果您無法登錄，請確保您輸入了正確的用戶名和密碼。如果忘記密碼，請在登錄頁面點擊'忘記密碼'來重置。如果您的帳戶被鎖定，請聯繫支持 support@pussy888.com。",
+        en: {
+          ans: "If you can't log in, check if you are entering the correct username and password. If you forgot your password, click 'Forgot Password' on the login page to reset it. If your account is locked, contact support at support@pussy888.com.",
+          status: 1,
+        },
+        ms: {
+          ans: "Jika anda tidak dapat log masuk, pastikan anda memasukkan nama pengguna dan kata laluan yang betul. Jika anda lupa kata laluan anda, klik 'Lupa Kata Laluan' di halaman log masuk untuk menetapkannya semula. Jika akaun anda dikunci, hubungi sokongan di support@pussy888.com.",
+          status: 1,
+        },
+        cn: {
+          ans: "如果您無法登錄，請確保您輸入了正確的用戶名和密碼。如果忘記密碼，請在登錄頁面點擊'忘記密碼'來重置。如果您的帳戶被鎖定，請聯繫支持 support@pussy888.com。",
+          status: 1,
+        },
       },
       conditions: [
         "User must have registered with a valid email/phone number.",

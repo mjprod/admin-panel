@@ -25,8 +25,8 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   return (
     <div className={style["conversation-card"]}>
       <div className={style["row01"]}>
-        {category.map((category) => (
-          <Badge text={category} />
+        {category.map((category, index) => (
+          <Badge key={index} text={category} />
         ))}
         <p>{progress}</p>
       </div>
@@ -41,7 +41,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
           <p>{date}</p>
           <p>{time}</p>
         </div>
-        {lang && <Language lang={lang} /> }
+        {lang && <Language lang={lang} />}
       </div>
     </div>
   );

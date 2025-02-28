@@ -16,15 +16,14 @@ const ConversationDetails: React.FC<ConversationDetailsProps> = ({
   id,
   date,
   category,
-  lang = ""
+  lang = "",
 }) => {
-
   const getLanguageName = (code: string): string => {
     const languageMap: { [key: string]: string } = {
       EN: "English",
       MY: "Malay",
       CN: "Simplified Chinese",
-      TW: "Traditional Chinese"
+      TW: "Traditional Chinese",
     };
     return languageMap[code] || "Unknown Language";
   };
@@ -33,7 +32,9 @@ const ConversationDetails: React.FC<ConversationDetailsProps> = ({
     <aside className={styles["conversation-details"]}>
       <div className={styles["row01"]}>
         <p>{title}</p>
-        {category.map((category) => (<Badge text={category}/>))}
+        {category.map((category, index) => (
+          <Badge key={index} text={category} />
+        ))}
       </div>
       <div className={styles["row02"]}>
         <div className={styles["leftcol"]}>
@@ -43,9 +44,12 @@ const ConversationDetails: React.FC<ConversationDetailsProps> = ({
             {/* <p>{conversation.time}</p> */}
           </div>
         </div>
-        { lang && <div className={styles["rightcol"]}>
-           <Language lang={lang}/>&nbsp;{getLanguageName(lang)} 
-        </div> }
+        {lang && (
+          <div className={styles["rightcol"]}>
+            <Language lang={lang} />
+            &nbsp;{getLanguageName(lang)}
+          </div>
+        )}
       </div>
     </aside>
   );

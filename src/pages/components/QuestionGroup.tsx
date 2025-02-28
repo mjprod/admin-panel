@@ -8,31 +8,31 @@ interface QuestionGroupProps {
 }
 
 const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
-
   const getLanguages = (conversation: Conversation) => {
-    return [{
-      language: "EN",
-      languageLabel: "English",
-      subcategories: conversation.metadata.category,
-      userQuestion: conversation.question.languages.en,
-      aiAnswer: conversation.answer.detailed.en
-    },
-    {
-      language: "MS",
-      languageLabel: "Malay",
-      subcategories: conversation.metadata.category,
-      userQuestion: conversation.question.languages.ms,
-      aiAnswer: conversation.answer.detailed.ms
-    },
-    {
-      language: "CN",
-      languageLabel: "Simplified Chinese",
-      subcategories: conversation.metadata.category,
-      userQuestion: conversation.question.languages.cn,
-      aiAnswer: conversation.answer.detailed.cn
-    }
-  ]
-  }
+    return [
+      {
+        language: "EN",
+        languageLabel: "English",
+        subcategories: conversation.metadata.category,
+        userQuestion: conversation.question.languages.en,
+        aiAnswer: conversation.answer.detailed.en.ans,
+      },
+      {
+        language: "MS",
+        languageLabel: "Malay",
+        subcategories: conversation.metadata.category,
+        userQuestion: conversation.question.languages.ms,
+        aiAnswer: conversation.answer.detailed.ms.ans,
+      },
+      {
+        language: "CN",
+        languageLabel: "Simplified Chinese",
+        subcategories: conversation.metadata.category,
+        userQuestion: conversation.question.languages.cn,
+        aiAnswer: conversation.answer.detailed.cn.ans,
+      },
+    ];
+  };
 
   const languages = getLanguages(conversation);
 
@@ -44,11 +44,9 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
       </div> */}
 
       <div className="question-group-main">
-        
-         {languages.map((language, index) => (
+        {languages.map((language, index) => (
           <QuestionItem key={index} {...language} />
-         ))} 
-       
+        ))}
       </div>
     </div>
   );
