@@ -9,7 +9,7 @@ interface ConversationListProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  onConversationSelect: (conv: Conversation) => void;
+  onConversationSelect: (conv: Conversation, index: number) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -21,9 +21,9 @@ const ConversationList: React.FC<ConversationListProps> = ({
 }) => {
   const [selectedId, setSelectedId] = useState<string>(conversations[0].id);
 
-  const handleSelect = (conv: Conversation) => {
+  const handleSelect = (conv: Conversation, index: number) => {
     setSelectedId(conv.id);
-    onConversationSelect(conv);
+    onConversationSelect(conv, index);
   };
 
   return (
@@ -32,7 +32,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         {conversations.map((conv, index) => (
           <div
             key={conv.id}
-            onClick={() => handleSelect(conv)}
+            onClick={() => handleSelect(conv, index)}
             className={clsx(styles["conversation-item"], {
               [styles["selected"]]: selectedId === conv.id,
             })}
@@ -40,7 +40,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
             <ConversationCard
               key={conv.id}
               category={conv.metadata.category}
-              progress={"0/10"}
+              progress={`${conv.action_status.completed}/${conv.action_status.total}`}
               title={`Conversation ${index + 1}`}
               question={conv.question.text}
               date={conv.metadata.lastUpdated}

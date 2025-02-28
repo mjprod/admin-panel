@@ -6,13 +6,14 @@ import styles from "./Sidepage.module.css";
 
 interface SidepageProps {
   selectedConversation: Conversation;
+  index: number;
 }
 
-const Sidepage: React.FC<SidepageProps> = ({ selectedConversation }) => {
+const Sidepage: React.FC<SidepageProps> = ({ selectedConversation, index }) => {
   return (
     <main>
       <ConversationDetails
-        title={"Conversation"}
+        title={`Conversation ${index + 1}`}
         id={selectedConversation.id}
         date={selectedConversation.metadata.lastUpdated}
         category={selectedConversation.metadata.category}

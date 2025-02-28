@@ -15,8 +15,18 @@ const Main = () => {
     useSelector((state: RootState) => state.conversation.conversationList)
   );
 
+  const notCompleted = conversations.filter(
+    (conv) => conv.action_status.completed !== conv.action_status.total
+  );
+
   const [selectedConversation, setSelectedConversation] =
-    useState<Conversation>(conversations[0]);
+    useState<Conversation>(notCompleted[0]);
+  const [index, setSelectedIndex] = useState<number>(0);
+
+  const onConversationSelect = (conv: Conversation, index: number) => {
+    setSelectedConversation(conv);
+    setSelectedIndex(index);
+  };
 
   const dispatch = useAppDispatch();
 
@@ -35,12 +45,12 @@ const Main = () => {
     <div className="main-container">
       {conversations.length > 0 && (
         <Sidebar
-          conversations={conversations}
-          onConversationSelect={setSelectedConversation}
+          conversations={notCompleted}
+          onConversationSelect={onConversationSelect}
         />
       )}
       {selectedConversation && (
-        <Sidepage selectedConversation={selectedConversation} />
+        <Sidepage selectedConversation={selectedConversation} index={index} />
       )}
     </div>
   );

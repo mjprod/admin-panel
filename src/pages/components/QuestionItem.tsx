@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 import Badge, { BadgeType } from "../../components/Badge";
+import clsx from "clsx";
 
 interface QuestionItemProps {
   language: string;
@@ -8,6 +9,7 @@ interface QuestionItemProps {
   subcategories: string[];
   userQuestion: string;
   aiAnswer: string;
+  status?: number;
 }
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
@@ -16,12 +18,13 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   subcategories,
   userQuestion,
   aiAnswer,
+  status = 0
 }) => {
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
   const [approveText, setApprovedText] = useState("Approve");
   const [rejectText, setRejectText] = useState("Edit");
-  const [actionDone, setActionDone] = useState(false);
+  const [actionDone, setActionDone] = useState<boolean>(status !== 0);
 
   // const edit = (
   //   <div>
@@ -83,7 +86,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   };
 
   return (
-    <div className="question-container">
+    <div className={clsx("question-container", actionDone && "action-done")}>
       {/* Language Indicator */}
       <div className="row01 language">
         <div className="language-indicator">{language}</div>&nbsp;
