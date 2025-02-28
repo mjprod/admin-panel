@@ -19,13 +19,20 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
 }) => {
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
+  const [approveText, setApprovedText] = useState("Approve");
+  const [rejectText, setRejectText] = useState("Reject");
+  const [actionDone, setActionDone] = useState(false);
 
   const edit = (
     <div>
-      {!isEditSelected && (
+      {!isEditSelected && !actionDone && (
         <div
           className={"edit-container"}
-          onClick={() => setEditSelected(!isEditSelected)}
+          onClick={() => {
+            setEditSelected(!isEditSelected)
+            setApprovedText("Done");
+            setRejectText("Cancel");
+          }}
         >
           <p> Edit</p>
         </div>
@@ -42,13 +49,37 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
         className={"input"}
         autoFocus
         onFocus={(e) => e.target.select()}
+        rows={4}
+        style={{ resize: "vertical" }}
       />
     </div>
   );
 
   const ViewOrEditAnswer = (
-    <div>{!isEditSelected ? <p>{aiAnswer}</p> : <div>{editAnswer}</div>}</div>
+    <div>{!isEditSelected ? <p>{text}</p> : <div>{editAnswer}</div>}</div>
   );
+
+  const handleReject = () => {
+    if (isEditSelected) {
+      setEditSelected(false);
+      setApprovedText("Approve");
+      setRejectText("Reject");
+      setText(aiAnswer);
+    } else {
+      setActionDone(true);
+    }
+  };
+
+  const handleApprove = () => {
+    if (isEditSelected) {
+      setEditSelected(false);
+      setApprovedText("Approve");
+      setRejectText("Reject");
+
+    } else {
+      setActionDone(true);
+    }
+  };
 
   return (
     <div className="question-container">
@@ -83,8 +114,8 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
 
       {/* Buttons */}
       <div className="row04 question-button-actions">
-        <CustomButton text="Pre-Approve" type={ButtonType.Approve} />
-        <CustomButton text="reject" type={ButtonType.Reject}></CustomButton>
+        {!actionDone && <CustomButton text={approveText} type={ButtonType.Approve} onClick={handleApprove}/> }
+        {!actionDone && <CustomButton text={rejectText} type={ButtonType.Reject} onClick={handleReject}></CustomButton> }
       </div>
     </div>
   );
