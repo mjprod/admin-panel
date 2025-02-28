@@ -11,22 +11,17 @@ const Main = () => {
   const conversationList = useSelector(
     (state: RootState) => state.conversation.conversationList
   );
+
   const [conversations, setConversation] = useState<Conversation[]>(
     useSelector((state: RootState) => state.conversation.conversationList)
   );
 
-  const notCompleted = conversations.filter(
-    (conv) => conv.action_status.completed !== conv.action_status.total
+  const notCompleted = conversationList.filter(
+    (conv) => conv.review_status.length !== 3
   );
 
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation>(notCompleted[0]);
-  const [index, setSelectedIndex] = useState<number>(0);
-
-  const onConversationSelect = (conv: Conversation, index: number) => {
-    setSelectedConversation(conv);
-    setSelectedIndex(index);
-  };
 
   const dispatch = useAppDispatch();
 
@@ -37,20 +32,20 @@ const Main = () => {
   useEffect(() => {
     if (conversationList.length > 0) {
       setConversation(conversationList);
-      setSelectedConversation(conversationList[0]);
+      setSelectedConversation(notCompleted[0]);
     }
-  }, [conversationList]);
+  }, [conversationList, selectedConversation]);
 
   return (
     <div className="main-container">
       {conversations.length > 0 && (
         <Sidebar
           conversations={notCompleted}
-          onConversationSelect={onConversationSelect}
+          onConversationSelect={setSelectedConversation}
         />
       )}
       {selectedConversation && (
-        <Sidepage selectedConversation={selectedConversation} index={index} />
+        <Sidepage selectedConversation={selectedConversation} />
       )}
     </div>
   );

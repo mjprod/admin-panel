@@ -22,6 +22,11 @@ export const onConversationListSlice = createSlice({
     setConversationList: (state, action: PayloadAction<Conversation[]>) => {
       state.conversationList = action.payload;
     },
+    updateConversation: (state, action: PayloadAction<Conversation>) => {
+      console.log(`-----Answer----: ${action.payload.answer}`)
+      const convers = state.conversationList.findIndex(con => con.id == action.payload.id)
+      state.conversationList[convers] = action.payload
+    },
   },
 });
 
