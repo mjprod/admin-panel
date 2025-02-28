@@ -17,24 +17,24 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
         languageLabel: "English",
         subcategories: conversation.metadata.category,
         userQuestion: conversation.question.languages.en,
-        aiAnswer: conversation.answer.detailed.en.ans,
-        status: conversation.answer.detailed.en.status,
+        aiAnswer: conversation.answer.detailed.en,
+        status: conversation.review_status.includes("en") ? 1 : 0,
       },
       {
         language: "MS",
         languageLabel: "Malay",
         subcategories: conversation.metadata.category,
         userQuestion: conversation.question.languages.ms,
-        aiAnswer: conversation.answer.detailed.ms.ans,
-        status: conversation.answer.detailed.ms.status,
+        aiAnswer: conversation.answer.detailed.ms,
+        status: conversation.review_status.includes("ms") ? 1 : 0,
       },
       {
         language: "CN",
         languageLabel: "Simplified Chinese",
         subcategories: conversation.metadata.category,
         userQuestion: conversation.question.languages.cn,
-        aiAnswer: conversation.answer.detailed.cn.ans,
-        status: conversation.answer.detailed.cn.status,
+        aiAnswer: conversation.answer.detailed.cn,
+        status: conversation.review_status.includes("cn") ? 1 : 0,
       },
     ];
   };
@@ -48,24 +48,23 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
     const conv = () => {
       switch (language) {
         case "EN": {
-          convs.answer.detailed.en.ans = text;
-          convs.answer.detailed.en.status = 1;
+          convs.answer.detailed.en = text;
+          convs.review_status.push("en");
           break;
         }
 
         case "MS": {
-          convs.answer.detailed.ms.ans = text;
-          convs.answer.detailed.ms.status = 1;
+          convs.answer.detailed.ms = text;
+          convs.review_status.push("ms");
           break;
         }
 
         case "CN": {
-          convs.answer.detailed.cn.ans = text;
-          convs.answer.detailed.cn.status = 1;
+          convs.answer.detailed.cn = text;
+          convs.review_status.push("cn");
           break;
         }
       }
-      convs.action_status.completed = convs.action_status.completed + 1;
     };
 
     conv();

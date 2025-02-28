@@ -17,7 +17,7 @@ const Main = () => {
   );
 
   const notCompleted = conversationList.filter(
-    (conv) => conv.action_status.completed !== conv.action_status.total
+    (conv) => conv.review_status.length !== 3
   );
 
   const [selectedConversation, setSelectedConversation] =
