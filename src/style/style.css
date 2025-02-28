@@ -120,29 +120,6 @@ body {
   }
 }
 
-.language-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  & p {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 600;
-    color: var(--black);
-  }
-}
-.language-badge-container {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-}
-
-.language-badge-container {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-}
 /* --------- tools container  END **/
 
 /*** conversations container ****/
@@ -242,7 +219,7 @@ body {
 /* --------- tags END */
 
 /* language indicator component START */
-.language-indicator {
+/* .language-indicator {
   display: inline-flex;
   border-radius: 0.25rem;
   border: 1px dashed var(--black);
@@ -269,7 +246,7 @@ body {
   transform: translateY(-0.5rem);
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0px 6px 2px 0px rgba(0, 0, 0, 0.05);
-}
+} */
 
 /* --------- language indicator component END */
 
