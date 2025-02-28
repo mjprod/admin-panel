@@ -1,211 +1,232 @@
-export interface Message {
-  id: number;
-  language: string;
-  languageLabel: string;
-  subcategories: string[];
-  userQuestion: string;
-  aiAnswer: string;
+export interface LanguageData {
+  en: string;
+  ms: string;
+  cn: string;
+}
+
+export interface LanguageArrayData {
+  en: string[];
+  ms: string[];
+  cn: string[];
+}
+
+export interface Question {
+  text: string;
+  variations: string[];
+  intent: string;
+  languages: LanguageData;
+}
+
+export interface Answer {
+  detailed: LanguageData;
+  conditions: string[];
+}
+
+export interface Metadata {
+  category: string[];
+  subCategory: string;
+  difficulty: number;
+  confidence: number;
+  dateCreated: string;
+  lastUpdated: string;
+  version: string;
+  source: string;
+  status: string;
+}
+
+export interface Context {
+  relatedTopics: string[];
+  prerequisites: string[];
+  followUpQuestions: LanguageArrayData;
+}
+
+export interface Usage {
+  searchFrequency: number;
+  successRate: number;
+  lastQueried: string | null;
 }
 
 export interface Conversation {
-  id: number;
-  conversationId: string;
-  category: string;
-  progress: string;
-  title: string;
-  date: string;
-  time: string;
-  lang: string;
-  messages: Message[];
+  id: string;
+  question: Question;
+  answer: Answer;
+  metadata: Metadata;
+  context: Context;
+  usage: Usage;
 }
 
 export const conversations = [
   {
-    id: 1,
-    conversationId: "12345789489s89asda",
-    category: "Technical",
-    progress: "0/10",
-    title: "Conversation 01",
-    date: "15/2/2025",
-    time: "12:24:01 pm",
-    lang: "EN",
-    messages: [
-      {
-        id: 1,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+    id: "0075",
+    question: {
+      text: "Boss, what's the official link to access Pussy888 game, or how do I log in correctly?",
+      variations: [
+        "Boss, where can I find the Pussy888 link?",
+        "Boss, how do I access Pussy888?",
+        "Boss, I need help logging in to Pussy888.",
+        "Boss, what is the correct link for Pussy888?",
+        "Boss, can someone send me Pussy888's website?",
+      ],
+      intent: "game_access",
+      languages: {
+        en: "Boss, what's the official link to access Pussy888 game, or how do I log in correctly?",
+        ms: "Boss, apakah pautan rasmi untuk mengakses permainan Pussy888, atau bagaimana cara saya log masuk dengan betul?",
+        cn: "老闆,訪問Pussy888遊戲的官方鏈接是什麼,或者如何正確登錄？",
       },
-      {
-        id: 2,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account"],
-        userQuestion: "Hi",
-        aiAnswer: "Sure",
+    },
+    answer: {
+      detailed: {
+        en: "Pussy888 Link: http://ytl.pussy888.com, https://m-pussy888.com. Go to www.google.com, see the Google search box, then put the game link in the box and search.",
+        ms: "Link Pussy888: http://ytl.pussy888.com, https://m-pussy888.com. Masuk www.google.com, nampak petak Google lepas tu letak game link ke dalam petak dan search.",
+        cn: "Pussy888連結:http://ytl.pussy888.com、https://m-pussy888.com,進入 www.google.com,看到Google搜索框後,將遊戲連結放入搜索框搜索。",
       },
-    ],
+      conditions: [],
+    },
+    metadata: {
+      category: ["technical"],
+      subCategory: "game_access",
+      difficulty: 2,
+      confidence: 0.5,
+      dateCreated: "2025-02-27T06:39:18.800647Z",
+      lastUpdated: "2025-02-27T06:39:18.800650Z",
+      version: "1.0",
+      source: "customer_service",
+      status: "active",
+    },
+    context: {
+      relatedTopics: [],
+      prerequisites: [],
+      followUpQuestions: {
+        en: ["How do I create an account?", "What if I forget my password?"],
+        ms: [
+          "Bagaimana cara membuat akaun?",
+          "Bagaimana jika saya lupa kata laluan saya?",
+        ],
+        cn: ["如何创建账户？", "如果我忘记密码怎么办？"],
+      },
+    },
+    usage: {
+      searchFrequency: 10,
+      successRate: 95,
+      lastQueried: "2025-02-28T10:15:30.000Z",
+    },
   },
   {
-    id: 2,
-    conversationId: "22222222222222",
-    category: "Account",
-    progress: "2/5",
-    title: "Conversation 02",
-    date: "14/2/2025",
-    time: "10:30:00 am",
-    lang: "MY",
-    messages: [
-      {
-        id: 1,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+    id: "0076",
+    question: {
+      text: "Boss, how do I create a new account for Pussy888?",
+      variations: [
+        "Boss, I need help registering for Pussy888.",
+        "Boss, how do I sign up for Pussy888?",
+        "Boss, where can I register for Pussy888?",
+        "Boss, can someone guide me through the sign-up process?",
+      ],
+      intent: "account_registration",
+      languages: {
+        en: "Boss, how do I create a new account for Pussy888?",
+        ms: "Boss, bagaimana cara saya membuat akaun baru untuk Pussy888?",
+        cn: "老闆,我如何創建Pussy888的新賬戶?",
       },
-      {
-        id: 2,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+    },
+    answer: {
+      detailed: {
+        en: "To create a Pussy888 account, visit https://pussy888.com and click 'Sign Up'. Fill in your details, choose a username, and set a password. Follow the verification steps to activate your account.",
+        ms: "Untuk membuat akaun Pussy888, lawati https://pussy888.com dan klik 'Daftar'. Isikan maklumat anda, pilih nama pengguna, dan tetapkan kata laluan. Ikuti langkah pengesahan untuk mengaktifkan akaun anda.",
+        cn: "要創建Pussy888賬戶,請訪問https://pussy888.com並點擊'註冊'。填寫您的詳細信息，選擇用戶名並設置密碼。按照驗證步驟激活您的帳戶。",
       },
-      {
-        id: 3,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+      conditions: ["User must be 18+ to register."],
+    },
+    metadata: {
+      category: ["technical"],
+      subCategory: "account_registration",
+      difficulty: 1,
+      confidence: 0.8,
+      dateCreated: "2025-02-27T07:00:00.000Z",
+      lastUpdated: "2025-02-27T07:10:00.000Z",
+      version: "1.1",
+      source: "customer_service",
+      status: "active",
+    },
+    context: {
+      relatedTopics: ["account_security", "password_reset"],
+      prerequisites: ["Valid email or phone number required."],
+      followUpQuestions: {
+        en: [
+          "What if I don’t receive a verification email?",
+          "How do I change my username after registering?",
+        ],
+        ms: [
+          "Apa yang perlu saya lakukan jika saya tidak menerima e-mel pengesahan?",
+          "Bagaimana saya boleh menukar nama pengguna saya selepas mendaftar?",
+        ],
+        cn: ["如果我沒有收到驗證電子郵件怎麼辦？", "註冊後如何更改用戶名？"],
       },
-    ],
+    },
+    usage: {
+      searchFrequency: 25,
+      successRate: 90,
+      lastQueried: "2025-02-28T12:00:00.000Z",
+    },
   },
-
   {
-    id: 3,
-    conversationId: "33333333333",
-    category: "Account",
-    progress: "2/5",
-    title: "Conversation 03",
-    date: "14/2/2025",
-    time: "10:30:00 am",
-    lang: "MY",
-    messages: [
-      {
-        id: 1,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+    id: "0077",
+    question: {
+      text: "Boss, I can't log into my Pussy888 account. What should I do?",
+      variations: [
+        "Boss, my Pussy888 login is not working.",
+        "Boss, I forgot my Pussy888 password. How do I reset it?",
+        "Boss, why am I getting an error when logging in?",
+        "Boss, I'm locked out of my Pussy888 account.",
+      ],
+      intent: "login_issues",
+      languages: {
+        en: "Boss, I can't log into my Pussy888 account. What should I do?",
+        ms: "Boss, saya tidak dapat log masuk ke akaun Pussy888 saya. Apa yang perlu saya lakukan?",
+        cn: "老闆,我無法登錄我的Pussy888帳戶。我應該怎麼做?",
       },
-      {
-        id: 2,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+    },
+    answer: {
+      detailed: {
+        en: "If you can't log in, check if you are entering the correct username and password. If you forgot your password, click 'Forgot Password' on the login page to reset it. If your account is locked, contact support at support@pussy888.com.",
+        ms: "Jika anda tidak dapat log masuk, pastikan anda memasukkan nama pengguna dan kata laluan yang betul. Jika anda lupa kata laluan anda, klik 'Lupa Kata Laluan' di halaman log masuk untuk menetapkannya semula. Jika akaun anda dikunci, hubungi sokongan di support@pussy888.com.",
+        cn: "如果您無法登錄，請確保您輸入了正確的用戶名和密碼。如果忘記密碼，請在登錄頁面點擊'忘記密碼'來重置。如果您的帳戶被鎖定，請聯繫支持 support@pussy888.com。",
       },
-      {
-        id: 3,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
+      conditions: [
+        "User must have registered with a valid email/phone number.",
+      ],
+    },
+    metadata: {
+      category: ["technical"],
+      subCategory: "login_issues",
+      difficulty: 3,
+      confidence: 0.7,
+      dateCreated: "2025-02-27T07:30:00.000Z",
+      lastUpdated: "2025-02-27T07:45:00.000Z",
+      version: "1.2",
+      source: "customer_service",
+      status: "active",
+    },
+    context: {
+      relatedTopics: ["account_security", "password_reset"],
+      prerequisites: [
+        "Ensure your account is active and not locked due to multiple failed login attempts.",
+      ],
+      followUpQuestions: {
+        en: [
+          "What if I still can't log in after resetting my password?",
+          "How do I unlock my account?",
+        ],
+        ms: [
+          "Apa yang perlu saya lakukan jika saya masih tidak dapat log masuk selepas menetapkan semula kata laluan saya?",
+          "Bagaimana saya boleh membuka kunci akaun saya?",
+        ],
+        cn: ["如果我重置密碼後仍然無法登錄怎麼辦？", "如何解鎖我的帳戶？"],
       },
-    ],
-  },
-
-  {
-    id: 4,
-    conversationId: "444444444444",
-    category: "Account",
-    progress: "2/5",
-    title: "Conversation 04",
-    date: "14/2/2025",
-    time: "10:30:00 am",
-    lang: "MY",
-    messages: [
-      {
-        id: 1,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
-      },
-      {
-        id: 2,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
-      },
-      {
-        id: 3,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
-      },
-    ],
-  },
-
-  {
-    id: 5,
-    conversationId: "55555555555",
-    category: "Account",
-    progress: "2/5",
-    title: "Conversation 05",
-    date: "14/2/2025",
-    time: "10:30:00 am",
-    lang: "MY",
-    messages: [
-      {
-        id: 1,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
-      },
-      {
-        id: 2,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
-      },
-      {
-        id: 3,
-        language: "EN",
-        languageLabel: "English",
-        subcategories: ["Account", "Technical", "Others"],
-        userQuestion: "Hi, I have a question about my account",
-        aiAnswer:
-          "Sure, I can help you with that. What is your account number?",
-      },
-    ],
+    },
+    usage: {
+      searchFrequency: 50,
+      successRate: 85,
+      lastQueried: "2025-02-28T14:30:00.000Z",
+    },
   },
 ];
