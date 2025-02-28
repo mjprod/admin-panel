@@ -11,7 +11,7 @@ interface SidepageProps {
 const Sidepage: React.FC<SidepageProps> = ({selectedConversation}) => {
   return (
     <main>
-      <ConversationDetails conversation={selectedConversation}/>
+      <ConversationDetails title={"Conversation"} id={selectedConversation.id} date={selectedConversation.metadata.lastUpdated} category={selectedConversation.metadata.category} />
       <div className={styles["question-group-scroll-container"]}>
         <QuestionGroup conversation={selectedConversation}/>
       </div>
