@@ -1,19 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Conversation } from "../util/ExampleData";
 import { AllConversation } from "../api/auth";
-
+import { Conversation } from "../util/ExampleData";
 
 interface onConversationState {
- conversationList: Conversation[]
- 
+  conversationList: Conversation[];
 }
 
-
 const initialState: onConversationState = {
-  conversationList : [],
-  
+  conversationList: [],
 };
-
 
 export const onConversationListSlice = createSlice({
   name: "on-conversation",
@@ -23,20 +18,21 @@ export const onConversationListSlice = createSlice({
       state.conversationList = action.payload;
     },
     updateConversation: (state, action: PayloadAction<Conversation>) => {
-      console.log(`-----Answer----: ${action.payload.answer}`)
-      const convers = state.conversationList.findIndex(con => con.id == action.payload.id)
-      state.conversationList[convers] = action.payload
+      console.log(`-----Answer----: ${action.payload.answer}`);
+      const convers = state.conversationList.findIndex(
+        (con) => con.id == action.payload.id
+      );
+      state.conversationList[convers] = action.payload;
     },
   },
 });
 
-
 export const getConversationList = () => {
   return async (dispatch: any) => {
     try {
-      const res = await AllConversation("");
+      const res = await AllConversation();
       if (res != null) {
-        console.log(`----id: ${res[0].id}`)
+        console.log(`----id: ${res[0].id}`);
         dispatch(onConversationActions.setConversationList(res));
       }
     } catch (error) {

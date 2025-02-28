@@ -1,46 +1,40 @@
 import { Conversation } from "../util/ExampleData";
 import { Endpoint } from "./contants";
 import {
+  apiDeleteRequest,
+  apiGetRequest,
   apiPostRequest,
   createPayload,
-  apiGetRequest,
-  apiDeleteRequest,
 } from "./util/apiUtils";
 
-
-export const UpdateKnowledge = async (
-  id: string,
-): Promise<string | null> => {
+export const UpdateKnowledge = async (id: string): Promise<string | null> => {
   const basePayload = {
-    "conversation_id": id,
-  }
-  const payload = createPayload(
-    basePayload
-  );
+    conversation_id: id,
+  };
+  const payload = createPayload(basePayload);
 
   return await apiPostRequest<string>(Endpoint.UpdateKnowledge, payload);
 };
 
-
-export const AllConversationIds = async (
-  prompt: string,
+export const ListReviewUpdateBrain = async (
+  prompt: string
 ): Promise<Record<string, any>[] | null> => {
   const basePayload = {
-    "prompt": prompt,
-  }
+    prompt: prompt,
+  };
 
-  return await apiGetRequest<Record<string, any>[]>(Endpoint.AllConversationIds, basePayload);
+  return await apiGetRequest<Record<string, any>[]>(
+    Endpoint.ListReviewUpdateBrain,
+    basePayload
+  );
 };
 
-export const AllConversation = async (
-  prompt: string,
-): Promise<Conversation[] | null> => {
+export const AllConversation = async (): //prompt: string
+Promise<Conversation[] | null> => {
   const basePayload = {
-    "prompt": prompt,
-  }
-
-  const isMock = true
-
+    //prompt: prompt,
+  };
+  const isMock = false;
   if (isMock) {
     const response = await fetch("/assets/conversations.json");
     if (!response.ok) {
@@ -48,18 +42,22 @@ export const AllConversation = async (
     }
     return await response.json();
   } else {
-    return await apiGetRequest<Conversation[]>(Endpoint.AllConversationIds, basePayload);
+    return await apiGetRequest<Conversation[]>(
+      Endpoint.ListReviewUpdateBrain,
+      basePayload
+    );
   }
 };
 
-
-
 export const DeleteSessionId = async (
-  id: string,
+  id: string
 ): Promise<Record<string, any>[] | null> => {
   const basePayload = {
-    "id": id,
-  }
+    id: id,
+  };
 
-  return await apiDeleteRequest<Record<string, any>[]>(Endpoint.DeleteSessionId, basePayload);
+  return await apiDeleteRequest<Record<string, any>[]>(
+    Endpoint.DeleteSessionId,
+    basePayload
+  );
 };
