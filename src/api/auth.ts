@@ -1,3 +1,4 @@
+import { Conversation } from "../util/ExampleData";
 import { Endpoint } from "./contants";
 import {
   apiPostRequest,
@@ -30,6 +31,27 @@ export const AllConversationIds = async (
 
   return await apiGetRequest<Record<string, any>[]>(Endpoint.AllConversationIds, basePayload);
 };
+
+export const AllConversation = async (
+  prompt: string,
+): Promise<Conversation[] | null> => {
+  const basePayload = {
+    "prompt": prompt,
+  }
+
+  const isMock = true
+
+  if (isMock) {
+    const response = await fetch("/assets/conversations.json");
+    if (!response.ok) {
+      throw new Error("Failed to load mock data");
+    }
+    return await response.json();
+  } else {
+    return await apiGetRequest<Conversation[]>(Endpoint.AllConversationIds, basePayload);
+  }
+};
+
 
 
 export const DeleteSessionId = async (

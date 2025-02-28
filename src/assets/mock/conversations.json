@@ -1,0 +1,53 @@
+[
+  {
+    "id": "0075",
+    "action_status": {
+      "total": 3,
+      "completed": 1
+    },
+    "question": {
+      "text": "Boss, what's the official link to access Pussy888 game, or how do I log in correctly?",
+      "variations": [
+        "Boss, where can I find the Pussy888 link?",
+        "Boss, how do I access Pussy888?",
+        "Boss, I need help logging in to Pussy888.",
+        "Boss, what is the correct link for Pussy888?",
+        "Boss, can someone send me Pussy888's website?"
+      ],
+      "intent": "game_access",
+      "languages": {
+        "en": "Boss, what's the official link to access Pussy888 game, or how do I log in correctly?",
+        "ms": "Boss, apakah pautan rasmi untuk mengakses permainan Pussy888, atau bagaimana cara saya log masuk dengan betul?",
+        "cn": "老闆,訪問Pussy888遊戲的官方鏈接是什麼,或者如何正確登錄？"
+      }
+    },
+    "answer": {
+      "detailed": {
+        "en": {
+          "ans": "Pussy888 Link: http://ytl.pussy888.com, https://m-pussy888.com. Go to www.google.com, see the Google search box, then put the game link in the box and search.",
+          "status": 0
+        },
+        "ms": {
+          "ans": "Link Pussy888: http://ytl.pussy888.com, https://m-pussy888.com. Masuk www.google.com, nampak petak Google lepas tu letak game link ke dalam petak dan search.",
+          "status": 0
+        },
+        "cn": {
+          "ans": "Pussy888連結:http://ytl.pussy888.com、https://m-pussy888.com,進入 www.google.com,看到Google搜索框後,將遊戲連結放入搜索框搜索。",
+          "status": 0
+        }
+      },
+      "conditions": []
+    },
+    "metadata": {
+      "category": ["technical"],
+      "subCategory": "game_access",
+      "difficulty": 2,
+      "confidence": 0.5,
+      "dateCreated": "2025-02-27T06:39:18.800647Z",
+      "lastUpdated": "2025-02-27T06:39:18.800650Z",
+      "version": "1.0",
+      "source": "customer_service",
+      "status": "active"
+    }
+  }
+]
