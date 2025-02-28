@@ -2,13 +2,22 @@ import React from "react";
 import styles from "./ConversationDetails.module.css";
 import Badge from "../../components/Badge";
 import Language from "../../components/language/Language";
-import { Conversation } from "../../util/ExampleData";
 
 interface ConversationDetailsProps {
-  conversation: Conversation;
+  title: string;
+  id: string;
+  date: string;
+  category: string[];
+  lang?: string;
 }
 
-const ConversationDetails: React.FC<ConversationDetailsProps> = ({conversation}) => {
+const ConversationDetails: React.FC<ConversationDetailsProps> = ({
+  title,
+  id,
+  date,
+  category,
+  lang = ""
+}) => {
 
   const getLanguageName = (code: string): string => {
     const languageMap: { [key: string]: string } = {
@@ -23,20 +32,20 @@ const ConversationDetails: React.FC<ConversationDetailsProps> = ({conversation})
   return (
     <aside className={styles["conversation-details"]}>
       <div className={styles["row01"]}>
-        <p>{conversation.title}</p>
-        <Badge text={conversation.category}/>
+        <p>{title}</p>
+        {category.map((category) => (<Badge text={category}/>))}
       </div>
       <div className={styles["row02"]}>
         <div className={styles["leftcol"]}>
-          <div>Conversation ID: {conversation.conversationId}</div>
+          <div>Conversation ID: {id}</div>
           <div className={styles["date-time"]}>
-            <p>{conversation.date}</p>
-            <p>{conversation.time}</p>
+            <p>{date}</p>
+            {/* <p>{conversation.time}</p> */}
           </div>
         </div>
-        <div className={styles["rightcol"]}>
-          <Language lang={conversation.lang}/>&nbsp;{getLanguageName(conversation.lang)}
-        </div>
+        { lang && <div className={styles["rightcol"]}>
+           <Language lang={lang}/>&nbsp;{getLanguageName(lang)} 
+        </div> }
       </div>
     </aside>
   );
