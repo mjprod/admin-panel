@@ -354,6 +354,7 @@ body {
 .question-title,
 .answer-title {
   font-weight: 700;
+  padding-right: 0.5rem;
 }
 
 /*row04*/
@@ -396,14 +397,21 @@ body {
 }
 
 .input-container {
-  /* display: flex; */
-  align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: start;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 8px;
-  width: 35vw;
+  width: 40vw;
+  min-height: 5rem;
   /* max-width: 300px; */
   background: white;
+  height: auto;
+  margin-top: -0.5rem;
+  user-select: auto;
+  caret-color: var(--black);
 }
 
 .input {
