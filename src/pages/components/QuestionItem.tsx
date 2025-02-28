@@ -41,6 +41,8 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
         value={text}
         onChange={(e) => setText(e.target.value)}
         className={"input"}
+        autoFocus
+        onFocus={(e) => e.target.select()}
       />
     </div>
   );
