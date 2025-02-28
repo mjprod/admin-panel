@@ -1,26 +1,31 @@
-import React, { useState } from "react";
-import CustomButton, { ButtonType } from "../../components/button/CustomButton";
-import Badge, { BadgeType } from "../../components/Badge";
 import clsx from "clsx";
+import React, { useState } from "react";
+import Badge, { BadgeType } from "../../components/Badge";
+import CustomButton, { ButtonType } from "../../components/button/CustomButton";
+
+import { AddLanguageReviewed } from "../../api/auth";
+import { useAppDispatch } from "../../store/hooks";
 
 interface QuestionItemProps {
+  conversationId: string;
   language: string;
   languageLabel: string;
   subcategories: string[];
   userQuestion: string;
   aiAnswer: string;
   status?: number;
-  updateKnowledge: (text: string, language: string) => void;
+  //updateKnowledge: (text: string, language: string) => void;
 }
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
+  conversationId,
   language,
   languageLabel,
   subcategories,
   userQuestion,
   aiAnswer,
   status = 0,
-  updateKnowledge,
+  //updateKnowledge,
 }) => {
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
@@ -28,6 +33,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   const [rejectText, setRejectText] = useState("Edit");
   const [actionDone, setActionDone] = useState<boolean>(status !== 0);
 
+  const dispatch = useAppDispatch();
   // const edit = (
   //   <div>
   //     {!isEditSelected && !actionDone && (
@@ -83,9 +89,25 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
       setApprovedText("Approve");
       setRejectText("Edit");
     } else {
-      setActionDone(true);
-      updateKnowledge(text, language);
+      dispatch(setLanguageReviewed());
     }
+  };
+
+  const setLanguageReviewed = () => {
+    return async () => {
+      try {
+        const res = await AddLanguageReviewed(
+          conversationId,
+          language.toLowerCase()
+        );
+        if (res != null) {
+          setActionDone(true);
+          //updateKnowledge(text, language);
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
   };
 
   return (

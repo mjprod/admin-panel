@@ -12,7 +12,9 @@ export const getBaseUri = () => {
 
 export const Endpoint = {
   ListReviewUpdateBrain: `${getBaseUri()}/list_review_update_brain/`,
+  AddLanguageReviewed: `${getBaseUri()}/update_review_status/`,
 
+  //API Endpoints not used in the project
   DeleteSessionId: `${getBaseUri()}/delete_conversation/{id}`,
   FinaliseConversation: `${getBaseUri()}/finalise_conversation/`,
   FinaliseAllConversation: `${getBaseUri()}/finalise_all_conversation/`,

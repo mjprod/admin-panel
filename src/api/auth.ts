@@ -16,24 +16,8 @@ export const UpdateKnowledge = async (id: string): Promise<string | null> => {
   return await apiPostRequest<string>(Endpoint.UpdateKnowledge, payload);
 };
 
-export const ListReviewUpdateBrain = async (
-  prompt: string
-): Promise<Record<string, any>[] | null> => {
-  const basePayload = {
-    prompt: prompt,
-  };
-
-  return await apiGetRequest<Record<string, any>[]>(
-    Endpoint.ListReviewUpdateBrain,
-    basePayload
-  );
-};
-
-export const AllConversation = async (): //prompt: string
-Promise<Conversation[] | null> => {
-  const basePayload = {
-    //prompt: prompt,
-  };
+export const AllConversation = async (): Promise<Conversation[] | null> => {
+  const basePayload = {};
   const isMock = false;
   if (isMock) {
     const response = await fetch("/assets/conversations.json");
@@ -47,6 +31,20 @@ Promise<Conversation[] | null> => {
       basePayload
     );
   }
+};
+
+export const AddLanguageReviewed = async (
+  docId: string,
+  reviewLanguage: string
+): Promise<string | null> => {
+  const basePayload = {
+    doc_id: docId,
+    review_status: reviewLanguage,
+  };
+
+  const payload = createPayload(basePayload);
+
+  return await apiPostRequest<string>(Endpoint.AddLanguageReviewed, payload);
 };
 
 export const DeleteSessionId = async (
