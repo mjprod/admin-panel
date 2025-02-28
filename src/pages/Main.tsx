@@ -21,12 +21,6 @@ const Main = () => {
 
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation>(notCompleted[0]);
-  const [index, setSelectedIndex] = useState<number>(0);
-
-  const onConversationSelect = (conv: Conversation, index: number) => {
-    setSelectedConversation(conv);
-    setSelectedIndex(index);
-  };
 
   const dispatch = useAppDispatch();
 
@@ -46,11 +40,11 @@ const Main = () => {
       {conversations.length > 0 && (
         <Sidebar
           conversations={notCompleted}
-          onConversationSelect={onConversationSelect}
+          onConversationSelect={setSelectedConversation}
         />
       )}
       {selectedConversation && (
-        <Sidepage selectedConversation={selectedConversation} index={index} />
+        <Sidepage selectedConversation={selectedConversation} />
       )}
     </div>
   );

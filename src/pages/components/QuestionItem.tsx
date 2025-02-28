@@ -10,6 +10,7 @@ interface QuestionItemProps {
   userQuestion: string;
   aiAnswer: string;
   status?: number;
+  updateKnowledge: (text: string, language: string) => void;
 }
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
@@ -18,7 +19,8 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   subcategories,
   userQuestion,
   aiAnswer,
-  status = 0
+  status = 0,
+  updateKnowledge,
 }) => {
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
@@ -82,6 +84,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
       setRejectText("Edit");
     } else {
       setActionDone(true);
+      updateKnowledge(text, language);
     }
   };
 

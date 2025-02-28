@@ -41,7 +41,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
               key={conv.id}
               category={conv.metadata.category}
               progress={`${conv.action_status.completed}/${conv.action_status.total}`}
-              title={`Conversation ${index + 1}`}
+              title={`Conversation ${conv.id}`}
               question={conv.question.text}
               date={conv.metadata.lastUpdated}
             />
