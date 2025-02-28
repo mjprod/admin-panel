@@ -14,7 +14,7 @@ interface QuestionItemProps {
   userQuestion: string;
   aiAnswer: string;
   status?: number;
-  //updateKnowledge: (text: string, language: string) => void;
+  updateKnowledge: (text: string, language: string) => void;
 }
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
@@ -25,7 +25,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   userQuestion,
   aiAnswer,
   status = 0,
-  //updateKnowledge,
+  updateKnowledge,
 }) => {
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
@@ -102,7 +102,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
         );
         if (res != null) {
           setActionDone(true);
-          //updateKnowledge(text, language);
+          updateKnowledge(text, language);
         }
       } catch (error) {
         throw error;

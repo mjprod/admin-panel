@@ -1,5 +1,7 @@
 import React from "react";
 // import LanguageSelector from "./LanguageSelector";
+import { onConversationActions } from "../../store/conversation.slice";
+import { useAppDispatch } from "../../store/hooks";
 import { Conversation } from "../../util/ExampleData";
 import QuestionItem from "./QuestionItem";
 
@@ -39,8 +41,7 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
 
   const languages = getLanguages(conversation);
 
-  /*
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const updateKnowledge = (text: string, language: string) => {
     const convs = JSON.parse(JSON.stringify(conversation));
@@ -71,7 +72,7 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
     console.log("conv", convs);
     dispatch(onConversationActions.updateConversation(convs));
   };
-  */
+
   return (
     <div className="question-group-container">
       {/* <div className="question-strength-tab">
@@ -85,7 +86,7 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
             key={index}
             conversationId={conversation.id}
             {...language}
-            // updateKnowledge={updateKnowledge}
+            updateKnowledge={updateKnowledge}
           />
         ))}
       </div>
