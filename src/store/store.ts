@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { onConversationListSlice } from "./conversation.slice";
 
 const store = configureStore({
     reducer: {
+        conversation: onConversationListSlice.reducer,
+
     }
 })
 

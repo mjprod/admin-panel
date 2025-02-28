@@ -37,7 +37,14 @@ const ConversationList: React.FC<ConversationListProps> = ({
               [styles["selected"]]: selectedId === conv.id,
             })}
           >
-            <ConversationCard key={conv.id} category={conv.metadata.category} progress={`${conv.action_status.completed}/${conv.action_status.total}`} title={`Conversation ${index + 1}`} question={conv.question.text} date={conv.metadata.lastUpdated}  />
+            <ConversationCard
+              key={conv.id}
+              category={conv.metadata.category}
+              progress={`${conv.action_status.completed}/${conv.action_status.total}`}
+              title={`Conversation ${index + 1}`}
+              question={conv.question.text}
+              date={conv.metadata.lastUpdated}
+            />
           </div>
         ))}
       </div>
