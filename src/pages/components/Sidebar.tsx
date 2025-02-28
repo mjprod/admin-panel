@@ -21,13 +21,13 @@ const Sidebar: React.FC<SidebarProps> = ({conversations, onConversationSelect}) 
 
   return (
     <aside className="sidebar">
-      <div className="tools-container">
+      {/* <div className="tools-container">
         <h2 className="tools-heading">Conversation List</h2>
         <div className="row02">
           <FilterSelect />
           <LanguageSelector />
         </div>
-      </div>
+      </div> */}
       <ConversationList
         conversations={currentItems}
         currentPage={currentPage}

@@ -4,40 +4,44 @@ import Language from "./language/Language";
 import Badge from "./Badge";
 
 interface ConversationCardProps {
-  category: string;
+  category: string[];
   progress: string;
   title: string;
+  question: string;
   date: string;
-  time: string;
-  lang: string;
+  time?: string;
+  lang?: string;
 }
 
 const ConversationCard: React.FC<ConversationCardProps> = ({
   category,
   progress,
   title,
+  question,
   date,
-  time,
-  lang,
+  time = "",
+  lang = "",
 }) => {
   return (
     <div className={style["conversation-card"]}>
       <div className={style["row01"]}>
-        <Badge text={category}/>
+        {category.map((category) => (
+          <Badge text={category} />
+        ))}
         <p>{progress}</p>
       </div>
       <div className={style["row02"]}>
         <p>{title}</p>
       </div>
       <div className={style["row03"]}>
-        <p>Excerpt of the first 40 characters of question…</p>
+        <p>{question}</p>
       </div>
       <div className={style["row04"]}>
         <div className={style["date-time"]}>
           <p>{date}</p>
           <p>{time}</p>
         </div>
-        <Language lang={lang} />
+        {lang && <Language lang={lang} /> }
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
   onPageChange,
   onConversationSelect,
 }) => {
-  const [selectedId, setSelectedId] = useState<number>(conversations[0].id);
+  const [selectedId, setSelectedId] = useState<string>(conversations[0].id);
 
   const handleSelect = (conv: Conversation) => {
     setSelectedId(conv.id);
@@ -29,7 +29,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
   return (
     <div className={styles["main-container"]}>
       <div className={styles["conversations-container"]}>
-        {conversations.map((conv) => (
+        {conversations.map((conv, index) => (
           <div
             key={conv.id}
             onClick={() => handleSelect(conv)}
@@ -37,7 +37,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
               [styles["selected"]]: selectedId === conv.id,
             })}
           >
-            <ConversationCard key={conv.id} {...conv} />
+            <ConversationCard key={conv.id} category={conv.metadata.category} progress={"0/10"} title={`Conversation ${index + 1}`} question={conv.question.text} date={conv.metadata.lastUpdated}  />
           </div>
         ))}
       </div>
