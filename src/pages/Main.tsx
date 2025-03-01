@@ -30,11 +30,20 @@ const Main = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (conversationList.length > 0) {
-      setConversation(conversationList);
+    if (notCompleted.length > 0) {
+      setConversation(notCompleted);
+      if (selectedConversation) {
+        const convs = notCompleted.find((con) => con.id === selectedConversation.id);
+
+        if (convs) {
+          setSelectedConversation(convs);
+          return;
+        }
+      }
+
       setSelectedConversation(notCompleted[0]);
     }
-  }, [conversationList, selectedConversation]);
+  }, [conversationList]);
 
   return (
     <div className="main-container">
