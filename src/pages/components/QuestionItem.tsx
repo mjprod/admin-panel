@@ -98,7 +98,8 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
       try {
         const res = await AddLanguageReviewed(
           conversationId,
-          language.toLowerCase()
+          language.toLowerCase(),
+          text
         );
         if (res != null) {
           setActionDone(true);

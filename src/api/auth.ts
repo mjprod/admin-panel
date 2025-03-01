@@ -35,11 +35,13 @@ export const AllConversation = async (): Promise<Conversation[] | null> => {
 
 export const AddLanguageReviewed = async (
   docId: string,
-  reviewLanguage: string
+  reviewLanguage: string,
+  reviewText: string
 ): Promise<string | null> => {
   const basePayload = {
     doc_id: docId,
     review_status: reviewLanguage,
+    review_text: reviewText,
   };
 
   const payload = createPayload(basePayload);
