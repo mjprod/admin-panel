@@ -143,9 +143,9 @@ body {
   flex-direction: row;
   gap: 0.5rem;
 }
-/* --------- tools container  END **/
+/* --------- tools container  END */
 
-/*** conversations container ****/
+/*** conversations container ***/
 
 .conversations-container {
   display: flex;
@@ -180,8 +180,6 @@ body {
     font-weight: 700;
   }
 }
-
-*/
 /****** -------------------- ELEMENTS -------------------------------- ****/
 /** badges START */
 .badge-container {
@@ -240,7 +238,6 @@ body {
 }
 
 /* --------- tags END */
-
 /* language indicator component START */
 .language-indicator {
   display: inline-flex;
