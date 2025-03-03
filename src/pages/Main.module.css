@@ -1,0 +1,7 @@
+.main-container {
+  background: rgb(255, 255, 255);
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 397px 1fr;
+  font-family: var(--font-family01);
+}

@@ -1,0 +1,31 @@
+.sidebar {
+  background: var(--warm-gray);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 0.25fr 1fr 10dvh;
+}
+
+.tools-container {
+  background-color: var(--black-200);
+  padding: 2rem;
+}
+
+.tools-heading {
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.8rem;
+  letter-spacing: 0.03125rem;
+  margin-bottom: 0.75rem;
+}
+
+.tools-container > .row02 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  & select {
+    width: 10.375rem;
+    min-height: 2.25rem;
+    padding: 0.5rem;
+  }
+}

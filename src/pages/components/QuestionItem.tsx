@@ -5,6 +5,8 @@ import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 
 import { AddLanguageReviewed } from "../../api/auth";
 import { useAppDispatch } from "../../store/hooks";
+import styles from "./QuestionItem.module.css";
+import Language from "../../components/language/Language";
 
 interface QuestionItemProps {
   conversationId: string;
@@ -52,12 +54,12 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   // );
 
   const editAnswer = (
-    <div className={"input-container"}>
+    <div className={styles["input-container"]}>
       {/* Input Field */}
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className={"input"}
+        className={styles["input"]}
         autoFocus
         onFocus={(e) => e.target.select()}
         rows={4}
@@ -112,29 +114,29 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   };
 
   return (
-    <div className={clsx("question-container", actionDone && "action-done")}>
+    <div className={clsx(styles["question-container"], actionDone && styles["action-done"])}>
       {/* Language Indicator */}
-      <div className="row01 language">
-        <div className="language-indicator">{language}</div>&nbsp;
+      <div className={styles["row01"]}>
+        <Language lang={language} />&nbsp;
         {languageLabel}
       </div>
 
       {/* Subcategories */}
-      <div className="row02 subcategory-container">
+      <div className={styles["row02"]}>
         {subcategories.map((subcategory, index) => (
           <Badge key={index} text={subcategory} type={BadgeType.subcategory} />
         ))}
       </div>
 
       {/* Question & AI Suggested Answer */}
-      <div className="row03 question-answer-container">
-        <div className="question-block-container">
-          <p className="question-title">User Question:</p>
+      <div className={styles["row03"]}>
+        <div className={styles["question-block-container"]}>
+          <p className={styles["question-title"]}>User Question:</p>
           <p>{userQuestion}</p>
         </div>
-        <div className={"block-container"}>
-          <div className="answer-block-container">
-            <p className="answer-title">Suggested AI:</p>
+        <div className={styles["block-container"]}>
+          <div className={styles["answer-block-container"]}>
+            <p className={styles["answer-title"]}>Suggested AI:</p>
             {ViewOrEditAnswer}
           </div>
 
@@ -143,7 +145,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
       </div>
 
       {/* Buttons */}
-      <div className="row04 question-button-actions">
+      <div className={styles["row04"]}>
         {!actionDone && (
           <CustomButton
             text={approveText}
