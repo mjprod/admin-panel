@@ -4,6 +4,7 @@ import { onConversationActions } from "../../store/conversation.slice";
 import { useAppDispatch } from "../../store/hooks";
 import { Conversation } from "../../util/ExampleData";
 import QuestionItem from "./QuestionItem";
+import styles from "./QuestionGroup.module.css";
 
 interface QuestionGroupProps {
   conversation: Conversation;
@@ -74,13 +75,13 @@ const QuestionGroup: React.FC<QuestionGroupProps> = ({ conversation }) => {
   };
 
   return (
-    <div className="question-group-container">
-      {/* <div className="question-strength-tab">
+    <div className={styles["question-group-container"]}>
+      {/* <div className={styles["question-strength-tab"]}>
         <p>Question Strength</p>
         <LanguageSelector showTitle={false} />
       </div> */}
 
-      <div className="question-group-main">
+      <div className={styles["question-group-main"]}>
         {languages.map((language, index) => (
           <QuestionItem
             key={index}
