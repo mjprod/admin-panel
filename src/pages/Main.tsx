@@ -6,6 +6,7 @@ import { useAppDispatch } from "../store/hooks";
 import { getConversationList } from "../store/conversation.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import styles from "./Main.module.css";
 
 const Main = () => {
   const conversationList = useSelector(
@@ -46,7 +47,7 @@ const Main = () => {
   }, [conversationList]);
 
   return (
-    <div className="main-container">
+    <div className={styles["main-container"]}>
       {conversations.length > 0 && (
         <Sidebar
           conversations={notCompleted}

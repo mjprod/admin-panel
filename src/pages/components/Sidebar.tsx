@@ -3,6 +3,7 @@ import React, { useState } from "react";
 // import LanguageSelector from "./LanguageSelector";
 import ConversationList from "../../components/ConversationList";
 import { Conversation } from "../../util/ExampleData";
+import styles from "./Sidebar.module.css";
 
 interface SidebarProps {
   conversations: Conversation[];
@@ -20,10 +21,10 @@ const Sidebar: React.FC<SidebarProps> = ({conversations, onConversationSelect}) 
   );
 
   return (
-    <aside className="sidebar">
-      {/* <div className="tools-container">
-        <h2 className="tools-heading">Conversation List</h2>
-        <div className="row02">
+    <aside className={styles["sidebar"]}>
+      {/* <div className={styles["tools-container"]}>
+        <h2 className={styles["tools-heading"]}>Conversation List</h2>
+        <div className={styles["row02"]}>
           <FilterSelect />
           <LanguageSelector />
         </div>
