@@ -1,6 +1,5 @@
 import React from "react";
-// import LanguageSelector from "./LanguageSelector";
-import { Conversation } from "../../util/ExampleData";
+import { Conversation } from "../../../../util/ExampleData";
 import QuestionItem, { QuestionItemStatus } from "./QuestionItem";
 import styles from "./QuestionGroup.module.css";
 

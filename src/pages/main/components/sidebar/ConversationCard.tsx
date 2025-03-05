@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./ConversationCard.module.css";
-import Language from "./language/Language";
-import Badge from "./Badge";
+import Language from "../../../../components/language/Language";
+import Badge from "../../../../components/badge/Badge";
 
 interface ConversationCardProps {
   category: string[];

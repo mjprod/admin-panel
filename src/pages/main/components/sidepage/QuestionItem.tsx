@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import React, { useState } from "react";
-import Badge, { BadgeType } from "../../components/Badge";
-import CustomButton, { ButtonType } from "../../components/button/CustomButton";
+import Badge, { BadgeType } from "../../../../components/badge/Badge";
+import CustomButton, { ButtonType } from "../../../../components/button/CustomButton";
 
 import styles from "./QuestionItem.module.css";
-import Language from "../../components/language/Language";
+import Language from "../../../../components/language/Language";
 
 export enum QuestionItemStatus {
   approved,

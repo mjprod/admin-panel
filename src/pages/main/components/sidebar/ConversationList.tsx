@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ConversationCard from "./ConversationCard";
 import styles from "./ConversationList.module.css";
 import clsx from "clsx";
-import { Conversation } from "../util/ExampleData";
+import { Conversation } from "../../../../util/ExampleData";
 
 interface ConversationListProps {
   conversations: Conversation[];

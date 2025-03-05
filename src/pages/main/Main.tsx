@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./components/Sidebar";
-import Sidepage from "./components/Sidepage";
-import { Conversation } from "../util/ExampleData";
-import { useAppDispatch } from "../store/hooks";
-import { getConversationList } from "../store/conversation.slice";
+import Sidebar from "./components/sidebar/Sidebar";
+import Sidepage from "./components/sidepage/Sidepage";
+import { Conversation } from "../../util/ExampleData";
+import { useAppDispatch } from "../../store/hooks";
+import { getConversationList } from "../../store/conversation.slice";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 import styles from "./Main.module.css";
 
 const Main = () => {

@@ -1,9 +1,9 @@
 import React from "react";
-import { Conversation } from "../../util/ExampleData";
+import { Conversation } from "../../../../util/ExampleData";
 import ConversationDetails from "./ConversationDetails";
 import QuestionGroup from "./QuestionGroup";
 import styles from "./Sidepage.module.css";
-import CustomButton from "../../components/button/CustomButton";
+import CustomButton from "../../../../components/button/CustomButton";
 
 interface SidepageProps {
   selectedConversation: Conversation;
