@@ -13,16 +13,10 @@ const Main = () => {
     (state: RootState) => state.conversation.conversationList
   );
 
-  const [conversations, setConversation] = useState<Conversation[]>(
-    useSelector((state: RootState) => state.conversation.conversationList)
-  );
-
-  const notCompleted = conversationList.filter(
-    (conv) => conv.review_status.length !== 3
-  );
+  const [conversations, setConversation] = useState<Conversation[]>(conversationList);
 
   const [selectedConversation, setSelectedConversation] =
-    useState<Conversation>(notCompleted[0]);
+    useState<Conversation>(conversationList[0]);
 
   const dispatch = useAppDispatch();
 
@@ -31,6 +25,10 @@ const Main = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log("conversation update", conversationList)
+    const notCompleted = conversationList.filter(
+      (conv) => conv.review_status.length !== 3
+    );
     if (notCompleted.length > 0) {
       setConversation(notCompleted);
       if (selectedConversation) {
@@ -50,7 +48,7 @@ const Main = () => {
     <div className={styles["main-container"]}>
       {conversations.length > 0 && (
         <Sidebar
-          conversations={notCompleted}
+          conversations={conversations}
           onConversationSelect={setSelectedConversation}
         />
       )}

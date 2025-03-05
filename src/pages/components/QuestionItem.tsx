@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import Badge, { BadgeType } from "../../components/Badge";
 import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 
-import { AddLanguageReviewed } from "../../api/auth";
-import { useAppDispatch } from "../../store/hooks";
 import styles from "./QuestionItem.module.css";
 import Language from "../../components/language/Language";
+
+export enum QuestionItemStatus {
+  approved,
+  pending,
+  normal
+}
 
 interface QuestionItemProps {
   conversationId: string;
@@ -15,43 +19,26 @@ interface QuestionItemProps {
   subcategories: string[];
   userQuestion: string;
   aiAnswer: string;
-  status?: number;
-  updateKnowledge: (text: string, language: string) => void;
+  status?: QuestionItemStatus;
 }
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
-  conversationId,
+  // conversationId,
   language,
   languageLabel,
   subcategories,
   userQuestion,
   aiAnswer,
-  status = 0,
-  updateKnowledge,
+  status = QuestionItemStatus.normal,
 }) => {
+  const initApproveText = "Pre-Approve";
+  const initRejectText = "Edit";
+
   const [isEditSelected, setEditSelected] = useState(false);
   const [text, setText] = useState(aiAnswer);
-  const [approveText, setApprovedText] = useState("Approve");
-  const [rejectText, setRejectText] = useState("Edit");
-  const [actionDone, setActionDone] = useState<boolean>(status !== 0);
-
-  const dispatch = useAppDispatch();
-  // const edit = (
-  //   <div>
-  //     {!isEditSelected && !actionDone && (
-  //       <div
-  //         className={"edit-container"}
-  //         onClick={() => {
-  //           setEditSelected(!isEditSelected);
-  //           setApprovedText("Done");
-  //           setRejectText("Cancel");
-  //         }}
-  //       >
-  //         <p> Edit</p>
-  //       </div>
-  //     )}
-  //   </div>
-  // );
+  const [approveText, setApprovedText] = useState(initApproveText);
+  const [rejectText, setRejectText] = useState(initRejectText);
+  const [action, setAction] = useState<QuestionItemStatus>(status)
 
   const editAnswer = (
     <div className={styles["input-container"]}>
@@ -69,14 +56,24 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   );
 
   const ViewOrEditAnswer = (
-    <div>{!isEditSelected ? <p>{text}</p> : <div>{editAnswer}</div>}</div>
+    <div>
+      {!isEditSelected ? (
+        <p
+          dangerouslySetInnerHTML={{
+            __html: text.replace(/\\r\\n|\\r|\\n/g, "<br>"),
+          }}
+        />
+      ) : (
+        <div>{editAnswer}</div>
+      )}
+    </div>
   );
 
   const handleReject = () => {
     if (isEditSelected) {
       setEditSelected(false);
-      setApprovedText("Approve");
-      setRejectText("Edit");
+      setApprovedText(initApproveText);
+      setRejectText(initRejectText);
       setText(aiAnswer);
     } else {
       setEditSelected(!isEditSelected);
@@ -88,36 +85,28 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   const handleApprove = () => {
     if (isEditSelected) {
       setEditSelected(false);
-      setApprovedText("Approve");
-      setRejectText("Edit");
+      setApprovedText(initApproveText);
+      setRejectText(initRejectText);
     } else {
-      dispatch(setLanguageReviewed());
+      setAction(QuestionItemStatus.pending)
     }
   };
 
-  const setLanguageReviewed = () => {
-    return async () => {
-      try {
-        const res = await AddLanguageReviewed(
-          conversationId,
-          language.toLowerCase(),
-          text
-        );
-        if (res != null) {
-          setActionDone(true);
-          updateKnowledge(text, language);
-        }
-      } catch (error) {
-        throw error;
-      }
-    };
+  const handleRemove = () => {
+    setAction(status)
   };
 
   return (
-    <div className={clsx(styles["question-container"], actionDone && styles["action-done"])}>
+    <div
+      className={clsx(
+        styles["question-container"],
+        action == QuestionItemStatus.approved && styles["action-done"]
+      )}
+    >
       {/* Language Indicator */}
       <div className={styles["row01"]}>
-        <Language lang={language} />&nbsp;
+        <Language lang={language} />
+        &nbsp;
         {languageLabel}
       </div>
 
@@ -146,20 +135,22 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
 
       {/* Buttons */}
       <div className={styles["row04"]}>
-        {!actionDone && (
+      {action == QuestionItemStatus.pending ? (
+        <CustomButton text="Remove From Pre-Approve" onClick={handleRemove}/>
+      ) : action !== QuestionItemStatus.approved ? (
+        <>
           <CustomButton
             text={approveText}
             type={ButtonType.Approve}
             onClick={handleApprove}
           />
-        )}
-        {!actionDone && (
           <CustomButton
             text={rejectText}
             type={ButtonType.Reject}
             onClick={handleReject}
           ></CustomButton>
-        )}
+        </>
+      ) : null }
       </div>
     </div>
   );

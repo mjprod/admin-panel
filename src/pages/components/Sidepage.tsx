@@ -3,12 +3,17 @@ import { Conversation } from "../../util/ExampleData";
 import ConversationDetails from "./ConversationDetails";
 import QuestionGroup from "./QuestionGroup";
 import styles from "./Sidepage.module.css";
+import CustomButton from "../../components/button/CustomButton";
 
 interface SidepageProps {
   selectedConversation: Conversation;
 }
 
 const Sidepage: React.FC<SidepageProps> = ({ selectedConversation }) => {
+  const handleUpdate = () => {
+
+  };
+
   return (
     <main>
       <ConversationDetails
@@ -23,6 +28,7 @@ const Sidepage: React.FC<SidepageProps> = ({ selectedConversation }) => {
           conversation={selectedConversation}
         />
       </div>
+      <CustomButton text="Update" onClick={handleUpdate}/>
     </main>
   );
 };
