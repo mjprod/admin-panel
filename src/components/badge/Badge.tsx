@@ -8,9 +8,9 @@ export enum BadgeType {
 }
 
 export enum BadgeColor {
-    red = "Red",
-    blue = "Blue",
-  }
+  red = "badge-color01",
+  blue = "badge-color09",
+}
 
 interface BadgeProps {
   text: string;
@@ -23,20 +23,15 @@ const Badge: React.FC<BadgeProps> = ({
   type = BadgeType.category,
   color = BadgeColor.blue,
 }) => {
-    const getColor = (type: BadgeType, color: BadgeColor) => {
-        if (type === BadgeType.subcategory) {
-            return styles["subcategory"];
-        }
-        switch (color) {
-            case BadgeColor.red:
-                return styles["badge-color01"];
-            case BadgeColor.blue:
-                return styles["badge-color09"];
-            default:
-                return styles["badge-color09"];
-        }
-    };
-  return <div className={clsx(styles["badge"], getColor(type, color))}>{text}</div>;
+  const getColor = (type: BadgeType, color: BadgeColor) => {
+    if (type === BadgeType.subcategory) {
+      return styles["subcategory"];
+    }
+    return styles[color];
+  };
+  return (
+    <div className={clsx(styles["badge"], getColor(type, color))}>{text}</div>
+  );
 };
 
 export default Badge;
