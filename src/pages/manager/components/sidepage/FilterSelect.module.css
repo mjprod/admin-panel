@@ -1,0 +1,29 @@
+/* Filter Select Container */
+.filter-select-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Dropdown Styling */
+.filter-select {
+  width: 12rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--black-300);
+  border-radius: 4px;
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+/* Hover and Focus Effects */
+.filter-select:hover {
+  border-color: var(--black-500);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--color03-dark);
+  box-shadow: 0 0 5px var(--color03-border);
+}
