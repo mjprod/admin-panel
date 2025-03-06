@@ -6,9 +6,9 @@ import { useAppDispatch } from "../../store/hooks";
 import { getConversationList } from "../../store/conversation.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import styles from "./Main.module.css";
+import styles from "./Manager.module.css";
 
-const Main = () => {
+const Manager = () => {
   const conversationList = useSelector(
     (state: RootState) => state.conversation.conversationList
   );
@@ -59,4 +59,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Manager;
