@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FilterSelect from "./FilterSelect";
+import FilterSelect from "../../../../components/dropDown/FilterSelect";
 import ConversationList from "./ConversationList";
 import { Conversation } from "../../../../util/ExampleData";
 import styles from "./Sidebar.module.css";
