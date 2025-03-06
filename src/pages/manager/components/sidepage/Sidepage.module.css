@@ -1,6 +1,6 @@
 main {
   background: rgb(255, 255, 255);
-  height: 90dvh;
+  height: 95dvh;
   overflow-y: scroll;
   display: grid;
   padding: 2rem 3.5rem;
@@ -9,4 +9,5 @@ main {
 
 .question-group-scroll-container {
   overflow-y: scroll;
+  margin-bottom: 1rem;
 }

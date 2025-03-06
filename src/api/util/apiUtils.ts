@@ -1,12 +1,6 @@
 import { showConsoleError } from "../../util/ConsoleMessage";
 import { Request } from "../axios-config";
 
-// export interface APIResponse<T> {
-//   ResponseCode: number;
-//   ResponseData: T;
-//   session_id: string;
-// }
-
 export const createPayload = <T>(basePayload: T): string => {
   const payload = { ...basePayload };
   return JSON.stringify(payload);

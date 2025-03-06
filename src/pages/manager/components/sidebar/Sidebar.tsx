@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-// import FilterSelect from "./FilterSelect";
-// import LanguageSelector from "./LanguageSelector";
-import ConversationList from "../../components/ConversationList";
-import { Conversation } from "../../util/ExampleData";
+import FilterSelect from "../../../../components/dropDown/FilterSelect";
+import ConversationList from "./ConversationList";
+import { Conversation } from "../../../../util/ExampleData";
 import styles from "./Sidebar.module.css";
+import LanguageList from "../../../../components/language/LanguageList";
 
 interface SidebarProps {
   conversations: Conversation[];
@@ -22,13 +22,13 @@ const Sidebar: React.FC<SidebarProps> = ({conversations, onConversationSelect}) 
 
   return (
     <aside className={styles["sidebar"]}>
-      {/* <div className={styles["tools-container"]}>
+      <div className={styles["tools-container"]}>
         <h2 className={styles["tools-heading"]}>Conversation List</h2>
         <div className={styles["row02"]}>
           <FilterSelect />
-          <LanguageSelector />
+          <LanguageList languages={["MY", "CN", "TW", "EN"]} showTitle={true} />
         </div>
-      </div> */}
+      </div>
       <ConversationList
         conversations={currentItems}
         currentPage={currentPage}

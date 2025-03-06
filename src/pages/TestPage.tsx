@@ -1,8 +1,8 @@
 import React from "react";
-import CustomButton from "../components/button/CustomButton";
+import FilterSelect from "../components/dropDown/FilterSelect";
 
 const TestPage = () => {
-  return <CustomButton text="aaa" />;
+  return <FilterSelect />;
 };
 
 export default TestPage;

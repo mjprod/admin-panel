@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ConversationDetails.module.css";
-import Badge from "../../components/Badge";
-import Language from "../../components/language/Language";
+import Badge from "../../../../components/badge/Badge";
+import Language from "../../../../components/language/Language";
 
 interface ConversationDetailsProps {
   title: string;

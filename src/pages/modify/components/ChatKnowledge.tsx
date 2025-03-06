@@ -7,11 +7,19 @@ import CustomButton, {
 interface ChatKnowledgeProps {
   type: string;
   isEditQuestionLocked?: boolean;
+  approveText?: string;
+  rejectText?: string;
+  onApprove?: () => void;
+  onReject?: () => void;
 }
 
 const ChatKnowledge: React.FC<ChatKnowledgeProps> = ({
   type,
   isEditQuestionLocked = false,
+  approveText,
+  rejectText,
+  onApprove,
+  onReject
 }) => {
   const userQuestion = "Hello, How are you";
   const aiAnswer = "i'm fine";
@@ -44,10 +52,12 @@ const ChatKnowledge: React.FC<ChatKnowledgeProps> = ({
         </div>
       </div>
 
-      <div className={style["question-button-actions"]}>
-        <CustomButton text="Pre-Approve" type={ButtonType.Approve} />
-        <CustomButton text="reject" type={ButtonType.Reject}></CustomButton>
-      </div>
+      {(approveText || rejectText) && (
+        <div className={style["question-button-actions"]}>
+          {rejectText && <CustomButton text={rejectText} type={ButtonType.Reject} onClick={onReject} />}
+          {approveText && <CustomButton text={approveText} type={ButtonType.Approve} onClick={onApprove} />}
+        </div>
+      )}
     </div>
   );
 };
