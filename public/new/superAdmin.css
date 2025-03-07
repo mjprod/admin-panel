@@ -1,6 +1,5 @@
 .sap-main-container {
   background: white;
-  font-family: var(--font-family01)
 }
 
 .notification-bar {
@@ -197,8 +196,3 @@
   color: var(--black-500);
 }
 
-.badge-color09 {
-  color: var(--color09-dark);
-  background-color: var(--color09-light);
-  border-color: var(--color09-border);
-}
