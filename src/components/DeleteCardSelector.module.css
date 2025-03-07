@@ -1,0 +1,36 @@
+.delete-card-selector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+
+  label {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+}
+
+input[type="checkbox"] {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border: 2px solid var(--black);
+  cursor: pointer;
+  appearance: none;
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--color10-light);
+  border-color: var(--color10-dark);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color10-dark);
+  font-size: 0.75rem;
+}

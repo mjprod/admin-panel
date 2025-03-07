@@ -11,6 +11,7 @@ import QuestionCard, {
   QuestionCardProps,
   QuestionCardStatus,
 } from "./newManager/components/QuestionCard";
+import CreateNewButton from "./newManager/components/CreateNewButton";
 // import CreateNewButton from "./newManager/components/CreateNewButton";
 
 const TestPage = () => {
@@ -50,16 +51,50 @@ const TestPage = () => {
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Technology",
+    category: "Account",
     languages: languages,
     currentlang: {
       lang: "MY",
       langLabel: "Malay",
+      isSolid: true
     },
     subcategories: ["Subcategory 01", "Subcategory 02"],
     question: "Mengapa deposit saya tidak ditunjukkan?",
     answer: "Sila semak penyata bank anda",
     status: QuestionCardStatus.NeedApproval,
+  };
+
+  const conv1: QuestionCardProps = {
+    date: "15/2/2025",
+    time: "12:24:01 pm",
+    conversationId: "12345789489s89asda",
+    category: "Technology",
+    languages: languages,
+    currentlang: {
+      lang: "MY",
+      langLabel: "Malay",
+      isSolid: true
+    },
+    subcategories: ["Subcategory 01", "Subcategory 02"],
+    question: "Mengapa deposit saya tidak ditunjukkan?",
+    answer: "Sila semak penyata bank anda",
+    status: QuestionCardStatus.PreApproved,
+  };
+
+  const conv2: QuestionCardProps = {
+    date: "15/2/2025",
+    time: "12:24:01 pm",
+    conversationId: "12345789489s89asda",
+    category: "Technology",
+    languages: languages,
+    currentlang: {
+      lang: "MY",
+      langLabel: "Malay"
+    },
+    subcategories: ["Subcategory 01", "Subcategory 02"],
+    question: "Mengapa deposit saya tidak ditunjukkan?",
+    answer: "Sila semak penyata bank anda",
+    status: QuestionCardStatus.Rejected,
   };
 
   return (
@@ -73,8 +108,10 @@ const TestPage = () => {
       {/* <SideCard status={SideCardStatus.Rejected} number={1000} /> */}
       {/* <Language lang={"MY"} langLabel="Malay" /> */}
       {/* <QuestionStrengthTab languages={languages} /> */}
-      {/* <CreateNewButton /> */}
+      <CreateNewButton />
       <QuestionCard {...conv} />
+      <QuestionCard {...conv2} />
+      <QuestionCard {...conv1} />
     </div>
   );
 };

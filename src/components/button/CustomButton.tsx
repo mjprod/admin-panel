@@ -9,6 +9,10 @@ export enum ButtonType {
   Normal = "Normal",
   Submit = "Submit",
   Edit = "Edit",
+  Return = "Return",
+  Delete = "Delete",
+  Cancel = "Cancel",
+  Done = "Done",
 }
 
 type ButtonProps = {
@@ -39,9 +43,16 @@ const CustomButton: React.FC<ButtonProps> = ({
       case ButtonType.Approve:
         return AssetsPack.icons.ICON_TICK.default;
       case ButtonType.Reject:
+      case ButtonType.Delete:
         return AssetsPack.icons.ICON_CLOSE.default;
       case ButtonType.Edit:
         return AssetsPack.icons.ICON_EDIT.default;
+      case ButtonType.Return:
+        return AssetsPack.icons.ICON_RETURN.default;
+      case ButtonType.Cancel:
+        return AssetsPack.icons.ICON_CANCEL.default;
+      case ButtonType.Done:
+        return AssetsPack.icons.ICON_SAVE.default;
       default:
         return null;
     }
@@ -59,6 +70,14 @@ const CustomButton: React.FC<ButtonProps> = ({
         return styles["submit"];
       case ButtonType.Edit:
         return styles["edit"];
+      case ButtonType.Return:
+        return styles["return"];
+      case ButtonType.Delete:
+        return styles["dismiss"];
+      case ButtonType.Cancel:
+        return styles["cancel-edit"];
+      case ButtonType.Done:
+        return styles["submit-edit"];
       default:
         return styles["normal"];
     }

@@ -80,6 +80,23 @@
   border-color: var(--color09-border);
 }
 
+.badge-color-positive {
+  color: var(--color11-dark);
+  background-color: var(--color11-light);
+  border-color: var(--color11-border);
+}
+
+.badge-color-negative {
+  color: var(--color10-dark);
+  background-color: var(--color10-light);
+  border-color: var(--color10-border);
+}
+
+.badge-color-default {
+  color: var(--black);
+  background-color: var(--black-200);
+}
+
 .question-button-actions {
   display: flex;
   flex-direction: row;
@@ -104,7 +121,7 @@
   }
 }
 
-.row04.question-button-actions.preapproved {
+.preapproved {
   justify-content: flex-end;
 }
 

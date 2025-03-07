@@ -1,33 +1,29 @@
 import React from "react";
 import styles from "./Badge.module.css";
 import clsx from "clsx";
+import { TagColor } from "../tags/Tag";
 
 export enum BadgeType {
   category = "Category",
   subcategory = "Subcategory",
 }
 
-export enum BadgeColor {
-  red = "badge-color01",
-  blue = "badge-color09",
-}
-
 interface BadgeProps {
   text: string;
   type?: BadgeType;
-  color?: BadgeColor;
+  color?: TagColor;
 }
 
 const Badge: React.FC<BadgeProps> = ({
   text,
   type = BadgeType.category,
-  color = BadgeColor.blue,
+  color = TagColor.All,
 }) => {
-  const getColor = (type: BadgeType, color: BadgeColor) => {
+  const getColor = (type: BadgeType, color: TagColor) => {
     if (type === BadgeType.subcategory) {
       return styles["subcategory"];
     }
-    return styles[color];
+    return color;
   };
   return (
     <div className={clsx(styles["badge"], getColor(type, color))}>{text}</div>

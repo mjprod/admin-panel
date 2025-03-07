@@ -3,16 +3,16 @@ import clsx from "clsx";
 import styles from "./Tag.module.css";
 
 export enum TagColor {
-  pink = "badge-color01",
-  goldish = "badge-color02",
-  purple = "badge-color03",
-  brown = "badge-color04",
-  green = "badge-color05",
-  navyBlue = "badge-color06",
-  aqua = "badge-color07",
-  red = "badge-color08",
-  cobalt = "badge-color09",
-  all = "all-tag"
+  Thrdparty = "badge-color01",
+  FourDLotto = "badge-color02",
+  Account = "badge-color03",
+  Feedback = "badge-color04",
+  Finance = "badge-color05",
+  PointsShop = "badge-color06",
+  Referral = "badge-color07",
+  Security = "badge-color08",
+  Technology = "badge-color09",
+  All = "all-tag"
 }
 
 interface TagProps {
@@ -24,7 +24,7 @@ interface TagProps {
 const Tag: React.FC<TagProps> = ({
   title,
   number,
-  color = TagColor.pink,
+  color = TagColor.All,
 }) => {
   return (
     <div className={clsx(styles["tag"], styles[color])}>
