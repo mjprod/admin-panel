@@ -7,6 +7,7 @@ export enum ButtonType {
   Approve = "Approve",
   Reject = "Reject",
   Normal = "Normal",
+  Submit = "Submit",
 }
 
 type ButtonProps = {
@@ -51,6 +52,8 @@ const CustomButton: React.FC<ButtonProps> = ({
         return styles["pre-approve"];
       case ButtonType.Reject:
         return styles["reject"];
+      case ButtonType.Submit:
+        return styles["submit"];
       default:
         return styles["normal"];
     }
