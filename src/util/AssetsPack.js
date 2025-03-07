@@ -10,6 +10,7 @@ const AssetsPack = {
     ICON_PRE_APPROVED: await import("../assets/preApprovedIcon.svg"),
     ICON_REJECT: await import("../assets/rejectIcon.svg"),
     ICON_PLUS: await import("../assets/plus.svg"),
+    ICON_CLOSE_GRAY: await import("../assets/close.svg"),
   },
   logos: {},
   backgrounds: {},
