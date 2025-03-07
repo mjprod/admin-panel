@@ -1,13 +1,12 @@
-import styles from "./NewManager.module.css"
+import Sidebar from "./components/Sidebar";
+import styles from "./NewManager.module.css";
 
 const NewManager = () => {
-  
-    return (
-      <div className={styles["main-container"]}>
-       new manager
-      </div>
-    );
-  };
-  
-  export default NewManager;
-  
+  return (
+    <div className={styles["main-container"]}>
+      <Sidebar />
+    </div>
+  );
+};
+
+export default NewManager;

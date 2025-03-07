@@ -16,16 +16,19 @@ const TestPage = () => {
       title: "All",
       number: 24000,
       color: TagColor.all,
+      isSelected: false,
     },
     {
       title: "4D Lotto",
       number: 1356,
       color: TagColor.pink,
+      isSelected: false,
     },
     {
       title: "3rd Party",
       number: 1356,
       color: TagColor.navyBlue,
+      isSelected: false,
     },
   ];
   return (

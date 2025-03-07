@@ -37,3 +37,14 @@
 .normal:hover {
   background: #bfb5b5;
 }
+
+.submit {
+  background: var(--color09-dark);
+  color: var(--white);
+  height: 100%;
+  width: 100%;
+}
+
+.submit:hover {
+  background: hsla(194, 86%, 20%, 1);
+}

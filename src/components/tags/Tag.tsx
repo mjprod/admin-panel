@@ -12,22 +12,33 @@ export enum TagColor {
   aqua = "badge-color07",
   red = "badge-color08",
   cobalt = "badge-color09",
-  all = "all-tag"
+  all = "all-tag",
 }
 
 interface TagProps {
   title: string;
   number?: number;
   color?: TagColor;
+  isSelected?: boolean;
+  onClick?: () => void;
 }
 
 const Tag: React.FC<TagProps> = ({
   title,
   number,
   color = TagColor.pink,
+  isSelected,
+  onClick,
 }) => {
   return (
-    <div className={clsx(styles["tag"], styles[color])}>
+    <div
+      className={clsx(
+        styles["tag"],
+        styles[color],
+        !isSelected ? styles["not-selected"] : styles["selected"]
+      )}
+      onClick={onClick}
+    >
       {title} {number !== undefined && number !== null ? `| ${number}` : ""}
     </div>
   );
