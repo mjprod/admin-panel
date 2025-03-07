@@ -8,6 +8,7 @@ export enum ButtonType {
   Reject = "Reject",
   Normal = "Normal",
   Submit = "Submit",
+  Edit = "Edit",
 }
 
 type ButtonProps = {
@@ -39,6 +40,8 @@ const CustomButton: React.FC<ButtonProps> = ({
         return AssetsPack.icons.ICON_TICK.default;
       case ButtonType.Reject:
         return AssetsPack.icons.ICON_CLOSE.default;
+      case ButtonType.Edit:
+        return AssetsPack.icons.ICON_EDIT.default;
       default:
         return null;
     }
@@ -54,6 +57,8 @@ const CustomButton: React.FC<ButtonProps> = ({
         return styles["reject"];
       case ButtonType.Submit:
         return styles["submit"];
+      case ButtonType.Edit:
+        return styles["edit"];
       default:
         return styles["normal"];
     }

@@ -66,6 +66,6 @@
 
 .subcategory {
   color: var(--black-500);
-  background-color: var(--black-200);
+  background-color: white;
   border-color: var(--black-300);
 }
