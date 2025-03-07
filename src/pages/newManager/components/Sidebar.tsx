@@ -52,9 +52,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <SideCard status={SideCardStatus.PreApproval} number={1000} />
         <SideCard status={SideCardStatus.Rejected} number={1000} />
       </div>
-      {/* <div className={styles["list-lacontainer"]}>
-        <SideCard status={SideCardStatus.Rejected} number={1000} />
-      </div> */}
     </aside>
   );
 };
