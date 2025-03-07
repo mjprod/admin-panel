@@ -1,7 +1,6 @@
 .timeline-card {
   display: grid;
   grid-template-rows: 23px 1fr;
-  width: 19rem;
   border-radius: 0.5rem;
   border: 1px solid var(--black-200);
   background: #fff;
@@ -48,6 +47,6 @@
 }
 
 .rejected {
-    fill: var(--color10-dark);
-    color: var(--color10-dark);
+  fill: var(--color10-dark);
+  color: var(--color10-dark);
 }

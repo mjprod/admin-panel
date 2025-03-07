@@ -43,7 +43,13 @@ const SideCard: React.FC<SideCardProps> = ({ status, number }) => {
         >
           {icon && <img src={`${icon}`} />}
         </div>
-        <p className={clsx(status == SideCardStatus.Rejected && styles["rejected"])}>{status}</p>
+        <p
+          className={clsx(
+            status == SideCardStatus.Rejected && styles["rejected"]
+          )}
+        >
+          {status}
+        </p>
       </div>
     </div>
   );

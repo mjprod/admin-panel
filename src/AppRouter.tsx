@@ -6,6 +6,7 @@ import TestPage from "./pages/TestPage";
 import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 import Manager from "./pages/manager/Manager";
 import SuperAdmin from "./pages/superAdmin/SuperAdmin";
+import NewManager from "./pages/newManager/NewManager";
 
 // PrivateRoute component to handle protected routes
 // const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
@@ -35,6 +36,8 @@ const AppRouter = () => {
 
         {/* Authenticated routes */}
         <Route path="/manager" element={<Manager />} />
+        <Route path="/newManager" element={<NewManager />} />
+
         <Route path="/superAdmin" element={<SuperAdmin />} />
 
         <Route path="/testPage" element={<TestPage />} />
