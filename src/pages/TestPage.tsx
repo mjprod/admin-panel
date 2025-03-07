@@ -6,6 +6,9 @@ import QuestionTools, {
   CategoryProps,
 } from "./newManager/components/QuestionTools";
 import SideCard, { SideCardStatus } from "./newManager/components/SideCard";
+import QuestionStrengthTab from "../components/language/QuestionStrengthTab";
+import Language from "../components/language/Language";
+// import QuestionItem from "./manager/components/sidepage/QuestionItem";
 
 const TestPage = () => {
   const categories: CategoryProps[] = [
@@ -34,6 +37,9 @@ const TestPage = () => {
       <SideCard status={SideCardStatus.NeedApproval} number={1000}/>
       <SideCard status={SideCardStatus.PreApproval} number={1000}/>
       <SideCard status={SideCardStatus.Rejected} number={1000}/>
+      <Language lang={"MY"} langLabel="Malay"/>
+      <QuestionStrengthTab />
+      {/* <QuestionItem /> */}
     </div>
   );
 };

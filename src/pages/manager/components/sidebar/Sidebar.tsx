@@ -3,7 +3,7 @@ import FilterSelect from "../../../../components/dropDown/FilterSelect";
 import ConversationList from "./ConversationList";
 import { Conversation } from "../../../../util/ExampleData";
 import styles from "./Sidebar.module.css";
-import LanguageList from "../../../../components/language/LanguageList";
+// import LanguageList from "../../../../components/language/LanguageList";
 
 interface SidebarProps {
   conversations: Conversation[];
@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({conversations, onConversationSelect}) 
         <h2 className={styles["tools-heading"]}>Conversation List</h2>
         <div className={styles["row02"]}>
           <FilterSelect />
-          <LanguageList languages={["MY", "CN", "TW", "EN"]} showTitle={true} />
+          {/* <LanguageList languages={["MY", "CN", "TW", "EN"]} showTitle={true} /> */}
         </div>
       </div>
       <ConversationList
