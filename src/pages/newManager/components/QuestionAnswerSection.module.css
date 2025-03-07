@@ -1,0 +1,19 @@
+.question-answer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  line-height: 150%;
+  flex-wrap: wrap;
+}
+
+.question-block-container,
+.answer-block-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.question-title,
+.answer-title {
+  font-weight: 700;
+}
