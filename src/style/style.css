@@ -79,6 +79,14 @@ body {
   --color11-dark: hsla(118, 76%, 30%, 1);
   --color11-border: hsla(118, 25%, 90%, 1);
 
+  /* input-back */
+  --color12-dark: hsla(216, 21%, 60%, 1);
+  --color12-border: hsla(214, 25%, 90%, 1);
+  --color12-light: hsla(214, 21%, 89%, 1);
+
+  /* darker blue **/
+  --color13-dark: hsla(216, 24%, 44%, 1);
+
   --shadow-color: 0deg 0% 0%;
 
   --shadow-elevation-medium: 0px 13px 0.9px hsl(var(--shadow-color) / 0.01),
