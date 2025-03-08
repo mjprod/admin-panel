@@ -10,6 +10,7 @@ const AssetsPack = {
     ICON_PRE_APPROVED: await import("../assets/preApprovedIcon.svg"),
     ICON_REJECT: await import("../assets/rejectIcon.svg"),
     ICON_PLUS: await import("../assets/plus.svg"),
+    ICON_CLOSE_GRAY: await import("../assets/close.svg"),
     ICON_RETURN: await import("../assets/returnIcon.svg"),
     ICON_CANCEL: await import("../assets/cancelEditIcon.svg"),
     ICON_SAVE: await import("../assets/savePreapproveIcon.svg")

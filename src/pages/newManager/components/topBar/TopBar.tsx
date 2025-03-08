@@ -1,6 +1,5 @@
-import React from "react";
 import styles from "./TopBar.module.css";
-import AssetsPack from "../../util/AssetsPack";
+import AssetsPack from "../../../../util/AssetsPack";
 interface TopBarProps {
   total: number;
   topBarType: TopBarType;
