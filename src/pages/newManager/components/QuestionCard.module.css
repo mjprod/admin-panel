@@ -23,29 +23,6 @@
   color: var(--black);
 }
 
-.badge-color09 {
-  color: var(--color09-dark);
-  background-color: var(--color09-light);
-  border-color: var(--color09-border);
-}
-
-.badge-color-positive {
-  color: var(--color11-dark);
-  background-color: var(--color11-light);
-  border-color: var(--color11-border);
-}
-
-.badge-color-negative {
-  color: var(--color10-dark);
-  background-color: var(--color10-light);
-  border-color: var(--color10-border);
-}
-
-.badge-color-default {
-  color: var(--black);
-  background-color: var(--black-200);
-}
-
 .question-button-actions {
   display: flex;
   flex-direction: row;
@@ -72,6 +49,24 @@
 
 .preapproved {
   justify-content: flex-end;
+}
+
+.qc-editing-mode {
+  position: relative;
+  background: linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0)
+      repeat-x,
+    linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-x,
+    linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y,
+    linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y;
+  background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  animation: borderAnimation 250ms infinite linear;
+}
+
+@keyframes borderAnimation {
+  100% {
+    background-position: 8px 0, -8px 100%, 0 -8px, 100% 8px;
+  }
 }
 
 @media screen and (max-width: 25em) {

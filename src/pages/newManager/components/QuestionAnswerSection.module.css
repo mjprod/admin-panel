@@ -17,3 +17,56 @@
 .answer-title {
   font-weight: 700;
 }
+
+.qc-textarea {
+    flex: 1;
+  width: 100%;
+  min-height: 2rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  background: hsl(197, 42%, 60%, 0.1);
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  animation: borderAnimation 250ms infinite linear;
+  resize: vertical;
+}
+
+.qc-textarea:focus {
+  border: 1px solid hsl(197, 42%, 60%);
+  background: hsl(197, 42%, 60%, 0.2);
+}
+
+.qc-editing-mode {
+  position: relative;
+  background: linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0)
+      repeat-x,
+    linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-x,
+    linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y,
+    linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y;
+  background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  animation: borderAnimation 250ms infinite linear;
+}
+
+@keyframes borderAnimation {
+  100% {
+    background-position: 8px 0, -8px 100%, 0 -8px, 100% 8px;
+  }
+}
+
+.qc-text {
+  padding: 0.25rem 1rem;
+  font-size: 1rem;
+  color: black;
+  display: inline-block;
+}
+
+.inline-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}

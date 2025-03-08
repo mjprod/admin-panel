@@ -9,6 +9,7 @@ import CategorySection from "./CategorySection";
 import SubcategorySection from "./SubcategorySection";
 import QuestionAnswerSection from "./QuestionAnswerSection";
 import ActionButtons from "./ActionButtons";
+import Colors from "../../../util/Colors";
 
 export enum QuestionCardStatus {
   NeedApproval,
@@ -39,21 +40,34 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
   const { status, category } = props;
   const [checked, setChecked] = useState(false);
   const [isEditSelected, setEditSelected] = useState(false);
-  const color = categoryColorMap[category] || TagColor.All;
+  const categoryColor = categoryColorMap[category] || TagColor.All;
+
+  const color = getComputedStyle(document.documentElement)
+      .getPropertyValue(Colors.get(category) || "white")
+      .trim();
 
   const statusStyles: Record<QuestionCardStatus, string> = {
-    [QuestionCardStatus.NeedApproval]: color,
-    [QuestionCardStatus.PreApproved]: styles["badge-color-positive"],
+    [QuestionCardStatus.NeedApproval]: categoryColor,
+    [QuestionCardStatus.PreApproved]: "badge-color-positive",
     [QuestionCardStatus.Rejected]: checked
-      ? styles["badge-color-negative"]
-      : styles["badge-color-default"],
+      ? "badge-color-negative"
+      : "badge-color-default",
+  };
+
+  const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
+    console.log(updatedQuestion, updatedAnswer);
   };
 
   return (
-    <div className={styles["question-group-container"]}>
+    <div className={clsx(styles["question-group-container"])}>
       <QuestionStrengthTab languages={props.languages} />
       <div
-        className={clsx(styles["question-group-main"], statusStyles[status])}
+        className={clsx(
+          styles["question-group-main"],
+          isEditSelected && styles["qc-editing-mode"],
+          statusStyles[status],
+        )}
+        style={{backgroundColor: color}}
       >
         <div className={styles["question-container"]}>
           {status === QuestionCardStatus.Rejected && (
@@ -66,13 +80,16 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
           />
           <CategorySection
             category={props.category}
-            color={color}
+            color={categoryColor}
             currentlang={props.currentlang}
           />
           <SubcategorySection subcategories={props.subcategories} />
           <QuestionAnswerSection
             question={props.question}
             answer={props.answer}
+            isEditing={isEditSelected}
+            onChange={handleEditChange}
+            color={color}
           />
           <div
             className={clsx(

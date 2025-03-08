@@ -17,7 +17,6 @@ const AssetsPack = {
   logos: {},
   backgrounds: {},
   videos: {},
-
   images: {},
 };
 

@@ -9,7 +9,7 @@ const ActionButtons: React.FC<{
   setEditSelected: (value: boolean) => void;
 }> = ({ status, isEditSelected, setEditSelected }) => {
   const handleEdit = () => setEditSelected(!isEditSelected);
-  const handlePreApprove = () => {};
+  const handlePreApprove = () => setEditSelected(!isEditSelected);
   const handleReject = () => {};
   const handleReturn = () => {};
   const handleDelete = () => {};
