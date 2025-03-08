@@ -1,0 +1,8 @@
+.question-metadata {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--black-300);
+}

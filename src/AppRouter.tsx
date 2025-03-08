@@ -44,7 +44,7 @@ const AppRouter = () => {
         <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
 
         {/* Redirect to Main for invalid routes */}
-        <Route path="*" element={<Navigate to="/manager" />} />
+        <Route path="*" element={<Navigate to="/newManager" />} />
       </Routes>
     </div>
   );
