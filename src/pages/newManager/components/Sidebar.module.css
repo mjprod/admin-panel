@@ -1,0 +1,23 @@
+.sidebar {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background-color: var(--black-200);
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-right: 1.5rem;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 3rem;
+  flex-grow: 1;
+}
+
+.list-container > :last-child {
+  margin-top: auto;
+  margin-bottom: 4rem;
+}

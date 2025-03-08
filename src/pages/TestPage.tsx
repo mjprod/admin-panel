@@ -15,88 +15,26 @@ import CreateNewButton from "./newManager/components/CreateNewButton";
 // import CreateNewButton from "./newManager/components/CreateNewButton";
 
 const TestPage = () => {
-  // const categories: CategoryProps[] = [
-  //   {
-  //     title: "All",
-  //     number: 24000,
-  //     color: TagColor.all,
-  //   },
-  //   {
-  //     title: "4D Lotto",
-  //     number: 1356,
-  //     color: TagColor.pink,
-  //   },
-  //   {
-  //     title: "3rd Party",
-  //     number: 1356,
-  //     color: TagColor.navyBlue,
-  //   },
-  // ];
-
-  const languages: LanguageProps[] = [
+  const categories: CategoryProps[] = [
     {
-      lang: "MY",
-      isSolid: true,
+      title: "All",
+      number: 24000,
+      color: TagColor.all,
+      isSelected: false,
     },
     {
-      lang: "CN",
+      title: "4D Lotto",
+      number: 1356,
+      color: TagColor.pink,
+      isSelected: false,
     },
     {
-      lang: "EN",
-      isCompleted: true,
+      title: "3rd Party",
+      number: 1356,
+      color: TagColor.navyBlue,
+      isSelected: false,
     },
   ];
-
-  const conv: QuestionCardProps = {
-    date: "15/2/2025",
-    time: "12:24:01 pm",
-    conversationId: "12345789489s89asda",
-    category: "Account",
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true
-    },
-    subcategories: ["Subcategory 01", "Subcategory 02"],
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: QuestionCardStatus.NeedApproval,
-  };
-
-  const conv1: QuestionCardProps = {
-    date: "15/2/2025",
-    time: "12:24:01 pm",
-    conversationId: "12345789489s89asda",
-    category: "Technology",
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true
-    },
-    subcategories: ["Subcategory 01", "Subcategory 02"],
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: QuestionCardStatus.PreApproved,
-  };
-
-  const conv2: QuestionCardProps = {
-    date: "15/2/2025",
-    time: "12:24:01 pm",
-    conversationId: "12345789489s89asda",
-    category: "Technology",
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay"
-    },
-    subcategories: ["Subcategory 01", "Subcategory 02"],
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: QuestionCardStatus.Rejected,
-  };
-
   return (
     <div>
       {/* <Tag title="Technolodgy" color={TagColor.purple} /> */}

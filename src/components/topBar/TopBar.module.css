@@ -1,0 +1,51 @@
+.conversation-details {
+  width: 100%;
+  flex-direction: column;
+  font-family: var(--font-family01);
+}
+.conversation-details {
+  border-bottom: 1px solid var(--black-200);
+  margin-top: 1rem;
+  width: calc(100% - 9rem);
+  margin: 0 auto;
+  align-items: stretch;
+  justify-content: center;
+  display: flex;
+  padding: auto 3.5rem;
+}
+
+.conversation-details .row01 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+
+  & p {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+  }
+
+  & .icon-need-approval {
+    width: 2rem;
+  }
+  & .icon-preapproved {
+    width: 2rem;
+  }
+
+  & .icon-discarded-bin {
+    width: 2rem;
+    fill: var(--color10-dark);
+  }
+
+  & .leftcol {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}
