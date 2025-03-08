@@ -12,38 +12,38 @@ const Sidebar: React.FC<SidebarProps> = () => {
     {
       title: "All",
       number: 24000,
-      color: TagColor.all,
+      color: TagColor.All,
       isSelected: true,
     },
     {
       title: "4D Lotto",
       number: 1356,
-      color: TagColor.pink,
+      color: TagColor.FourDLotto,
       isSelected: false,
     },
     {
       title: "3rd Party",
       number: 1356,
-      color: TagColor.navyBlue,
+      color: TagColor.Thrdparty,
       isSelected: false,
     },
     {
       title: "Account",
       number: 136,
-      color: TagColor.goldish,
+      color: TagColor.Account,
       isSelected: false,
     },
     {
       title: "finance",
       number: 396,
-      color: TagColor.cobalt,
+      color: TagColor.Finance,
       isSelected: false,
     },
 
     {
       title: "Lucky7",
       number: 972,
-      color: TagColor.red,
+      color: TagColor.PointsShop,
       isSelected: false,
     },
   ];
