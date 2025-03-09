@@ -1,8 +1,8 @@
 import Badge, { BadgeType } from "../../components/badge/Badge";
-import Tag, { TagColor } from "../../components/tags/Tag";
 import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 import styles from "./SuperAdmin.module.css";
 import clsx from "clsx";
+import CategoryBar from "./components/CategoryBar";
 
 const SuperAdmin = () => {
     return (
@@ -31,9 +31,7 @@ const SuperAdmin = () => {
                 </div>
             </header>
             <main className={styles["sap-question-container"]}>
-                <div className={clsx(styles["category-seperator-banner"], styles["badge-color09"])}>
-                    <Tag color={TagColor.aqua} title={"Technical"} />
-                </div>
+                <CategoryBar title={"Technical"} />
                 <div className={styles["sap-question-card-container"]}>
                     <div className={styles["question-container"]}>
                         <div className={clsx(styles["row01"], styles["language"])}>
@@ -53,8 +51,7 @@ const SuperAdmin = () => {
                                         height="18"
                                         viewBox="0 0 18 18"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M2 16H3.425L13.2 6.225L11.775 4.8L2 14.575V16ZM0 18V13.75L13.2 0.575C13.4 0.391667 13.6208 0.25 13.8625 0.15C14.1042 0.05 14.3583 0 14.625 0C14.8917 0 15.15 0.05 15.4 0.15C15.65 0.25 15.8667 0.4 16.05 0.6L17.425 2C17.625 2.18333 17.7708 2.4 17.8625 2.65C17.9542 2.9 18 3.15 18 3.4C18 3.66667 17.9542 3.92083 17.8625 4.1625C17.7708 4.40417 17.625 4.625 17.425 4.825L4.25 18H0ZM12.475 5.525L11.775 4.8L13.2 6.225L12.475 5.525Z"
                                             fill="black"
@@ -70,8 +67,7 @@ const SuperAdmin = () => {
                                         width="17"
                                         height="13"
                                         viewBox="0 0 17 13"
-                                        fill="none"
-                                    >
+                                        fill="none">
                                         <path
                                             d="M1.38949 6.83784L1.4862 6.7376L5.2251 10.6132L5.94479 11.3592L6.66447 10.6132L15.5138 1.4403L15.6105 1.54054L5.94479 11.5597L1.38949 6.83784Z"
                                             stroke="#168712"

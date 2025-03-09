@@ -1,0 +1,22 @@
+.category-seperator-banner {
+    min-height: 6.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+
+    & .badge {
+        font-size: 1rem;
+        padding: 0.5rem 3rem;
+        border-radius: 2rem;
+    }
+}
+
+.badge-color09 {
+    color: var(--color09-dark);
+    background-color: var(--color09-light);
+    border-color: var(--color09-border);
+}
