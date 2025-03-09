@@ -1,7 +1,15 @@
 import React from "react";
 import styles from "./FilterSelect.module.css";
 
-const FilterSelect = () => {
+interface FilterSelectProps {
+  hint: string;
+  options: {
+    value: string;
+    label: string;
+  }[];
+}
+
+const FilterSelect: React.FC<FilterSelectProps> = ({ hint, options }) => {
   return (
     <div className={styles["filter-select-container"]}>
       <select
@@ -9,10 +17,12 @@ const FilterSelect = () => {
         id="filterSelect"
         className={styles["filter-select"]}
       >
-        <option value="">Filter by</option>
-        <option value="pre-approved">Pre-Approved</option>
-        <option value="disapproved">Disapproved</option>
-        <option value="all">Default/Show All</option>
+        <option value="">{hint}</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

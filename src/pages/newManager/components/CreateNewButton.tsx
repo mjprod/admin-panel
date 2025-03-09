@@ -5,6 +5,7 @@ import FilterSelect from "../../../components/dropDown/FilterSelect";
 import CustomButton, {
   ButtonType,
 } from "../../../components/button/CustomButton";
+import { categoryOptions } from "../../../util/ExampleData";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
@@ -82,7 +83,7 @@ const CreateNewButton = () => {
           {InputContainer("Answer...", answer, handleAnswerChange)}
 
           <div className={styles["bottomSection"]}>
-            <FilterSelect />
+            <FilterSelect hint="Select Category" options={categoryOptions}/>
 
             <CustomButton
               text={"Submit"}
