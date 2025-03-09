@@ -10,12 +10,7 @@ import SubcategorySection from "./SubcategorySection";
 import QuestionAnswerSection from "./QuestionAnswerSection";
 import ActionButtons from "./ActionButtons";
 import Colors from "../../../util/Colors";
-
-export enum QuestionCardStatus {
-  NeedApproval,
-  PreApproved,
-  Rejected,
-}
+import { QuestionStatus } from "../../../util/QuestionStatus";
 
 export interface QuestionCardProps {
   date: string;
@@ -27,7 +22,7 @@ export interface QuestionCardProps {
   subcategories: string[];
   question: string;
   answer: string;
-  status: QuestionCardStatus;
+  status: QuestionStatus;
 }
 
 const categoryColorMap: Record<string, TagColor> = {
@@ -46,10 +41,10 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
       .getPropertyValue(Colors.get(category) || "white")
       .trim();
 
-  const statusStyles: Record<QuestionCardStatus, string> = {
-    [QuestionCardStatus.NeedApproval]: categoryColor,
-    [QuestionCardStatus.PreApproved]: "badge-color-positive",
-    [QuestionCardStatus.Rejected]: checked
+  const statusStyles: Record<QuestionStatus, string> = {
+    [QuestionStatus.NeedApproval]: categoryColor,
+    [QuestionStatus.PreApproved]: "badge-color-positive",
+    [QuestionStatus.Rejected]: checked
       ? "badge-color-negative"
       : "badge-color-default",
   };
@@ -67,10 +62,10 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
           isEditSelected && styles["qc-editing-mode"],
           statusStyles[status],
         )}
-        style={{backgroundColor: color}}
+        style={status === QuestionStatus.NeedApproval ? { backgroundColor: color } : undefined}
       >
         <div className={styles["question-container"]}>
-          {status === QuestionCardStatus.Rejected && (
+          {status === QuestionStatus.Rejected && (
             <DeleteCardSelector onChecked={setChecked} />
           )}
           <Metadata
@@ -94,7 +89,7 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
           <div
             className={clsx(
               styles["question-button-actions"],
-              (status !== QuestionCardStatus.NeedApproval || isEditSelected) &&
+              (status !== QuestionStatus.NeedApproval || isEditSelected) &&
                 styles["preapproved"]
             )}
           >

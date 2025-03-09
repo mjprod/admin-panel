@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./ActionButtons.module.css";
-import CustomButton, { ButtonType } from "../../../components/button/CustomButton";
-import { QuestionCardStatus } from "./QuestionCard";
+import CustomButton, {
+  ButtonType,
+} from "../../../components/button/CustomButton";
+import { QuestionStatus } from "../../../util/QuestionStatus";
+import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 
 const ActionButtons: React.FC<{
-  status: QuestionCardStatus;
+  status: QuestionStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
 }> = ({ status, isEditSelected, setEditSelected }) => {
+  const modalRef = useRef<HTMLDialogElement | null>(null);
+
   const handleEdit = () => setEditSelected(!isEditSelected);
   const handlePreApprove = () => setEditSelected(!isEditSelected);
-  const handleReject = () => {};
+  const handleReject = () => {
+    modalRef.current?.showModal();
+  };
   const handleReturn = () => {};
   const handleDelete = () => {};
 
-  if (status === QuestionCardStatus.NeedApproval) {
+  if (status === QuestionStatus.NeedApproval) {
     return (
       <>
         {!isEditSelected && (
@@ -36,22 +43,24 @@ const ActionButtons: React.FC<{
             onClick={handlePreApprove}
           />
         </div>
+
+        <PopUpFeedback modalRef={modalRef} />
       </>
     );
   }
 
   const buttonConfig: Partial<
     Record<
-      QuestionCardStatus,
+      QuestionStatus,
       { text: string; type: ButtonType; onClick: () => void }
     >
   > = {
-    [QuestionCardStatus.PreApproved]: {
+    [QuestionStatus.PreApproved]: {
       text: 'Kembali kepada "memerlukan kelulusan"',
       type: ButtonType.Return,
       onClick: handleReturn,
     },
-    [QuestionCardStatus.Rejected]: {
+    [QuestionStatus.Rejected]: {
       text: "Padamkan secara kekal",
       type: ButtonType.Delete,
       onClick: handleDelete,
@@ -63,4 +72,4 @@ const ActionButtons: React.FC<{
   ) : null;
 };
 
-export default ActionButtons
+export default ActionButtons;

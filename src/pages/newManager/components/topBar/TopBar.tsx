@@ -1,23 +1,19 @@
 import styles from "./TopBar.module.css";
 import AssetsPack from "../../../../util/AssetsPack";
+import { QuestionStatus } from "../../../../util/QuestionStatus";
+
 interface TopBarProps {
   total: number;
-  topBarType: TopBarType;
+  topBarType: QuestionStatus;
 };
-
-export enum TopBarType {
-  PreApproved = "Pre-Approved",
-  Rejected = "Rejected",
-  NeedApproval = "Need Approval",
-}
 
 const TopBar = ({total, topBarType }: TopBarProps) => {
 
-  const getIcon = (type: TopBarType) => {
+  const getIcon = (type: QuestionStatus) => {
     switch (type) {
-      case TopBarType.PreApproved:
+      case QuestionStatus.PreApproved:
         return AssetsPack.icons.ICON_PRE_APPROVED.default;
-      case TopBarType.Rejected:
+      case QuestionStatus.Rejected:
         return AssetsPack.icons.ICON_REJECT.default;
       default:
         return AssetsPack.icons.ICON_NEED_APPROVAL.default;

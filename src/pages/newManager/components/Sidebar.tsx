@@ -2,12 +2,15 @@ import React from "react";
 import styles from "./Sidebar.module.css";
 import QuestionTools, { CategoryProps } from "./QuestionTools";
 import { TagColor } from "../../../components/tags/Tag";
-import SideCard, { SideCardStatus } from "./SideCard";
+import SideCard from "./SideCard";
 import CreateNewButton from "./CreateNewButton";
+import { QuestionStatus } from "../../../util/QuestionStatus";
 
-interface SidebarProps {}
+interface SidebarProps {
+  onSideCardClicked:(status: QuestionStatus) => void
+}
 
-const Sidebar: React.FC<SidebarProps> = () => {
+const Sidebar: React.FC<SidebarProps> = ({onSideCardClicked}) => {
   const categories: CategoryProps[] = [
     {
       title: "All",
@@ -54,9 +57,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
       <div className={styles["list-container"]}>
         <CreateNewButton />
-        <SideCard status={SideCardStatus.NeedApproval} number={1000} />
-        <SideCard status={SideCardStatus.PreApproval} number={1000} />
-        <SideCard status={SideCardStatus.Rejected} number={1000} />
+        <SideCard status={QuestionStatus.NeedApproval} number={1000} onSideCardClicked={onSideCardClicked}/>
+        <SideCard status={QuestionStatus.PreApproved} number={1000} onSideCardClicked={onSideCardClicked}/>
+        <SideCard status={QuestionStatus.Rejected} number={1000} onSideCardClicked={onSideCardClicked}/>
       </div>
     </aside>
   );
