@@ -4,6 +4,7 @@
   border-radius: 8px;
   background-color: var(--color06-light);
 }
+
 .createNewButton {
   display: flex;
   align-items: center;
@@ -19,7 +20,7 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.createNewButton:hover {
+.mainContainer:hover {
   transform: translateY(-0.5rem);
   background-color: var(--color09-light);
   box-shadow: var(--shadow-elevation-medium);
