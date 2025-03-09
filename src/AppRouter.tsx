@@ -4,7 +4,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import TestPage from "./pages/TestPage";
 import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
-import Manager from "./pages/manager/Manager";
 import SuperAdmin from "./pages/superAdmin/SuperAdmin";
 import NewManager from "./pages/newManager/NewManager";
 
@@ -35,7 +34,6 @@ const AppRouter = () => {
         {/* <Route path="/login" element={<Login />} /> */}
 
         {/* Authenticated routes */}
-        <Route path="/manager" element={<Manager />} />
         <Route path="/newManager" element={<NewManager />} />
 
         <Route path="/superAdmin" element={<SuperAdmin />} />

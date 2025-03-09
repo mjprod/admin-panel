@@ -60,6 +60,45 @@ export interface Conversation {
   usage: Usage;
 }
 
+export const categoryOptions = [
+  {
+    value: "Thrdparty",
+    label: "3rd Party"
+  },
+  {
+    value: "FourDLotto",
+    label: "4D Lotto"
+  },
+  {
+    value: "Account",
+    label: "Account"
+  },
+  {
+    value: "Feedback",
+    label: "Feedback"
+  },
+  {
+    value: "Finance",
+    label: "Finance"
+  },
+  {
+    value: "PointsShop",
+    label: "Points Shop"
+  },
+  {
+    value: "Referral",
+    label: "Referral"
+  },
+  {
+    value: "Security",
+    label: "Security"
+  },
+  {
+    value: "Technology",
+    label: "Technology"
+  }
+]
+
 export const languages: LanguageProps[] = [
   {
     lang: "MY",
