@@ -20,7 +20,9 @@
 }
 
 .createNewButton:hover {
-  background-color: var(--color06-light);
+  transform: translateY(-0.5rem);
+  background-color: var(--color09-light);
+  box-shadow: var(--shadow-elevation-medium);
 }
 
 .createNewButton .iconContainer {
