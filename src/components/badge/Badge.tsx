@@ -17,7 +17,7 @@ interface BadgeProps {
 const Badge: React.FC<BadgeProps> = ({
   text,
   type = BadgeType.category,
-  color = TagColor.All,
+  color = TagColor.ALL,
 }) => {
   const getColor = (type: BadgeType, color: TagColor) => {
     if (type === BadgeType.subcategory) {
