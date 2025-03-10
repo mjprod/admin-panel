@@ -11,11 +11,14 @@
   position: relative;
   padding: 0.75rem 1.25rem;
   transition: all 400ms ease;
-  border: none;
 }
 
 .pre-approve {
-  background: #d3f9d2;
+  border: none;
+  min-width: 10rem;
+  background: var(--color11-light);
+  color: var(--color11-dark);
+  border-color: var(--color11-dark);
 }
 
 .pre-approve:hover {
@@ -23,7 +26,13 @@
 }
 
 .reject {
-  background: #f9d2d2;
+  border: none;
+  min-width: 6rem;
+  background-color: #fff;
+  color: var(--black);
+  border-width: 1px;
+  border-color: var(--color10-light);
+  border-style: solid;
 }
 
 .reject:hover {
@@ -36,4 +45,56 @@
 
 .normal:hover {
   background: #bfb5b5;
+}
+
+.submit {
+  border: none;
+  background: var(--color09-dark);
+  color: var(--white);
+  height: 100%;
+  width: 100%;
+}
+
+.submit:hover {
+  background: hsla(194, 86%, 20%, 1);
+}
+
+.edit {
+  background-color: #fff;
+}
+
+.edit:hover {
+  background: rgb(222, 225, 225);
+}
+
+.return {
+  fill: var(--black);
+  background-color: #fff;
+}
+
+.dismiss {
+  min-width: 6rem;
+  background-color: #fff;
+  color: var(--black);
+  border-width: 1px;
+  border-color: var(--color10-light);
+  border-style: solid;
+}
+
+.cancel-edit {
+  background-color: #fff;
+}
+.icon-cancel-edit > svg {width: 0.75rem;}
+
+.submit-edit {
+  min-width: 10rem;
+  background: var(--color13-dark);
+  color: var(--white);
+  border: none;
+  border-color: var(--color11-dark);
+  & path {stroke:var(--color12-dark);}
+}
+
+img {
+  width: 1rem;
 }

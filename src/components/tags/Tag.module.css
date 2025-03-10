@@ -13,6 +13,15 @@
   font-style: normal;
   font-weight: 600;
   text-align: center;
+  cursor: pointer;
+}
+
+.selected {
+  opacity: 1;
+}
+
+.not-selected {
+  opacity: 0.5;
 }
 
 .all-tag {

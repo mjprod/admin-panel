@@ -79,10 +79,106 @@ body {
   --color11-dark: hsla(118, 76%, 30%, 1);
   --color11-border: hsla(118, 25%, 90%, 1);
 
+  /* input-back */
+  --color12-dark: hsla(216, 21%, 60%, 1);
+  --color12-border: hsla(214, 25%, 90%, 1);
+  --color12-light: hsla(214, 21%, 89%, 1);
+
+  /* darker blue **/
+  --color13-dark: hsla(216, 24%, 44%, 1);
+
   --shadow-color: 0deg 0% 0%;
 
   --shadow-elevation-medium: 0px 13px 0.9px hsl(var(--shadow-color) / 0.01),
     -0.1px 5.1px 3.9px -0.6px hsl(var(--shadow-color) / 0.04),
     -0.2px 7.2px 9px -1.1px hsl(var(--shadow-color) / 0.03),
     -0.4px 16.6px 20.7px -1.7px hsl(var(--shadow-color) / 0.02);
+}
+
+.badge-color-default {
+  color: var(--black);
+  background-color: var(--black-200);
+}
+
+.badge-color01 {
+  color: var(--color01-dark);
+  background-color: var(--color01-light);
+  border-color: var(--color01-border);
+}
+
+.badge-color02 {
+  color: var(--color02-dark);
+  background-color: var(--color02-light);
+  border-color: var(--color02-border);
+}
+
+.badge-color03 {
+  color: var(--color03-dark);
+  background-color: var(--color03-light);
+  border-color: var(--color03-border);
+}
+
+.badge-color04 {
+  color: var(--color04-dark);
+  background-color: var(--color04-light);
+  border-color: var(--color04-border);
+}
+
+.badge-color05 {
+  color: var(--color05-dark);
+  background-color: var(--color05-light);
+  border-color: var(--color05-border);
+}
+
+.badge-color06 {
+  color: var(--color06-dark);
+  background-color: var(--color06-light);
+  border-color: var(--color06-border);
+}
+
+.badge-color07 {
+  color: var(--color07-dark);
+  background-color: var(--color07-light);
+  border-color: var(--color07-border);
+}
+
+.badge-color08 {
+  color: var(--color08-dark);
+  background-color: var(--color08-light);
+  border-color: var(--color08-border);
+}
+
+.badge-color09 {
+  color: var(--color09-dark);
+  background-color: var(--color09-light);
+  border-color: var(--color09-border);
+}
+
+.badge-color-positive {
+  color: var(--color11-dark);
+  background-color: var(--color11-light);
+  border-color: var(--color11-border);
+}
+
+.badge-color-negative {
+  color: var(--color10-dark);
+  background-color: var(--color10-light);
+  border-color: var(--color10-border);
+}
+
+.badge-color-default {
+  color: var(--black);
+  background-color: var(--black-200);
+}
+
+.badge-color-edited {
+  color: var(--color06-dark);
+  background-color: var(--color06-light);
+  border-color: var(--color06-border);
+}
+
+.subcategory {
+  color: var(--black-500);
+  background-color: var(--white);
+  border-color: var(--black-300);
 }
