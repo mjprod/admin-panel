@@ -19,28 +19,34 @@ const NewManager = () => {
   const [conversations, setConversations] = useState(needApprovalConvs);
 
   useEffect(() => {
-    console.log("QuestionStatus", statusClicked)
+    console.log("QuestionStatus", statusClicked);
     switch (statusClicked) {
       case QuestionStatus.NeedApproval:
         setConversations(needApprovalConvs);
-        break
+        break;
       case QuestionStatus.PreApproved:
         setConversations(approvedConvs);
-        break
+        break;
       case QuestionStatus.Rejected:
         setConversations(rejectedConvs);
-        break
+        break;
     }
   }, [statusClicked]);
 
   return (
     <div className={styles["main-container"]}>
       <Sidebar onSideCardClicked={setStatusClicked} />
-      <main className={clsx(statusClicked !== QuestionStatus.NeedApproval ? styles["main-content"] : "")}>
+      <main
+        className={clsx(
+          statusClicked !== QuestionStatus.NeedApproval
+            ? styles["main-content"]
+            : ""
+        )}
+      >
         <TopBar topBarType={statusClicked} total={conversations.length} />
         <div className={styles["question-group-scroll-container"]}>
-          {conversations.map((con) => (
-            <QuestionCard {...con} />
+          {conversations.map((con, index) => (
+            <QuestionCard key={index} {...con} />
           ))}
         </div>
         <BottomBar totalPages={10} currentPage={1} />
