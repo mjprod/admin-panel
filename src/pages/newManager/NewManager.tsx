@@ -10,6 +10,7 @@ import {
 } from "../../util/ExampleData";
 import { useEffect, useState } from "react";
 import { QuestionStatus } from "../../util/QuestionStatus";
+import clsx from "clsx";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
@@ -35,8 +36,8 @@ const NewManager = () => {
   return (
     <div className={styles["main-container"]}>
       <Sidebar onSideCardClicked={setStatusClicked} />
-      <main>
-        <TopBar topBarType={statusClicked} total={300} />
+      <main className={clsx(statusClicked !== QuestionStatus.NeedApproval ? styles["main-content"] : "")}>
+        <TopBar topBarType={statusClicked} total={conversations.length} />
         <div className={styles["question-group-scroll-container"]}>
           {conversations.map((con) => (
             <QuestionCard {...con} />

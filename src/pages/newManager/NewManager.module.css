@@ -6,6 +6,10 @@
   font-family: var(--font-family01);
 }
 
+.main-container > .main-content {
+  grid-template-rows: 0.11fr 3.8rem 1fr;
+}
+
 .main-container > main {
   display: grid;
   grid-template-rows: 0.11fr 1fr;
