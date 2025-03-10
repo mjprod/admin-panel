@@ -1,4 +1,5 @@
 import { LanguageProps } from "../components/language/Language";
+import { TagColor } from "../components/tags/Tag";
 import { QuestionCardProps } from "../pages/newManager/components/QuestionCard";
 import { QuestionStatus } from "./QuestionStatus";
 
@@ -63,41 +64,41 @@ export interface Conversation {
 export const categoryOptions = [
   {
     value: "Thrdparty",
-    label: "3rd Party"
+    label: "3rd Party",
   },
   {
     value: "FourDLotto",
-    label: "4D Lotto"
+    label: "4D Lotto",
   },
   {
     value: "Account",
-    label: "Account"
+    label: "Account",
   },
   {
     value: "Feedback",
-    label: "Feedback"
+    label: "Feedback",
   },
   {
     value: "Finance",
-    label: "Finance"
+    label: "Finance",
   },
   {
     value: "PointsShop",
-    label: "Points Shop"
+    label: "Points Shop",
   },
   {
     value: "Referral",
-    label: "Referral"
+    label: "Referral",
   },
   {
     value: "Security",
-    label: "Security"
+    label: "Security",
   },
   {
     value: "Technology",
-    label: "Technology"
-  }
-]
+    label: "Technology",
+  },
+];
 
 export const languages: LanguageProps[] = [
   {
@@ -113,12 +114,18 @@ export const languages: LanguageProps[] = [
   },
 ];
 
+export interface Category {
+  id: number;
+  title: string;
+  colorCode: TagColor;
+}
+
 export const needApprovalConvs: QuestionCardProps[] = [
   {
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Account",
+    category: { id: 1, title: "Account", colorCode: TagColor.PURPLE },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -134,7 +141,8 @@ export const needApprovalConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Technology",
+    category: { id: 2, title: "Technology", colorCode: TagColor.GOLDISH },
+
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -150,7 +158,7 @@ export const needApprovalConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "4D",
+    category: { id: 3, title: "4D", colorCode: TagColor.PINK },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -169,7 +177,7 @@ export const approvedConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Account",
+    category: { id: 1, title: "Account", colorCode: TagColor.PURPLE },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -186,7 +194,7 @@ export const approvedConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Technology",
+    category: { id: 2, title: "Technology", colorCode: TagColor.GOLDISH },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -202,7 +210,7 @@ export const approvedConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "4D",
+    category: { id: 3, title: "4D", colorCode: TagColor.PINK },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -221,7 +229,7 @@ export const rejectedConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Account",
+    category: { id: 1, title: "Account", colorCode: TagColor.PURPLE },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -237,7 +245,7 @@ export const rejectedConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "Technology",
+    category: { id: 2, title: "Technology", colorCode: TagColor.GOLDISH },
     languages: languages,
     currentlang: {
       lang: "MY",
@@ -253,7 +261,7 @@ export const rejectedConvs: QuestionCardProps[] = [
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda",
-    category: "4D",
+    category: { id: 3, title: "4D", colorCode: TagColor.PINK },
     languages: languages,
     currentlang: {
       lang: "MY",

@@ -11,30 +11,25 @@ import QuestionAnswerSection from "./QuestionAnswerSection";
 import ActionButtons from "./ActionButtons";
 import Colors from "../../../util/Colors";
 import { QuestionStatus } from "../../../util/QuestionStatus";
+import { Category } from "../../../util/ExampleData";
 
 export interface QuestionCardProps {
   date: string;
   time: string;
   conversationId: string;
-  category: string;
+  category: Category;
   languages: any[];
   currentlang: any;
   subcategories: string[];
   question: string;
   answer: string;
   status: QuestionStatus;
-  isEdited?: boolean; 
+  isEdited?: boolean;
 }
 
-const categoryColorMap: Record<string, TagColor> = {
-  Account: TagColor.Account,
-  Technology: TagColor.Technology,
-  "4D": TagColor.FourDLotto,
-};
-
-const getCategoryColor = (category: string) => {
+const getCategoryColor = (category: Category) => {
   return getComputedStyle(document.documentElement)
-    .getPropertyValue(Colors.get(category) || "white")
+    .getPropertyValue(Colors.get(category.colorCode) || "white")
     .trim();
 };
 
@@ -57,10 +52,15 @@ const getStatusStyles = (
 const getSelectorProps = (status: QuestionStatus, isEdited: boolean) => {
   return status === QuestionStatus.Rejected
     ? { title: "Pilih untuk dipadam", type: SelectorType.Delete }
-    : { title: "Tandakan untuk Menyimpan", type: SelectorType.Write, isEdited: isEdited };
+    : {
+        title: "Tandakan untuk Menyimpan",
+        type: SelectorType.Write,
+        isEdited: isEdited,
+      };
 };
 
-const QuestionCard: React.FC<QuestionCardProps> = ({date,
+const QuestionCard: React.FC<QuestionCardProps> = ({
+  date,
   time,
   conversationId,
   category,
@@ -70,10 +70,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({date,
   question,
   answer,
   status,
-  isEdited = false }) => {
+  isEdited = false,
+}) => {
   const [checked, setChecked] = useState(false);
   const [isEditSelected, setEditSelected] = useState(false);
-  const categoryColor = categoryColorMap[category] || TagColor.All;
+  const categoryColor = category.colorCode || TagColor.ALL;
 
   const color = getCategoryColor(category);
 
@@ -103,13 +104,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({date,
           {status !== QuestionStatus.NeedApproval && (
             <CardSelector {...selectorProps} onChecked={setChecked} />
           )}
-          <Metadata
-            date={date}
-            time={time}
-            conversationId={conversationId}
-          />
+          <Metadata date={date} time={time} conversationId={conversationId} />
           <CategorySection
-            category={category}
+            category={category.title}
             color={categoryColor}
             currentlang={currentlang}
           />

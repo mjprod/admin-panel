@@ -7,46 +7,46 @@ import CreateNewButton from "./CreateNewButton";
 import { QuestionStatus } from "../../../util/QuestionStatus";
 
 interface SidebarProps {
-  onSideCardClicked:(status: QuestionStatus) => void
+  onSideCardClicked: (status: QuestionStatus) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({onSideCardClicked}) => {
+const Sidebar: React.FC<SidebarProps> = ({ onSideCardClicked }) => {
   const categories: CategoryProps[] = [
     {
       title: "All",
       number: 24000,
-      color: TagColor.All,
+      color: TagColor.ALL,
       isSelected: true,
     },
     {
       title: "4D Lotto",
       number: 1356,
-      color: TagColor.FourDLotto,
+      color: TagColor.GOLDISH,
       isSelected: false,
     },
     {
       title: "3rd Party",
       number: 1356,
-      color: TagColor.Thrdparty,
+      color: TagColor.PINK,
       isSelected: false,
     },
     {
       title: "Account",
       number: 136,
-      color: TagColor.Account,
+      color: TagColor.PURPLE,
       isSelected: false,
     },
     {
       title: "finance",
       number: 396,
-      color: TagColor.Finance,
+      color: TagColor.GREEN,
       isSelected: false,
     },
 
     {
       title: "Lucky7",
       number: 972,
-      color: TagColor.PointsShop,
+      color: TagColor.NAVY_BLUE,
       isSelected: false,
     },
   ];
@@ -57,9 +57,21 @@ const Sidebar: React.FC<SidebarProps> = ({onSideCardClicked}) => {
 
       <div className={styles["list-container"]}>
         <CreateNewButton />
-        <SideCard status={QuestionStatus.NeedApproval} number={1000} onSideCardClicked={onSideCardClicked}/>
-        <SideCard status={QuestionStatus.PreApproved} number={1000} onSideCardClicked={onSideCardClicked}/>
-        <SideCard status={QuestionStatus.Rejected} number={1000} onSideCardClicked={onSideCardClicked}/>
+        <SideCard
+          status={QuestionStatus.NeedApproval}
+          number={1000}
+          onSideCardClicked={onSideCardClicked}
+        />
+        <SideCard
+          status={QuestionStatus.PreApproved}
+          number={1000}
+          onSideCardClicked={onSideCardClicked}
+        />
+        <SideCard
+          status={QuestionStatus.Rejected}
+          number={1000}
+          onSideCardClicked={onSideCardClicked}
+        />
       </div>
     </aside>
   );
