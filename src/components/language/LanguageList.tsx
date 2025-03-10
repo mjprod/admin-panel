@@ -15,8 +15,8 @@ const LanguageList: React.FC<LanguageListProps> = ({
     <div className={style["language-selector"]}>
       {showTitle && <p>Language</p>}
       <div className={style["language-badge-container"]}>
-        {languages.map((lang) => (
-          <Language {...lang} />
+        {languages.map((lang, index) => (
+          <Language key={index} {...lang} />
         ))}
       </div>
     </div>
