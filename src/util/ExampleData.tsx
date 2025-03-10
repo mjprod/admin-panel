@@ -180,6 +180,7 @@ export const approvedConvs: QuestionCardProps[] = [
     question: "Mengapa deposit saya tidak ditunjukkan?",
     answer: "Sila semak penyata bank anda",
     status: QuestionStatus.PreApproved,
+    isEdited: true
   },
   {
     date: "15/2/2025",

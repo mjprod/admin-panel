@@ -1,0 +1,83 @@
+.card-selector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  & p {
+    font-size: 1rem;
+  }
+  & .leftcol {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  & .rightcol {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  & .badge-color-edited {
+    border-radius: 1rem;
+    border: none;
+  }
+}
+
+.checkbox {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border: 2px solid var(--black);
+  cursor: pointer;
+  appearance: none;
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+}
+
+.select-for-delete:checked {
+  background-color: var(--color10-light);
+  border-color: var(--color10-dark);
+}
+
+.select-for-delete:checked::after {
+  color: var(--color10-dark);
+}
+
+.select-for-write:checked {
+  background-color: var(--color11-light);
+  border-color: var(--color11-dark);
+}
+
+.select-for-write:checked::after {
+  color: var(--color11-dark);
+}
+
+/* For Firefox */
+.select-for-delete::-moz-check {
+  color: var(--color10-dark);
+}
+
+/* For Chrome/Safari */
+.select-for-delete::-webkit-check {
+  color: var(--color10-dark);
+}
+
+/* For Firefox */
+.select-for-write::-moz-check {
+  color: var(--color11-dark);
+}
+
+/* For Chrome/Safari */
+.select-for-write::-webkit-check {
+  color: var(--color11-dark);
+}

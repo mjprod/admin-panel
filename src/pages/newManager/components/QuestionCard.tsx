@@ -3,7 +3,7 @@ import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
 import { TagColor } from "../../../components/tags/Tag";
-import DeleteCardSelector from "../../../components/DeleteCardSelector";
+import CardSelector, { SelectorType } from "../../../components/CardSelector";
 import Metadata from "./Metadata";
 import CategorySection from "./CategorySection";
 import SubcategorySection from "./SubcategorySection";
@@ -23,6 +23,7 @@ export interface QuestionCardProps {
   question: string;
   answer: string;
   status: QuestionStatus;
+  isEdited?: boolean; 
 }
 
 const categoryColorMap: Record<string, TagColor> = {
@@ -31,23 +32,53 @@ const categoryColorMap: Record<string, TagColor> = {
   "4D": TagColor.FourDLotto,
 };
 
-const QuestionCard: React.FC<QuestionCardProps> = (props) => {
-  const { status, category } = props;
+const getCategoryColor = (category: string) => {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(Colors.get(category) || "white")
+    .trim();
+};
+
+const getStatusStyles = (
+  status: QuestionStatus,
+  checked: boolean,
+  categoryColor: string
+) => {
+  return {
+    [QuestionStatus.NeedApproval]: categoryColor,
+    [QuestionStatus.PreApproved]: checked
+      ? "badge-color-positive"
+      : "badge-color-default",
+    [QuestionStatus.Rejected]: checked
+      ? "badge-color-negative"
+      : "badge-color-default",
+  }[status];
+};
+
+const getSelectorProps = (status: QuestionStatus, isEdited: boolean) => {
+  return status === QuestionStatus.Rejected
+    ? { title: "Pilih untuk dipadam", type: SelectorType.Delete }
+    : { title: "Tandakan untuk Menyimpan", type: SelectorType.Write, isEdited: isEdited };
+};
+
+const QuestionCard: React.FC<QuestionCardProps> = ({date,
+  time,
+  conversationId,
+  category,
+  languages,
+  currentlang,
+  subcategories,
+  question,
+  answer,
+  status,
+  isEdited = false }) => {
   const [checked, setChecked] = useState(false);
   const [isEditSelected, setEditSelected] = useState(false);
   const categoryColor = categoryColorMap[category] || TagColor.All;
 
-  const color = getComputedStyle(document.documentElement)
-      .getPropertyValue(Colors.get(category) || "white")
-      .trim();
+  const color = getCategoryColor(category);
 
-  const statusStyles: Record<QuestionStatus, string> = {
-    [QuestionStatus.NeedApproval]: categoryColor,
-    [QuestionStatus.PreApproved]: "badge-color-positive",
-    [QuestionStatus.Rejected]: checked
-      ? "badge-color-negative"
-      : "badge-color-default",
-  };
+  const statusStyle = getStatusStyles(status, checked, categoryColor);
+  const selectorProps = getSelectorProps(status, isEdited);
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
@@ -55,33 +86,37 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
 
   return (
     <div className={clsx(styles["question-group-container"])}>
-      <QuestionStrengthTab languages={props.languages} />
+      <QuestionStrengthTab languages={languages} />
       <div
         className={clsx(
           styles["question-group-main"],
           isEditSelected && styles["qc-editing-mode"],
-          statusStyles[status],
+          statusStyle
         )}
-        style={status === QuestionStatus.NeedApproval ? { backgroundColor: color } : undefined}
+        style={
+          status === QuestionStatus.NeedApproval
+            ? { backgroundColor: color }
+            : undefined
+        }
       >
         <div className={styles["question-container"]}>
-          {status === QuestionStatus.Rejected && (
-            <DeleteCardSelector onChecked={setChecked} />
+          {status !== QuestionStatus.NeedApproval && (
+            <CardSelector {...selectorProps} onChecked={setChecked} />
           )}
           <Metadata
-            date={props.date}
-            time={props.time}
-            conversationId={props.conversationId}
+            date={date}
+            time={time}
+            conversationId={conversationId}
           />
           <CategorySection
-            category={props.category}
+            category={category}
             color={categoryColor}
-            currentlang={props.currentlang}
+            currentlang={currentlang}
           />
-          <SubcategorySection subcategories={props.subcategories} />
+          <SubcategorySection subcategories={subcategories} />
           <QuestionAnswerSection
-            question={props.question}
-            answer={props.answer}
+            question={question}
+            answer={answer}
             isEditing={isEditSelected}
             onChange={handleEditChange}
             color={color}
