@@ -25,6 +25,8 @@ export interface QuestionCardProps {
   answer: string;
   status: QuestionStatus;
   isEdited?: boolean;
+  isSelected?: boolean;
+  onSelected?: (checked: boolean) => void;
 }
 
 const getCategoryColor = (category: Category) => {
@@ -49,13 +51,14 @@ const getStatusStyles = (
   }[status];
 };
 
-const getSelectorProps = (status: QuestionStatus, isEdited: boolean) => {
+const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: boolean) => {
   return status === QuestionStatus.Rejected
     ? { title: "Pilih untuk dipadam", type: SelectorType.Delete }
     : {
         title: "Tandakan untuk Menyimpan",
         type: SelectorType.Write,
         isEdited: isEdited,
+        checked: checked,
       };
 };
 
@@ -71,20 +74,23 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   answer,
   status,
   isEdited = false,
+  isSelected = false,
+  onSelected = () => {},
 }) => {
-  const [checked, setChecked] = useState(false);
+  const checked = isSelected;
   const [isEditSelected, setEditSelected] = useState(false);
   const categoryColor = category.colorCode || TagColor.ALL;
 
   const color = getCategoryColor(category);
 
   const statusStyle = getStatusStyles(status, checked, categoryColor);
-  const selectorProps = getSelectorProps(status, isEdited);
+  const selectorProps = getSelectorProps(status, isEdited, checked);
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
   };
-
+  const handleSelected = () => {
+  };
   return (
     <div className={clsx(styles["question-group-container"])}>
       <QuestionStrengthTab languages={languages} />
@@ -102,7 +108,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       >
         <div className={styles["question-container"]}>
           {status !== QuestionStatus.NeedApproval && (
-            <CardSelector {...selectorProps} onChecked={setChecked} />
+            <CardSelector {...selectorProps} onChecked={()=>{onSelected(!checked)}}  />
           )}
           <Metadata date={date} time={time} conversationId={conversationId} />
           <CategorySection

@@ -11,12 +11,23 @@ import {
 import { useEffect, useState } from "react";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import clsx from "clsx";
+import SelectAllBar from "./components/topBar/SelectAllBar";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
     QuestionStatus.NeedApproval
   );
   const [conversations, setConversations] = useState(needApprovalConvs);
+  const [checked, setChecked] = useState(false)
+
+  useEffect(() => {
+    console.log("checked", checked)
+    setConversations((conversations) => conversations.map((con) => {
+      con.isSelected = checked
+      return con
+    }))
+    console.log("conversations", conversations)
+  }, [checked]);
 
   useEffect(() => {
     console.log("QuestionStatus", statusClicked)
@@ -38,6 +49,7 @@ const NewManager = () => {
       <Sidebar onSideCardClicked={setStatusClicked} />
       <main className={clsx(statusClicked !== QuestionStatus.NeedApproval ? styles["main-content"] : "")}>
         <TopBar questionStatus={statusClicked} total={conversations.length} />
+        <SelectAllBar questionStatus={statusClicked} checked={checked} onSaveAllClicked={() => setChecked(!checked)} onSelectAllClick={() => setChecked(!checked)} />
         <div className={styles["question-group-scroll-container"]}>
           {conversations.map((con) => (
             <QuestionCard {...con} />
