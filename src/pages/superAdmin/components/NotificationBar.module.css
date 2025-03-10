@@ -1,0 +1,12 @@
+.notification-bar {
+    background-color: var(--color10-light);
+    color: var(--color10-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98%;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    min-height: 2rem;
+    margin-top: 1rem;
+}

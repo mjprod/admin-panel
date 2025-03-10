@@ -3,14 +3,13 @@ import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 import styles from "./SuperAdmin.module.css";
 import clsx from "clsx";
 import CategoryBar from "./components/CategoryBar";
+import NotificationBar from "./components/NotificationBar";
 
 const SuperAdmin = () => {
     return (
         <div className={styles["sap-main-container"]}>
             <header>
-                <div className={styles["notification-bar"]}>
-                    <strong>注意：</strong>一旦確認答案後，它們將寫入Ai資料庫並且影響未來的回覆，請在確認前審慎評估。
-                </div>
+                <NotificationBar title="Notice" message="Once the answers are confirmed, they will be written into the AI ​database and will affect future responses. Please evaluate carefully before confirming."/>
                 <div className={styles["sap-main-header"]}>
                     <div className={styles["logo-container"]}>
                         <div className={styles["icon-svg-brain"]}>
@@ -27,7 +26,6 @@ const SuperAdmin = () => {
                         </div>
                         <h1 className={styles["title"]}>Add to Ai Knowledge Base</h1>
                     </div>
-
                 </div>
             </header>
             <main className={styles["sap-question-container"]}>
