@@ -170,3 +170,15 @@ body {
   color: var(--black);
   background-color: var(--black-200);
 }
+
+.badge-color-edited {
+  color: var(--color06-dark);
+  background-color: var(--color06-light);
+  border-color: var(--color06-border);
+}
+
+.subcategory {
+  color: var(--black-500);
+  background-color: var(--white);
+  border-color: var(--black-300);
+}
