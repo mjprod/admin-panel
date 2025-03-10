@@ -3,6 +3,7 @@
   flex-direction: column;
   font-family: var(--font-family01);
 }
+
 .conversation-details {
   border-bottom: 1px solid var(--black-200);
   margin-top: 1rem;
@@ -33,6 +34,7 @@
   & .icon-need-approval {
     width: 2rem;
   }
+
   & .icon-preapproved {
     width: 2rem;
   }
@@ -48,4 +50,8 @@
     gap: 0.5rem;
     align-items: center;
   }
+}
+
+.icon-need-approval> img {
+  width: 2rem;
 }
