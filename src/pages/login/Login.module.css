@@ -19,6 +19,7 @@
 
 .image-brain {
     max-width: 14rem;
+    min-width: 14rem;
     margin: 0 auto;
 }
 
@@ -26,14 +27,6 @@
     font-size: 2rem;
     text-align: center;
     margin: 0 auto;
-}
-
-.image-brain-green {
-    fill: var(--color05-dark);
-}
-
-.image-brain-goldish {
-    fill: var(--color02-dark);
 }
 
 /**** FORM section | START | ****/
