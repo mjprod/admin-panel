@@ -15,7 +15,9 @@ const AssetsPack = {
     ICON_CANCEL: await import("../assets/cancelEditIcon.svg"),
     ICON_SAVE: await import("../assets/savePreapproveIcon.svg")
   },
-  logos: {},
+  logos: {
+    LOGIN_PAGE_LOGO: await import("../assets/ai_brain.svg"),
+  },
   backgrounds: {},
   videos: {},
   images: {},

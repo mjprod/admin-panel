@@ -6,7 +6,7 @@ import TestPage from "./pages/TestPage";
 import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 import SuperAdmin from "./pages/superAdmin/SuperAdmin";
 import NewManager from "./pages/newManager/NewManager";
-
+import LoginPage from "./pages/login/Login";
 // PrivateRoute component to handle protected routes
 // const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
 //   const { isSignedIn } = useContext(AuthContext);
@@ -31,7 +31,7 @@ const AppRouter = () => {
     >
       <Routes>
         {/* Public routes */}
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Authenticated routes */}
         <Route path="/newManager" element={<NewManager />} />
