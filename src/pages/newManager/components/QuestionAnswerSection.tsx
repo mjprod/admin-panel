@@ -15,7 +15,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
   answer,
   isEditing,
   onChange,
-  color
+  color,
 }) => {
   const [editedQuestion, setEditedQuestion] = useState(question);
   const [editedAnswer, setEditedAnswer] = useState(answer);
@@ -46,7 +46,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
               value={editedQuestion}
               onChange={handleQuestionChange}
               className={clsx(styles["qc-textarea"], styles["qc-editing-mode"])}
-              style={{backgroundColor: color}}
+              style={{ backgroundColor: color }}
             />
           ) : (
             <p className={styles["qc-text"]}>{editedQuestion}</p>
@@ -61,7 +61,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
               value={editedAnswer}
               onChange={handleAnswerChange}
               className={`${styles["qc-textarea"]} ${styles["qc-editing-mode"]}`}
-              style={{backgroundColor: color}}
+              style={{ backgroundColor: color }}
             />
           ) : (
             <p className={styles["qc-text"]}>{editedAnswer}</p>

@@ -3,3 +3,11 @@
   gap: 1rem;
   flex-direction: row;
 }
+
+@media screen and (max-width: 55rem) {
+  .rightcol-buttons {
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+  }
+}
