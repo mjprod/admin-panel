@@ -6,10 +6,10 @@ import { useState } from "react";
 
 interface TopBarProps {
   total: number;
-  topBarType: QuestionStatus;
+  questionStatus: QuestionStatus;
 };
 
-const TopBar = ({ total, topBarType }: TopBarProps) => {
+const TopBar = ({ total, questionStatus }: TopBarProps) => {
   const [checked, setChecked] = useState(false)
 
   const ICONS_MAP = {
@@ -23,9 +23,9 @@ const TopBar = ({ total, topBarType }: TopBarProps) => {
       <div className={styles["row01"]}>
         <div className={styles["leftcol"]}>
           <div className={styles["icon-need-approval"]}>
-            <img src={ICONS_MAP[topBarType]} alt="icon" />
+            <img src={ICONS_MAP[questionStatus]} alt="icon" />
           </div>
-          <p>{topBarType}</p>
+          <p>{questionStatus}</p>
         </div>
         <div className={styles["rightcol"]}>
           <div className={styles["question-count"]}>
@@ -34,7 +34,7 @@ const TopBar = ({ total, topBarType }: TopBarProps) => {
         </div>
       </div>
     </div>
-    <SelectAllBar topBarType={topBarType} checked={checked} onSaveAllClicked={() => setChecked(!checked)} onSelectAllClick={() => setChecked(!checked)} />
+    <SelectAllBar questionStatus={questionStatus} checked={checked} onSaveAllClicked={() => setChecked(!checked)} onSelectAllClick={() => setChecked(!checked)} />
   </>
   );
 };

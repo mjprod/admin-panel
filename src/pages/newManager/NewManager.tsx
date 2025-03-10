@@ -37,7 +37,7 @@ const NewManager = () => {
     <div className={styles["main-container"]}>
       <Sidebar onSideCardClicked={setStatusClicked} />
       <main className={clsx(statusClicked !== QuestionStatus.NeedApproval ? styles["main-content"] : "")}>
-        <TopBar topBarType={statusClicked} total={conversations.length} />
+        <TopBar questionStatus={statusClicked} total={conversations.length} />
         <div className={styles["question-group-scroll-container"]}>
           {conversations.map((con) => (
             <QuestionCard {...con} />
