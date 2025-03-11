@@ -6,12 +6,14 @@ import CreateNewButton from "./CreateNewButton";
 import { QuestionStatus } from "../../../util/QuestionStatus";
 
 interface SidebarProps {
+  card: QuestionStatus;
   onSideCardClicked: (status: QuestionStatus) => void;
   categories: CategoryProps[];
   onCategoryClick: (category: CategoryProps) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
+  card,
   onSideCardClicked,
   categories,
   onCategoryClick,
@@ -27,16 +29,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className={styles["list-container"]}>
         <CreateNewButton />
         <SideCard
+          isActive={card == QuestionStatus.NeedApproval}
           status={QuestionStatus.NeedApproval}
           number={1000}
           onSideCardClicked={onSideCardClicked}
         />
         <SideCard
+          isActive={card == QuestionStatus.PreApproved}
           status={QuestionStatus.PreApproved}
           number={1000}
           onSideCardClicked={onSideCardClicked}
         />
         <SideCard
+          isActive={card == QuestionStatus.Rejected}
           status={QuestionStatus.Rejected}
           number={1000}
           onSideCardClicked={onSideCardClicked}
