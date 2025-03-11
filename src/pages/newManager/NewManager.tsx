@@ -184,7 +184,7 @@ const NewManager = () => {
         <SelectAllBar questionStatus={statusClicked} showActionButton={showActionButton} checked={checked} onSelectAllClick={handleSelectAll} onBulkActionCommit={handleBulkAction} />
         <div className={styles["question-group-scroll-container"]}>
           {currentItems.map((con, index) => (
-            <QuestionCard key={index + con.answer} {...con} onSelected={handleConversationSelected} />
+            <QuestionCard key={index + con.conversationId} {...con} onSelected={handleConversationSelected} />
           ))}
         </div>
         <BottomBar
