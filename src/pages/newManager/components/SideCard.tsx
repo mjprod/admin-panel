@@ -3,6 +3,7 @@ import styles from "./SideCard.module.css";
 import AssetsPack from "../../../util/AssetsPack";
 import clsx from "clsx";
 import { QuestionStatus } from "../../../util/QuestionStatus";
+import { useTranslation } from "react-i18next";
 
 interface SideCardProps {
   status: QuestionStatus;
@@ -25,6 +26,8 @@ const SideCard: React.FC<SideCardProps> = ({ status, number, onSideCardClicked }
   };
   const icon = getIcon(status);
 
+  const {t} = useTranslation();
+
   return (
     <div className={styles["timeline-card"]} onClick={() => onSideCardClicked(status)}>
       <div className={styles["row01"]}>
@@ -44,7 +47,7 @@ const SideCard: React.FC<SideCardProps> = ({ status, number, onSideCardClicked }
             status == QuestionStatus.Rejected && styles["rejected"]
           )}
         >
-          {status}
+          {t(`newManager.${status}`)}
         </p>
       </div>
     </div>

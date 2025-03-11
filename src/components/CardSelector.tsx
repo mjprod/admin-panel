@@ -3,6 +3,7 @@ import styles from "./CardSelector.module.css";
 import clsx from "clsx";
 import Badge, { BadgeType } from "./badge/Badge";
 import AssetsPack from "../util/AssetsPack";
+import { useTranslation } from "react-i18next";
 
 export const enum SelectorType {
   Delete,
@@ -23,6 +24,7 @@ const CardSelector: React.FC<CardSelectorProps> = ({
   isEdited = false,
 }) => {
   const [checked, setChecked] = useState(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     onChecked(checked);
@@ -52,7 +54,7 @@ const CardSelector: React.FC<CardSelectorProps> = ({
           )}
         >
           <Badge
-            text="Edited"
+            text={t("newManager.edited")}
             type={BadgeType.edit}
             icon={AssetsPack.icons.ICON_EDIT.default}
           />

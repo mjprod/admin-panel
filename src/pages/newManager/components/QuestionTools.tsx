@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Tag, { TagColor } from "../../../components/tags/Tag";
 import styles from "./QuestionTools.module.css";
+import { useTranslation } from "react-i18next";
 
 export interface CategoryProps {
   id: number;
@@ -38,17 +39,19 @@ const QuestionTools: React.FC<QuestionToolsProps> = ({
     onCategoryClick(category);
   };
 
+  const {t} = useTranslation();
+
   return (
     <div className={styles["tools-container"]}>
-      <div className={styles["tools-heading"]}>Question Tools</div>
+      <div className={styles["tools-heading"]}>{t("newManager.question_tools")}</div>
 
       <div className={styles["tag-container"]}>
         <div className={styles["row01"]}>
-          <p>Total</p>
+          <p>{t("newManager.total")}</p>
           <p>{total}</p>
         </div>
         <div className={styles["row02"]}>
-          <p>Filter by Tag:</p>
+          <p>{t("newManager.filter_by_tag")}</p>
           {categories.map((category) => (
             <Tag
               key={category.title}

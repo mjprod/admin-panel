@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import styles from "./BottomBar.module.css";
 
 interface BottomBarProps {
@@ -7,11 +8,13 @@ interface BottomBarProps {
 
 const BottomBar = ({ currentPage, totalPages }: BottomBarProps) => {
 
+    const {t} = useTranslation();
+    
     return (
         <div className={styles["pagination-container"]}>
-            <button>Prev</button>
-            <p>Page {currentPage} of {totalPages}</p>
-            <button>Next</button>
+            <button>{t("newManager.prev")}</button>
+            <p>{t("newManager.page")} {currentPage} {t("newManager.of")} {totalPages}</p>
+            <button>{t("newManager.next")}</button>
         </div>
     );
 };
