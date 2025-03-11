@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
@@ -53,7 +53,7 @@ const getStatusStyles = (
 
 const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: boolean) => {
   return status === QuestionStatus.Rejected
-    ? { title: "Pilih untuk dipadam", type: SelectorType.Delete }
+    ? { title: "Pilih untuk dipadam", type: SelectorType.Delete, checked: checked }
     : {
       title: "Tandakan untuk Menyimpan",
       type: SelectorType.Write,
@@ -77,14 +77,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   isSelected = false,
   onSelected = () => { },
 }) => {
-  const checked = isSelected;
   const [isEditSelected, setEditSelected] = useState(false);
   const categoryColor = category.colorCode || TagColor.ALL;
 
   const color = getCategoryColor(category);
 
-  const statusStyle = getStatusStyles(status, checked, categoryColor);
-  const selectorProps = getSelectorProps(status, isEdited, checked);
+  const statusStyle = getStatusStyles(status, isSelected, categoryColor);
+  const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);

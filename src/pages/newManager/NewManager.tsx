@@ -27,6 +27,7 @@ const NewManager = () => {
     conversations.some((conv) => conv.isSelected) ? setShowActionButton(true) : setShowActionButton(false);
     conversations.some((conv) => !conv.isSelected) ? setChecked(false) : setChecked(true);
   }, [conversations])
+
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []
   );
@@ -35,10 +36,10 @@ const NewManager = () => {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(conversations.length / itemsPerPage);
 
-  const currentItems = conversations.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // const currentItems = conversations.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
 
   const categories: CategoryProps[] = [
     {
@@ -182,8 +183,8 @@ const NewManager = () => {
         <TopBar questionStatus={statusClicked} total={conversations.length} />
         <SelectAllBar questionStatus={statusClicked} showActionButton={showActionButton} checked={checked} onSelectAllClick={handleSelectAll} onBulkActionCommit={handleBulkAction} />
         <div className={styles["question-group-scroll-container"]}>
-          {currentItems.map((con, index) => (
-            <QuestionCard key={index + con.conversationId} {...con} onSelected={handleConversationSelected} />
+          {conversations.map((con, index) => (
+            <QuestionCard key={index + con.answer} {...con} onSelected={handleConversationSelected} />
           ))}
         </div>
         <BottomBar
