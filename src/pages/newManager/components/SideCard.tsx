@@ -10,6 +10,7 @@ interface SideCardProps {
   status: QuestionStatus;
   number: number;
   onSideCardClicked: (status: QuestionStatus) => void;
+  classNameStyle: string;
 }
 
 const SideCard: React.FC<SideCardProps> = ({
@@ -17,6 +18,7 @@ const SideCard: React.FC<SideCardProps> = ({
   status,
   number,
   onSideCardClicked,
+  classNameStyle,
 }) => {
   const getIcon = (status: QuestionStatus) => {
     switch (status) {
@@ -37,8 +39,8 @@ const SideCard: React.FC<SideCardProps> = ({
   return (
     <div
       className={clsx(
-        styles["timeline-card"],
-        isActive ? styles["active"] : styles["deActive"]
+        classNameStyle,
+        isActive ? styles["active"] : styles["de-active"]
       )}
       onClick={() => onSideCardClicked(status)}
     >
