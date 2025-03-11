@@ -15,6 +15,7 @@ import { Category } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
 
 export interface QuestionCardProps {
+  id: number;
   date: string;
   time: string;
   conversationId: string;
@@ -65,7 +66,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   status,
   isEdited = false,
   isSelected = false,
-  onSelected = () => { },
+  onSelected = () => {},
 }) => {
   const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
@@ -75,15 +76,23 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   const statusStyle = getStatusStyles(status, isSelected, categoryColor);
 
-  const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: boolean) => {
+  const getSelectorProps = (
+    status: QuestionStatus,
+    isEdited: boolean,
+    checked: boolean
+  ) => {
     return status === QuestionStatus.Rejected
-      ? { title: t("newManager.choose_to_delete"), type: SelectorType.Delete, checked: checked }
+      ? {
+          title: t("newManager.choose_to_delete"),
+          type: SelectorType.Delete,
+          checked: checked,
+        }
       : {
-        title: t("newManager.mark_to_save"),
-        type: SelectorType.Write,
-        isEdited: isEdited,
-        checked: checked,
-      };
+          title: t("newManager.mark_to_save"),
+          type: SelectorType.Write,
+          isEdited: isEdited,
+          checked: checked,
+        };
   };
 
   const selectorProps = getSelectorProps(status, isEdited, isSelected);
@@ -109,7 +118,12 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       >
         <div className={styles["question-container"]}>
           {status !== QuestionStatus.NeedApproval && (
-            <CardSelector {...selectorProps} onChecked={(checked) => { onSelected(conversationId, checked) }} />
+            <CardSelector
+              {...selectorProps}
+              onChecked={(checked) => {
+                onSelected(conversationId, checked);
+              }}
+            />
           )}
           <Metadata date={date} time={time} conversationId={conversationId} />
           <CategorySection
@@ -129,7 +143,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             className={clsx(
               styles["question-button-actions"],
               (status !== QuestionStatus.NeedApproval || isEditSelected) &&
-              styles["preapproved"]
+                styles["preapproved"]
             )}
           >
             <ActionButtons

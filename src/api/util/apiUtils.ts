@@ -51,3 +51,27 @@ export const apiDeleteRequest = async <T>(
     return Promise.reject(error);
   }
 };
+
+
+
+export const apiPatchRequest = async <T>(
+  endpoint: string,
+  pathVariables: Record<string, any> = {},
+  payload: Record<string, any> | null = null 
+): Promise<T | null> => {
+  Object.keys(pathVariables).forEach((key) => {
+    endpoint = endpoint.replace(
+      `{${key}}`,
+      encodeURIComponent(pathVariables[key])
+    );
+  });
+
+  try {
+    const response = await Request.patch(endpoint, payload); 
+    return response.data as T;
+  } catch (error: any) {
+    showConsoleError("Axios Patch Error: ", error.data.error);
+    return Promise.reject(error);
+  }
+};
+
