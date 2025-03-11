@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import styles from "./BottomBar.module.css";
 
@@ -12,7 +13,9 @@ const BottomBar = ({
   totalPages,
   onPageChange,
 }: BottomBarProps) => {
-  return (
+
+    const {t} = useTranslation();
+      return (
     <div className={styles["pagination-container"]}>
       <button
         onClick={() => onPageChange(currentPage - 1)}
@@ -21,10 +24,10 @@ const BottomBar = ({
           [styles["disabled"]]: currentPage === 1,
         })}
       >
-        Prev
+        {t("newManager.prev")}
       </button>
       <p>
-        Page {currentPage} of {totalPages}
+        {t("newManager.page")} {currentPage} {t("newManager.of")} {totalPages}
       </p>
       <button
         onClick={() => onPageChange(currentPage + 1)}
@@ -33,7 +36,7 @@ const BottomBar = ({
           [styles["disabled"]]: currentPage === totalPages,
         })}
       >
-        Next
+        {t("newManager.next")}
       </button>
     </div>
   );

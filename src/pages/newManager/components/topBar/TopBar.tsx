@@ -1,6 +1,7 @@
 import styles from "./TopBar.module.css";
 import AssetsPack from "../../../../util/AssetsPack";
 import { QuestionStatus } from "../../../../util/QuestionStatus";
+import { useTranslation } from "react-i18next";
 
 interface TopBarProps {
   total: number;
@@ -14,6 +15,8 @@ const TopBar = ({ total, questionStatus }: TopBarProps) => {
     [QuestionStatus.NeedApproval]: AssetsPack.icons.ICON_NEED_APPROVAL.default
   };
 
+  const {t} = useTranslation();
+
   return (
     <div className={styles["conversation-details"]}>
       <div className={styles["row01"]}>
@@ -21,11 +24,11 @@ const TopBar = ({ total, questionStatus }: TopBarProps) => {
           <div className={styles["icon-need-approval"]}>
             <img src={ICONS_MAP[questionStatus]} alt="icon" />
           </div>
-          <p>{questionStatus}</p>
+          <p>{t(`newManager.${questionStatus}`)}</p>
         </div>
         <div className={styles["rightcol"]}>
           <div className={styles["question-count"]}>
-            <p>Total {total}</p>
+            <p>{t("newManager.total")} {total}</p>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import ActionButtons from "./ActionButtons";
 import Colors from "../../../util/Colors";
 import { QuestionStatus } from "../../../util/QuestionStatus";
 import { Category } from "../../../util/ExampleData";
+import { useTranslation } from "react-i18next";
 
 export interface QuestionCardProps {
   date: string;
@@ -51,17 +52,6 @@ const getStatusStyles = (
   }[status];
 };
 
-const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: boolean) => {
-  return status === QuestionStatus.Rejected
-    ? { title: "Pilih untuk dipadam", type: SelectorType.Delete, checked: checked }
-    : {
-      title: "Tandakan untuk Menyimpan",
-      type: SelectorType.Write,
-      isEdited: isEdited,
-      checked: checked,
-    };
-};
-
 const QuestionCard: React.FC<QuestionCardProps> = ({
   date,
   time,
@@ -77,12 +67,25 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   isSelected = false,
   onSelected = () => { },
 }) => {
+  const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
   const categoryColor = category.colorCode || TagColor.ALL;
 
   const color = getCategoryColor(category);
 
   const statusStyle = getStatusStyles(status, isSelected, categoryColor);
+
+  const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: boolean) => {
+    return status === QuestionStatus.Rejected
+      ? { title: t("newManager.choose_to_delete"), type: SelectorType.Delete, checked: checked }
+      : {
+        title: t("newManager.mark_to_save"),
+        type: SelectorType.Write,
+        isEdited: isEdited,
+        checked: checked,
+      };
+  };
+
   const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
