@@ -5,18 +5,19 @@ import AssetsPack from "../../../../util/AssetsPack";
 interface SelectAllBarProps {
     checkBoxLabel?: string;
     saveAllButtonText?: string;
-    topBarType: QuestionStatus;
+    questionStatus: QuestionStatus;
     checked: boolean;
-    onSaveAllClicked?: (checked: boolean) => void;
-    onSelectAllClick?: () => void;
+    showActionButton?: boolean;
+    onBulkActionCommit?: () => void;
+    onSelectAllClick?: (checked: boolean) => void;
 };
 
 const SelectAllBar = ({
-    checkBoxLabel = "Select All",
-    saveAllButtonText = "Save All Selected",
-    checked, onSaveAllClicked = () => { },
+    checked,
+    showActionButton = false, 
+    onBulkActionCommit = () => { },
     onSelectAllClick = () => { },
-    topBarType
+    questionStatus
 }: SelectAllBarProps) => {
 
     const ICONS_MAP = {
@@ -24,26 +25,26 @@ const SelectAllBar = ({
         [QuestionStatus.PreApproved]: AssetsPack.icons.ICON_TICK.default
     };
 
-    const containerClass = topBarType === QuestionStatus.PreApproved ? styles["write-all-container"] : styles["delete-all-container"];
-    const selectAllClass = topBarType === QuestionStatus.PreApproved ? styles["select-all-to-write"] : styles["select-all-to-delete"];
-    const buttonClass = topBarType === QuestionStatus.PreApproved ? styles["pre-approve"] : styles["dismiss"];
-    const checkboxId = topBarType === QuestionStatus.PreApproved ? styles["select-all-write"] : styles["select-all-delete"];
-    const buttonId = topBarType === QuestionStatus.PreApproved ? styles["write-all-button"] : styles["delete-all-button"];
+    const containerClass = questionStatus === QuestionStatus.PreApproved ? styles["write-all-container"] : styles["delete-all-container"];
+    const selectAllClass = questionStatus === QuestionStatus.PreApproved ? styles["select-all-to-write"] : styles["select-all-to-delete"];
+    const buttonClass = questionStatus === QuestionStatus.PreApproved ? styles["pre-approve"] : styles["dismiss"];
+    const checkboxId = questionStatus === QuestionStatus.PreApproved ? styles["select-all-write"] : styles["select-all-delete"];
+    const buttonId = questionStatus === QuestionStatus.PreApproved ? styles["write-all-button"] : styles["delete-all-button"];
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onSaveAllClicked(e.target.checked);
+        onSelectAllClick(e.target.checked);
     };
 
-    if (topBarType !== QuestionStatus.NeedApproval) {
+    if (questionStatus !== QuestionStatus.NeedApproval) {
         return (
             <div className={containerClass}>
                 <div className={selectAllClass}>
                     <input type="checkbox" name="" id={checkboxId} onChange={handleCheckboxChange} checked={checked} />
-                    <p>{checkBoxLabel}</p>
+                    <p>Select All</p>
                 </div>
-                <button className={buttonClass} id={buttonId} style={checked ? { display: "flex" } : { display: "none" }} onClick={onSelectAllClick}>
-                    <img src={ICONS_MAP[topBarType]} />
-                    {saveAllButtonText}
+                <button className={buttonClass} id={buttonId} style={showActionButton ? { display: "flex" } : { display: "none" }} onClick={onBulkActionCommit}>
+                    <img src={ICONS_MAP[questionStatus]} />
+                    {questionStatus === QuestionStatus.PreApproved ? "Save All Selected" : "Delete All Selected"}
                 </button>
             </div>
         );

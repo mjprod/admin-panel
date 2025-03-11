@@ -14,12 +14,21 @@ import clsx from "clsx";
 import { TagColor } from "../../components/tags/Tag";
 import { CategoryProps } from "./components/QuestionTools";
 import { useTranslation } from "react-i18next";
+import SelectAllBar from "./components/topBar/SelectAllBar";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
     QuestionStatus.NeedApproval
   );
   const [conversations, setConversations] = useState(needApprovalConvs);
+  const [checked, setChecked] = useState(false)
+  const [showActionButton, setShowActionButton] = useState(false)
+
+  useEffect(() => {
+    conversations.some((conv) => conv.isSelected) ? setShowActionButton(true) : setShowActionButton(false);
+    conversations.some((conv) => !conv.isSelected) ? setChecked(false) : setChecked(true);
+  }, [conversations])
+
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []
   );
@@ -96,6 +105,27 @@ const NewManager = () => {
     }
   }, [statusClicked]);
 
+  const handleConversationSelected = (conversationId: string, checked: boolean) => {
+    const convo = conversations.find((conv) => conv.conversationId === conversationId)
+    if (convo) {
+      convo.isSelected = checked
+      setConversations([...conversations]);
+    }
+  }
+
+  const handleBulkAction = () => {
+    setConversations((conversations) => conversations.map((con) => {
+      con.isSelected = false
+      return con
+    }))
+  }
+  const handleSelectAll = () => {
+    setConversations((conversations) => conversations.map((con) => {
+      con.isSelected = !checked
+      return con
+    }))
+  }
+
   useEffect(() => {
     let filteredConversations = [];
     switch (statusClicked) {
@@ -153,10 +183,11 @@ const NewManager = () => {
             : ""
         )}
       >
-        <TopBar topBarType={statusClicked} total={conversations.length} />
+        <TopBar questionStatus={statusClicked} total={conversations.length} />
+        <SelectAllBar questionStatus={statusClicked} showActionButton={showActionButton} checked={checked} onSelectAllClick={handleSelectAll} onBulkActionCommit={handleBulkAction} />
         <div className={styles["question-group-scroll-container"]}>
           {currentItems.map((con, index) => (
-            <QuestionCard key={index + con.conversationId} {...con} />
+            <QuestionCard key={index + con.conversationId} {...con} onSelected={handleConversationSelected} />
           ))}
         </div>
         <BottomBar

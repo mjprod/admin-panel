@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
@@ -26,6 +26,8 @@ export interface QuestionCardProps {
   answer: string;
   status: QuestionStatus;
   isEdited?: boolean;
+  isSelected?: boolean;
+  onSelected?: (conversationId: string, checked: boolean) => void;
 }
 
 const getCategoryColor = (category: Category) => {
@@ -62,36 +64,33 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   answer,
   status,
   isEdited = false,
+  isSelected = false,
+  onSelected = () => { },
 }) => {
-  const {t} = useTranslation();
-  const [checked, setChecked] = useState(false);
+  const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
   const categoryColor = category.colorCode || TagColor.ALL;
 
   const color = getCategoryColor(category);
 
-  const statusStyle = getStatusStyles(status, checked, categoryColor);
+  const statusStyle = getStatusStyles(status, isSelected, categoryColor);
 
-  const getSelectorProps = (status: QuestionStatus, isEdited: boolean) => {
+  const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: boolean) => {
     return status === QuestionStatus.Rejected
-      ? { title: t("newManager.choose_to_delete"), type: SelectorType.Delete }
+      ? { title: t("newManager.choose_to_delete"), type: SelectorType.Delete, checked: checked }
       : {
-          title: t("newManager.mark_to_save"),
-          type: SelectorType.Write,
-          isEdited: isEdited,
-        };
+        title: t("newManager.mark_to_save"),
+        type: SelectorType.Write,
+        isEdited: isEdited,
+        checked: checked,
+      };
   };
 
-  const selectorProps = getSelectorProps(status, isEdited);
-  const [questions, setQuestion] = useState(question);
+  const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
   };
-
-  useEffect(() => {
-    setQuestion(question);
-  }, [questions]);
 
   return (
     <div className={clsx(styles["question-group-container"])}>
@@ -110,7 +109,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       >
         <div className={styles["question-container"]}>
           {status !== QuestionStatus.NeedApproval && (
-            <CardSelector {...selectorProps} onChecked={setChecked} />
+            <CardSelector {...selectorProps} onChecked={(checked) => { onSelected(conversationId, checked) }} />
           )}
           <Metadata date={date} time={time} conversationId={conversationId} />
           <CategorySection
@@ -120,7 +119,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           />
           <SubcategorySection subcategories={subcategories} />
           <QuestionAnswerSection
-            question={questions}
+            question={question}
             answer={answer}
             isEditing={isEditSelected}
             onChange={handleEditChange}
@@ -130,7 +129,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             className={clsx(
               styles["question-button-actions"],
               (status !== QuestionStatus.NeedApproval || isEditSelected) &&
-                styles["preapproved"]
+              styles["preapproved"]
             )}
           >
             <ActionButtons

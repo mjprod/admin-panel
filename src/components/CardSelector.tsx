@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./CardSelector.module.css";
 import clsx from "clsx";
 import Badge, { BadgeType } from "./badge/Badge";
@@ -15,6 +15,7 @@ interface CardSelectorProps {
   type: SelectorType;
   onChecked: (checked: boolean) => void;
   isEdited?: boolean;
+  checked?: boolean;
 }
 
 const CardSelector: React.FC<CardSelectorProps> = ({
@@ -22,13 +23,9 @@ const CardSelector: React.FC<CardSelectorProps> = ({
   type,
   onChecked,
   isEdited = false,
+  checked = false,
 }) => {
-  const [checked, setChecked] = useState(false);
   const {t} = useTranslation();
-
-  useEffect(() => {
-    onChecked(checked);
-  }, [checked, onChecked]);
 
   return (
     <div className={styles["card-selector"]}>
@@ -41,7 +38,7 @@ const CardSelector: React.FC<CardSelectorProps> = ({
           )}
           type="checkbox"
           checked={checked}
-          onChange={() => setChecked(!checked)}
+          onChange={(checked) => onChecked(checked.target.checked)}
         />
         <label>{title}</label>
       </div>
