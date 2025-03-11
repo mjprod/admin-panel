@@ -122,6 +122,7 @@ export interface Category {
 
 export const needApprovalConvs: QuestionCardProps[] = [
   {
+    id: 1,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda1",
@@ -138,6 +139,7 @@ export const needApprovalConvs: QuestionCardProps[] = [
     status: QuestionStatus.NeedApproval,
   },
   {
+    id: 2,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda2",
@@ -155,6 +157,7 @@ export const needApprovalConvs: QuestionCardProps[] = [
     status: QuestionStatus.NeedApproval,
   },
   {
+    id: 3,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda3",
@@ -174,6 +177,7 @@ export const needApprovalConvs: QuestionCardProps[] = [
 
 export const approvedConvs: QuestionCardProps[] = [
   {
+    id: 1,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda4",
@@ -188,9 +192,10 @@ export const approvedConvs: QuestionCardProps[] = [
     question: "Mengapa deposit saya tidak ditunjukkan?",
     answer: "Sila semak penyata bank anda",
     status: QuestionStatus.PreApproved,
-    isEdited: true
+    isEdited: true,
   },
   {
+    id: 2,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda5",
@@ -207,6 +212,7 @@ export const approvedConvs: QuestionCardProps[] = [
     status: QuestionStatus.PreApproved,
   },
   {
+    id: 3,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda6",
@@ -226,6 +232,7 @@ export const approvedConvs: QuestionCardProps[] = [
 
 export const rejectedConvs: QuestionCardProps[] = [
   {
+    id: 1,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda7",
@@ -242,6 +249,7 @@ export const rejectedConvs: QuestionCardProps[] = [
     status: QuestionStatus.Rejected,
   },
   {
+    id: 2,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda8",
@@ -258,6 +266,7 @@ export const rejectedConvs: QuestionCardProps[] = [
     status: QuestionStatus.Rejected,
   },
   {
+    id: 3,
     date: "15/2/2025",
     time: "12:24:01 pm",
     conversationId: "12345789489s89asda9",
