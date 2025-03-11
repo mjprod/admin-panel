@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
@@ -83,10 +83,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   const selectorProps = getSelectorProps(status, isEdited);
+  const [questions, setQuestion] = useState(question);
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
   };
+
+  useEffect(() => {
+    setQuestion(question);
+  }, [questions]);
 
   return (
     <div className={clsx(styles["question-group-container"])}>
@@ -115,7 +120,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           />
           <SubcategorySection subcategories={subcategories} />
           <QuestionAnswerSection
-            question={question}
+            question={questions}
             answer={answer}
             isEditing={isEditSelected}
             onChange={handleEditChange}
