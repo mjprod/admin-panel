@@ -36,10 +36,10 @@ const NewManager = () => {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(conversations.length / itemsPerPage);
 
-  // const currentItems = conversations.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
+  const currentItems = conversations.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const categories: CategoryProps[] = [
     {
@@ -183,7 +183,7 @@ const NewManager = () => {
         <TopBar questionStatus={statusClicked} total={conversations.length} />
         <SelectAllBar questionStatus={statusClicked} showActionButton={showActionButton} checked={checked} onSelectAllClick={handleSelectAll} onBulkActionCommit={handleBulkAction} />
         <div className={styles["question-group-scroll-container"]}>
-          {conversations.map((con, index) => (
+          {currentItems.map((con, index) => (
             <QuestionCard key={index + con.answer} {...con} onSelected={handleConversationSelected} />
           ))}
         </div>
