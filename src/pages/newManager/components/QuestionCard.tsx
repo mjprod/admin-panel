@@ -26,7 +26,7 @@ export interface QuestionCardProps {
   status: QuestionStatus;
   isEdited?: boolean;
   isSelected?: boolean;
-  onSelected?: (checked: boolean) => void;
+  onSelected?: (conversationId: string, checked: boolean) => void;
 }
 
 const getCategoryColor = (category: Category) => {
@@ -55,11 +55,11 @@ const getSelectorProps = (status: QuestionStatus, isEdited: boolean, checked: bo
   return status === QuestionStatus.Rejected
     ? { title: "Pilih untuk dipadam", type: SelectorType.Delete }
     : {
-        title: "Tandakan untuk Menyimpan",
-        type: SelectorType.Write,
-        isEdited: isEdited,
-        checked: checked,
-      };
+      title: "Tandakan untuk Menyimpan",
+      type: SelectorType.Write,
+      isEdited: isEdited,
+      checked: checked,
+    };
 };
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
@@ -75,7 +75,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   status,
   isEdited = false,
   isSelected = false,
-  onSelected = () => {},
+  onSelected = () => { },
 }) => {
   const checked = isSelected;
   const [isEditSelected, setEditSelected] = useState(false);
@@ -88,8 +88,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
-  };
-  const handleSelected = () => {
   };
   return (
     <div className={clsx(styles["question-group-container"])}>
@@ -108,7 +106,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       >
         <div className={styles["question-container"]}>
           {status !== QuestionStatus.NeedApproval && (
-            <CardSelector {...selectorProps} onChecked={()=>{onSelected(!checked)}}  />
+            <CardSelector {...selectorProps} onChecked={(checked) => { onSelected(conversationId, checked) }} />
           )}
           <Metadata date={date} time={time} conversationId={conversationId} />
           <CategorySection
@@ -128,7 +126,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             className={clsx(
               styles["question-button-actions"],
               (status !== QuestionStatus.NeedApproval || isEditSelected) &&
-                styles["preapproved"]
+              styles["preapproved"]
             )}
           >
             <ActionButtons

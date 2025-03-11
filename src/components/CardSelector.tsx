@@ -35,7 +35,7 @@ const CardSelector: React.FC<CardSelectorProps> = ({
           )}
           type="checkbox"
           checked={checked}
-          onChange={() => onChecked(!checked)}
+          onClick={() => onChecked(!checked)}
         />
         <label>{title}</label>
       </div>

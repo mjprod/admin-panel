@@ -7,12 +7,15 @@ interface SelectAllBarProps {
     saveAllButtonText?: string;
     questionStatus: QuestionStatus;
     checked: boolean;
-    onSaveAllClicked?: (checked: boolean) => void;
-    onSelectAllClick?: () => void;
+    showActionButton?: boolean;
+    onBulkActionCommit?: () => void;
+    onSelectAllClick?: (checked: boolean) => void;
 };
 
 const SelectAllBar = ({
-    checked, onSaveAllClicked = () => { },
+    checked,
+    showActionButton = false, 
+    onBulkActionCommit = () => { },
     onSelectAllClick = () => { },
     questionStatus
 }: SelectAllBarProps) => {
@@ -29,7 +32,7 @@ const SelectAllBar = ({
     const buttonId = questionStatus === QuestionStatus.PreApproved ? styles["write-all-button"] : styles["delete-all-button"];
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onSaveAllClicked(e.target.checked);
+        onSelectAllClick(e.target.checked);
     };
 
     if (questionStatus !== QuestionStatus.NeedApproval) {
@@ -39,7 +42,7 @@ const SelectAllBar = ({
                     <input type="checkbox" name="" id={checkboxId} onChange={handleCheckboxChange} checked={checked} />
                     <p>Select All</p>
                 </div>
-                <button className={buttonClass} id={buttonId} style={checked ? { display: "flex" } : { display: "none" }} onClick={onSelectAllClick}>
+                <button className={buttonClass} id={buttonId} style={showActionButton ? { display: "flex" } : { display: "none" }} onClick={onBulkActionCommit}>
                     <img src={ICONS_MAP[questionStatus]} />
                     {questionStatus === QuestionStatus.PreApproved ? "Save All Selected" : "Delete All Selected"}
                 </button>
