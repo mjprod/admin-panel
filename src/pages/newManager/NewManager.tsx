@@ -153,7 +153,7 @@ const NewManager = () => {
         <TopBar topBarType={statusClicked} total={conversations.length} />
         <div className={styles["question-group-scroll-container"]}>
           {currentItems.map((con, index) => (
-            <QuestionCard key={index + con.answer} {...con} />
+            <QuestionCard key={index + con.conversationId} {...con} />
           ))}
         </div>
         <BottomBar
