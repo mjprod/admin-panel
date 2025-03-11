@@ -33,18 +33,21 @@ const Sidebar: React.FC<SidebarProps> = ({
           status={QuestionStatus.NeedApproval}
           number={1000}
           onSideCardClicked={onSideCardClicked}
+          classNameStyle={styles["timeline-card"]}
         />
         <SideCard
           isActive={card == QuestionStatus.PreApproved}
           status={QuestionStatus.PreApproved}
           number={1000}
           onSideCardClicked={onSideCardClicked}
+          classNameStyle={styles["timeline-card"]}
         />
         <SideCard
           isActive={card == QuestionStatus.Rejected}
           status={QuestionStatus.Rejected}
           number={1000}
           onSideCardClicked={onSideCardClicked}
+          classNameStyle={styles["timeline-card"]}
         />
       </div>
     </aside>
