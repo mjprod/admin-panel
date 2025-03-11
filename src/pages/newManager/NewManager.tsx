@@ -24,7 +24,7 @@ const NewManager = () => {
     []
   );
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -141,6 +141,7 @@ const NewManager = () => {
   return (
     <div className={styles["main-container"]}>
       <Sidebar
+        card={statusClicked}
         onSideCardClicked={setStatusClicked}
         categories={categories}
         onCategoryClick={handleCategoryClick}

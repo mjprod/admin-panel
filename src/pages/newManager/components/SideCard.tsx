@@ -6,12 +6,18 @@ import { QuestionStatus } from "../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
 
 interface SideCardProps {
+  isActive: boolean;
   status: QuestionStatus;
   number: number;
-  onSideCardClicked:(status: QuestionStatus) => void;
+  onSideCardClicked: (status: QuestionStatus) => void;
 }
 
-const SideCard: React.FC<SideCardProps> = ({ status, number, onSideCardClicked }) => {
+const SideCard: React.FC<SideCardProps> = ({
+  isActive,
+  status,
+  number,
+  onSideCardClicked,
+}) => {
   const getIcon = (status: QuestionStatus) => {
     switch (status) {
       case QuestionStatus.NeedApproval:
@@ -26,10 +32,16 @@ const SideCard: React.FC<SideCardProps> = ({ status, number, onSideCardClicked }
   };
   const icon = getIcon(status);
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
-    <div className={styles["timeline-card"]} onClick={() => onSideCardClicked(status)}>
+    <div
+      className={clsx(
+        styles["timeline-card"],
+        isActive ? styles["active"] : styles["deActive"]
+      )}
+      onClick={() => onSideCardClicked(status)}
+    >
       <div className={styles["row01"]}>
         <p>{number}</p>
       </div>
