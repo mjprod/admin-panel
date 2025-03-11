@@ -5,12 +5,14 @@ import CustomButton, {
 } from "../../../components/button/CustomButton";
 import { QuestionStatus } from "../../../util/QuestionStatus";
 import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
+import { useTranslation } from "react-i18next";
 
 const ActionButtons: React.FC<{
   status: QuestionStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
 }> = ({ status, isEditSelected, setEditSelected }) => {
+  const {t} = useTranslation();
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleEdit = () => setEditSelected(!isEditSelected);
@@ -26,19 +28,19 @@ const ActionButtons: React.FC<{
       <>
         {!isEditSelected && (
           <CustomButton
-            text="Tolak"
+            text={t("newManager.reject")}
             type={ButtonType.Reject}
             onClick={handleReject}
           />
         )}
         <div className={styles["rightcol-buttons"]}>
           <CustomButton
-            text={isEditSelected ? "Keluar dari Mod Edit" : "Sunting"}
+            text={isEditSelected ? t("newManager.exit_edit_mode") : t("newManager.edit")}
             type={isEditSelected ? ButtonType.Cancel : ButtonType.Edit}
             onClick={handleEdit}
           />
           <CustomButton
-            text={isEditSelected ? "Simpan & Pralulus" : "Pra-Kelulusan"}
+            text={isEditSelected ? t("newManager.save_preApprove") : t("newManager.preApproval")}
             type={isEditSelected ? ButtonType.Done : ButtonType.Approve}
             onClick={handlePreApprove}
           />
@@ -56,12 +58,12 @@ const ActionButtons: React.FC<{
     >
   > = {
     [QuestionStatus.PreApproved]: {
-      text: 'Kembali kepada "memerlukan kelulusan"',
+      text: t("newManager.return_to_approval"),
       type: ButtonType.Return,
       onClick: handleReturn,
     },
     [QuestionStatus.Rejected]: {
-      text: "Padamkan secara kekal",
+      text: t("newManager.permanently_delete"),
       type: ButtonType.Delete,
       onClick: handleDelete,
     },

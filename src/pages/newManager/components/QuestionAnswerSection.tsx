@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./QuestionAnswerSection.module.css";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 interface QuestionAnswerSectionProps {
   question: string;
@@ -19,6 +20,8 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
 }) => {
   const [editedQuestion, setEditedQuestion] = useState(question);
   const [editedAnswer, setEditedAnswer] = useState(answer);
+
+  const {t} = useTranslation();
 
   const handleQuestionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -40,7 +43,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
     <div className={styles["question-answer-container"]}>
       <div className={styles["question-block-container"]}>
         <div className={styles["inline-container"]}>
-          <p className={styles["question-title"]}>Soalan Pengguna:</p>
+          <p className={styles["question-title"]}>{t("newManager.user_question")}</p>
           {isEditing ? (
             <textarea
               value={editedQuestion}
@@ -55,7 +58,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
       </div>
       <div className={styles["answer-block-container"]}>
         <div className={styles["inline-container"]}>
-          <p className={styles["answer-title"]}>Jawapan yang dicadangkan:</p>
+          <p className={styles["answer-title"]}>{t("newManager.suggested_answer")}</p>
           {isEditing ? (
             <textarea
               value={editedAnswer}

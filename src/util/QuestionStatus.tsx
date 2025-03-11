@@ -1,5 +1,5 @@
 export enum QuestionStatus {
-    NeedApproval = "Need Approval",
-    PreApproved = "Pre-Approved",
-    Rejected = "Rejected",
+    NeedApproval = "need_approval",
+    PreApproved = "pre_approved",
+    Rejected = "rejected",
   }

@@ -13,6 +13,7 @@ import { QuestionStatus } from "../../util/QuestionStatus";
 import clsx from "clsx";
 import { TagColor } from "../../components/tags/Tag";
 import { CategoryProps } from "./components/QuestionTools";
+import { useTranslation } from "react-i18next";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
@@ -22,6 +23,8 @@ const NewManager = () => {
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []
   );
+
+  const {t} = useTranslation();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -35,35 +38,35 @@ const NewManager = () => {
   const categories: CategoryProps[] = [
     {
       id: 0,
-      title: "All",
+      title: t("category.all"),
       number: 24000,
       color: TagColor.ALL,
       isSelected: true,
     },
     {
       id: 3,
-      title: "4D Lotto",
+      title: t("category.fourDLotto"),
       number: 1356,
       color: TagColor.GOLDISH,
       isSelected: false,
     },
     {
       id: 2,
-      title: "Technology",
+      title: t("category.technology"),
       number: 1356,
       color: TagColor.PINK,
       isSelected: false,
     },
     {
       id: 1,
-      title: "Account",
+      title: t("category.account"),
       number: 136,
       color: TagColor.PURPLE,
       isSelected: false,
     },
     {
       id: 5,
-      title: "finance",
+      title: t("category.finance"),
       number: 396,
       color: TagColor.GREEN,
       isSelected: false,
@@ -71,7 +74,7 @@ const NewManager = () => {
 
     {
       id: 6,
-      title: "Lucky7",
+      title: t("category.lucky7"),
       number: 972,
       color: TagColor.NAVY_BLUE,
       isSelected: false,
@@ -79,7 +82,6 @@ const NewManager = () => {
   ];
 
   useEffect(() => {
-    console.log("QuestionStatus", statusClicked);
     switch (statusClicked) {
       case QuestionStatus.NeedApproval:
         setConversations(needApprovalConvs);

@@ -6,6 +6,7 @@ import CustomButton, {
   ButtonType,
 } from "../../../components/button/CustomButton";
 import { categoryOptions } from "../../../util/ExampleData";
+import { useTranslation } from "react-i18next";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
@@ -54,6 +55,8 @@ const CreateNewButton = () => {
     );
   };
 
+  const {t} = useTranslation();
+
   return (
     <div className={styles["mainContainer"]}>
       <button
@@ -65,7 +68,7 @@ const CreateNewButton = () => {
             className={styles["icon"]}
             src={AssetsPack.icons.ICON_CREATE_NEW.default}
           />
-          <span>Create New</span>
+          <span>{t("newManager.create_new")}</span>
         </div>
         <img
           onClick={() => changeFormState()}
