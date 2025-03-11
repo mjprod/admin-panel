@@ -30,6 +30,10 @@ const QuestionTools: React.FC<QuestionToolsProps> = ({
   );
 
   const toggleSelection = (category: CategoryProps) => {
+    if (category.id == 0) {
+      category.isSelected = true;
+      return;
+    }
     setSelectedCategories((prevState) => {
       const newState = new Map(prevState);
       newState.set(category.id, !newState.get(category.id));
