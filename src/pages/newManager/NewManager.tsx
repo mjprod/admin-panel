@@ -23,6 +23,15 @@ const NewManager = () => {
     []
   );
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(conversations.length / itemsPerPage);
+
+  const currentItems = conversations.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const categories: CategoryProps[] = [
     {
       id: 0,
@@ -77,6 +86,7 @@ const NewManager = () => {
         break;
       case QuestionStatus.PreApproved:
         setConversations(approvedConvs);
+
         break;
       case QuestionStatus.Rejected:
         setConversations(rejectedConvs);
@@ -142,11 +152,15 @@ const NewManager = () => {
       >
         <TopBar topBarType={statusClicked} total={conversations.length} />
         <div className={styles["question-group-scroll-container"]}>
-          {conversations.map((con, index) => (
-            <QuestionCard key={index} {...con} />
+          {currentItems.map((con, index) => (
+            <QuestionCard key={index + con.answer} {...con} />
           ))}
         </div>
-        <BottomBar totalPages={10} currentPage={1} />
+        <BottomBar
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
       </main>
     </div>
   );
