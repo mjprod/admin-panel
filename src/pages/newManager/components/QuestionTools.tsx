@@ -3,6 +3,7 @@ import Tag, { TagColor } from "../../../components/tags/Tag";
 import styles from "./QuestionTools.module.css";
 
 export interface CategoryProps {
+  id: number;
   title: string;
   number: number;
   color: TagColor;
@@ -12,29 +13,33 @@ export interface CategoryProps {
 interface QuestionToolsProps {
   total: number;
   categories: CategoryProps[];
+  onCategoryClick: (category: CategoryProps) => void;
 }
 
 const QuestionTools: React.FC<QuestionToolsProps> = ({
   total,
   categories = [],
+  onCategoryClick,
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<
-    Map<string, boolean>
+    Map<number, boolean>
   >(
     new Map(
-      categories.map((category) => [
-        category.title,
-        category.isSelected || false,
-      ])
+      categories.map((category) => [category.id, category.isSelected || false])
     )
   );
 
-  const toggleSelection = (title: string) => {
+  const toggleSelection = (category: CategoryProps) => {
+    if (category.id == 0) {
+      category.isSelected = true;
+      return;
+    }
     setSelectedCategories((prevState) => {
       const newState = new Map(prevState);
-      newState.set(title, !newState.get(title));
+      newState.set(category.id, !newState.get(category.id));
       return newState;
     });
+    onCategoryClick(category);
   };
 
   return (
@@ -54,8 +59,8 @@ const QuestionTools: React.FC<QuestionToolsProps> = ({
               title={category.title}
               number={category.number}
               color={category.color}
-              isSelected={selectedCategories.get(category.title) || false}
-              onClick={() => toggleSelection(category.title)}
+              isSelected={selectedCategories.get(category.id) || false}
+              onClick={() => toggleSelection(category)}
             />
           ))}
         </div>

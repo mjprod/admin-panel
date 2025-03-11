@@ -7,12 +7,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
+import { LoadingProvider } from "./context/LoadingContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <LoadingProvider>
+        <App />
+      </LoadingProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

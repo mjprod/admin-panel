@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
@@ -89,6 +89,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
   };
+
   return (
     <div className={clsx(styles["question-group-container"])}>
       <QuestionStrengthTab languages={languages} />
