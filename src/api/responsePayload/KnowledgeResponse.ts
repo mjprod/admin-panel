@@ -50,7 +50,7 @@ export interface KnowledgeCard {
   conversationId: string;
   category: Category | null;
   languages: LanguageProps[];
-  currentlang: any;
+  currentlang: LanguageProps;
   subcategories: string[] | null;
   question: string;
   answer: string;

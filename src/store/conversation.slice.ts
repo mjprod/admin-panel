@@ -95,6 +95,15 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
         }
       })();
 
+      const lang: LanguageProps = {
+        id: knowledgeContent.language,
+        lang: getLanguageById(knowledgeContent.language).code,
+        langLabel: getLanguageById(knowledgeContent.language).label,
+        isSolid: knowledgeContent.language ==  getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+        isCompleted: knowledgeContent.status == KnowledegeStatus.Approved,
+        status: KnowledegeStatus[knowledgeContent.status] 
+      }
+
       knowledgeinfo.push({
         knowledgeId: item.id,
         conversationId: item.knowledge_uuid,
@@ -103,7 +112,7 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
         id: knowledgeContent.id,
         dateTime: knowledgeContent.last_updated,
         languages: langStatus,
-        currentlang: DEFAULT_LANGUAGE_CODE,
+        currentlang: lang,
         question: knowledgeContent.question,
         answer: knowledgeContent.answer,
         isEdited: knowledgeContent.is_edited,
