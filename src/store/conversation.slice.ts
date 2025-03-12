@@ -108,7 +108,7 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
         knowledgeId: item.id,
         conversationId: item.knowledge_uuid,
         category: item.category ? item.category : null,
-        subcategories: item.subcategory ? [item.subcategory] : null,
+        subcategories: item.subcategory ? item.subcategory : null,
         id: knowledgeContent.id,
         dateTime: knowledgeContent.last_updated,
         languages: langStatus,

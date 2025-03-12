@@ -1,5 +1,5 @@
 import { LanguageProps } from "../../components/language/Language";
-import { Category } from "../../util/ExampleData";
+import { Category, SubCategory } from "../../util/ExampleData";
 
 export interface KnowledgeContent {
   id: number;
@@ -19,7 +19,7 @@ export interface KnowledgeItem {
   id: number;
   knowledge_uuid: string;
   category: Category | null;
-  subcategory: string | null;
+  subcategory: SubCategory | null;
   type: string;
   knowledge_content: KnowledgeContent[];
 }
@@ -51,12 +51,12 @@ export interface KnowledgeCard {
   category: Category | null;
   languages: LanguageProps[];
   currentlang: LanguageProps;
-  subcategories: string[] | null;
+  subcategories: SubCategory | null;
   question: string;
   answer: string;
   status: KnowledegeStatus;
   isEdited?: boolean;
-  inBrain: boolean;
+  inBrain?: boolean;
   isSelected?: boolean;
   onSelected?: (conversationId: string, checked: boolean) => void;
 }
