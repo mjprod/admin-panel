@@ -28,6 +28,19 @@
           "answer": "对啊！",
           "content": null,
           "knowledge": 3
+        },
+        {
+          "id": 4,
+          "status": 1,
+          "is_edited": false,
+          "in_brain": false,
+          "language": 2,
+          "date_created": "2025-03-12T00:26:40.322272Z",
+          "last_updated": "2025-03-12T00:26:40.322306Z",
+          "question": "你快疯了吗？",
+          "answer": "对啊！",
+          "content": null,
+          "knowledge": 3
         }
       ]
     },
@@ -59,6 +72,69 @@
           "answer": "上帝",
           "content": null,
           "knowledge": 2
+        }
+      ]
+    },
+
+    {
+      "id": 3,
+      "knowledge_uuid": "0a796ce4-1cde-44ad-aee5-8db8f1d21dcc",
+      "category": {
+        "id": 1,
+        "name": "3rd_party",
+        "description": "All things related to third-party services."
+      },
+      "subcategory": {
+        "id": 1,
+        "name": "live_casino",
+        "description": "Live casino games and services.",
+        "category": 1
+      },
+      "type": 1,
+      "knowledge_content": [
+        {
+          "id": 2,
+          "status": 1,
+          "is_edited": false,
+          "in_brain": false,
+          "language": 3,
+          "date_created": "2025-03-12T00:22:48.699323Z",
+          "last_updated": "2025-03-12T00:22:48.699387Z",
+          "question": "Glauco是谁？",
+          "answer": "上帝",
+          "content": null,
+          "knowledge": 3
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "knowledge_uuid": "0a796ce4-1cde-44ad-aee5-8db8f1d21dcc",
+      "category": {
+        "id": 1,
+        "name": "3rd_party",
+        "description": "All things related to third-party services."
+      },
+      "subcategory": {
+        "id": 1,
+        "name": "live_casino",
+        "description": "Live casino games and services.",
+        "category": 1
+      },
+      "type": 1,
+      "knowledge_content": [
+        {
+          "id": 2,
+          "status": 3,
+          "is_edited": false,
+          "in_brain": false,
+          "language": 3,
+          "date_created": "2025-03-12T00:22:48.699323Z",
+          "last_updated": "2025-03-12T00:22:48.699387Z",
+          "question": "Glauco是谁？",
+          "answer": "上帝",
+          "content": null,
+          "knowledge": 4
         }
       ]
     }
