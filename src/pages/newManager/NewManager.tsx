@@ -2,7 +2,7 @@ import TopBar from "./components/topBar/TopBar";
 import Sidebar from "./components/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/bottomBar/BottomBar";
-import QuestionCard, { QuestionCardProps } from "./components/QuestionCard";
+import QuestionCard from "./components/QuestionCard";
 import {
   approvedConvs,
   needApprovalConvs,
@@ -19,6 +19,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { getConversationList } from "../../store/conversation.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { KnowledgeCard } from "../../api/responsePayload/KnowledgeResponse";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
@@ -158,7 +159,7 @@ const NewManager = () => {
   };
 
   useEffect(() => {
-    let filteredConversations: QuestionCardProps[] = [];
+    let filteredConversations: KnowledgeCard[] = [];
     switch (statusClicked) {
       case QuestionStatus.NeedApproval:
         filteredConversations = needApprovalConvs;
@@ -180,7 +181,7 @@ const NewManager = () => {
       } else {
         filteredConversations = filteredConversations.filter((conversation) =>
           selectedCategories.some(
-            (category) => conversation.category.id === category.id
+            (category) => conversation.category?.id === category.id
           )
         );
       }
