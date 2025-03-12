@@ -120,7 +120,14 @@ export interface Category {
   colorCode: TagColor;
 }
 
-export const needApprovalConvs: QuestionCardProps[] = [
+export interface SubCategory {
+  id: number;
+  title: string;
+  description: string;
+  categoryId: number;
+}
+
+export const needApprovalConvs: KnowledgeCard[] = [
   {
     id: 1,
     date: "15/2/2025",
