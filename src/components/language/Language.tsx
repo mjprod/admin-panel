@@ -3,10 +3,12 @@ import style from "./Language.module.css";
 import clsx from "clsx";
 
 export interface LanguageProps {
+  id?: number;
   lang: string;
   langLabel?: string;
   isSolid?: boolean;
   isCompleted?: boolean;
+  status?: string;
 }
 
 const Language: React.FC<LanguageProps> = ({

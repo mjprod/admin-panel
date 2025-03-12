@@ -2,7 +2,7 @@ import TopBar from "./components/topBar/TopBar";
 import Sidebar from "./components/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/bottomBar/BottomBar";
-import QuestionCard from "./components/QuestionCard";
+import QuestionCard, { QuestionCardProps } from "./components/QuestionCard";
 import {
   approvedConvs,
   needApprovalConvs,
@@ -15,25 +15,47 @@ import { TagColor } from "../../components/tags/Tag";
 import { CategoryProps } from "./components/QuestionTools";
 import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
+import { useAppDispatch } from "../../store/hooks";
+import { getConversationList } from "../../store/conversation.slice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
     QuestionStatus.NeedApproval
   );
   const [conversations, setConversations] = useState(needApprovalConvs);
-  const [checked, setChecked] = useState(false)
-  const [showActionButton, setShowActionButton] = useState(false)
+  const [checked, setChecked] = useState(false);
+  const [showActionButton, setShowActionButton] = useState(false);
 
   useEffect(() => {
-    conversations.some((conv) => conv.isSelected) ? setShowActionButton(true) : setShowActionButton(false);
-    conversations.some((conv) => !conv.isSelected) ? setChecked(false) : setChecked(true);
-  }, [conversations])
+    conversations.some((conv) => conv.isSelected)
+      ? setShowActionButton(true)
+      : setShowActionButton(false);
+    conversations.some((conv) => !conv.isSelected)
+      ? setChecked(false)
+      : setChecked(true);
+  }, [conversations]);
 
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []
   );
 
   const { t } = useTranslation();
+
+  const dispatch = useAppDispatch();
+
+  const conversationList = useSelector(
+    (state: RootState) => state.conversation.conversationList
+  );
+
+  useEffect(() => {
+    console.log("Updated Conversation List:", conversationList);
+  }, [conversationList]);
+
+  useEffect(() => {
+    dispatch(getConversationList());
+  }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -105,29 +127,38 @@ const NewManager = () => {
     }
   }, [statusClicked]);
 
-  const handleConversationSelected = (conversationId: string, checked: boolean) => {
-    const convo = conversations.find((conv) => conv.conversationId === conversationId)
+  const handleConversationSelected = (
+    conversationId: string,
+    checked: boolean
+  ) => {
+    const convo = conversations.find(
+      (conv) => conv.conversationId === conversationId
+    );
     if (convo) {
-      convo.isSelected = checked
+      convo.isSelected = checked;
       setConversations([...conversations]);
     }
-  }
+  };
 
   const handleBulkAction = () => {
-    setConversations((conversations) => conversations.map((con) => {
-      con.isSelected = false
-      return con
-    }))
-  }
+    setConversations((conversations) =>
+      conversations.map((con) => {
+        con.isSelected = false;
+        return con;
+      })
+    );
+  };
   const handleSelectAll = () => {
-    setConversations((conversations) => conversations.map((con) => {
-      con.isSelected = !checked
-      return con
-    }))
-  }
+    setConversations((conversations) =>
+      conversations.map((con) => {
+        con.isSelected = !checked;
+        return con;
+      })
+    );
+  };
 
   useEffect(() => {
-    let filteredConversations = [];
+    let filteredConversations: QuestionCardProps[] = [];
     switch (statusClicked) {
       case QuestionStatus.NeedApproval:
         filteredConversations = needApprovalConvs;
@@ -184,10 +215,20 @@ const NewManager = () => {
         )}
       >
         <TopBar questionStatus={statusClicked} total={conversations.length} />
-        <SelectAllBar questionStatus={statusClicked} showActionButton={showActionButton} checked={checked} onSelectAllClick={handleSelectAll} onBulkActionCommit={handleBulkAction} />
+        <SelectAllBar
+          questionStatus={statusClicked}
+          showActionButton={showActionButton}
+          checked={checked}
+          onSelectAllClick={handleSelectAll}
+          onBulkActionCommit={handleBulkAction}
+        />
         <div className={styles["question-group-scroll-container"]}>
           {currentItems.map((con, index) => (
-            <QuestionCard key={index + con.conversationId} {...con} onSelected={handleConversationSelected} />
+            <QuestionCard
+              key={index + con.conversationId}
+              {...con}
+              onSelected={handleConversationSelected}
+            />
           ))}
         </div>
         <BottomBar

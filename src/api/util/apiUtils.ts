@@ -21,16 +21,22 @@ export const apiPostRequest = async <T>(
 
 export const apiGetRequest = async <T>(
   endpoint: string,
-  params: Record<string, any> = {}
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {} 
 ): Promise<T | null> => {
+  Object.keys(pathVariables).forEach((key) => {
+    endpoint = endpoint.replace(`{${key}}`, encodeURIComponent(pathVariables[key]));
+  });
+
   try {
-    const response = await Request.get(endpoint, { params });
+    const response = await Request.get(endpoint, { params: queryParams });
     return response.data as T;
   } catch (error: any) {
-    showConsoleError("Axios Error: ", error.data.error);
+    showConsoleError("Axios Error: ", error.response?.data?.error || error.message);
     return Promise.reject(error);
   }
 };
+
 
 export const apiDeleteRequest = async <T>(
   endpoint: string,

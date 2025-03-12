@@ -1,5 +1,5 @@
-import { Conversation } from "../util/ExampleData";
 import { Endpoint } from "./contants";
+import { KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
   apiGetRequest,
@@ -16,9 +16,12 @@ export const UpdateKnowledge = async (id: string): Promise<string | null> => {
   return await apiPostRequest<string>(Endpoint.UpdateKnowledge, payload);
 };
 
-export const AllConversation = async (): Promise<Conversation[] | null> => {
-  const basePayload = {};
-  const isMock = false;
+export const AllConversation = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+): Promise<KnowledgeResponse | null> => {
+  const isMock = true;
+
   if (isMock) {
     const response = await fetch("/assets/conversations.json");
     if (!response.ok) {
@@ -26,9 +29,10 @@ export const AllConversation = async (): Promise<Conversation[] | null> => {
     }
     return await response.json();
   } else {
-    return await apiGetRequest<Conversation[]>(
-      Endpoint.ListReviewUpdateBrain,
-      basePayload
+    return await apiGetRequest<KnowledgeResponse>(
+      Endpoint.Knowledge,
+      pathVariables,
+      queryParams 
     );
   }
 };
