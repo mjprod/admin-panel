@@ -133,7 +133,7 @@ export const needApprovalConvs: KnowledgeCard[] = [
   {
     knowledgeId: 1,
     id: 1,
-    dateTime: "15/2/2025",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda1",
     category: { id: 1, title: "Account", colorCode: TagColor.PURPLE },
     languages: languages,
@@ -151,7 +151,7 @@ export const needApprovalConvs: KnowledgeCard[] = [
   {
     knowledgeId: 2,
     id: 2,
-    dateTime: "15/2/2025 10:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda2",
     category: { id: 2, title: "Technology", colorCode: TagColor.GOLDISH },
     languages: languages,
@@ -169,7 +169,7 @@ export const needApprovalConvs: KnowledgeCard[] = [
   {
     knowledgeId: 3,
     id: 3,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda3",
     category: { id: 3, title: "4D", colorCode: TagColor.PINK },
     languages: languages,
@@ -190,7 +190,7 @@ export const approvedConvs: KnowledgeCard[] = [
   {
     knowledgeId: 4,
     id: 1,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda4",
     category: { id: 1, title: "Account", colorCode: TagColor.PURPLE },
     languages: languages,
@@ -209,7 +209,7 @@ export const approvedConvs: KnowledgeCard[] = [
   {
     knowledgeId: 5,
     id: 2,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda5",
     category: { id: 2, title: "Technology", colorCode: TagColor.GOLDISH },
     languages: languages,
@@ -226,7 +226,7 @@ export const approvedConvs: KnowledgeCard[] = [
   {
     knowledgeId: 6,
     id: 3,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda6",
     category: { id: 3, title: "4D", colorCode: TagColor.PINK },
     languages: languages,
@@ -246,7 +246,7 @@ export const rejectedConvs: KnowledgeCard[] = [
   {
     knowledgeId: 7,
     id: 1,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda7",
     category: { id: 1, title: "Account", colorCode: TagColor.PURPLE },
     languages: languages,
@@ -263,7 +263,7 @@ export const rejectedConvs: KnowledgeCard[] = [
   {
     knowledgeId: 8,
     id: 2,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
     conversationId: "12345789489s89asda8",
     category: { id: 2, title: "Technology", colorCode: TagColor.GOLDISH },
     languages: languages,
@@ -280,7 +280,7 @@ export const rejectedConvs: KnowledgeCard[] = [
   {
     knowledgeId: 9,
     id: 3,
-    dateTime: "15/2/2025 12:24:01 pm",
+    dateTime: "2025-03-03T03:24:31Z",
 
     conversationId: "12345789489s89asda9",
     category: { id: 3, title: "4D", colorCode: TagColor.PINK },
