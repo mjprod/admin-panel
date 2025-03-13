@@ -87,6 +87,61 @@ body {
   /* darker blue **/
   --color13-dark: hsla(216, 24%, 44%, 1);
 
+  /* Coral  */
+  --color14-dark: hsla(15, 91%, 25%, 1);
+  --color14-light: hsla(15, 35%, 90%, 1);
+  --color14-border: hsla(15, 30%, 85%, 1);
+
+  /* Tangerine */
+  --color15-dark: hsla(35, 91%, 25%, 1);
+  --color15-light: hsla(35, 35%, 90%, 1);
+  --color15-border: hsla(35, 30%, 85%, 1);
+
+  /* Sunflower */
+  --color16-dark: hsla(60, 91%, 25%, 1);
+  --color16-light: hsla(60, 35%, 90%, 1);
+  --color16-border: hsla(60, 30%, 85%, 1);
+
+  /* Lime */
+  --color17-dark: hsla(90, 91%, 25%, 1);
+  --color17-light: hsla(90, 35%, 90%, 1);
+  --color17-border: hsla(90, 30%, 85%, 1);
+
+  /* Emerald */
+  --color18-dark: hsla(140, 91%, 25%, 1);
+  --color18-light: hsla(140, 35%, 90%, 1);
+  --color18-border: hsla(140, 30%, 85%, 1);
+
+  /* Teal */
+  --color19-dark: hsla(175, 91%, 25%, 1);
+  --color19-light: hsla(175, 35%, 90%, 1);
+  --color19-border: hsla(175, 30%, 85%, 1);
+
+  /* Cerulean */
+  --color20-dark: hsla(210, 91%, 25%, 1);
+  --color20-light: hsla(210, 35%, 90%, 1);
+  --color20-border: hsla(210, 30%, 85%, 1);
+
+  /* Sapphire */
+  --color21-dark: hsla(240, 91%, 25%, 1);
+  --color21-light: hsla(240, 35%, 90%, 1);
+  --color21-border: hsla(240, 30%, 85%, 1);
+
+  /* Fuchsia */
+  --color22-dark: hsla(310, 91%, 25%, 1);
+  --color22-light: hsla(310, 35%, 90%, 1);
+  --color22-border: hsla(310, 30%, 85%, 1);
+
+  /* Vermilion */
+  --color23-dark: hsla(10, 91%, 25%, 1);
+  --color23-light: hsla(10, 35%, 90%, 1);
+  --color23-border: hsla(10, 30%, 85%, 1);
+
+  /* Forest */
+  --color24-dark: hsla(130, 91%, 25%, 1);
+  --color24-light: hsla(130, 35%, 90%, 1);
+  --color24-border: hsla(130, 30%, 85%, 1);
+
   --shadow-color: 0deg 0% 0%;
 
   --shadow-elevation-medium: 0px 13px 0.9px hsl(var(--shadow-color) / 0.01),
@@ -181,4 +236,69 @@ body {
   color: var(--black-500);
   background-color: var(--white);
   border-color: var(--black-300);
+}
+
+.badge-color14 {
+  color: var(--color14-dark);
+  background-color: var(--color14-light);
+  border-color: var(--color14-border);
+}
+
+.badge-color15 {
+  color: var(--color15-dark);
+  background-color: var(--color15-light);
+  border-color: var(--color15-border);
+}
+
+.badge-color16 {
+  color: var(--color16-dark);
+  background-color: var(--color16-light);
+  border-color: var(--color16-border);
+}
+
+.badge-color17 {
+  color: var(--color17-dark);
+  background-color: var(--color17-light);
+  border-color: var(--color17-border);
+}
+
+.badge-color18 {
+  color: var(--color18-dark);
+  background-color: var(--color18-light);
+  border-color: var(--color18-border);
+}
+
+.badge-color19 {
+  color: var(--color19-dark);
+  background-color: var(--color19-light);
+  border-color: var(--color19-border);
+}
+.badge-color20 {
+  color: var(--color20-dark);
+  background-color: var(--color20-light);
+  border-color: var(--color20-border);
+}
+
+.badge-color21 {
+  color: var(--color21-dark);
+  background-color: var(--color21-light);
+  border-color: var(--color21-border);
+}
+
+.badge-color22 {
+  color: var(--color22-dark);
+  background-color: var(--color22-light);
+  border-color: var(--color22-border);
+}
+
+.badge-color23 {
+  color: var(--color23-dark);
+  background-color: var(--color23-light);
+  border-color: var(--color23-border);
+}
+
+.badge-color24 {
+  color: var(--color24-dark);
+  background-color: var(--color24-light);
+  border-color: var(--color24-border);
 }

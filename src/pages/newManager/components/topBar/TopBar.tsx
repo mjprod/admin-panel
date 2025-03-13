@@ -2,13 +2,14 @@ import styles from "./TopBar.module.css";
 import AssetsPack from "../../../../util/AssetsPack";
 import { QuestionStatus } from "../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
+import { useConversations } from "../../../../store/useConversation";
 
-interface TopBarProps {
-  total: number;
-  questionStatus: QuestionStatus;
-};
+const TopBar = () => {
+  const {
+      statusClicked,
+      totalCount
+    } = useConversations();
 
-const TopBar = ({ total, questionStatus }: TopBarProps) => {
   const ICONS_MAP = {
     [QuestionStatus.Rejected]: AssetsPack.icons.ICON_REJECT.default,
     [QuestionStatus.PreApproved]: AssetsPack.icons.ICON_PRE_APPROVED.default,
@@ -22,13 +23,13 @@ const TopBar = ({ total, questionStatus }: TopBarProps) => {
       <div className={styles["row01"]}>
         <div className={styles["leftcol"]}>
           <div className={styles["icon-need-approval"]}>
-            <img src={ICONS_MAP[questionStatus]} alt="icon" />
+            <img src={ICONS_MAP[statusClicked]} alt="icon" />
           </div>
-          <p>{t(`newManager.${questionStatus}`)}</p>
+          <p>{t(`newManager.${statusClicked}`)}</p>
         </div>
         <div className={styles["rightcol"]}>
           <div className={styles["question-count"]}>
-            <p>{t("newManager.total")} {total}</p>
+            <p>{t("newManager.total")} {totalCount}</p>
           </div>
         </div>
       </div>
