@@ -38,3 +38,4 @@ export const apiKey = String(process.env.REACT_APP_API_KEY || "");
 
 
 export const DEFAULT_LANGUAGE_CODE = "cn";
+export const DEFAULT_LANGUAGE_ID = 3;

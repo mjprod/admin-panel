@@ -3,6 +3,7 @@ import { KnowledgeCard } from "../api/responsePayload/KnowledgeResponse";
 import { AllConversation } from "../api/auth";
 import { QuestionStatus } from "../util/QuestionStatus";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
+import {  DEFAULT_LANGUAGE_ID } from "../api/contants";
 
 export const useConversations = () => {
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
@@ -17,12 +18,14 @@ export const useConversations = () => {
   const [totalCount, setTotalCount] = useState(0);
 
   const conversationApiCall = async (endpoint: string | undefined = undefined, queryParams: Record<string, any> = {}) => {
-    const res = await AllConversation(endpoint, {}, queryParams);
+    const updatedQuery =  { ...queryParams,  ...{"language": DEFAULT_LANGUAGE_ID} }
+    const res = await AllConversation(endpoint, {}, updatedQuery);
     if (res) {
     //   const data = res.data.filter((item) => {
     //     return item.status == queryParams["status"];
     //   });
       console.log("map data .....", res.data)
+     
       setConversations(res.data);
       setCurrentPage(res.current_page);
       setNextPageUrl(res.next);

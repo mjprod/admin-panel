@@ -18,7 +18,7 @@ const NewManager = () => {
     setConversations,
     statusClicked,
     setStatusClicked,
-    filterByCategory
+    filterByCategory,
   } = useConversations();
 
   const [checked, setChecked] = useState(false);
@@ -135,8 +135,11 @@ const NewManager = () => {
           onSelectAllClick={handleSelectAll}
           onBulkActionCommit={handleBulkAction}
         />
-        <QuestionList conversations={conversations} onSelected={handleConversationSelected}/>
-        <BottomBar/>
+        <QuestionList
+          conversations={conversations}
+          onSelected={handleConversationSelected}
+        />
+        <BottomBar />
       </main>
     </div>
   );
