@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
 import { Category } from "../util/ExampleData";
@@ -7,20 +8,13 @@ import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeRespons
 import {
   apiDeleteRequest,
   apiGetRequest,
+  apiPatchRequest,
   apiPostRequest,
   createPayload,
 } from "./util/apiUtils";
 
-export const UpdateKnowledge = async (id: string): Promise<string | null> => {
-  const basePayload = {
-    conversation_id: id,
-  };
-  const payload = createPayload(basePayload);
-
-  return await apiPostRequest<string>(Endpoint.UpdateKnowledge, payload);
-};
-
 export const AllConversation = async (
+  endpoint: string | undefined = Endpoint.Knowledge,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
 ): Promise<ConversationKnowledge | null> => {
@@ -37,7 +31,7 @@ export const AllConversation = async (
       return mapKnowledgeConversationData(data);
     } else {
       const apiResponse = await apiGetRequest<KnowledgeResponse>(
-        Endpoint.Knowledge,
+        endpoint,
         pathVariables,
         queryParams
       );
@@ -136,6 +130,16 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
   };
   
 }
+
+export const KowledgeContentStatusPatch = async (
+  id: number,
+  status: number
+): Promise<AxiosResponse | null> => {
+  const basePayload = {status: status};
+
+  const payload = createPayload(basePayload);
+  return await apiPatchRequest(Endpoint.KnowledgeContent, {id: id}, payload);
+};
 
 export const AddLanguageReviewed = async (
   docId: string,

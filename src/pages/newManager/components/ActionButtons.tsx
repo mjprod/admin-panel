@@ -6,17 +6,31 @@ import CustomButton, {
 import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 import { useTranslation } from "react-i18next";
 import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
+import { KowledgeContentStatusPatch } from "../../../api/auth";
+// import { useConversations } from "../../../store/useConversation";
 
 const ActionButtons: React.FC<{
+  id: number;
   status: KnowledgeStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
-}> = ({ status, isEditSelected, setEditSelected }) => {
+}> = ({ id, status, isEditSelected, setEditSelected }) => {
+
+  // const {
+  //       currentPage,
+  //       onPrevPageClicked,
+  //       onNextPageClicked,
+  //       totalPages,
+  //     } = useConversations();
+      
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleEdit = () => setEditSelected(!isEditSelected);
-  const handlePreApprove = () => setEditSelected(!isEditSelected);
+  const handlePreApprove = async () => {
+    const res = await KowledgeContentStatusPatch(id, 2);
+    console.log("patch res ...... handlePreApprove", id, res)
+  };
   const handleReject = () => {
     modalRef.current?.showModal();
   };
