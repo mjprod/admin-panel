@@ -141,6 +141,19 @@ export const KowledgeContentStatusPatch = async (
   return await apiPatchRequest(Endpoint.KnowledgeContent, {id: id}, payload);
 };
 
+export const KowledgeContentBulkUpdate = async (
+  ids: number[],
+  status: number
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    knowledge_content_ids: ids,
+    new_status: status
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentBulkUpdate, payload);
+};
+
 export const AddLanguageReviewed = async (
   docId: string,
   reviewLanguage: string,
