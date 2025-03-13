@@ -10,26 +10,13 @@ import SubcategorySection from "./SubcategorySection";
 import QuestionAnswerSection from "./QuestionAnswerSection";
 import ActionButtons from "./ActionButtons";
 import Colors from "../../../util/Colors";
-import { QuestionStatus } from "../../../util/QuestionStatus";
 import { Category } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
-
-export interface QuestionCardProps {
-  id: number;
-  date: string;
-  time: string;
-  conversationId: string;
-  category: Category;
-  languages: any[];
-  currentlang: any;
-  subcategories: string[];
-  question: string;
-  answer: string;
-  status: QuestionStatus;
-  isEdited?: boolean;
-  isSelected?: boolean;
-  onSelected?: (conversationId: string, checked: boolean) => void;
-}
+import {
+  KnowledgeStatus,
+  KnowledgeCard,
+} from "../../../api/responsePayload/KnowledgeResponse";
+/* eslint-disable complexity */
 
 const getCategoryColor = (category: Category) => {
   return getComputedStyle(document.documentElement)
@@ -38,24 +25,26 @@ const getCategoryColor = (category: Category) => {
 };
 
 const getStatusStyles = (
-  status: QuestionStatus,
+  status: KnowledgeStatus,
   checked: boolean,
   categoryColor: string
 ) => {
   return {
-    [QuestionStatus.NeedApproval]: categoryColor,
-    [QuestionStatus.PreApproved]: checked
+    [KnowledgeStatus.NeedReview]: categoryColor,
+    [KnowledgeStatus.PreApproved]: checked
       ? "badge-color-positive"
       : "badge-color-default",
-    [QuestionStatus.Rejected]: checked
+    [KnowledgeStatus.Rejected]: checked
       ? "badge-color-negative"
+      : "badge-color-default",
+    [KnowledgeStatus.Approved]: checked
+      ? "badge-color-positive"
       : "badge-color-default",
   }[status];
 };
 
-const QuestionCard: React.FC<QuestionCardProps> = ({
-  date,
-  time,
+const QuestionCard: React.FC<KnowledgeCard> = ({
+  dateTime,
   conversationId,
   category,
   languages,
@@ -70,18 +59,18 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
-  const categoryColor = category.colorCode || TagColor.ALL;
+  const categoryColor = category?.colorCode || TagColor.ALL;
 
-  const color = getCategoryColor(category);
+  const color = category ? getCategoryColor(category) : "white";
 
   const statusStyle = getStatusStyles(status, isSelected, categoryColor);
 
   const getSelectorProps = (
-    status: QuestionStatus,
+    status: KnowledgeStatus,
     isEdited: boolean,
     checked: boolean
   ) => {
-    return status === QuestionStatus.Rejected
+    return status === KnowledgeStatus.Rejected
       ? {
           title: t("newManager.choose_to_delete"),
           type: SelectorType.Delete,
@@ -111,13 +100,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           statusStyle
         )}
         style={
-          status === QuestionStatus.NeedApproval
+          status === KnowledgeStatus.NeedReview
             ? { backgroundColor: color }
             : undefined
         }
       >
         <div className={styles["question-container"]}>
-          {status !== QuestionStatus.NeedApproval && (
+          {status !== KnowledgeStatus.NeedReview && (
             <CardSelector
               {...selectorProps}
               onChecked={(checked) => {
@@ -125,13 +114,19 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               }}
             />
           )}
-          <Metadata date={date} time={time} conversationId={conversationId} />
+          <Metadata
+            date={dateTime}
+            time={dateTime}
+            conversationId={conversationId}
+          />
           <CategorySection
-            category={category.title}
+            category={category ? category.name : ""}
             color={categoryColor}
             currentlang={currentlang}
           />
-          <SubcategorySection subcategories={subcategories} />
+          {subcategories && (
+            <SubcategorySection subcategories={subcategories} />
+          )}
           <QuestionAnswerSection
             question={question}
             answer={answer}
@@ -142,7 +137,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <div
             className={clsx(
               styles["question-button-actions"],
-              (status !== QuestionStatus.NeedApproval || isEditSelected) &&
+              (status !== KnowledgeStatus.NeedReview || isEditSelected) &&
                 styles["preapproved"]
             )}
           >

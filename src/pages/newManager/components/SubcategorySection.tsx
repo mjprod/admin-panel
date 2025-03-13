@@ -1,15 +1,14 @@
 import React from "react";
 import styles from "./SubcategorySection.module.css";
 import Badge, { BadgeType } from "../../../components/badge/Badge";
+import { SubCategory } from "../../../util/ExampleData";
 
-const SubcategorySection: React.FC<{ subcategories: string[] }> = ({
+const SubcategorySection: React.FC<{ subcategories: SubCategory }> = ({
   subcategories,
 }) => (
   <div className={styles["subcategory-container"]}>
-    {subcategories.map((subcategory, index) => (
-      <Badge key={index} text={subcategory} type={BadgeType.subcategory} />
-    ))}
+    <Badge text={subcategories.name} type={BadgeType.subcategory} />
   </div>
 );
 
-export default SubcategorySection
+export default SubcategorySection;
