@@ -62,8 +62,12 @@ const NewManager = () => {
   // }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(conversations.length / itemsPerPage);
+
+  const [itemsPerPage, setItemsPerPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // const itemsPerPage = 10;
+  // const totalPages = Math.ceil(conversations.length / itemsPerPage);
 
   const currentItems = conversations.slice(
     (currentPage - 1) * itemsPerPage,
@@ -123,6 +127,9 @@ const NewManager = () => {
         return item.status == queryParams["status"];
       });
 
+      setItemsPerPage(res.count);
+      setTotalPages(res.total_pages);
+
       setConversations(data);
     } else {
       console.log("API Response:Error", res);
@@ -133,7 +140,7 @@ const NewManager = () => {
     const fetchInfo = async () => {
       switch (statusClicked) {
         case QuestionStatus.NeedApproval:
-          apiCall({ status: 1 });
+          apiCall({ status: 1, page: currentPage });
           // setConversations(needApprovalConvs);
           break;
         case QuestionStatus.PreApproved:
@@ -149,7 +156,7 @@ const NewManager = () => {
     };
 
     fetchInfo();
-  }, [statusClicked, conversationList]);
+  }, [statusClicked, conversationList, currentPage]);
 
   const handleConversationSelected = (
     conversationId: string,
