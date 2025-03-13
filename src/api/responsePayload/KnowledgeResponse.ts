@@ -54,14 +54,14 @@ export interface KnowledgeCard {
   subcategories: SubCategory | null;
   question: string;
   answer: string;
-  status: KnowledegeStatus;
+  status: KnowledgeStatus;
   isEdited?: boolean;
   inBrain?: boolean;
   isSelected?: boolean;
   onSelected?: (conversationId: string, checked: boolean) => void;
 }
 
-export enum KnowledegeStatus {
+export enum KnowledgeStatus {
   NeedReview = 1,
   PreApproved = 2,
   Approved = 3,

@@ -5,10 +5,10 @@ import CustomButton, {
 } from "../../../components/button/CustomButton";
 import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 import { useTranslation } from "react-i18next";
-import { KnowledegeStatus } from "../../../api/responsePayload/KnowledgeResponse";
+import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
 
 const ActionButtons: React.FC<{
-  status: KnowledegeStatus;
+  status: KnowledgeStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
 }> = ({ status, isEditSelected, setEditSelected }) => {
@@ -23,7 +23,7 @@ const ActionButtons: React.FC<{
   const handleReturn = () => {};
   const handleDelete = () => {};
 
-  if (status === KnowledegeStatus.NeedReview) {
+  if (status === KnowledgeStatus.NeedReview) {
     return (
       <>
         {!isEditSelected && (
@@ -61,16 +61,16 @@ const ActionButtons: React.FC<{
 
   const buttonConfig: Partial<
     Record<
-      KnowledegeStatus,
+      KnowledgeStatus,
       { text: string; type: ButtonType; onClick: () => void }
     >
   > = {
-    [KnowledegeStatus.PreApproved]: {
+    [KnowledgeStatus.PreApproved]: {
       text: t("newManager.return_to_approval"),
       type: ButtonType.Return,
       onClick: handleReturn,
     },
-    [KnowledegeStatus.Rejected]: {
+    [KnowledgeStatus.Rejected]: {
       text: t("newManager.permanently_delete"),
       type: ButtonType.Delete,
       onClick: handleDelete,

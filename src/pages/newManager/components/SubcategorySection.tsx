@@ -7,7 +7,7 @@ const SubcategorySection: React.FC<{ subcategories: SubCategory }> = ({
   subcategories,
 }) => (
   <div className={styles["subcategory-container"]}>
-    <Badge text={subcategories.title} type={BadgeType.subcategory} />
+    <Badge text={subcategories.name} type={BadgeType.subcategory} />
   </div>
 );
 

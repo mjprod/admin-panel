@@ -1,3 +1,5 @@
+import { Language } from "../api/responsePayload/KnowledgeResponse";
+
 export const utcToLocalDate = (utcDateString: string): string => {
   const date = new Date(utcDateString);
   
@@ -21,3 +23,11 @@ export const utcToLocalTime = (utcDateString: string): string => {
 
   return `${hours}:${minutes}:${seconds} ${ampm}`;
 };
+
+
+export const getLanguageByCode = (code: string) => 
+      Object.values(Language).find(lang => lang.code === code) || Language.MALAYSIAN;
+    
+export const getLanguageById = (id: number) => 
+      Object.values(Language).find(lang => lang.id === id) || Language.MALAYSIAN;
+    

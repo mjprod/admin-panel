@@ -13,7 +13,7 @@ import Colors from "../../../util/Colors";
 import { Category } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
 import {
-  KnowledegeStatus,
+  KnowledgeStatus,
   KnowledgeCard,
 } from "../../../api/responsePayload/KnowledgeResponse";
 /* eslint-disable complexity */
@@ -25,19 +25,19 @@ const getCategoryColor = (category: Category) => {
 };
 
 const getStatusStyles = (
-  status: KnowledegeStatus,
+  status: KnowledgeStatus,
   checked: boolean,
   categoryColor: string
 ) => {
   return {
-    [KnowledegeStatus.NeedReview]: categoryColor,
-    [KnowledegeStatus.PreApproved]: checked
+    [KnowledgeStatus.NeedReview]: categoryColor,
+    [KnowledgeStatus.PreApproved]: checked
       ? "badge-color-positive"
       : "badge-color-default",
-    [KnowledegeStatus.Rejected]: checked
+    [KnowledgeStatus.Rejected]: checked
       ? "badge-color-negative"
       : "badge-color-default",
-    [KnowledegeStatus.Approved]: checked
+    [KnowledgeStatus.Approved]: checked
       ? "badge-color-positive"
       : "badge-color-default",
   }[status];
@@ -66,11 +66,11 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   const statusStyle = getStatusStyles(status, isSelected, categoryColor);
 
   const getSelectorProps = (
-    status: KnowledegeStatus,
+    status: KnowledgeStatus,
     isEdited: boolean,
     checked: boolean
   ) => {
-    return status === KnowledegeStatus.Rejected
+    return status === KnowledgeStatus.Rejected
       ? {
           title: t("newManager.choose_to_delete"),
           type: SelectorType.Delete,
@@ -100,13 +100,13 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
           statusStyle
         )}
         style={
-          status === KnowledegeStatus.NeedReview
+          status === KnowledgeStatus.NeedReview
             ? { backgroundColor: color }
             : undefined
         }
       >
         <div className={styles["question-container"]}>
-          {status !== KnowledegeStatus.NeedReview && (
+          {status !== KnowledgeStatus.NeedReview && (
             <CardSelector
               {...selectorProps}
               onChecked={(checked) => {
@@ -120,7 +120,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
             conversationId={conversationId}
           />
           <CategorySection
-            category={category ? category.title : ""}
+            category={category ? category.name : ""}
             color={categoryColor}
             currentlang={currentlang}
           />
@@ -137,7 +137,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
           <div
             className={clsx(
               styles["question-button-actions"],
-              (status !== KnowledegeStatus.NeedReview || isEditSelected) &&
+              (status !== KnowledgeStatus.NeedReview || isEditSelected) &&
                 styles["preapproved"]
             )}
           >

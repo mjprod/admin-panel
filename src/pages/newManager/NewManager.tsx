@@ -15,17 +15,19 @@ import { TagColor } from "../../components/tags/Tag";
 import { CategoryProps } from "./components/QuestionTools";
 import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
-import { useAppDispatch } from "../../store/hooks";
-import { getConversationList } from "../../store/conversation.slice";
+// import { useAppDispatch } from "../../store/hooks";
+// import { getConversationList } from "../../store/conversation.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { KnowledgeCard } from "../../api/responsePayload/KnowledgeResponse";
+import { AllConversation } from "../../api/auth";
 
 const NewManager = () => {
   const [statusClicked, setStatusClicked] = useState(
     QuestionStatus.NeedApproval
   );
-  const [conversations, setConversations] = useState(needApprovalConvs);
+  const [conversations, setConversations] =
+    useState<KnowledgeCard[]>(needApprovalConvs);
   const [checked, setChecked] = useState(false);
   const [showActionButton, setShowActionButton] = useState(false);
 
@@ -44,19 +46,19 @@ const NewManager = () => {
 
   const { t } = useTranslation();
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const conversationList = useSelector(
     (state: RootState) => state.conversation.conversationList
   );
 
-  useEffect(() => {
-    console.log("Updated Conversation List:", conversationList);
-  }, [conversationList]);
+  // useEffect(() => {
+  //   console.log("Updated Conversation List:", conversationList);
+  // }, [conversationList]);
 
-  useEffect(() => {
-    dispatch(getConversationList());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getConversationList());
+  // }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -113,20 +115,40 @@ const NewManager = () => {
     },
   ];
 
-  useEffect(() => {
-    switch (statusClicked) {
-      case QuestionStatus.NeedApproval:
-        setConversations(needApprovalConvs);
-        break;
-      case QuestionStatus.PreApproved:
-        setConversations(approvedConvs);
+  const apiCall = async (queryParams: Record<string, any> = {}) => {
+    const res = await AllConversation({}, queryParams);
+    if (res) {
+      const data = res.data.filter((item) => {
+        return item.status == queryParams["status"];
+      });
 
-        break;
-      case QuestionStatus.Rejected:
-        setConversations(rejectedConvs);
-        break;
+      setConversations(data);
+    } else {
+      console.log("API Response:Error", res);
     }
-  }, [statusClicked]);
+  };
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      switch (statusClicked) {
+        case QuestionStatus.NeedApproval:
+          await apiCall({ status: 1 });
+          // setConversations(needApprovalConvs);
+          break;
+        case QuestionStatus.PreApproved:
+          await apiCall({ status: 2 });
+          // setConversations(approvedConvs);
+
+          break;
+        case QuestionStatus.Rejected:
+          await apiCall({ status: 3 });
+          // setConversations(rejectedConvs);
+          break;
+      }
+    };
+
+    fetchInfo();
+  }, [statusClicked, conversationList]);
 
   const handleConversationSelected = (
     conversationId: string,
@@ -149,6 +171,7 @@ const NewManager = () => {
       })
     );
   };
+
   const handleSelectAll = () => {
     setConversations((conversations) =>
       conversations.map((con) => {
@@ -160,6 +183,7 @@ const NewManager = () => {
 
   useEffect(() => {
     let filteredConversations: KnowledgeCard[] = [];
+
     switch (statusClicked) {
       case QuestionStatus.NeedApproval:
         filteredConversations = needApprovalConvs;
