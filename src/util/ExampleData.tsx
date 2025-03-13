@@ -63,6 +63,12 @@ export interface Conversation {
   usage: Usage;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  colorCode: TagColor;
+}
+
 export const categoryOptions = [
   {
     value: "Thrdparty",
@@ -115,12 +121,6 @@ export const languages: LanguageProps[] = [
     isCompleted: true,
   },
 ];
-
-export interface Category {
-  id: number;
-  name: string;
-  colorCode: TagColor;
-}
 
 export interface SubCategory {
   id: number;

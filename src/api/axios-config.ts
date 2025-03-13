@@ -27,7 +27,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
   Request.interceptors.response.use(
     (response) => {
       setLoading(false);
-      showConsoleMessage("Response:", response);
+      showConsoleMessage("Response: Success", response);
       return response;
     },
     async (error) => {

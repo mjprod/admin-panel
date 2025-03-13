@@ -1,4 +1,4 @@
-import { showConsoleError } from "../../util/ConsoleMessage";
+import { showConsoleError, showConsoleMessage } from "../../util/ConsoleMessage";
 import { Request } from "../axios-config";
 
 export const createPayload = <T>(basePayload: T): string => {
@@ -30,9 +30,11 @@ export const apiGetRequest = async <T>(
 
   try {
     const response = await Request.get(endpoint, { params: queryParams });
+    showConsoleMessage("Axios response: ", response.data);
+
     return response.data as T;
   } catch (error: any) {
-    showConsoleError("Axios Error: ", error.response?.data?.error || error.message);
+    showConsoleMessage("Axios Error: ", error.response?.data?.error || error.message);
     return Promise.reject(error);
   }
 };

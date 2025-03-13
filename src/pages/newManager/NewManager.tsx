@@ -52,9 +52,10 @@ const NewManager = () => {
     (state: RootState) => state.conversation.conversationList
   );
 
-  // useEffect(() => {
-  //   console.log("Updated Conversation List:", conversationList);
-  // }, [conversationList]);
+  useEffect(() => {
+    console.log("Updated Conversation List:", "hello");
+    apiCall({ status: 1 });
+  }, []);
 
   // useEffect(() => {
   //   dispatch(getConversationList());
@@ -132,16 +133,16 @@ const NewManager = () => {
     const fetchInfo = async () => {
       switch (statusClicked) {
         case QuestionStatus.NeedApproval:
-          await apiCall({ status: 1 });
+          apiCall({ status: 1 });
           // setConversations(needApprovalConvs);
           break;
         case QuestionStatus.PreApproved:
-          await apiCall({ status: 2 });
+          apiCall({ status: 2 });
           // setConversations(approvedConvs);
 
           break;
         case QuestionStatus.Rejected:
-          await apiCall({ status: 3 });
+          apiCall({ status: 4 });
           // setConversations(rejectedConvs);
           break;
       }

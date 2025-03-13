@@ -1,4 +1,6 @@
 import { LanguageProps } from "../components/language/Language";
+import { TagColor } from "../components/tags/Tag";
+import { Category } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
 import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
@@ -44,6 +46,7 @@ export const AllConversation = async (
         throw new Error("Failed to fetch data from the API.");
       }
 
+    
       return mapKnowledgeConversationData(apiResponse);
     }
   } catch (error) {
@@ -57,8 +60,6 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
   console.log(`----id: ${response.count}`);
 
   const knowledgeinfo: KnowledgeCard[] = [];
-
-
   response.results.map((item) => {
    
     const knowledgeContent = item.knowledge_content.find((con) => con.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id)
@@ -93,15 +94,21 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
         id: knowledgeContent.language,
         lang: getLanguageById(knowledgeContent.language).code,
         langLabel: getLanguageById(knowledgeContent.language).label,
-        isSolid: knowledgeContent.language ==  getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+        isSolid: knowledgeContent.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
         isCompleted: knowledgeContent.status == KnowledgeStatus.Approved,
-        status: KnowledgeStatus[knowledgeContent.status] 
-      }
+        status: KnowledgeStatus[knowledgeContent.status]
+      };
+
+      const categories: Category | null = item.category ? {
+        id: item.category.id,
+        name: item.category.name,
+        colorCode: TagColor.BROWN,
+      } : null;
 
       knowledgeinfo.push({
         knowledgeId: item.id,
         conversationId: item.knowledge_uuid,
-        category: item.category ? item.category : null,
+        category: categories ? categories : null,
         subcategories: item.subcategory ? item.subcategory : null,
         id: knowledgeContent.id,
         dateTime: knowledgeContent.last_updated,
