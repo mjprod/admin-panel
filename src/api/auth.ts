@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
 import { Category } from "../util/ExampleData";
@@ -7,6 +8,7 @@ import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeRespons
 import {
   apiDeleteRequest,
   apiGetRequest,
+  apiPatchRequest,
   apiPostRequest,
   createPayload,
 } from "./util/apiUtils";
@@ -128,6 +130,16 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
   };
   
 }
+
+export const KowledgeContentStatusPatch = async (
+  id: number,
+  status: number
+): Promise<AxiosResponse | null> => {
+  const basePayload = {status: status};
+
+  const payload = createPayload(basePayload);
+  return await apiPatchRequest(Endpoint.KnowledgeContent, {id: id}, payload);
+};
 
 export const AddLanguageReviewed = async (
   docId: string,

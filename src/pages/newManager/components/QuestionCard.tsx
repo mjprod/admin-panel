@@ -44,6 +44,7 @@ const getStatusStyles = (
 };
 
 const QuestionCard: React.FC<KnowledgeCard> = ({
+  id,
   dateTime,
   conversationId,
   category,
@@ -145,6 +146,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
               status={status}
               isEditSelected={isEditSelected}
               setEditSelected={setEditSelected}
+              id={id}
             />
           </div>
         </div>

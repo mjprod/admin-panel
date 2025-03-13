@@ -13,6 +13,7 @@ export const getBaseUri = () => {
 export const Endpoint = {
 
   Knowledge: `${getBaseUri()}/knowledge`,
+  KnowledgeContent: `${getBaseUri()}/knowledge-content/{id}/`,
 
 
   ListReviewUpdateBrain: `${getBaseUri()}/list_review_update_brain/`,

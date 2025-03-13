@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { showConsoleError, showConsoleMessage } from "../../util/ConsoleMessage";
 import { Request } from "../axios-config";
 
@@ -62,11 +63,11 @@ export const apiDeleteRequest = async <T>(
 
 
 
-export const apiPatchRequest = async <T>(
+export const apiPatchRequest = async (
   endpoint: string,
   pathVariables: Record<string, any> = {},
-  payload: Record<string, any> | null = null 
-): Promise<T | null> => {
+  payload: string
+): Promise<AxiosResponse | null> => {
   Object.keys(pathVariables).forEach((key) => {
     endpoint = endpoint.replace(
       `{${key}}`,
@@ -76,9 +77,9 @@ export const apiPatchRequest = async <T>(
 
   try {
     const response = await Request.patch(endpoint, payload); 
-    return response.data as T;
+    return response;
   } catch (error: any) {
-    showConsoleError("Axios Patch Error: ", error.data.error);
+    showConsoleError("Axios Patch Error: ", error);
     return Promise.reject(error);
   }
 };
