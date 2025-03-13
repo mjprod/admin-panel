@@ -19,6 +19,7 @@ const NewManager = () => {
     statusClicked,
     setStatusClicked,
     filterByCategory,
+    totalCount,
   } = useConversations();
 
   const [checked, setChecked] = useState(false);
@@ -127,7 +128,7 @@ const NewManager = () => {
             : ""
         )}
       >
-        <TopBar />
+        <TopBar statusClicked={statusClicked} totalCount={totalCount} />
         <SelectAllBar
           questionStatus={statusClicked}
           showActionButton={showActionButton}
