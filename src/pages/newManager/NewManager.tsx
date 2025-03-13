@@ -2,12 +2,6 @@ import TopBar from "./components/topBar/TopBar";
 import Sidebar from "./components/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/bottomBar/BottomBar";
-import QuestionCard from "./components/QuestionCard";
-import {
-  approvedConvs,
-  needApprovalConvs,
-  rejectedConvs,
-} from "../../util/ExampleData";
 import { useEffect, useState } from "react";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import clsx from "clsx";
@@ -15,19 +9,18 @@ import { TagColor } from "../../components/tags/Tag";
 import { CategoryProps } from "./components/QuestionTools";
 import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
-// import { useAppDispatch } from "../../store/hooks";
-// import { getConversationList } from "../../store/conversation.slice";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { KnowledgeCard } from "../../api/responsePayload/KnowledgeResponse";
-import { AllConversation } from "../../api/auth";
+import QuestionList from "./components/QuestionList";
+import { useConversations } from "../../store/useConversation";
 
 const NewManager = () => {
-  const [statusClicked, setStatusClicked] = useState(
-    QuestionStatus.NeedApproval
-  );
-  const [conversations, setConversations] =
-    useState<KnowledgeCard[]>(needApprovalConvs);
+  const {
+    conversations,
+    setConversations,
+    statusClicked,
+    setStatusClicked,
+    filterByCategory
+  } = useConversations();
+
   const [checked, setChecked] = useState(false);
   const [showActionButton, setShowActionButton] = useState(false);
 
@@ -40,35 +33,7 @@ const NewManager = () => {
       : setChecked(true);
   }, [conversations]);
 
-  const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
-    []
-  );
-
   const { t } = useTranslation();
-
-  // const dispatch = useAppDispatch();
-
-  const conversationList = useSelector(
-    (state: RootState) => state.conversation.conversationList
-  );
-
-  useEffect(() => {
-    console.log("Updated Conversation List:", "hello");
-    apiCall({ status: 1 });
-  }, []);
-
-  // useEffect(() => {
-  //   dispatch(getConversationList());
-  // }, [dispatch]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(conversations.length / itemsPerPage);
-
-  const currentItems = conversations.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   const categories: CategoryProps[] = [
     {
@@ -116,41 +81,6 @@ const NewManager = () => {
     },
   ];
 
-  const apiCall = async (queryParams: Record<string, any> = {}) => {
-    const res = await AllConversation({}, queryParams);
-    if (res) {
-      const data = res.data.filter((item) => {
-        return item.status == queryParams["status"];
-      });
-
-      setConversations(data);
-    } else {
-      console.log("API Response:Error", res);
-    }
-  };
-
-  useEffect(() => {
-    const fetchInfo = async () => {
-      switch (statusClicked) {
-        case QuestionStatus.NeedApproval:
-          apiCall({ status: 1 });
-          // setConversations(needApprovalConvs);
-          break;
-        case QuestionStatus.PreApproved:
-          apiCall({ status: 2 });
-          // setConversations(approvedConvs);
-
-          break;
-        case QuestionStatus.Rejected:
-          apiCall({ status: 4 });
-          // setConversations(rejectedConvs);
-          break;
-      }
-    };
-
-    fetchInfo();
-  }, [statusClicked, conversationList]);
-
   const handleConversationSelected = (
     conversationId: string,
     checked: boolean
@@ -182,56 +112,13 @@ const NewManager = () => {
     );
   };
 
-  useEffect(() => {
-    let filteredConversations: KnowledgeCard[] = [];
-
-    switch (statusClicked) {
-      case QuestionStatus.NeedApproval:
-        filteredConversations = needApprovalConvs;
-        break;
-      case QuestionStatus.PreApproved:
-        filteredConversations = approvedConvs;
-        break;
-      case QuestionStatus.Rejected:
-        filteredConversations = rejectedConvs;
-        break;
-    }
-
-    if (selectedCategories.length > 0) {
-      if (
-        selectedCategories.length == 1 &&
-        selectedCategories.some((category) => category.id === 0)
-      ) {
-        filteredConversations = filteredConversations;
-      } else {
-        filteredConversations = filteredConversations.filter((conversation) =>
-          selectedCategories.some(
-            (category) => conversation.category?.id === category.id
-          )
-        );
-      }
-    }
-
-    setConversations(filteredConversations);
-  }, [selectedCategories, statusClicked]);
-
-  const handleCategoryClick = (category: CategoryProps) => {
-    setSelectedCategories((prevCategories) => {
-      if (prevCategories.some((cat) => cat.id === category.id)) {
-        return prevCategories.filter((cat) => cat.id !== category.id);
-      } else {
-        return [...prevCategories, category];
-      }
-    });
-  };
-
   return (
     <div className={styles["main-container"]}>
       <Sidebar
         card={statusClicked}
         onSideCardClicked={setStatusClicked}
         categories={categories}
-        onCategoryClick={handleCategoryClick}
+        onCategoryClick={filterByCategory}
       />
       <main
         className={clsx(
@@ -240,7 +127,7 @@ const NewManager = () => {
             : ""
         )}
       >
-        <TopBar questionStatus={statusClicked} total={conversations.length} />
+        <TopBar />
         <SelectAllBar
           questionStatus={statusClicked}
           showActionButton={showActionButton}
@@ -248,20 +135,8 @@ const NewManager = () => {
           onSelectAllClick={handleSelectAll}
           onBulkActionCommit={handleBulkAction}
         />
-        <div className={styles["question-group-scroll-container"]}>
-          {currentItems.map((con, index) => (
-            <QuestionCard
-              key={index + con.conversationId}
-              {...con}
-              onSelected={handleConversationSelected}
-            />
-          ))}
-        </div>
-        <BottomBar
-          totalPages={totalPages}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-        />
+        <QuestionList conversations={conversations} onSelected={handleConversationSelected}/>
+        <BottomBar/>
       </main>
     </div>
   );

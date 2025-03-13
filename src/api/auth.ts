@@ -11,16 +11,8 @@ import {
   createPayload,
 } from "./util/apiUtils";
 
-export const UpdateKnowledge = async (id: string): Promise<string | null> => {
-  const basePayload = {
-    conversation_id: id,
-  };
-  const payload = createPayload(basePayload);
-
-  return await apiPostRequest<string>(Endpoint.UpdateKnowledge, payload);
-};
-
 export const AllConversation = async (
+  endpoint: string | undefined = Endpoint.Knowledge,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
 ): Promise<ConversationKnowledge | null> => {
@@ -37,7 +29,7 @@ export const AllConversation = async (
       return mapKnowledgeConversationData(data);
     } else {
       const apiResponse = await apiGetRequest<KnowledgeResponse>(
-        Endpoint.Knowledge,
+        endpoint,
         pathVariables,
         queryParams
       );

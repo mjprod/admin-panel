@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AllConversation } from "../api/auth";
+// import { AllConversation } from "../api/auth";
 import { ConversationKnowledge} from "../api/responsePayload/KnowledgeResponse";
 
 interface onConversationState {
@@ -75,20 +75,20 @@ export const onConversationListSlice = createSlice({
   },
 });
 
-export const getConversationList = ( pathVariables: Record<string, any> = {},
-  queryParams: Record<string, any> = {}) => {
-  return async (dispatch: any) => {
-    try {
-      const res = await AllConversation(pathVariables, queryParams);
-      if (res != null) {
-        console.log(`----id: ${res.count}`);
-        dispatch(onConversationActions.setConversationList(res));
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
-};
+// export const getConversationList = ( pathVariables: Record<string, any> = {},
+//   queryParams: Record<string, any> = {}) => {
+//   return async (dispatch: any) => {
+//     try {
+//       const res = await AllConversation(pathVariables, queryParams);
+//       if (res != null) {
+//         console.log(`----id: ${res.count}`);
+//         dispatch(onConversationActions.setConversationList(res));
+//       }
+//     } catch (error) {
+//       throw error;
+//     }
+//   };
+// };
 
 
 export const onConversationActions = onConversationListSlice.actions;

@@ -6,17 +6,28 @@ import CustomButton, {
 import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 import { useTranslation } from "react-i18next";
 import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
+// import { useConversations } from "../../../store/useConversation";
 
 const ActionButtons: React.FC<{
   status: KnowledgeStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
 }> = ({ status, isEditSelected, setEditSelected }) => {
+
+  // const {
+  //       currentPage,
+  //       onPrevPageClicked,
+  //       onNextPageClicked,
+  //       totalPages,
+  //     } = useConversations();
+      
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleEdit = () => setEditSelected(!isEditSelected);
-  const handlePreApprove = () => setEditSelected(!isEditSelected);
+  const handlePreApprove = () => {
+    
+  };
   const handleReject = () => {
     modalRef.current?.showModal();
   };

@@ -1,24 +1,22 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import styles from "./BottomBar.module.css";
+import { useConversations } from "../../../../store/useConversation";
 
-interface BottomBarProps {
-  totalPages: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
-}
+const BottomBar = () => {
 
-const BottomBar = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: BottomBarProps) => {
+    const {
+      currentPage,
+      onPrevPageClicked,
+      onNextPageClicked,
+      totalPages,
+    } = useConversations();
 
     const {t} = useTranslation();
       return (
     <div className={styles["pagination-container"]}>
       <button
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={onPrevPageClicked}
         disabled={currentPage === 1}
         className={clsx({
           [styles["disabled"]]: currentPage === 1,
@@ -30,7 +28,7 @@ const BottomBar = ({
         {t("newManager.page")} {currentPage} {t("newManager.of")} {totalPages}
       </p>
       <button
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={onNextPageClicked}
         disabled={currentPage === totalPages}
         className={clsx({
           [styles["disabled"]]: currentPage === totalPages,
