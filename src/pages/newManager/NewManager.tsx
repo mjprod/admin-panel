@@ -108,13 +108,21 @@ const NewManager = () => {
         return con;
       })
     );
+
     const conversationIds: number[] = conversations.map((con) => con.id);
-    const res = await KowledgeContentBulkUpdate(conversationIds, 3);
-    console.log(
-      "patch res ...... KowledgeContentBulkUpdate",
-      conversationIds,
-      res
-    );
+
+    if (statusClicked == QuestionStatus.PreApproved) {
+      const res = await KowledgeContentBulkUpdate(conversationIds, 3);
+      console.log(
+        "patch res ...... KowledgeContentBulkUpdate",
+        conversationIds,
+        res
+      );
+    }
+
+    if (statusClicked == QuestionStatus.Rejected) {
+    }
+
     setUpdateConversationList(true);
   };
 
