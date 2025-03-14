@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
-import { Category } from "../util/ExampleData";
+import { Category, SubCategory } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
 import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
@@ -206,11 +206,11 @@ export const KowledgeContentBulkDelete = async (
 
 export const getAllCategories = async (
   
-):  Promise<AxiosResponse | null> => {
+):  Promise<Category[] | null> => {
 
   try {
     
-      return await apiGetRequest(
+      return await apiGetRequest<Category[]>(
         Endpoint.Category
       );
   
@@ -224,11 +224,11 @@ export const getAllCategories = async (
 export const getSubCategories = async (
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
-):  Promise<AxiosResponse | null> => {
+):  Promise<SubCategory[] | null> => {
 
   try {
 
-      return await apiGetRequest(
+      return await apiGetRequest<SubCategory[]>(
         Endpoint.SubCategory,
         pathVariables,
         queryParams

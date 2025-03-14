@@ -12,8 +12,6 @@ import SelectAllBar from "./components/topBar/SelectAllBar";
 import QuestionList from "./components/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
 import {
-  getAllCategories,
-  getSubCategories,
   KowledgeContentBulkDelete,
   KowledgeContentBulkUpdate,
 } from "../../api/auth";
@@ -48,18 +46,6 @@ const NewManager = () => {
   }, [conversations]);
 
   const { t } = useTranslation();
-
-  const getCategories = async () => {
-    const res = await getAllCategories();
-    console.log("Category----", res);
-
-    const resSub = await getSubCategories();
-    console.log("getSubCategories----", resSub);
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   const categories: CategoryProps[] = [
     {

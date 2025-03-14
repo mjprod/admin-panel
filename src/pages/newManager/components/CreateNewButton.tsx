@@ -7,12 +7,13 @@ import CustomButton, {
 } from "../../../components/button/CustomButton";
 import { categoryOptions } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
+import { useConversationsContext } from "../../../context/ConversationProvider";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isFormVisible, setFormVisible] = useState(false);
-
+  const { categories, subCategories } = useConversationsContext();
   const changeFormState = (state?: boolean) => {
     console.log("state----", state);
     state ? setFormVisible(state) : setFormVisible(!isFormVisible);
@@ -32,6 +33,8 @@ const CreateNewButton = () => {
     e.preventDefault();
     setFormVisible(false);
   };
+
+  console.log("categories----", categories, subCategories);
 
   const InputContainer = (
     placeholder: string,
@@ -55,7 +58,7 @@ const CreateNewButton = () => {
     );
   };
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className={styles["mainContainer"]}>
@@ -86,7 +89,7 @@ const CreateNewButton = () => {
           {InputContainer("Answer...", answer, handleAnswerChange)}
 
           <div className={styles["bottomSection"]}>
-            <FilterSelect hint="Select Category" options={categoryOptions}/>
+            <FilterSelect hint="Select Category" options={categoryOptions} />
 
             <CustomButton
               text={"Submit"}
