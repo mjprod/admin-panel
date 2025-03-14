@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
 import QuestionList from "./components/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
+import { KowledgeContentBulkUpdate } from "../../api/auth";
 
 const NewManager = () => {
   const {
@@ -24,6 +25,7 @@ const NewManager = () => {
     onPrevPageClicked,
     onNextPageClicked,
     totalPages,
+    setUpdateConversationList,
   } = useConversationsContext();
 
   const [checked, setChecked] = useState(false);
@@ -99,13 +101,21 @@ const NewManager = () => {
     }
   };
 
-  const handleBulkAction = () => {
+  const handleBulkAction = async () => {
     setConversations((conversations) =>
       conversations.map((con) => {
         con.isSelected = false;
         return con;
       })
     );
+    const conversationIds: number[] = conversations.map((con) => con.id);
+    const res = await KowledgeContentBulkUpdate(conversationIds, 3);
+    console.log(
+      "patch res ...... KowledgeContentBulkUpdate",
+      conversationIds,
+      res
+    );
+    setUpdateConversationList(true);
   };
 
   const handleSelectAll = () => {

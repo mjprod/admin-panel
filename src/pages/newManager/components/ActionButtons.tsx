@@ -64,7 +64,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handleReturn = async () => {
-    const res = await KowledgeContentBulkUpdate([id], 1);
+    const res = await KowledgeContentBulkUpdate(
+      [id],
+      getStatusNumber(QuestionStatus.NeedApproval)
+    );
     console.log("patch res ...... handle Return Approve", id, res);
     setUpdateConversationList(true);
   };
