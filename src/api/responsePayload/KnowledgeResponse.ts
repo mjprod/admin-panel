@@ -73,3 +73,13 @@ export const Language = {
   MALAYSIAN: { label: "Malaysian", id: 2, code: "ms" },
   CHINESE: { label: "Chinese", id: 3, code: "cn" },
 } as const;
+
+export interface KnowledgeSummary {
+  categories: CategorySummary[]
+}
+
+export interface CategorySummary {
+  id: number,
+  name: string,
+  knowledge_count: number
+}

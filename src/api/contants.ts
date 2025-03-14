@@ -17,6 +17,7 @@ export const Endpoint = {
   KnowledgeContentBulkUpdate: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
+  KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
 
 };
 

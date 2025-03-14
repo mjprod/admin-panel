@@ -6,9 +6,9 @@ import React, {
   useEffect,
 } from "react";
 import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
-import { KnowledgeCard } from "../api/responsePayload/KnowledgeResponse";
+import { CategorySummary, KnowledgeCard } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
-import { AllConversation } from "../api/auth";
+import { AllConversation, KowledgeSummary } from "../api/auth";
 import { DEFAULT_LANGUAGE_ID } from "../api/contants";
 
 // Define the context type
@@ -55,6 +55,8 @@ export const ConversationsProvider = ({
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [isUpdateConversationList, setUpdateConversationList] = useState(false);
+  const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
+  const [categoriesCount, setCategoriesCount] = useState<CategorySummary[]>([])
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
@@ -114,6 +116,11 @@ export const ConversationsProvider = ({
       setUpdateConversationList(false);
     }
   };
+
+  const getKnowledgeSummary = async () => {
+    const res = await KowledgeSummary()
+    
+  }
 
   useEffect(() => {
     console.log(

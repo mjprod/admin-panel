@@ -3,8 +3,18 @@ import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
 import { Category } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
-import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
-import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
+import {
+  DEFAULT_LANGUAGE_CODE,
+  DEFAULT_LANGUAGE_ID,
+  Endpoint,
+} from "./contants";
+import {
+  ConversationKnowledge,
+  KnowledgeStatus,
+  KnowledgeCard,
+  KnowledgeResponse,
+  KnowledgeSummary,
+} from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
   apiGetRequest,
@@ -152,7 +162,7 @@ export const KowledgeContentBulkUpdate = async (
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     knowledge_content_ids: ids,
-    new_status: status
+    new_status: status,
   };
 
   const payload = createPayload(basePayload);
@@ -174,8 +184,8 @@ export const KowledgeContentBulkUpdate = async (
   }
 };
 
-export const  UpdateBrainKnowledge = async (
-  ids: number[],
+export const UpdateBrainKnowledge = async (
+  ids: number[]
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     knowledge_content_ids: ids,
@@ -184,7 +194,6 @@ export const  UpdateBrainKnowledge = async (
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.BrainKnowledgeBulkUpdate, payload);
 };
-
 
 export const KowledgeContentDelete = async (
   id: number
@@ -201,18 +210,20 @@ export const KowledgeContentBulkDelete = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.KnowledgeContentBulkDelete, payload);
-
 };
 
-// export const DeleteSessionId = async (
-//   id: string
-// ): Promise<Record<string, any>[] | null> => {
-//   const basePayload = {
-//     id: id,
-//   };
-
-//   return await apiDeleteRequest<Record<string, any>[]>(
-//     Endpoint.DeleteSessionId,
-//     basePayload
-//   );
-// };
+export const KowledgeSummary = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+): Promise<KnowledgeSummary | null> => {
+  const query = {
+    in_brain: false,
+    ...{ queryParams },
+    ...{ language: DEFAULT_LANGUAGE_ID },
+  };
+  return await apiGetRequest<KnowledgeSummary>(
+    Endpoint.KnowledgeContentBulkDelete,
+    pathVariables,
+    query
+  );
+};
