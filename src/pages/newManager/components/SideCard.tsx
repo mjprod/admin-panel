@@ -16,7 +16,7 @@ interface SideCardProps {
 const SideCard: React.FC<SideCardProps> = ({
   isActive,
   status,
-  number,
+  // number,
   onSideCardClicked,
   classNameStyle,
 }) => {
@@ -45,7 +45,7 @@ const SideCard: React.FC<SideCardProps> = ({
       onClick={() => onSideCardClicked(status)}
     >
       <div className={styles["row01"]}>
-        <p>{number}</p>
+        {/* <p>{number}</p> */}
       </div>
       <div className={styles["row02"]}>
         <div
