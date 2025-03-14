@@ -39,6 +39,15 @@ const Badge: React.FC<BadgeProps> = ({
         getColor(type, color),
         type == BadgeType.edit && styles["edit"]
       )}
+      style={
+        type === BadgeType.category
+          ? {
+              backgroundColor: color.lightColor,
+              borderColor: color.borderColor,
+              color: color.darkColor,
+            }
+          : undefined
+      }
     >
       {icon && <img src={`${icon}`} />}
       {text}
