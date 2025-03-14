@@ -6,6 +6,7 @@ import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
 import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
 import {
+  apiDeleteRequest,
   apiGetRequest,
   apiPatchRequest,
   apiPostRequest,
@@ -156,6 +157,12 @@ export const KowledgeContentBulkUpdate = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.KnowledgeContentBulkUpdate, payload);
+};
+
+export const KowledgeContentDelete = async (
+  id: number
+): Promise<AxiosResponse | null> => {
+  return await apiDeleteRequest(Endpoint.KnowledgeContent, { id: id });
 };
 
 // export const DeleteSessionId = async (
