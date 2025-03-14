@@ -1,63 +1,297 @@
-import { Conversation } from "../util/ExampleData";
-import { Endpoint } from "./contants";
+import { AxiosResponse } from "axios";
+import { LanguageProps } from "../components/language/Language";
+import { Category, SubCategory } from "../util/ExampleData";
+import { getLanguageByCode, getLanguageById, hexToHsla, updateHslaValues } from "../util/ExtensionFunction";
+import {
+  DEFAULT_LANGUAGE_CODE,
+  DEFAULT_LANGUAGE_ID,
+  Endpoint,
+} from "./contants";
+import {
+  ConversationKnowledge,
+  KnowledgeStatus,
+  KnowledgeCard,
+  KnowledgeResponse,
+  KnowledgeSummary,
+} from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
   apiGetRequest,
+  apiPatchRequest,
   apiPostRequest,
   createPayload,
 } from "./util/apiUtils";
 
-export const UpdateKnowledge = async (id: string): Promise<string | null> => {
-  const basePayload = {
-    conversation_id: id,
-  };
-  const payload = createPayload(basePayload);
-
-  return await apiPostRequest<string>(Endpoint.UpdateKnowledge, payload);
-};
-
-export const AllConversation = async (): Promise<Conversation[] | null> => {
-  const basePayload = {};
+export const AllConversation = async (
+  endpoint: string | undefined = Endpoint.Knowledge,
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+): Promise<ConversationKnowledge | null> => {
   const isMock = false;
-  if (isMock) {
-    const response = await fetch("/assets/conversations.json");
-    if (!response.ok) {
-      throw new Error("Failed to load mock data");
+
+  try {
+    if (isMock) {
+      const response = await fetch("/assets/conversations.json");
+
+      if (!response.ok) {
+        throw new Error("Failed to load mock data: " + response.statusText);
+      }
+      const data = await response.json();
+      return mapKnowledgeConversationData(data);
+    } else {
+      const apiResponse = await apiGetRequest<KnowledgeResponse>(
+        endpoint,
+        pathVariables,
+        queryParams
+      );
+
+      if (!apiResponse) {
+        throw new Error("Failed to fetch data from the API.");
+      }
+
+      return mapKnowledgeConversationData(apiResponse);
     }
-    return await response.json();
-  } else {
-    return await apiGetRequest<Conversation[]>(
-      Endpoint.ListReviewUpdateBrain,
-      basePayload
-    );
+  } catch (error) {
+    console.error("Error in AllConversation:", error);
+    return null;
   }
 };
 
-export const AddLanguageReviewed = async (
-  docId: string,
-  reviewLanguage: string,
-  reviewText: string
-): Promise<string | null> => {
+const mapKnowledgeConversationData = (
+  response: KnowledgeResponse
+): ConversationKnowledge => {
+  const knowledgeinfo: KnowledgeCard[] = [];
+  response.results.map((item) => {
+    const knowledgeContent = item.knowledge_content.find(
+      (con) => con.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id
+    );
+
+    const langStatus: LanguageProps[] = item.knowledge_content.map((lang) => ({
+      id: lang.language,
+      lang: getLanguageById(lang.language).code,
+      langLabel: getLanguageById(lang.language).label,
+      isSolid: lang.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+      isCompleted: lang.status == KnowledgeStatus.Approved,
+      status: KnowledgeStatus[lang.status],
+    }));
+
+    if (knowledgeContent != null) {
+      const status: KnowledgeStatus = (() => {
+        switch (knowledgeContent.status) {
+          case 1:
+            return KnowledgeStatus.NeedReview;
+          case 2:
+            return KnowledgeStatus.PreApproved;
+          case 3:
+            return KnowledgeStatus.Approved;
+          case 4:
+            return KnowledgeStatus.Rejected;
+          default:
+            return KnowledgeStatus.Approved;
+        }
+      })();
+
+      const lang: LanguageProps = {
+        id: knowledgeContent.language,
+        lang: getLanguageById(knowledgeContent.language).code,
+        langLabel: getLanguageById(knowledgeContent.language).label,
+        isSolid:
+          knowledgeContent.language ==
+          getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+        isCompleted: knowledgeContent.status == KnowledgeStatus.Approved,
+        status: KnowledgeStatus[knowledgeContent.status],
+      };
+
+      const categories: Category | null = item.category
+        ? {
+            id: item.category.id,
+          name: item.category.name,
+          color: item.category.color,
+          description: item.category.description,
+          colorDetails: {
+            borderColor: updateHslaValues(hexToHsla(item.category.color), 25, 90),
+            lightColor: hexToHsla(item.category.color),
+            darkColor: updateHslaValues(hexToHsla(item.category.color), 86, 30),
+
+            }
+          }
+        : null;
+
+      knowledgeinfo.push({
+        knowledgeId: item.id,
+        conversationId: item.knowledge_uuid,
+        category: categories ? categories : null,
+        subcategories: item.subcategory ? item.subcategory : null,
+        id: knowledgeContent.id,
+        dateTime: knowledgeContent.last_updated,
+        languages: langStatus,
+        currentlang: lang,
+        question: knowledgeContent.question,
+        answer: knowledgeContent.answer,
+        isEdited: knowledgeContent.is_edited,
+        inBrain: knowledgeContent.in_brain,
+        status: status,
+      });
+    }
+  });
+
+  return {
+    count: response.count,
+    total_pages: response.total_pages,
+    current_page: response.current_page,
+    next: response.next,
+    previous: response.previous,
+    data: knowledgeinfo,
+  };
+};
+
+export const KowledgeContentStatusPatch = async (
+  id: number,
+  status: number,
+  updatedQuestion: string = "",
+  updatedAnswer: string = ""
+): Promise<AxiosResponse | null> => {
   const basePayload = {
-    doc_id: docId,
-    review_status: reviewLanguage,
-    review_text: reviewText,
+    status: status,
+    ...(updatedQuestion && { question: updatedQuestion }),
+    ...(updatedAnswer && { answer: updatedAnswer }),
+  };
+  const payload = createPayload(basePayload);
+  return await apiPatchRequest(Endpoint.KnowledgeContent, { id: id }, payload);
+};
+
+export const KowledgeContentBulkUpdate = async (
+  ids: number[],
+  status: number
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    knowledge_content_ids: ids,
+    new_status: status,
   };
 
   const payload = createPayload(basePayload);
+  try {
+    const res: AxiosResponse | null = await apiPostRequest(
+      Endpoint.KnowledgeContentBulkUpdate,
+      payload
+    );
 
-  return await apiPostRequest<string>(Endpoint.AddLanguageReviewed, payload);
+    if (status == 3) {
+      await UpdateBrainKnowledge(ids);
+    }
+    return res;
+  } catch (error) {
+    console.error("Error during bulk update:", error);
+
+    return null;
+  }
 };
 
-export const DeleteSessionId = async (
-  id: string
-): Promise<Record<string, any>[] | null> => {
+export const UpdateBrainKnowledge = async (
+  ids: number[]
+): Promise<AxiosResponse | null> => {
   const basePayload = {
-    id: id,
+    knowledge_content_ids: ids,
   };
 
-  return await apiDeleteRequest<Record<string, any>[]>(
-    Endpoint.DeleteSessionId,
-    basePayload
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.BrainKnowledgeBulkUpdate, payload);
+};
+
+export const KowledgeContentDelete = async (
+  id: number
+): Promise<AxiosResponse | null> => {
+  return await apiDeleteRequest(Endpoint.KnowledgeContent, { id: id });
+};
+
+export const KowledgeContentBulkDelete = async (
+  ids: number[]
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    ids: ids,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentBulkDelete, payload);
+
+};
+
+export const getAllCategories = async (
+):  Promise<Category[] | null> => {
+  try {
+      const res =  await apiGetRequest<Category[]>(
+        Endpoint.Category
+    );
+    res?.map((data) => {
+      if (data.color) {
+        data.colorDetails = {
+          borderColor: updateHslaValues(hexToHsla(data.color), 25, 90),
+          lightColor : hexToHsla(data.color),
+          darkColor : updateHslaValues(hexToHsla(data.color), 86, 30),
+        }
+        
+      }
+    })
+    return res;
+  } catch (error) {
+    console.error("Error in All Categories:", error);
+    return null;
+  }
+};
+
+
+export const getSubCategories = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+):  Promise<SubCategory[] | null> => {
+
+  try {
+
+      return await apiGetRequest<SubCategory[]>(
+        Endpoint.SubCategory,
+        pathVariables,
+        queryParams
+      );
+  
+  } catch (error) {
+    console.error("Error in All Categories:", error);
+    return null;
+  }
+};
+
+
+export const CreateKnowledge = async (
+  categoryId: number,
+  subCategoryId: number,
+  language: number,
+  question: string,
+  answer: string,
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    category: categoryId,
+    subcategory: subCategoryId,
+    language: language,
+    question: question,
+    answer: answer
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.CreateKnowledge, payload);
+
+};
+
+export const KowledgeSummary = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+): Promise<KnowledgeSummary | null> => {
+  const query = {
+    in_brain: false,
+    ...{ queryParams },
+    ...{ language: DEFAULT_LANGUAGE_ID },
+  };
+  return await apiGetRequest<KnowledgeSummary>(
+    Endpoint.KnowledgeSummary,
+    pathVariables,
+    query
   );
 };

@@ -34,9 +34,34 @@
   box-shadow: 0px 6px 2px 0px rgba(0, 0, 0, 0.05);
 }
 
+.language-indicator-complete {
+  background-color: var(--color11-dark);
+  color: white;
+  border: 1px solid transparent;
+}
+
 .language-badge-container {
-  margin-top: 0.5rem;
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+}
+
+.language-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  & p {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--black);
+  }
+}
+
+.language-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
 }

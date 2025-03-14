@@ -1,0 +1,91 @@
+.question-answer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  line-height: 150%;
+  flex-wrap: wrap;
+  container-type: inline-size;
+  container-name: inner-container;
+}
+
+.question-block-container,
+.answer-block-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.question-title,
+.answer-title {
+  font-weight: 700;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.qc-textarea {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  min-height: 2rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  background: hsl(197, 42%, 60%, 0.1);
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  animation: borderAnimation 250ms infinite linear;
+  resize: vertical;
+  font-family: var(--font-family01);
+}
+
+.qc-textarea:focus {
+  border: 1px solid hsl(197, 42%, 60%);
+  background: hsl(197, 42%, 60%, 0.2);
+}
+
+.qc-editing-mode {
+  position: relative;
+  background: linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0)
+      repeat-x,
+    linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-x,
+    linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y,
+    linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y;
+  background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  animation: borderAnimation 250ms infinite linear;
+}
+
+@keyframes borderAnimation {
+  100% {
+    background-position: 8px 0, -8px 100%, 0 -8px, 100% 8px;
+  }
+}
+
+.qc-text {
+  flex-grow: 1;
+  padding: 0.25rem 1rem;
+  font-size: 1rem;
+  color: black;
+  display: inline-block;
+}
+
+.inline-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+@container inner-container (max-width: 35rem) {
+  .inline-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0rem;
+  }
+
+  .qc-text {
+    padding: unset;
+  }
+}

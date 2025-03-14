@@ -1,8 +1,12 @@
 import React from "react";
-import CustomButton from "../components/button/CustomButton";
+import CreateNewButton from "./newManager/components/CreateNewButton";
 
 const TestPage = () => {
-  return <CustomButton text="aaa" />;
+  return (
+    <div>
+      <CreateNewButton />
+    </div>
+  );
 };
 
 export default TestPage;

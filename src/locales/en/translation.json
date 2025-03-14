@@ -1,3 +1,46 @@
 {
-    
+  "category": {
+    "finance": "Finance",
+    "technology": "Technology",
+    "thirdParty": "3rd Party",
+    "account": "Account",
+    "feedback": "Feedback",
+    "pointsShop": "Points Shop",
+    "referral": "Referral",
+    "security": "Security",
+    "fourDLotto": "4D Lotto",
+    "lucky7": "Lucky 7",
+    "all": "All"
+  },
+  "newManager": {
+    "question_tools": "Question Tools",
+    "total": "Total",
+    "filter_by_tag": "Filter by Tag:",
+    "choose_to_delete": "Choose to delete",
+    "mark_to_save": "Mark to save",
+    "user_question": "User Question:",
+    "suggested_answer": "Suggested Answer:",
+    "conversation_id": "Conversation ID:",
+    "create_new": "Create New",
+    "reject": "Reject",
+    "exit_edit_mode": "Exit Edit Mode",
+    "edit": "Edit",
+    "edited": "Edited",
+    "save_preApprove": "Save & Pre-Approve",
+    "preApproval": "Pre-Approval",
+    "return_to_approval": "Return to \"Requires Approval\"",
+    "permanently_delete": "Permanently Delete",
+    "select_all": "Select All",
+    "save_all_selected": "Save All Selected",
+    "delete_all_selected": "Delete All Selected",
+    "prev": "Prev",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "need_approval": "Need Approval",
+    "pre_approved": "Pre-Approved",
+    "rejected": "Rejected",
+    "question_strength": "Question Strength",
+    "approved": "Approve"
+  }
 }

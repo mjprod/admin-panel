@@ -1,45 +1,79 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AllConversation } from "../api/auth";
-import { Conversation } from "../util/ExampleData";
+// import { AllConversation } from "../api/auth";
+import { ConversationKnowledge} from "../api/responsePayload/KnowledgeResponse";
 
 interface onConversationState {
-  conversationList: Conversation[];
+  
+
+  conversationList: ConversationKnowledge;
+  needApprovalConvList: ConversationKnowledge
+  preApprovalConvList: ConversationKnowledge
+  rejectedConvList: ConversationKnowledge
+
 }
 
 const initialState: onConversationState = {
-  conversationList: [],
+  conversationList: {
+    count: 0,
+    total_pages: 0,
+    current_page: 0,
+    next: null,
+    previous: null,
+    data: [],
+  },
+
+  needApprovalConvList: {
+    count: 0,
+    total_pages: 0,
+    current_page: 0,
+    next: null,
+    previous: null,
+    data: [],
+  },
+
+
+  preApprovalConvList: {
+    count: 0,
+    total_pages: 0,
+    current_page: 0,
+    next: null,
+    previous: null,
+    data: [],
+  },
+
+
+  rejectedConvList: {
+    count: 0,
+    total_pages: 0,
+    current_page: 0,
+    next: null,
+    previous: null,
+    data: [],
+  },
 };
+
 
 export const onConversationListSlice = createSlice({
   name: "on-conversation",
   initialState: initialState,
   reducers: {
-    setConversationList: (state, action: PayloadAction<Conversation[]>) => {
+    setConversationList: (state, action: PayloadAction<ConversationKnowledge>) => {
       state.conversationList = action.payload;
     },
-    updateConversation: (state, action: PayloadAction<Conversation>) => {
-      console.log(`-----Answer----: ${action.payload.answer}`);
-      const convers = state.conversationList.findIndex(
-        (con) => con.id == action.payload.id
-      );
-      state.conversationList[convers] = action.payload;
+
+    setNeedApprovalConvList: (state, action: PayloadAction<ConversationKnowledge>) => {
+      state.needApprovalConvList = action.payload;
+    },
+
+    setPreApprovalConvList: (state, action: PayloadAction<ConversationKnowledge>) => {
+      state.preApprovalConvList = action.payload;
+    },
+
+    setRejectedConvList: (state, action: PayloadAction<ConversationKnowledge>) => {
+      state.rejectedConvList = action.payload;
     },
   },
 });
-
-export const getConversationList = () => {
-  return async (dispatch: any) => {
-    try {
-      const res = await AllConversation();
-      if (res != null) {
-        console.log(`----id: ${res[0].id}`);
-        dispatch(onConversationActions.setConversationList(res));
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
-};
 
 export const onConversationActions = onConversationListSlice.actions;
 
