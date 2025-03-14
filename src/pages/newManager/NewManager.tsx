@@ -107,14 +107,9 @@ const NewManager = () => {
   };
 
   const handleBulkAction = async () => {
-    setConversations((conversations) =>
-      conversations.map((con) => {
-        con.isSelected = false;
-        return con;
-      })
-    );
-
-    const conversationIds: number[] = conversations.map((con) => con.id);
+    const conversationIds: number[] = conversations
+      .filter((con) => con.isSelected === true)
+      .map((con) => con.id);
 
     if (statusClicked == QuestionStatus.PreApproved) {
       try {
@@ -133,6 +128,13 @@ const NewManager = () => {
         console.log(e);
       }
     }
+
+    setConversations((conversations) =>
+      conversations.map((con) => {
+        con.isSelected = false;
+        return con;
+      })
+    );
 
     setUpdateConversationList(true);
   };
