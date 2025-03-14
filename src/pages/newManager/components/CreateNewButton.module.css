@@ -74,6 +74,9 @@
   margin-top: 1rem;
   gap: 0.5rem;
 }
+.bottomSection > div {
+  flex: 1;
+}
 
 @media (max-width: 75rem) {
   .bottomSection {

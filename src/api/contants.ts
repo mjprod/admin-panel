@@ -18,6 +18,11 @@ export const Endpoint = {
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
 
+
+  Category: `${getBaseUri()}/categories/`,
+  SubCategory: `${getBaseUri()}/subcategories/`,
+  CreateKnowledge: `${getBaseUri()}/knowledge-content/`,
+
 };
 
 //API Constants

@@ -8,8 +8,13 @@ import React, {
 import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
 import { KnowledgeCard } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
-import { AllConversation } from "../api/auth";
+import {
+  AllConversation,
+  getAllCategories,
+  getSubCategories,
+} from "../api/auth";
 import { DEFAULT_LANGUAGE_ID } from "../api/contants";
+import { Category, SubCategory } from "../util/ExampleData";
 
 // Define the context type
 interface ConversationsContextType {
@@ -30,6 +35,8 @@ interface ConversationsContextType {
   setUpdateConversationList: React.Dispatch<React.SetStateAction<boolean>>;
   onPrevPageClicked: () => void;
   onNextPageClicked: () => void;
+  categories: Category[];
+  subCategories: SubCategory[];
 }
 
 const ConversationsContext = createContext<
@@ -55,6 +62,8 @@ export const ConversationsProvider = ({
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [isUpdateConversationList, setUpdateConversationList] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
@@ -138,8 +147,23 @@ export const ConversationsProvider = ({
     }
   };
 
+  const getCategories = async () => {
+    const res = await getAllCategories();
+
+    if (res != null) {
+      setCategories(res);
+    }
+    const resSub = await getSubCategories();
+
+    if (resSub != null) {
+      setSubCategories(resSub);
+    }
+    console.log("getSubCategories----", resSub);
+  };
+
   useEffect(() => {
     fetchConversations(QuestionStatus.NeedApproval);
+    getCategories();
   }, []);
 
   useEffect(() => {
@@ -181,6 +205,8 @@ export const ConversationsProvider = ({
         setUpdateConversationList,
         onPrevPageClicked,
         onNextPageClicked,
+        categories,
+        subCategories,
       }}
     >
       {children}

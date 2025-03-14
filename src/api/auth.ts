@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
-import { Category } from "../util/ExampleData";
+import { Category, SubCategory } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
 import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
@@ -204,15 +204,59 @@ export const KowledgeContentBulkDelete = async (
 
 };
 
-// export const DeleteSessionId = async (
-//   id: string
-// ): Promise<Record<string, any>[] | null> => {
-//   const basePayload = {
-//     id: id,
-//   };
+export const getAllCategories = async (
+  
+):  Promise<Category[] | null> => {
 
-//   return await apiDeleteRequest<Record<string, any>[]>(
-//     Endpoint.DeleteSessionId,
-//     basePayload
-//   );
-// };
+  try {
+    
+      return await apiGetRequest<Category[]>(
+        Endpoint.Category
+      );
+  
+  } catch (error) {
+    console.error("Error in All Categories:", error);
+    return null;
+  }
+};
+
+
+export const getSubCategories = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+):  Promise<SubCategory[] | null> => {
+
+  try {
+
+      return await apiGetRequest<SubCategory[]>(
+        Endpoint.SubCategory,
+        pathVariables,
+        queryParams
+      );
+  
+  } catch (error) {
+    console.error("Error in All Categories:", error);
+    return null;
+  }
+};
+
+
+export const CreateKnowledge = async (
+  categoryId: number,
+  subCategoryId: number,
+  language: number,
+  question: string,
+  answer: string,
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    category: categoryId,
+    subcategory: subCategoryId,
+    language: language,
+    question: question,
+    answer: answer
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.CreateKnowledge, payload);
+
+};
