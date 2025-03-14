@@ -20,6 +20,10 @@ const NewManager = () => {
     setStatusClicked,
     filterByCategory,
     totalCount,
+    currentPage,
+    onPrevPageClicked,
+    onNextPageClicked,
+    totalPages,
   } = useConversations();
 
   const [checked, setChecked] = useState(false);
@@ -140,7 +144,12 @@ const NewManager = () => {
           conversations={conversations}
           onSelected={handleConversationSelected}
         />
-        <BottomBar />
+        <BottomBar
+          currentPage={currentPage}
+          onPrevPageClicked={onPrevPageClicked}
+          onNextPageClicked={onNextPageClicked}
+          totalPages={totalPages}
+        />
       </main>
     </div>
   );
