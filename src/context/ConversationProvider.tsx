@@ -108,7 +108,7 @@ export const ConversationsProvider = ({
     if (isUpdateConversationList) {
       console.log("isUpdateConversationList------", isUpdateConversationList);
 
-      conversationApiCall(undefined, { status: 2 });
+      fetchConversations(statusClicked);
       setUpdateConversationList(false);
     }
   };
