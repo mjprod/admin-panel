@@ -204,15 +204,59 @@ export const KowledgeContentBulkDelete = async (
 
 };
 
-// export const DeleteSessionId = async (
-//   id: string
-// ): Promise<Record<string, any>[] | null> => {
-//   const basePayload = {
-//     id: id,
-//   };
+export const getAllCategories = async (
+  
+):  Promise<AxiosResponse | null> => {
 
-//   return await apiDeleteRequest<Record<string, any>[]>(
-//     Endpoint.DeleteSessionId,
-//     basePayload
-//   );
-// };
+  try {
+    
+      return await apiGetRequest(
+        Endpoint.Category
+      );
+  
+  } catch (error) {
+    console.error("Error in All Categories:", error);
+    return null;
+  }
+};
+
+
+export const getSubCategories = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+):  Promise<AxiosResponse | null> => {
+
+  try {
+
+      return await apiGetRequest(
+        Endpoint.SubCategory,
+        pathVariables,
+        queryParams
+      );
+  
+  } catch (error) {
+    console.error("Error in All Categories:", error);
+    return null;
+  }
+};
+
+
+export const CreateKnowledge = async (
+  categoryId: number,
+  subCategoryId: number,
+  language: number,
+  question: string,
+  answer: string,
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    category: categoryId,
+    subcategory: subCategoryId,
+    language: language,
+    question: question,
+    answer: answer
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.CreateKnowledge, payload);
+
+};
