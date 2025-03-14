@@ -77,20 +77,24 @@ export const ConversationsProvider = ({
     endpoint: string | undefined = undefined,
     queryParams: Record<string, any> = {}
   ) => {
-    const updatedQuery = {
-      ...queryParams,
-      ...{ language: DEFAULT_LANGUAGE_ID },
-    };
-    const res = await AllConversation(endpoint, {}, updatedQuery);
-    if (res) {
-      setConversations(res.data);
-      setCurrentPage(res.current_page);
-      setNextPageUrl(res.next);
-      setPrePageUrl(res.previous);
-      setTotalPages(res.total_pages);
-      setTotalCount(res.count);
-    } else {
-      console.log("API Response:Error", res);
+    try {
+      const updatedQuery = {
+        ...queryParams,
+        ...{ language: DEFAULT_LANGUAGE_ID },
+      };
+      const res = await AllConversation(endpoint, {}, updatedQuery);
+      if (res) {
+        setConversations(res.data);
+        setCurrentPage(res.current_page);
+        setNextPageUrl(res.next);
+        setPrePageUrl(res.previous);
+        setTotalPages(res.total_pages);
+        setTotalCount(res.count);
+      } else {
+        console.log("API Response:Error", res);
+      }
+    } catch (e) {
+      console.log("API Response:Error", e);
     }
   };
 
@@ -127,14 +131,18 @@ export const ConversationsProvider = ({
   };
 
   const getKnowledgeSummary = async () => {
-    const res = await KowledgeSummary();
-    if (res && res.categories) {
-      const totalKnowledgeCount = res.categories.reduce(
-        (sum, category) => sum + category.knowledge_count,
-        0
-      );
-      setTotalKnowledgeCount(totalKnowledgeCount);
-      setCategoriesFilter(mapToCategoryProps(res.categories));
+    try {
+      const res = await KowledgeSummary();
+      if (res && res.categories) {
+        const totalKnowledgeCount = res.categories.reduce(
+          (sum, category) => sum + category.knowledge_count,
+          0
+        );
+        setTotalKnowledgeCount(totalKnowledgeCount);
+        setCategoriesFilter(mapToCategoryProps(res.categories));
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
