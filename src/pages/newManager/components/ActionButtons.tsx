@@ -11,7 +11,7 @@ import {
   KowledgeContentStatusPatch,
 } from "../../../api/auth";
 import { getStatusNumber, QuestionStatus } from "../../../util/QuestionStatus";
-// import { useConversations } from "../../../store/useConversation";
+import { useConversationsContext } from "../../../context/ConversationProvider";
 
 interface ActionButtonsProps {
   id: number;
@@ -30,8 +30,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   updatedQuestion,
   updatedAnswer,
 }) => {
-
   const { t } = useTranslation();
+  const { setUpdateConversationList } = useConversationsContext();
+
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleEdit = () => {
@@ -46,26 +47,31 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         updatedQuestion,
         updatedAnswer
       );
-      console.log("patch res ...... handleSaveAndPreApprove", id, res);;
+      console.log("patch res ...... handleSaveAndPreApprove", id, res);
       return;
     }
     const res = await KowledgeContentStatusPatch(
       id,
       getStatusNumber(QuestionStatus.PreApproved)
     );
+    setUpdateConversationList(true);
     console.log("patch res ...... handlePreApprove", id, res);
   };
 
   const handleReject = () => {
     modalRef.current?.showModal();
+    setUpdateConversationList(true);
   };
 
   const handleReturn = async () => {
     const res = await KowledgeContentBulkUpdate([id], 1);
     console.log("patch res ...... handle Return Approve", id, res);
+    setUpdateConversationList(true);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    setUpdateConversationList(true);
+  };
 
   if (status === KnowledgeStatus.NeedReview) {
     return (
