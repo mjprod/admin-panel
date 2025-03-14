@@ -1,3 +1,4 @@
+import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
 
 export interface LanguageData {
@@ -61,8 +62,16 @@ export interface Conversation {
 export interface Category {
   id: number;
   name: string;
-  color?: string;
+  color: string;
+  description?: string;
   colorCode: TagColor;
+  colorDetails?: ColorTagDetails;
+}
+
+export interface ColorTagDetails {
+  borderColor: string;
+  lightColor: string;
+  darkColor: string;
 }
 
 export const categoryOptions = [
