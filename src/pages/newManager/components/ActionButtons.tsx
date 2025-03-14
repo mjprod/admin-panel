@@ -10,36 +10,61 @@ import {
   KowledgeContentBulkUpdate,
   KowledgeContentStatusPatch,
 } from "../../../api/auth";
+import { getStatusNumber, QuestionStatus } from "../../../util/QuestionStatus";
 // import { useConversations } from "../../../store/useConversation";
 
-const ActionButtons: React.FC<{
+interface ActionButtonsProps {
   id: number;
   status: KnowledgeStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
-}> = ({ id, status, isEditSelected, setEditSelected }) => {
-  // const {
-  //       currentPage,
-  //       onPrevPageClicked,
-  //       onNextPageClicked,
-  //       totalPages,
-  //     } = useConversations();
+  updatedQuestion: string;
+  updatedAnswer: string;
+}
+
+const ActionButtons: React.FC<ActionButtonsProps> = ({
+  id,
+  status,
+  isEditSelected,
+  setEditSelected,
+  updatedQuestion,
+  updatedAnswer,
+}) => {
 
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
-  const handleEdit = () => setEditSelected(!isEditSelected);
+  const handleEdit = () => {
+    setEditSelected(!isEditSelected);
+  };
+
   const handlePreApprove = async () => {
-    const res = await KowledgeContentStatusPatch(id, 2);
+    if (isEditSelected) {
+      const res = await KowledgeContentStatusPatch(
+        id,
+        getStatusNumber(QuestionStatus.PreApproved),
+        updatedQuestion,
+        updatedAnswer
+      );
+      console.log("patch res ...... handleSaveAndPreApprove", id, res);;
+      return;
+    }
+    const res = await KowledgeContentStatusPatch(
+      id,
+      getStatusNumber(QuestionStatus.PreApproved)
+    );
     console.log("patch res ...... handlePreApprove", id, res);
   };
+
   const handleReject = () => {
     modalRef.current?.showModal();
   };
+
   const handleReturn = async () => {
     const res = await KowledgeContentBulkUpdate([id], 1);
     console.log("patch res ...... handle Return Approve", id, res);
   };
+
   const handleDelete = () => {};
 
   if (status === KnowledgeStatus.NeedReview) {
