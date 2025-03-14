@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { QuestionStatus } from "../util/QuestionStatus";
+import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
 import { KnowledgeCard } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
 import { AllConversation } from "../api/auth";
@@ -82,20 +82,6 @@ export const ConversationsProvider = ({
     }
   };
 
-  const fetchConversations = async (status: QuestionStatus) => {
-    switch (status) {
-      case QuestionStatus.NeedApproval:
-        conversationApiCall(undefined, { status: 1 });
-        break;
-      case QuestionStatus.PreApproved:
-        conversationApiCall(undefined, { status: 2 });
-        break;
-      case QuestionStatus.Rejected:
-        conversationApiCall(undefined, { status: 4 });
-        break;
-    }
-  };
-
   const filterByCategory = (category: CategoryProps) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -104,11 +90,27 @@ export const ConversationsProvider = ({
     );
   };
 
+  const fetchConversations = async (status: QuestionStatus) => {
+    conversationApiCall(undefined, { status: getStatusNumber(status) });
+  };
+
+  const refreshConversations = async () => {
+    const getCategoryIds = (categories?: { id: number }[]): string => {
+      return categories && categories.length > 0
+        ? categories.map((category) => category.id).join(",")
+        : "";
+    };
+    conversationApiCall(undefined, {
+      status: getStatusNumber(statusClicked),
+      ...{ category: getCategoryIds(selectedCategories) },
+    });
+  };
+
   const updateConvList = () => {
     if (isUpdateConversationList) {
       console.log("isUpdateConversationList------", isUpdateConversationList);
 
-      fetchConversations(statusClicked);
+      refreshConversations();
       setUpdateConversationList(false);
     }
   };
