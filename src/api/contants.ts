@@ -14,6 +14,7 @@ export const Endpoint = {
 
   Knowledge: `${getBaseUri()}/knowledge`,
   KnowledgeContent: `${getBaseUri()}/knowledge-content/{id}/`,
+  KnowledgeContentBulkUpdate: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
   
 };
 

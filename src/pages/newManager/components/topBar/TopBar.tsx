@@ -2,21 +2,27 @@ import styles from "./TopBar.module.css";
 import AssetsPack from "../../../../util/AssetsPack";
 import { QuestionStatus } from "../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
-import { useConversations } from "../../../../store/useConversation";
+import React, { useEffect } from "react";
 
-const TopBar = () => {
-  const {
-      statusClicked,
-      totalCount
-    } = useConversations();
+interface TopBarProps {
+  statusClicked: QuestionStatus;
+  totalCount: number;
+}
+
+const TopBar: React.FC<TopBarProps> = ({ statusClicked, totalCount }) => {
+  // const { statusClicked, totalCount } = useConversations();
 
   const ICONS_MAP = {
     [QuestionStatus.Rejected]: AssetsPack.icons.ICON_REJECT.default,
     [QuestionStatus.PreApproved]: AssetsPack.icons.ICON_PRE_APPROVED.default,
-    [QuestionStatus.NeedApproval]: AssetsPack.icons.ICON_NEED_APPROVAL.default
+    [QuestionStatus.NeedApproval]: AssetsPack.icons.ICON_NEED_APPROVAL.default,
   };
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log("statusClicked-----Topbar--", statusClicked);
+  }, [statusClicked]);
 
   return (
     <div className={styles["conversation-details"]}>
@@ -29,7 +35,9 @@ const TopBar = () => {
         </div>
         <div className={styles["rightcol"]}>
           <div className={styles["question-count"]}>
-            <p>{t("newManager.total")} {totalCount}</p>
+            <p>
+              {t("newManager.total")} {totalCount}
+            </p>
           </div>
         </div>
       </div>

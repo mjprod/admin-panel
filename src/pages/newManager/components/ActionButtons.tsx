@@ -6,7 +6,10 @@ import CustomButton, {
 import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 import { useTranslation } from "react-i18next";
 import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
-import { KowledgeContentStatusPatch } from "../../../api/auth";
+import {
+  KowledgeContentBulkUpdate,
+  KowledgeContentStatusPatch,
+} from "../../../api/auth";
 import { getStatusNumber, QuestionStatus } from "../../../util/QuestionStatus";
 // import { useConversations } from "../../../store/useConversation";
 
@@ -27,12 +30,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   updatedQuestion,
   updatedAnswer,
 }) => {
-  // const {
-  //       currentPage,
-  //       onPrevPageClicked,
-  //       onNextPageClicked,
-  //       totalPages,
-  //     } = useConversations();
 
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDialogElement | null>(null);
@@ -49,7 +46,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         updatedQuestion,
         updatedAnswer
       );
-      console.log("patch res ...... handleSaveAndPreApprove", id, res);
+      console.log("patch res ...... handleSaveAndPreApprove", id, res);;
       return;
     }
     const res = await KowledgeContentStatusPatch(
@@ -63,7 +60,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     modalRef.current?.showModal();
   };
 
-  const handleReturn = () => {};
+  const handleReturn = async () => {
+    const res = await KowledgeContentBulkUpdate([id], 1);
+    console.log("patch res ...... handle Return Approve", id, res);
+  };
 
   const handleDelete = () => {};
 

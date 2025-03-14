@@ -78,6 +78,8 @@ export const useConversations = () => {
 
   useEffect(() => {
     fetchConversations(statusClicked);
+
+    console.log('statusClicked------', statusClicked)
   }, [statusClicked]);
 
   useEffect(() => {

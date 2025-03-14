@@ -4,13 +4,13 @@ import { TagColor } from "../components/tags/Tag";
 import { Category } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
+import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
 import {
-  ConversationKnowledge,
-  KnowledgeStatus,
-  KnowledgeCard,
-  KnowledgeResponse,
-} from "./responsePayload/KnowledgeResponse";
-import { apiGetRequest, apiPatchRequest, createPayload } from "./util/apiUtils";
+  apiGetRequest,
+  apiPatchRequest,
+  apiPostRequest,
+  createPayload,
+} from "./util/apiUtils";
 
 export const AllConversation = async (
   endpoint: string | undefined = Endpoint.Knowledge,
@@ -143,6 +143,19 @@ export const KowledgeContentStatusPatch = async (
   };
   const payload = createPayload(basePayload);
   return await apiPatchRequest(Endpoint.KnowledgeContent, { id: id }, payload);
+};
+
+export const KowledgeContentBulkUpdate = async (
+  ids: number[],
+  status: number
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    knowledge_content_ids: ids,
+    new_status: status
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentBulkUpdate, payload);
 };
 
 // export const DeleteSessionId = async (
