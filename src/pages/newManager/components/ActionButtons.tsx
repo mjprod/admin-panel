@@ -99,6 +99,16 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     }
   };
 
+  const handleApprove = async () => {
+    try {
+      const res = await KowledgeContentBulkUpdate([id], 3);
+      console.log("Res handleApprove", [id], res);
+      setUpdateConversationList(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   if (status === KnowledgeStatus.NeedReview) {
     return (
       <>
@@ -138,17 +148,41 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     );
   }
 
+  const buttonConfigPre: {
+    text: string;
+    type: ButtonType;
+    onClick: () => void;
+  }[] = [
+    {
+      text: t("newManager.return_to_approval"),
+      type: ButtonType.Return,
+      onClick: handleReturn,
+    },
+    {
+      text: t("newManager.approved"),
+      type: ButtonType.Approve,
+      onClick: handleApprove,
+    },
+  ];
+
+  if (status === KnowledgeStatus.PreApproved) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "space-between", flex: 1 }}
+      >
+        {buttonConfigPre.map((data, index) => (
+          <CustomButton key={index} {...data} />
+        ))}
+      </div>
+    );
+  }
+
   const buttonConfig: Partial<
     Record<
       KnowledgeStatus,
       { text: string; type: ButtonType; onClick: () => void }
     >
   > = {
-    [KnowledgeStatus.PreApproved]: {
-      text: t("newManager.return_to_approval"),
-      type: ButtonType.Return,
-      onClick: handleReturn,
-    },
     [KnowledgeStatus.Rejected]: {
       text: t("newManager.permanently_delete"),
       type: ButtonType.Delete,
