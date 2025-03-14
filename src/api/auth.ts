@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
 import { Category, SubCategory } from "../util/ExampleData";
-import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
+import { getLanguageByCode, getLanguageById, hexToHsla, updateHslaValues } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
 import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
 import {
@@ -98,10 +98,21 @@ const mapKnowledgeConversationData = (
       const categories: Category | null = item.category
         ? {
             id: item.category.id,
-            name: item.category.name,
-            colorCode: TagColor.BROWN,
+          name: item.category.name,
+          color: item.category.color,
+          description: item.category.description,
+          colorCode: TagColor.BROWN,
+          colorDetails: {
+            borderColor: updateHslaValues(hexToHsla(item.category.color), 25, 90),
+            lightColor: hexToHsla(item.category.color),
+            darkColor: updateHslaValues(hexToHsla(item.category.color), 86, 30),
+
+            }
           }
         : null;
+      
+      
+        console.log('---hex color code', hexToHsla(item?.category?.color ? item?.category?.color : "#F0FAF7"), "----")
 
       knowledgeinfo.push({
         knowledgeId: item.id,
