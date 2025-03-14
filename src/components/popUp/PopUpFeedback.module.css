@@ -50,6 +50,7 @@ h2 {
   gap: 0.5rem;
   animation: slideUpFadeIn 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+
 textarea {
   width: 28rem;
   min-height: 5rem;
@@ -60,6 +61,13 @@ textarea {
   font-family: var(--font-family01);
   font-size: 1rem;
   margin-bottom: 1rem;
+}
+
+textarea:disabled {
+  background-color: var(--color12-light-disabled, #e0e0e0);
+  color: var(--color-text-disabled, #888);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 @keyframes slideUpFadeIn {
@@ -83,4 +91,12 @@ textarea {
   padding: 0.5rem;
   font-size: 1.05rem;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.delete-submit:disabled {
+  background-color: var(--color13-dark-disabled, #b0b0b0);
+  color: var(--white-disabled, #ddd);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
 }

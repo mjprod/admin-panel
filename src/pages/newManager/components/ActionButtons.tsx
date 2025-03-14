@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
 import {
   KowledgeContentBulkUpdate,
+  KowledgeContentDelete,
   KowledgeContentStatusPatch,
 } from "../../../api/auth";
 import { getStatusNumber, QuestionStatus } from "../../../util/QuestionStatus";
@@ -40,7 +41,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handlePreApprove = async () => {
-    if (isEditSelected) {
+    try {
       const res = await KowledgeContentStatusPatch(
         id,
         getStatusNumber(QuestionStatus.PreApproved),
@@ -48,32 +49,54 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         updatedAnswer
       );
       console.log("patch res ...... handleSaveAndPreApprove", id, res);
-      return;
+      setUpdateConversationList(true);
+    } catch (e) {
+      console.log(e);
     }
-    const res = await KowledgeContentStatusPatch(
-      id,
-      getStatusNumber(QuestionStatus.PreApproved)
-    );
-    setUpdateConversationList(true);
-    console.log("patch res ...... handlePreApprove", id, res);
   };
 
   const handleReject = () => {
     modalRef.current?.showModal();
-    setUpdateConversationList(true);
   };
 
   const handleReturn = async () => {
-    const res = await KowledgeContentBulkUpdate(
-      [id],
-      getStatusNumber(QuestionStatus.NeedApproval)
-    );
-    console.log("patch res ...... handle Return Approve", id, res);
-    setUpdateConversationList(true);
+    try {
+      const res = await KowledgeContentBulkUpdate(
+        [id],
+        getStatusNumber(QuestionStatus.NeedApproval)
+      );
+      console.log("patch res ...... handle Return Approve", id, res);
+      setUpdateConversationList(true);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const handleDelete = () => {
-    setUpdateConversationList(true);
+  const handleDelete = async () => {
+    try {
+      const res = await KowledgeContentDelete(id);
+      console.log("patch res ...... handle Delete", id, res);
+      setUpdateConversationList(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleRejectModalSubmit = async (
+    selectOption: string,
+    textMessage: string
+  ) => {
+    console.log(selectOption, textMessage);
+    try {
+      const res = await KowledgeContentStatusPatch(
+        id,
+        getStatusNumber(QuestionStatus.Rejected)
+      );
+      console.log("patch res ...... handleReject", id, res);
+      setUpdateConversationList(true);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   if (status === KnowledgeStatus.NeedReview) {
@@ -107,7 +130,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           />
         </div>
 
-        <PopUpFeedback modalRef={modalRef} />
+        <PopUpFeedback
+          modalRef={modalRef}
+          handleSubmit={handleRejectModalSubmit}
+        />
       </>
     );
   }
