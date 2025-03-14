@@ -1,19 +1,23 @@
+import React from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import styles from "./BottomBar.module.css";
-import { useConversations } from "../../../../store/useConversation";
 
-const BottomBar = () => {
+interface BottomBarProps {
+  currentPage: number;
+  onPrevPageClicked: () => void;
+  onNextPageClicked: () => void;
+  totalPages: number;
+}
 
-    const {
-      currentPage,
-      onPrevPageClicked,
-      onNextPageClicked,
-      totalPages,
-    } = useConversations();
-
-    const {t} = useTranslation();
-      return (
+const BottomBar: React.FC<BottomBarProps> = ({
+  currentPage,
+  onNextPageClicked,
+  onPrevPageClicked,
+  totalPages,
+}) => {
+  const { t } = useTranslation();
+  return (
     <div className={styles["pagination-container"]}>
       <button
         onClick={onPrevPageClicked}
@@ -31,7 +35,7 @@ const BottomBar = () => {
         onClick={onNextPageClicked}
         disabled={currentPage === totalPages}
         className={clsx({
-          [styles["disabled"]]: currentPage === totalPages,
+          [styles["disabled"]]: currentPage === totalPages || totalPages == 0,
         })}
       >
         {t("newManager.next")}

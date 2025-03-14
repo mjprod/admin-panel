@@ -19,6 +19,11 @@ const NewManager = () => {
     statusClicked,
     setStatusClicked,
     filterByCategory,
+    totalCount,
+    currentPage,
+    onPrevPageClicked,
+    onNextPageClicked,
+    totalPages,
   } = useConversations();
 
   const [checked, setChecked] = useState(false);
@@ -127,7 +132,7 @@ const NewManager = () => {
             : ""
         )}
       >
-        <TopBar />
+        <TopBar statusClicked={statusClicked} totalCount={totalCount} />
         <SelectAllBar
           questionStatus={statusClicked}
           showActionButton={showActionButton}
@@ -139,7 +144,12 @@ const NewManager = () => {
           conversations={conversations}
           onSelected={handleConversationSelected}
         />
-        <BottomBar />
+        <BottomBar
+          currentPage={currentPage}
+          onPrevPageClicked={onPrevPageClicked}
+          onNextPageClicked={onNextPageClicked}
+          totalPages={totalPages}
+        />
       </main>
     </div>
   );

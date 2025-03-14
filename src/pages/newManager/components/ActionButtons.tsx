@@ -6,7 +6,10 @@ import CustomButton, {
 import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 import { useTranslation } from "react-i18next";
 import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
-import { KowledgeContentStatusPatch } from "../../../api/auth";
+import {
+  KowledgeContentBulkUpdate,
+  KowledgeContentStatusPatch,
+} from "../../../api/auth";
 // import { useConversations } from "../../../store/useConversation";
 
 const ActionButtons: React.FC<{
@@ -15,26 +18,28 @@ const ActionButtons: React.FC<{
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
 }> = ({ id, status, isEditSelected, setEditSelected }) => {
-
   // const {
   //       currentPage,
   //       onPrevPageClicked,
   //       onNextPageClicked,
   //       totalPages,
   //     } = useConversations();
-      
+
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleEdit = () => setEditSelected(!isEditSelected);
   const handlePreApprove = async () => {
     const res = await KowledgeContentStatusPatch(id, 2);
-    console.log("patch res ...... handlePreApprove", id, res)
+    console.log("patch res ...... handlePreApprove", id, res);
   };
   const handleReject = () => {
     modalRef.current?.showModal();
   };
-  const handleReturn = () => {};
+  const handleReturn = async () => {
+    const res = await KowledgeContentBulkUpdate([id], 1);
+    console.log("patch res ...... handle Return Approve", id, res);
+  };
   const handleDelete = () => {};
 
   if (status === KnowledgeStatus.NeedReview) {
