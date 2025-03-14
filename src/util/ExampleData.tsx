@@ -1,7 +1,3 @@
-import {
-  KnowledgeStatus,
-  KnowledgeCard,
-} from "../api/responsePayload/KnowledgeResponse";
 import { LanguageProps } from "../components/language/Language";
 import { TagColor } from "../components/tags/Tag";
 
@@ -66,8 +62,16 @@ export interface Conversation {
 export interface Category {
   id: number;
   name: string;
-  color?: string;
+  color: string;
+  description?: string;
   colorCode: TagColor;
+  colorDetails?: ColorTagDetails;
+}
+
+export interface ColorTagDetails {
+  borderColor: string;
+  lightColor: string;
+  darkColor: string;
 }
 
 export const categoryOptions = [
@@ -129,171 +133,3 @@ export interface SubCategory {
   description?: string;
   categoryId: number;
 }
-
-export const needApprovalConvs: KnowledgeCard[] = [
-  {
-    knowledgeId: 1,
-    id: 1,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda1",
-    category: { id: 1, name: "Account", colorCode: TagColor.PURPLE },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 1, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.NeedReview,
-    inBrain: false,
-  },
-  {
-    knowledgeId: 2,
-    id: 2,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda2",
-    category: { id: 2, name: "Technology", colorCode: TagColor.GOLDISH },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 2, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.NeedReview,
-    inBrain: false,
-  },
-  {
-    knowledgeId: 3,
-    id: 3,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda3",
-    category: { id: 3, name: "4D", colorCode: TagColor.PINK },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 3, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.NeedReview,
-    inBrain: false,
-  },
-];
-
-export const approvedConvs: KnowledgeCard[] = [
-  {
-    knowledgeId: 4,
-    id: 1,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda4",
-    category: { id: 1, name: "Account", colorCode: TagColor.PURPLE },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 1, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.PreApproved,
-    isEdited: true,
-    inBrain: false,
-  },
-  {
-    knowledgeId: 5,
-    id: 2,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda5",
-    category: { id: 2, name: "Technology", colorCode: TagColor.GOLDISH },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 2, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.PreApproved,
-  },
-  {
-    knowledgeId: 6,
-    id: 3,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda6",
-    category: { id: 3, name: "4D", colorCode: TagColor.PINK },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 3, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.PreApproved,
-  },
-];
-
-export const rejectedConvs: KnowledgeCard[] = [
-  {
-    knowledgeId: 7,
-    id: 1,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda7",
-    category: { id: 1, name: "Account", colorCode: TagColor.PURPLE },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 1, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.Rejected,
-  },
-  {
-    knowledgeId: 8,
-    id: 2,
-    dateTime: "2025-03-03T03:24:31Z",
-    conversationId: "12345789489s89asda8",
-    category: { id: 2, name: "Technology", colorCode: TagColor.GOLDISH },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 2, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.Rejected,
-  },
-  {
-    knowledgeId: 9,
-    id: 3,
-    dateTime: "2025-03-03T03:24:31Z",
-
-    conversationId: "12345789489s89asda9",
-    category: { id: 3, name: "4D", colorCode: TagColor.PINK },
-    languages: languages,
-    currentlang: {
-      lang: "MY",
-      langLabel: "Malay",
-      isSolid: true,
-    },
-    subcategories: { id: 3, name: "Sub catgeory", categoryId: 1 },
-    question: "Mengapa deposit saya tidak ditunjukkan?",
-    answer: "Sila semak penyata bank anda",
-    status: KnowledgeStatus.Rejected,
-  },
-];

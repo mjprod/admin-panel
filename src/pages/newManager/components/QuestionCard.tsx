@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
-import { TagColor } from "../../../components/tags/Tag";
 import CardSelector, { SelectorType } from "../../../components/CardSelector";
 import Metadata from "./Metadata";
 import CategorySection from "./CategorySection";
@@ -10,7 +9,7 @@ import SubcategorySection from "./SubcategorySection";
 import QuestionAnswerSection from "./QuestionAnswerSection";
 import ActionButtons from "./ActionButtons";
 import Colors from "../../../util/Colors";
-import { Category } from "../../../util/ExampleData";
+import { Category, ColorTagDetails } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
 import {
   KnowledgeStatus,
@@ -27,7 +26,7 @@ const getCategoryColor = (category: Category) => {
 const getStatusStyles = (
   status: KnowledgeStatus,
   checked: boolean,
-  categoryColor: string
+  categoryColor: ColorTagDetails | undefined
 ) => {
   return {
     [KnowledgeStatus.NeedReview]: categoryColor,
@@ -63,7 +62,9 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   const [updatedQuestion, setUpdatedQuestion] = useState(question);
   const [updatedAnswer, setUpdatedAnswer] = useState(answer);
 
-  const categoryColor = category?.colorCode || TagColor.ALL;
+  const categoryColor: ColorTagDetails = category?.colorDetails
+    ? category?.colorDetails
+    : { borderColor: "#fff", lightColor: "#fff", darkColor: "#fff" };
 
   const color = category ? getCategoryColor(category) : "white";
 
@@ -107,7 +108,11 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
         )}
         style={
           status === KnowledgeStatus.NeedReview
-            ? { backgroundColor: color }
+            ? {
+                backgroundColor: categoryColor?.lightColor,
+                borderColor: categoryColor?.borderColor,
+                color: categoryColor?.darkColor,
+              }
             : undefined
         }
       >
