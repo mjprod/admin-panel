@@ -4,9 +4,13 @@ import AssetsPack from "../../util/AssetsPack";
 
 interface PopUpFeedbackProps {
   modalRef: React.RefObject<HTMLDialogElement | null>;
+  handleSubmit: (selectOption: string, textMessage: string) => void;
 }
 
-const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({ modalRef }) => {
+const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({
+  modalRef,
+  handleSubmit,
+}) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [textMessage, setTextMessage] = useState<string>("");
 
@@ -19,8 +23,7 @@ const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({ modalRef }) => {
   };
 
   const onSubmit = () => {
-    console.log("Selected Feedback:", selectedOption);
-    console.log("Text Message:", textMessage);
+    handleSubmit(selectedOption, textMessage);
     closeModal();
   };
 
@@ -77,10 +80,15 @@ const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({ modalRef }) => {
               placeholder="Explain"
               value={textMessage}
               onChange={(e) => setTextMessage(e.target.value)}
+              disabled={selectedOption !== "Other"}
             ></textarea>
           </div>
         </div>
-        <button className={styles["delete-submit"]} onClick={onSubmit}>
+        <button
+          className={styles["delete-submit"]}
+          onClick={onSubmit}
+          disabled={!selectedOption}
+        >
           Submit
         </button>
       </div>
