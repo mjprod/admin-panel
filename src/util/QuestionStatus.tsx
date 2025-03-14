@@ -12,4 +12,5 @@ const statusMap: Record<QuestionStatus, number> = {
   [QuestionStatus.Rejected]: 4,
 };
 
-export const getStatusNumber = (status: QuestionStatus): number => statusMap[status];
+export const getStatusNumber = (status: QuestionStatus): number =>
+  statusMap[status];

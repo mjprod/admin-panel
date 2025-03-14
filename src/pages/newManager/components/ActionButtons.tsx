@@ -61,7 +61,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handleReturn = async () => {
     try {
-      const res = await KowledgeContentBulkUpdate([id], 1);
+      const res = await KowledgeContentBulkUpdate(
+        [id],
+        getStatusNumber(QuestionStatus.NeedApproval)
+      );
       console.log("patch res ...... handle Return Approve", id, res);
       setUpdateConversationList(true);
     } catch (e) {
@@ -79,8 +82,11 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     }
   };
 
-  const handleRejectModalSubmit = async (selectOption: string, textMessage: string) => {
-    console.log(selectOption, textMessage)
+  const handleRejectModalSubmit = async (
+    selectOption: string,
+    textMessage: string
+  ) => {
+    console.log(selectOption, textMessage);
     try {
       const res = await KowledgeContentStatusPatch(
         id,
@@ -91,7 +97,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   if (status === KnowledgeStatus.NeedReview) {
     return (
@@ -124,7 +130,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           />
         </div>
 
-        <PopUpFeedback modalRef={modalRef} handleSubmit={handleRejectModalSubmit}/>
+        <PopUpFeedback
+          modalRef={modalRef}
+          handleSubmit={handleRejectModalSubmit}
+        />
       </>
     );
   }

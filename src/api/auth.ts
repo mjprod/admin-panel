@@ -156,13 +156,52 @@ export const KowledgeContentBulkUpdate = async (
   };
 
   const payload = createPayload(basePayload);
-  return await apiPostRequest(Endpoint.KnowledgeContentBulkUpdate, payload);
+  try {
+    const res: AxiosResponse | null = await apiPostRequest(
+      Endpoint.KnowledgeContentBulkUpdate,
+      payload
+    );
+
+    if (status == 3) {
+      const brainRes = await UpdateBrainKnowledge(ids);
+      console.log("patch res ...... brainRes", ids, brainRes);
+    }
+    return res;
+  } catch (error) {
+    console.error("Error during bulk update:", error);
+
+    return null;
+  }
 };
+
+export const  UpdateBrainKnowledge = async (
+  ids: number[],
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    knowledge_content_ids: ids,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.BrainKnowledgeBulkUpdate, payload);
+};
+
 
 export const KowledgeContentDelete = async (
   id: number
 ): Promise<AxiosResponse | null> => {
   return await apiDeleteRequest(Endpoint.KnowledgeContent, { id: id });
+};
+
+export const KowledgeContentBulkDelete = async (
+  ids: number[]
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    ids: ids,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentBulkDelete, payload);
+
 };
 
 // export const DeleteSessionId = async (

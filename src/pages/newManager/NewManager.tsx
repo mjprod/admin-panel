@@ -11,6 +11,10 @@ import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
 import QuestionList from "./components/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
+import {
+  KowledgeContentBulkDelete,
+  KowledgeContentBulkUpdate,
+} from "../../api/auth";
 
 const NewManager = () => {
   const {
@@ -24,6 +28,7 @@ const NewManager = () => {
     onPrevPageClicked,
     onNextPageClicked,
     totalPages,
+    setUpdateConversationList,
   } = useConversationsContext();
 
   const [checked, setChecked] = useState(false);
@@ -36,6 +41,8 @@ const NewManager = () => {
     conversations.some((conv) => !conv.isSelected)
       ? setChecked(false)
       : setChecked(true);
+
+    if (conversations.length == 0) setChecked(false);
   }, [conversations]);
 
   const { t } = useTranslation();
@@ -99,13 +106,35 @@ const NewManager = () => {
     }
   };
 
-  const handleBulkAction = () => {
+  const handleBulkAction = async () => {
     setConversations((conversations) =>
       conversations.map((con) => {
         con.isSelected = false;
         return con;
       })
     );
+
+    const conversationIds: number[] = conversations.map((con) => con.id);
+
+    if (statusClicked == QuestionStatus.PreApproved) {
+      try {
+        const res = await KowledgeContentBulkUpdate(conversationIds, 3);
+        console.log("Res KowledgeContentBulkUpdate", conversationIds, res);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (statusClicked == QuestionStatus.Rejected) {
+      try {
+        const res = await KowledgeContentBulkDelete(conversationIds);
+        console.log("Res KowledgeContentBulkDelete", conversationIds, res);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    setUpdateConversationList(true);
   };
 
   const handleSelectAll = () => {
