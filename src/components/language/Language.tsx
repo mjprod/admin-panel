@@ -9,6 +9,7 @@ export interface LanguageProps {
   isSolid?: boolean;
   isCompleted?: boolean;
   status?: string;
+  showLangLabel?: boolean;
 }
 
 const Language: React.FC<LanguageProps> = ({
@@ -16,6 +17,7 @@ const Language: React.FC<LanguageProps> = ({
   langLabel,
   isSolid = false,
   isCompleted = false,
+  showLangLabel = false
 }) => {
   return (
     <div className={style["language-container"]}>
@@ -28,7 +30,7 @@ const Language: React.FC<LanguageProps> = ({
       >
         {lang}
       </div>
-      {langLabel && `\u00A0${langLabel}`}
+      {showLangLabel && `\u00A0${langLabel}`}
     </div>
   );
 };

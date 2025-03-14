@@ -12,7 +12,7 @@ const CategorySection: React.FC<{
   <div className={styles["language"]}>
     <Badge text={category} color={color} />
     <div className={styles["rightcol"]}>
-      <Language {...currentlang} />
+      <Language {...currentlang} showLangLabel={true}/>
     </div>
   </div>
 );
