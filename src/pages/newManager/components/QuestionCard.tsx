@@ -8,8 +8,7 @@ import CategorySection from "./CategorySection";
 import SubcategorySection from "./SubcategorySection";
 import QuestionAnswerSection from "./QuestionAnswerSection";
 import ActionButtons from "./ActionButtons";
-import Colors from "../../../util/Colors";
-import { Category, ColorTagDetails } from "../../../util/ExampleData";
+import { ColorTagDetails } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
 import {
   KnowledgeStatus,
@@ -17,11 +16,6 @@ import {
 } from "../../../api/responsePayload/KnowledgeResponse";
 /* eslint-disable complexity */
 
-const getCategoryColor = (category: Category) => {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(Colors.get(category.colorCode) || "white")
-    .trim();
-};
 
 const getStatusStyles = (
   status: KnowledgeStatus,
@@ -64,9 +58,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
 
   const categoryColor: ColorTagDetails = category?.colorDetails
     ? category?.colorDetails
-    : { borderColor: "#fff", lightColor: "#fff", darkColor: "#fff" };
-
-  const color = category ? getCategoryColor(category) : "white";
+    : { borderColor: "#fff", lightColor: "#fff", darkColor: "#000" };
 
   const statusStyle = getStatusStyles(status, isSelected, categoryColor);
 
@@ -143,7 +135,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
             answer={answer}
             isEditing={isEditSelected}
             onChange={handleEditChange}
-            color={color}
+            color={categoryColor.lightColor}
           />
           <div
             className={clsx(

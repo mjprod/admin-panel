@@ -5,9 +5,6 @@ import BottomBar from "./components/bottomBar/BottomBar";
 import { useEffect, useState } from "react";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import clsx from "clsx";
-import { TagColor } from "../../components/tags/Tag";
-import { CategoryProps } from "./components/QuestionTools";
-import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
 import QuestionList from "./components/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
@@ -29,6 +26,7 @@ const NewManager = () => {
     onNextPageClicked,
     totalPages,
     setUpdateConversationList,
+    categoriesFilter
   } = useConversationsContext();
 
   const [checked, setChecked] = useState(false);
@@ -44,54 +42,6 @@ const NewManager = () => {
 
     if (conversations.length == 0) setChecked(false);
   }, [conversations]);
-
-  const { t } = useTranslation();
-
-  const categories: CategoryProps[] = [
-    {
-      id: 0,
-      title: t("category.all"),
-      number: 24000,
-      color: TagColor.ALL,
-      isSelected: true,
-    },
-    {
-      id: 3,
-      title: t("category.fourDLotto"),
-      number: 1356,
-      color: TagColor.GOLDISH,
-      isSelected: false,
-    },
-    {
-      id: 2,
-      title: t("category.technology"),
-      number: 1356,
-      color: TagColor.PINK,
-      isSelected: false,
-    },
-    {
-      id: 1,
-      title: t("category.account"),
-      number: 136,
-      color: TagColor.PURPLE,
-      isSelected: false,
-    },
-    {
-      id: 5,
-      title: t("category.finance"),
-      number: 396,
-      color: TagColor.GREEN,
-      isSelected: false,
-    },
-
-    {
-      id: 6,
-      title: t("category.lucky7"),
-      number: 972,
-      color: TagColor.NAVY_BLUE,
-      isSelected: false,
-    },
-  ];
 
   const handleConversationSelected = (
     conversationId: string,
@@ -151,7 +101,7 @@ const NewManager = () => {
       <Sidebar
         card={statusClicked}
         onSideCardClicked={setStatusClicked}
-        categories={categories}
+        categories={categoriesFilter}
         onCategoryClick={filterByCategory}
       />
       <main

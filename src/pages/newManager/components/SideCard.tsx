@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 interface SideCardProps {
   isActive: boolean;
   status: QuestionStatus;
-  number: number;
+  number?: number;
   onSideCardClicked: (status: QuestionStatus) => void;
   classNameStyle: string;
 }

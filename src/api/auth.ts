@@ -1,6 +1,5 @@
 import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
-import { TagColor } from "../components/tags/Tag";
 import { Category, SubCategory } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById, hexToHsla, updateHslaValues } from "../util/ExtensionFunction";
 import {
@@ -61,8 +60,6 @@ export const AllConversation = async (
 const mapKnowledgeConversationData = (
   response: KnowledgeResponse
 ): ConversationKnowledge => {
-  console.log(`----id: ${response.count}`);
-
   const knowledgeinfo: KnowledgeCard[] = [];
   response.results.map((item) => {
     const knowledgeContent = item.knowledge_content.find(
@@ -111,7 +108,6 @@ const mapKnowledgeConversationData = (
           name: item.category.name,
           color: item.category.color,
           description: item.category.description,
-          colorCode: TagColor.BROWN,
           colorDetails: {
             borderColor: updateHslaValues(hexToHsla(item.category.color), 25, 90),
             lightColor: hexToHsla(item.category.color),
@@ -120,9 +116,6 @@ const mapKnowledgeConversationData = (
             }
           }
         : null;
-      
-      
-        console.log('---hex color code', hexToHsla(item?.category?.color ? item?.category?.color : "#F0FAF7"), "----")
 
       knowledgeinfo.push({
         knowledgeId: item.id,
@@ -184,8 +177,7 @@ export const KowledgeContentBulkUpdate = async (
     );
 
     if (status == 3) {
-      const brainRes = await UpdateBrainKnowledge(ids);
-      console.log("patch res ...... brainRes", ids, brainRes);
+      await UpdateBrainKnowledge(ids);
     }
     return res;
   } catch (error) {
@@ -225,15 +217,22 @@ export const KowledgeContentBulkDelete = async (
 };
 
 export const getAllCategories = async (
-  
 ):  Promise<Category[] | null> => {
-
   try {
-    
-      return await apiGetRequest<Category[]>(
+      const res =  await apiGetRequest<Category[]>(
         Endpoint.Category
-      );
-  
+    );
+    res?.map((data) => {
+      if (data.color) {
+        data.colorDetails = {
+          borderColor: updateHslaValues(hexToHsla(data.color), 25, 90),
+          lightColor : hexToHsla(data.color),
+          darkColor : updateHslaValues(hexToHsla(data.color), 86, 30),
+        }
+        
+      }
+    })
+    return res;
   } catch (error) {
     console.error("Error in All Categories:", error);
     return null;
@@ -291,7 +290,7 @@ export const KowledgeSummary = async (
     ...{ language: DEFAULT_LANGUAGE_ID },
   };
   return await apiGetRequest<KnowledgeSummary>(
-    Endpoint.KnowledgeContentBulkDelete,
+    Endpoint.KnowledgeSummary,
     pathVariables,
     query
   );

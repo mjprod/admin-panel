@@ -6,10 +6,14 @@ import React, {
   useEffect,
 } from "react";
 import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
-import { CategorySummary, KnowledgeCard } from "../api/responsePayload/KnowledgeResponse";
+import {
+  CategorySummary,
+  KnowledgeCard,
+} from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
 import {
-  AllConversation, KowledgeSummary,
+  AllConversation,
+  KowledgeSummary,
   getAllCategories,
   getSubCategories,
 } from "../api/auth";
@@ -37,6 +41,8 @@ interface ConversationsContextType {
   onNextPageClicked: () => void;
   categories: Category[];
   subCategories: SubCategory[];
+  totalKnowledgeCount: number;
+  categoriesFilter: CategoryProps[];
 }
 
 const ConversationsContext = createContext<
@@ -65,7 +71,7 @@ export const ConversationsProvider = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
-  const [categoriesCount, setCategoriesCount] = useState<CategorySummary[]>([])
+  const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
@@ -77,11 +83,6 @@ export const ConversationsProvider = ({
     };
     const res = await AllConversation(endpoint, {}, updatedQuery);
     if (res) {
-      //   const data = res.data.filter((item) => {
-      //     return item.status == queryParams["status"];
-      //   });
-      console.log("map data .....", res.data);
-
       setConversations(res.data);
       setCurrentPage(res.current_page);
       setNextPageUrl(res.next);
@@ -105,12 +106,13 @@ export const ConversationsProvider = ({
     conversationApiCall(undefined, { status: getStatusNumber(status) });
   };
 
+  const getCategoryIds = (categories?: { id: number }[]): string => {
+    return categories && categories.length > 0
+      ? categories.map((category) => category.id).join(",")
+      : "";
+  };
+
   const refreshConversations = async () => {
-    const getCategoryIds = (categories?: { id: number }[]): string => {
-      return categories && categories.length > 0
-        ? categories.map((category) => category.id).join(",")
-        : "";
-    };
     conversationApiCall(undefined, {
       status: getStatusNumber(statusClicked),
       ...{ category: getCategoryIds(selectedCategories) },
@@ -119,25 +121,42 @@ export const ConversationsProvider = ({
 
   const updateConvList = () => {
     if (isUpdateConversationList) {
-      console.log("isUpdateConversationList------", isUpdateConversationList);
-
       refreshConversations();
       setUpdateConversationList(false);
     }
   };
 
   const getKnowledgeSummary = async () => {
-    const res = await KowledgeSummary()
-    
-  }
+    const res = await KowledgeSummary();
+    if (res && res.categories) {
+      const totalKnowledgeCount = res.categories.reduce(
+        (sum, category) => sum + category.knowledge_count,
+        0
+      );
+      setTotalKnowledgeCount(totalKnowledgeCount);
+      setCategoriesFilter(mapToCategoryProps(res.categories));
+    }
+  };
+
+  const mapToCategoryProps = (cats: CategorySummary[]): CategoryProps[] => {
+    const filteredCategories = cats.filter(
+      (category) => category.knowledge_count > 0
+    );
+    return filteredCategories.map((cat) => {
+      return {
+        id: cat.id,
+        title: cat.name,
+        number: cat.knowledge_count,
+        color: categories.find((data) => cat.id == data.id)?.colorDetails || {
+          borderColor: "#fff",
+          lightColor: "#fff",
+          darkColor: "#000",
+        },
+      };
+    });
+  };
 
   useEffect(() => {
-    console.log(
-      "isUpdateConversationList------",
-      statusClicked,
-      isUpdateConversationList
-    );
-
     updateConvList();
   }, [isUpdateConversationList]);
 
@@ -148,7 +167,6 @@ export const ConversationsProvider = ({
   };
 
   const onNextPageClicked = () => {
-    console.log("on Next page Clicked", nextPageUrl);
     if (!!nextPageUrl) {
       conversationApiCall(nextPageUrl, {});
     }
@@ -165,7 +183,6 @@ export const ConversationsProvider = ({
     if (resSub != null) {
       setSubCategories(resSub);
     }
-    console.log("getSubCategories----", resSub);
   };
 
   useEffect(() => {
@@ -174,22 +191,15 @@ export const ConversationsProvider = ({
   }, []);
 
   useEffect(() => {
-    fetchConversations(statusClicked);
+    getKnowledgeSummary();
+  }, [categories]);
 
-    console.log("statusClicked------", statusClicked);
+  useEffect(() => {
+    fetchConversations(statusClicked);
   }, [statusClicked]);
 
   useEffect(() => {
-    if (selectedCategories.length > 0) {
-      if (
-        selectedCategories.length == 1 &&
-        selectedCategories.some((category) => category.id === 0)
-      ) {
-        conversationApiCall();
-      } else {
-        conversationApiCall(undefined, { category: selectedCategories[0].id });
-      }
-    }
+    refreshConversations();
   }, [selectedCategories, statusClicked]);
 
   return (
@@ -214,6 +224,8 @@ export const ConversationsProvider = ({
         onNextPageClicked,
         categories,
         subCategories,
+        totalKnowledgeCount,
+        categoriesFilter,
       }}
     >
       {children}

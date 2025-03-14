@@ -1,5 +1,4 @@
 import { LanguageProps } from "../components/language/Language";
-import { TagColor } from "../components/tags/Tag";
 
 export interface LanguageData {
   en: string;
@@ -64,8 +63,7 @@ export interface Category {
   name: string;
   color: string;
   description?: string;
-  colorCode: TagColor;
-  colorDetails?: ColorTagDetails;
+  colorDetails: ColorTagDetails;
 }
 
 export interface ColorTagDetails {

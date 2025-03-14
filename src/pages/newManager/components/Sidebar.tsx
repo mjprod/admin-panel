@@ -4,6 +4,7 @@ import QuestionTools, { CategoryProps } from "./QuestionTools";
 import SideCard from "./SideCard";
 import CreateNewButton from "./CreateNewButton";
 import { QuestionStatus } from "../../../util/QuestionStatus";
+import { useConversationsContext } from "../../../context/ConversationProvider";
 
 interface SidebarProps {
   card: QuestionStatus;
@@ -18,10 +19,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   categories,
   onCategoryClick,
 }) => {
+  const { totalKnowledgeCount } = useConversationsContext();
+
   return (
     <aside className={styles["sidebar"]}>
       <QuestionTools
-        total={24000}
+        total={totalKnowledgeCount}
         categories={categories}
         onCategoryClick={onCategoryClick}
       />
@@ -31,21 +34,18 @@ const Sidebar: React.FC<SidebarProps> = ({
         <SideCard
           isActive={card == QuestionStatus.NeedApproval}
           status={QuestionStatus.NeedApproval}
-          number={1000}
           onSideCardClicked={onSideCardClicked}
           classNameStyle={styles["timeline-card"]}
         />
         <SideCard
           isActive={card == QuestionStatus.PreApproved}
           status={QuestionStatus.PreApproved}
-          number={1000}
           onSideCardClicked={onSideCardClicked}
           classNameStyle={styles["timeline-card"]}
         />
         <SideCard
           isActive={card == QuestionStatus.Rejected}
           status={QuestionStatus.Rejected}
-          number={1000}
           onSideCardClicked={onSideCardClicked}
           classNameStyle={styles["timeline-card"]}
         />
