@@ -71,7 +71,7 @@ const SelectAllBar = ({
         >
           <img src={ICONS_MAP[questionStatus]} />
           {questionStatus === QuestionStatus.PreApproved
-            ? "Save All Selected"
+            ? "Approved All"
             : "Delete All Selected"}
         </button>
       </div>

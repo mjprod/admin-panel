@@ -192,6 +192,18 @@ export const KowledgeContentDelete = async (
   return await apiDeleteRequest(Endpoint.KnowledgeContent, { id: id });
 };
 
+export const KowledgeContentBulkDelete = async (
+  ids: number[]
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    ids: ids,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentBulkDelete, payload);
+
+};
+
 // export const DeleteSessionId = async (
 //   id: string
 // ): Promise<Record<string, any>[] | null> => {
