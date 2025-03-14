@@ -20,7 +20,6 @@ const CreateNewButton = () => {
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
 
   const changeFormState = (state?: boolean) => {
-    console.log("state----", state);
     state ? setFormVisible(state) : setFormVisible(!isFormVisible);
   };
 
@@ -38,23 +37,13 @@ const CreateNewButton = () => {
     e.preventDefault();
     setFormVisible(false);
 
-    console.log(
-      "categories----",
-      answer,
-      question,
-      selectedCategory,
-      selectedSubCategory
-    );
-
-    const res = await CreateKnowledge(
+    await CreateKnowledge(
       selectedCategory,
       selectedSubCategory,
       DEFAULT_LANGUAGE_ID,
       question,
       answer
     );
-
-    console.log("Create new res----", res);
   };
 
   const InputContainer = (

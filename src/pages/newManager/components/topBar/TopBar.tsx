@@ -2,7 +2,7 @@ import styles from "./TopBar.module.css";
 import AssetsPack from "../../../../util/AssetsPack";
 import { QuestionStatus } from "../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface TopBarProps {
   statusClicked: QuestionStatus;
@@ -19,10 +19,6 @@ const TopBar: React.FC<TopBarProps> = ({ statusClicked, totalCount }) => {
   };
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    console.log("statusClicked-----Topbar--", statusClicked);
-  }, [statusClicked]);
 
   return (
     <div className={styles["conversation-details"]}>

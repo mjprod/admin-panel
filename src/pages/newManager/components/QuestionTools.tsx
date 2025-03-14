@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Tag, { TagColor } from "../../../components/tags/Tag";
+import Tag from "../../../components/tags/Tag";
 import styles from "./QuestionTools.module.css";
 import { useTranslation } from "react-i18next";
+import { ColorTagDetails } from "../../../util/ExampleData";
 
 export interface CategoryProps {
   id: number;
   title: string;
   number: number;
-  color: TagColor;
+  color: ColorTagDetails;
   isSelected?: boolean;
 }
 
@@ -58,7 +59,7 @@ const QuestionTools: React.FC<QuestionToolsProps> = ({
           <p>{t("newManager.filter_by_tag")}</p>
           {categories.map((category) => (
             <Tag
-              key={category.title}
+              key={category.id}
               title={category.title}
               number={category.number}
               color={category.color}

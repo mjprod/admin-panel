@@ -1,10 +1,19 @@
 import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
-import { TagColor } from "../components/tags/Tag";
 import { Category, SubCategory } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById, hexToHsla, updateHslaValues } from "../util/ExtensionFunction";
-import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
-import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
+import {
+  DEFAULT_LANGUAGE_CODE,
+  DEFAULT_LANGUAGE_ID,
+  Endpoint,
+} from "./contants";
+import {
+  ConversationKnowledge,
+  KnowledgeStatus,
+  KnowledgeCard,
+  KnowledgeResponse,
+  KnowledgeSummary,
+} from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
   apiGetRequest,
@@ -51,8 +60,6 @@ export const AllConversation = async (
 const mapKnowledgeConversationData = (
   response: KnowledgeResponse
 ): ConversationKnowledge => {
-  console.log(`----id: ${response.count}`);
-
   const knowledgeinfo: KnowledgeCard[] = [];
   response.results.map((item) => {
     const knowledgeContent = item.knowledge_content.find(
@@ -101,7 +108,6 @@ const mapKnowledgeConversationData = (
           name: item.category.name,
           color: item.category.color,
           description: item.category.description,
-          colorCode: TagColor.BROWN,
           colorDetails: {
             borderColor: updateHslaValues(hexToHsla(item.category.color), 25, 90),
             lightColor: hexToHsla(item.category.color),
@@ -110,9 +116,6 @@ const mapKnowledgeConversationData = (
             }
           }
         : null;
-      
-      
-        console.log('---hex color code', hexToHsla(item?.category?.color ? item?.category?.color : "#F0FAF7"), "----")
 
       knowledgeinfo.push({
         knowledgeId: item.id,
@@ -163,7 +166,7 @@ export const KowledgeContentBulkUpdate = async (
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     knowledge_content_ids: ids,
-    new_status: status
+    new_status: status,
   };
 
   const payload = createPayload(basePayload);
@@ -174,8 +177,7 @@ export const KowledgeContentBulkUpdate = async (
     );
 
     if (status == 3) {
-      const brainRes = await UpdateBrainKnowledge(ids);
-      console.log("patch res ...... brainRes", ids, brainRes);
+      await UpdateBrainKnowledge(ids);
     }
     return res;
   } catch (error) {
@@ -185,8 +187,8 @@ export const KowledgeContentBulkUpdate = async (
   }
 };
 
-export const  UpdateBrainKnowledge = async (
-  ids: number[],
+export const UpdateBrainKnowledge = async (
+  ids: number[]
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     knowledge_content_ids: ids,
@@ -195,7 +197,6 @@ export const  UpdateBrainKnowledge = async (
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.BrainKnowledgeBulkUpdate, payload);
 };
-
 
 export const KowledgeContentDelete = async (
   id: number
@@ -216,15 +217,22 @@ export const KowledgeContentBulkDelete = async (
 };
 
 export const getAllCategories = async (
-  
 ):  Promise<Category[] | null> => {
-
   try {
-    
-      return await apiGetRequest<Category[]>(
+      const res =  await apiGetRequest<Category[]>(
         Endpoint.Category
-      );
-  
+    );
+    res?.map((data) => {
+      if (data.color) {
+        data.colorDetails = {
+          borderColor: updateHslaValues(hexToHsla(data.color), 25, 90),
+          lightColor : hexToHsla(data.color),
+          darkColor : updateHslaValues(hexToHsla(data.color), 86, 30),
+        }
+        
+      }
+    })
+    return res;
   } catch (error) {
     console.error("Error in All Categories:", error);
     return null;
@@ -270,4 +278,20 @@ export const CreateKnowledge = async (
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.CreateKnowledge, payload);
 
+};
+
+export const KowledgeSummary = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+): Promise<KnowledgeSummary | null> => {
+  const query = {
+    in_brain: false,
+    ...{ queryParams },
+    ...{ language: DEFAULT_LANGUAGE_ID },
+  };
+  return await apiGetRequest<KnowledgeSummary>(
+    Endpoint.KnowledgeSummary,
+    pathVariables,
+    query
+  );
 };
