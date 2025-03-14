@@ -10,7 +10,7 @@ import { CategoryProps } from "./components/QuestionTools";
 import { useTranslation } from "react-i18next";
 import SelectAllBar from "./components/topBar/SelectAllBar";
 import QuestionList from "./components/QuestionList";
-import { useConversations } from "../../store/useConversation";
+import { useConversationsContext } from "../../context/ConversationProvider";
 
 const NewManager = () => {
   const {
@@ -24,7 +24,7 @@ const NewManager = () => {
     onPrevPageClicked,
     onNextPageClicked,
     totalPages,
-  } = useConversations();
+  } = useConversationsContext();
 
   const [checked, setChecked] = useState(false);
   const [showActionButton, setShowActionButton] = useState(false);
