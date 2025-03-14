@@ -45,8 +45,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       const res = await KowledgeContentStatusPatch(
         id,
         getStatusNumber(QuestionStatus.PreApproved),
-        updatedQuestion,
-        updatedAnswer
+        isEditSelected ? updatedQuestion : "",
+        isEditSelected ? updatedAnswer : ""
       );
       console.log("patch res ...... handleSaveAndPreApprove", id, res);
       setUpdateConversationList(true);

@@ -5,13 +5,19 @@ import FilterSelect from "../../../components/dropDown/FilterSelect";
 import CustomButton, {
   ButtonType,
 } from "../../../components/button/CustomButton";
-import { categoryOptions } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
+import { useConversationsContext } from "../../../context/ConversationProvider";
+import { CreateKnowledge } from "../../../api/auth";
+import { DEFAULT_LANGUAGE_ID } from "../../../api/contants";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isFormVisible, setFormVisible] = useState(false);
+  const { categories, subCategories } = useConversationsContext();
+
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
 
   const changeFormState = (state?: boolean) => {
     console.log("state----", state);
@@ -26,11 +32,29 @@ const CreateNewButton = () => {
     setAnswer(e.target.value);
   };
 
-  const handleSubmit = (
+  const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   ) => {
     e.preventDefault();
     setFormVisible(false);
+
+    console.log(
+      "categories----",
+      answer,
+      question,
+      selectedCategory,
+      selectedSubCategory
+    );
+
+    const res = await CreateKnowledge(
+      selectedCategory,
+      selectedSubCategory,
+      DEFAULT_LANGUAGE_ID,
+      question,
+      answer
+    );
+
+    console.log("Create new res----", res);
   };
 
   const InputContainer = (
@@ -55,7 +79,7 @@ const CreateNewButton = () => {
     );
   };
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className={styles["mainContainer"]}>
@@ -86,14 +110,23 @@ const CreateNewButton = () => {
           {InputContainer("Answer...", answer, handleAnswerChange)}
 
           <div className={styles["bottomSection"]}>
-            <FilterSelect hint="Select Category" options={categoryOptions}/>
-
-            <CustomButton
-              text={"Submit"}
-              type={ButtonType.Submit}
-              onClick={handleSubmit}
+            <FilterSelect
+              hint="Select Category"
+              options={categories}
+              onChange={setSelectedCategory}
+            />
+            <FilterSelect
+              hint="Sub Category"
+              options={subCategories}
+              onChange={setSubSelectedCategory}
             />
           </div>
+
+          <CustomButton
+            text={"Submit"}
+            type={ButtonType.Submit}
+            onClick={handleSubmit}
+          />
         </div>
       )}
     </div>

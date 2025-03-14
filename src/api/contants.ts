@@ -19,6 +19,11 @@ export const Endpoint = {
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
 
+
+  Category: `${getBaseUri()}/categories/`,
+  SubCategory: `${getBaseUri()}/subcategories/`,
+  CreateKnowledge: `${getBaseUri()}/knowledge-content/`,
+
 };
 
 //API Constants
