@@ -60,6 +60,9 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
 }) => {
   const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
+  const [updatedQuestion, setUpdatedQuestion] = useState(question);
+  const [updatedAnswer, setUpdatedAnswer] = useState(answer);
+
   const categoryColor = category?.colorCode || TagColor.ALL;
 
   const color = category ? getCategoryColor(category) : "white";
@@ -89,6 +92,8 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
 
   const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
+    setUpdatedAnswer(updatedAnswer);
+    setUpdatedQuestion(updatedQuestion);
   };
 
   return (
@@ -147,6 +152,8 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
               isEditSelected={isEditSelected}
               setEditSelected={setEditSelected}
               id={id}
+              updatedQuestion={updatedQuestion}
+              updatedAnswer={updatedAnswer}
             />
           </div>
         </div>

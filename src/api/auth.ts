@@ -4,14 +4,13 @@ import { TagColor } from "../components/tags/Tag";
 import { Category } from "../util/ExampleData";
 import { getLanguageByCode, getLanguageById } from "../util/ExtensionFunction";
 import { DEFAULT_LANGUAGE_CODE, Endpoint } from "./contants";
-import { ConversationKnowledge, KnowledgeStatus, KnowledgeCard, KnowledgeResponse } from "./responsePayload/KnowledgeResponse";
 import {
-  apiDeleteRequest,
-  apiGetRequest,
-  apiPatchRequest,
-  apiPostRequest,
-  createPayload,
-} from "./util/apiUtils";
+  ConversationKnowledge,
+  KnowledgeStatus,
+  KnowledgeCard,
+  KnowledgeResponse,
+} from "./responsePayload/KnowledgeResponse";
+import { apiGetRequest, apiPatchRequest, createPayload } from "./util/apiUtils";
 
 export const AllConversation = async (
   endpoint: string | undefined = Endpoint.Knowledge,
@@ -23,7 +22,7 @@ export const AllConversation = async (
   try {
     if (isMock) {
       const response = await fetch("/assets/conversations.json");
-      
+
       if (!response.ok) {
         throw new Error("Failed to load mock data: " + response.statusText);
       }
@@ -35,39 +34,39 @@ export const AllConversation = async (
         pathVariables,
         queryParams
       );
-      
+
       if (!apiResponse) {
         throw new Error("Failed to fetch data from the API.");
       }
 
-    
       return mapKnowledgeConversationData(apiResponse);
     }
   } catch (error) {
     console.error("Error in AllConversation:", error);
     return null;
   }
-  
 };
 
-const mapKnowledgeConversationData = (response: KnowledgeResponse): ConversationKnowledge => {
+const mapKnowledgeConversationData = (
+  response: KnowledgeResponse
+): ConversationKnowledge => {
   console.log(`----id: ${response.count}`);
 
   const knowledgeinfo: KnowledgeCard[] = [];
   response.results.map((item) => {
-   
-    const knowledgeContent = item.knowledge_content.find((con) => con.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id)
+    const knowledgeContent = item.knowledge_content.find(
+      (con) => con.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id
+    );
 
     const langStatus: LanguageProps[] = item.knowledge_content.map((lang) => ({
       id: lang.language,
       lang: getLanguageById(lang.language).code,
       langLabel: getLanguageById(lang.language).label,
-      isSolid: lang.language ==  getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+      isSolid: lang.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
       isCompleted: lang.status == KnowledgeStatus.Approved,
-      status: KnowledgeStatus[lang.status] 
-    }))
+      status: KnowledgeStatus[lang.status],
+    }));
 
-    
     if (knowledgeContent != null) {
       const status: KnowledgeStatus = (() => {
         switch (knowledgeContent.status) {
@@ -76,7 +75,7 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
           case 2:
             return KnowledgeStatus.PreApproved;
           case 3:
-              return KnowledgeStatus.Approved;
+            return KnowledgeStatus.Approved;
           case 4:
             return KnowledgeStatus.Rejected;
           default:
@@ -88,16 +87,20 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
         id: knowledgeContent.language,
         lang: getLanguageById(knowledgeContent.language).code,
         langLabel: getLanguageById(knowledgeContent.language).label,
-        isSolid: knowledgeContent.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+        isSolid:
+          knowledgeContent.language ==
+          getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
         isCompleted: knowledgeContent.status == KnowledgeStatus.Approved,
-        status: KnowledgeStatus[knowledgeContent.status]
+        status: KnowledgeStatus[knowledgeContent.status],
       };
 
-      const categories: Category | null = item.category ? {
-        id: item.category.id,
-        name: item.category.name,
-        colorCode: TagColor.BROWN,
-      } : null;
+      const categories: Category | null = item.category
+        ? {
+            id: item.category.id,
+            name: item.category.name,
+            colorCode: TagColor.BROWN,
+          }
+        : null;
 
       knowledgeinfo.push({
         knowledgeId: item.id,
@@ -112,13 +115,10 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
         answer: knowledgeContent.answer,
         isEdited: knowledgeContent.is_edited,
         inBrain: knowledgeContent.in_brain,
-        status: status
-        
+        status: status,
       });
     }
-
-  })
-
+  });
 
   return {
     count: response.count,
@@ -128,44 +128,32 @@ const mapKnowledgeConversationData = (response: KnowledgeResponse): Conversation
     previous: response.previous,
     data: knowledgeinfo,
   };
-  
-}
+};
 
 export const KowledgeContentStatusPatch = async (
   id: number,
-  status: number
+  status: number,
+  updatedQuestion: string = "",
+  updatedAnswer: string = ""
 ): Promise<AxiosResponse | null> => {
-  const basePayload = {status: status};
-
-  const payload = createPayload(basePayload);
-  return await apiPatchRequest(Endpoint.KnowledgeContent, {id: id}, payload);
-};
-
-export const AddLanguageReviewed = async (
-  docId: string,
-  reviewLanguage: string,
-  reviewText: string
-): Promise<string | null> => {
   const basePayload = {
-    doc_id: docId,
-    review_status: reviewLanguage,
-    review_text: reviewText,
+    status: status,
+    ...(updatedQuestion && { question: updatedQuestion }),
+    ...(updatedAnswer && { answer: updatedAnswer }),
   };
-
   const payload = createPayload(basePayload);
-
-  return await apiPostRequest<string>(Endpoint.AddLanguageReviewed, payload);
+  return await apiPatchRequest(Endpoint.KnowledgeContent, { id: id }, payload);
 };
 
-export const DeleteSessionId = async (
-  id: string
-): Promise<Record<string, any>[] | null> => {
-  const basePayload = {
-    id: id,
-  };
+// export const DeleteSessionId = async (
+//   id: string
+// ): Promise<Record<string, any>[] | null> => {
+//   const basePayload = {
+//     id: id,
+//   };
 
-  return await apiDeleteRequest<Record<string, any>[]>(
-    Endpoint.DeleteSessionId,
-    basePayload
-  );
-};
+//   return await apiDeleteRequest<Record<string, any>[]>(
+//     Endpoint.DeleteSessionId,
+//     basePayload
+//   );
+// };

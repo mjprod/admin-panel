@@ -14,18 +14,7 @@ export const Endpoint = {
 
   Knowledge: `${getBaseUri()}/knowledge`,
   KnowledgeContent: `${getBaseUri()}/knowledge-content/{id}/`,
-
-
-  ListReviewUpdateBrain: `${getBaseUri()}/list_review_update_brain/`,
-  AddLanguageReviewed: `${getBaseUri()}/update_review_status/`,
-
-  //API Endpoints not used in the project
-  DeleteSessionId: `${getBaseUri()}/delete_conversation/{id}`,
-  FinaliseConversation: `${getBaseUri()}/finalise_conversation/`,
-  FinaliseAllConversation: `${getBaseUri()}/finalise_all_conversation/`,
-  CategorizeConversation: `${getBaseUri()}/categorize_conversation/`,
-  UpdateKnowledge: `${getBaseUri()}/update_knowledge/`,
-  DashboardCount: `${getBaseUri()}/dashboard_counts/`,
+  
 };
 
 //API Constants
