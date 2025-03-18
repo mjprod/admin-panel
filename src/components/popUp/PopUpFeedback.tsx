@@ -31,7 +31,7 @@ const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({
     <dialog ref={modalRef} id="modal" className={styles["dialog"]}>
       <div className={styles["delete-modal-content-container"]}>
         <div className={styles["row01"]}>
-          <h2>Provide Feedback</h2>
+          <h2 className={styles["title"]}>Provide Feedback</h2>
           <button onClick={closeModal} className={styles["closeModal"]}>
             <img
               className={styles["close-dialog-modal"]}

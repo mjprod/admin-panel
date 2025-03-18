@@ -1,0 +1,66 @@
+.chat-conversation-modal-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: var(--font-family01);
+}
+
+.row01 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.row02 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--black-400);
+  padding-bottom: 0.5rem;
+  & h3 {
+    width: 100%;
+    padding-bottom: 0.7rem;
+  }
+}
+
+.chat-user-avatar > img {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+}
+
+.row03 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.question-metadata {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--black-300);
+}
+
+.closeConversationModal {
+  border: none;
+  background: transparent;
+
+  & :hover {
+    transform: scale(1.05);
+    transition: all 300ms ease;
+  }
+}
+
+.close-dialog-modal {
+  width: 1rem;
+  opacity: 0.5;
+}

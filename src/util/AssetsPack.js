@@ -13,7 +13,12 @@ const AssetsPack = {
     ICON_CLOSE_GRAY: await import("../assets/close.svg"),
     ICON_RETURN: await import("../assets/returnIcon.svg"),
     ICON_CANCEL: await import("../assets/cancelEditIcon.svg"),
-    ICON_SAVE: await import("../assets/savePreapproveIcon.svg")
+    ICON_SAVE: await import("../assets/savePreapproveIcon.svg"),
+    ICON_DROPDOWN: await import("../assets/dropdown.svg"),
+    ICON_CONVERSATION: await import("../assets/conversationIcon.svg"),
+    ICON_CUSTOMER: await import("../assets/person.png"),
+    ICON_CUSTOMER_SUPPORT: await import("../assets/icon-customer-service.png"),
+    ICON_END_CONVERSATION: await import("../assets/endConversationIcon.svg"),
   },
   logos: {
     LOGIN_PAGE_LOGO: await import("../assets/ai_brain.svg"),

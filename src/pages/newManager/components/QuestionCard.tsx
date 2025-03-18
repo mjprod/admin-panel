@@ -14,6 +14,7 @@ import {
   KnowledgeStatus,
   KnowledgeCard,
 } from "../../../api/responsePayload/KnowledgeResponse";
+import ChatHistoryButton from "./ChatHistoryButton";
 /* eslint-disable complexity */
 
 
@@ -122,6 +123,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
             time={dateTime}
             conversationId={conversationId}
           />
+          <ChatHistoryButton />
           <CategorySection
             category={category ? category.name : ""}
             color={categoryColor}
