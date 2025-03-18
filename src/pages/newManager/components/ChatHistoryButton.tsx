@@ -14,7 +14,8 @@ const ChatHistoryButton: React.FC<ChatHistoryButton> = ({}) => {
   };
 
   return (
-    <div className={styles["question-chat-history"]}>
+    <>
+        <div className={styles["question-chat-history"]}>
       <button className={styles["button-chat-history"]} onClick={handleConvClicked}>
         <img
           className={styles["iconChatHistory"]}
@@ -26,8 +27,11 @@ const ChatHistoryButton: React.FC<ChatHistoryButton> = ({}) => {
           src={AssetsPack.icons.ICON_DROPDOWN.default}
         />
       </button>
-      <PopUpChatHistory modalRef={modalRef} />
+      
     </div>
+    <PopUpChatHistory modalRef={modalRef} />
+    </>
+
   );
 };
 

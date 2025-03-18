@@ -9,6 +9,7 @@ export enum ChatType {
 }
 
 export interface ChatDialogProps {
+  id: number;
   type: ChatType;
   datetime: string;
   message: string;
