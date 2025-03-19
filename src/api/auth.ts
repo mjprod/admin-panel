@@ -30,6 +30,7 @@ import {
 } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
 import { ChatDialogProps, ChatType } from "../components/popUp/ChatDialog";
+/* eslint-disable complexity */
 
 export const AllConversation = async (
   endpoint: string | undefined = Endpoint.Knowledge,
