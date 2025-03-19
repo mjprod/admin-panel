@@ -135,7 +135,12 @@ const mapKnowledgeConversationData = (
         : null;
 
       const cleanedStr = (item.context?.context ?? "")
-        .replace(/'/g, '"')
+        .replace(/'(\w+)'(?=\s*:)/g, '"$1"')
+        .replace(/:\s*'([^']*)'/g, ': "$1"')
+        .replace(
+          /"(\w+)": \\"([^"]*?)\\"/g,
+          (_, key, value) => `"${key}": "${value}"`
+        )
         .replace(/\bTrue\b/g, "true")
         .replace(/\bFalse\b/g, "false");
 
