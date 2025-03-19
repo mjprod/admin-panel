@@ -19,7 +19,7 @@ import { ConversationsProvider } from "./context/ConversationProvider";
 // }
 
 const AppRouter = () => {
-  const { loadingAuth } = useContext(AuthContext);
+  const { loadingAuth, isSignedIn } = useContext(AuthContext);
 
   // Show loading indicator while checking authentication status
   if (loadingAuth) {
@@ -34,19 +34,52 @@ const AppRouter = () => {
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Authenticated routes */}
-        <Route path="/newManager" element={<ConversationsProvider><NewManager /></ConversationsProvider>} />
-
-        <Route path="/superAdmin" element={<SuperAdmin />} />
-
-        <Route path="/testPage" element={<TestPage />} />
-        <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
-
-        {/* Redirect to Main for invalid routes */}
-        <Route path="*" element={<Navigate to="/newManager" />} />
+        {/* Private routes: Only render these if user is signed in */}
+        {isSignedIn ? (
+          <>
+            <Route
+              path="/newManager"
+              element={
+                <ConversationsProvider>
+                  <NewManager />
+                </ConversationsProvider>
+              }
+            />
+            <Route path="/superAdmin" element={<SuperAdmin />} />
+            <Route path="/testPage" element={<TestPage />} />
+            <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
+            {/* Redirect to Main for invalid routes */}
+            <Route path="*" element={<Navigate to="/newManager" />} />
+          </>
+        ) : (
+          // If not signed in, redirect all unknown routes to login
+          <Route path="*" element={<Navigate to="/login" />} />
+        )}
       </Routes>
     </div>
   );
+
+  // return (
+  //   <div
+  //     style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}
+  //   >
+  //     <Routes>
+  //       {/* Public routes */}
+  //       <Route path="/login" element={<LoginPage />} />
+
+  //       {/* Authenticated routes */}
+  //       <Route path="/newManager" element={<NewManager />} />
+
+  //       <Route path="/superAdmin" element={<SuperAdmin />} />
+
+  //       <Route path="/testPage" element={<TestPage />} />
+  //       <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
+
+  //       {/* Redirect to Main for invalid routes */}
+  //       <Route path="*" element={<Navigate to="/newManager" />} />
+  //     </Routes>
+  //   </div>
+  // );
 };
 
 export default AppRouter;
