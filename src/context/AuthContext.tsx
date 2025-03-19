@@ -1,9 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
+import { Login } from "../api/auth";
 
 export interface AuthContextType {
   accessToken: string | undefined;
   loadingAuth: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: (callback?: () => void) => void;
   authErrors: AuthErrors | undefined;
   isSignedIn: boolean;
@@ -34,35 +35,43 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [authErrors]);
 
-  const login = async () => {
-    // const response = await loginByUsername(email, password).catch((error) => {
-    //   if (error.code === "ERR_NETWORK") {
-    //     setAuthErrors({
-    //       data: {
-    //         error: "Network error",
-    //         status: 503,
-    //       },
-    //     });
-    //   } else {
-    //     setAuthErrors(error);
-    //   }
-    // });
+  const login = async (username: string, password: string) => {
+    const response = await Login(username, password).catch((error) => {
+      console.log("-----LOGIN---ERROR---", error);
+      if (error.code === "ERR_NETWORK") {
+        setAuthErrors({
+          data: {
+            error: "Network error",
+            status: 503,
+          },
+        });
+      } else {
+        setAuthErrors(error);
+      }
+    });
+    // console.log("-----LOGIN---response---", response);
 
-    // if (response) {
-    //   setIsSignedIn(true);
-    //   localStorage.setItem("user_logged", JSON.stringify(response));
-    //   localStorage.setItem(
-    //     "local_api_logged",
-    //     JSON.stringify(response.ResponseData.LocalAPIURL)
-    //   );
-    // }
+    if (response) {
+      setIsSignedIn(true);
+
+      localStorage.setItem("authToken", JSON.stringify(response.access));
+      localStorage.setItem("refreshToken", JSON.stringify(response.refresh));
+
+      // localStorage.setItem(
+      //   "local_api_logged",
+      //   JSON.stringify(response.ResponseData.LocalAPIURL)
+      // );
+    }
     return true;
   };
 
   const logout = () => {
     setIsSignedIn(false);
-    localStorage.removeItem("user_logged");
-    localStorage.removeItem("local_api_logged");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("refreshToken");
+
+    // localStorage.removeItem("user_logged");
+    // localStorage.removeItem("local_api_logged");
   };
 
   return (

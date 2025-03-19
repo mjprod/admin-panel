@@ -50,7 +50,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         }
       }
 
-      const errorMsg: AuthErrors = { data: { error: error.response || error.message || "Unknown error", status: -1 } };
+      const errorMsg: AuthErrors = { data: { error: error.response || error.message || "Unknown error", status: -1  } };
 
       return Promise.reject(errorMsg);
     }
