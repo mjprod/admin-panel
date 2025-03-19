@@ -4,10 +4,10 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 interface QuestionAnswerSectionProps {
-  question: string;
+  question: string | null;
   answer: string;
   isEditing: boolean;
-  onChange: (updatedQuestion: string, updatedAnswer: string) => void;
+  onChange: (updatedQuestion: string | null, updatedAnswer: string) => void;
   color: string;
 }
 
@@ -46,7 +46,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
           <p className={styles["question-title"]}>{t("newManager.user_question")}</p>
           {isEditing ? (
             <textarea
-              value={editedQuestion}
+              value={editedQuestion ?? ""}
               onChange={handleQuestionChange}
               className={clsx(styles["qc-textarea"], styles["qc-editing-mode"])}
               style={{ backgroundColor: color }}

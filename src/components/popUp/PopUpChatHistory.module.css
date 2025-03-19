@@ -1,0 +1,60 @@
+.chat-conversation-modal {
+  position: absolute;
+  top: 2vh;
+  width: calc(100% - 20vw);
+  height: calc(100vh - 20rem);
+  background-color: #efefefb3;
+  backdrop-filter: blur(10px) saturate(0);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-elevation-medium);
+  z-index: 2;
+  border: 1px solid var(--white);
+  padding: 2rem;
+  animation: slideUpFadeIn 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  color: black;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-conversation-modal-content-container {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 1);
+  padding: 2em;
+  gap: 2rem;
+  border-radius: 0.8rem;
+}
+
+.chat-conversation-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  scale: 0.95;
+  padding: 1rem;
+}
+
+.chat-end-of-conversation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--color12-light);
+  padding: 2rem;
+  color: var(--color105-dark);
+  font-size: 1rem;
+  opacity: 0.5;
+  margin-bottom: 3rem;
+  margin-top: 6rem;
+}
+
+.icon-chat-end-conversation {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+}

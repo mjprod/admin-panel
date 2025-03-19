@@ -95,6 +95,6 @@
   & path {stroke:var(--color12-dark);}
 }
 
-img {
+.image {
   width: 1rem;
 }
