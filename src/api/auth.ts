@@ -132,12 +132,23 @@ const mapKnowledgeConversationData = (
           }
         : null;
 
-      const cleanedStr = item.context.context
+      const cleanedStr = (item.context?.context ?? "")
         .replace(/'/g, '"')
         .replace(/\bTrue\b/g, "true")
         .replace(/\bFalse\b/g, "false");
 
-      const contextJsonArray: ChatResponse[] = JSON.parse(cleanedStr);
+      let contextJsonArray: ChatResponse[] = [];
+      try {
+        contextJsonArray = JSON.parse(cleanedStr);
+      } catch (error) {
+        console.error(
+          "JSON parse error:",
+          error,
+          "Original string:",
+          cleanedStr
+        );
+        contextJsonArray = [];
+      }
       const chatData: ChatDialogProps[] = contextJsonArray.map((chat) => {
         const message = chat.IsService
           ? chat.AdminAction == 2
@@ -177,7 +188,7 @@ const mapKnowledgeConversationData = (
         isEdited: knowledgeContent.is_edited,
         inBrain: knowledgeContent.in_brain,
         status: status,
-        context: context,
+        context: contextJsonArray.length > 0 ? context : null,
       });
     }
   });
