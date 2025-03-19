@@ -19,7 +19,7 @@ interface ActionButtonsProps {
   status: KnowledgeStatus;
   isEditSelected: boolean;
   setEditSelected: (value: boolean) => void;
-  updatedQuestion: string;
+  updatedQuestion: string | null;
   updatedAnswer: string;
 }
 
@@ -45,7 +45,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       const res = await KowledgeContentStatusPatch(
         id,
         getStatusNumber(QuestionStatus.PreApproved),
-        isEditSelected ? updatedQuestion : "",
+        isEditSelected ? updatedQuestion ?? "" : "",
         isEditSelected ? updatedAnswer : ""
       );
       console.log("patch res ...... handleSaveAndPreApprove", id, res);

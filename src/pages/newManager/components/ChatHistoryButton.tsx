@@ -2,10 +2,15 @@ import React, { useRef } from "react";
 import styles from "./ChatHistoryButton.module.css";
 import AssetsPack from "../../../util/AssetsPack";
 import PopUpChatHistory from "../../../components/popUp/PopUpChatHistory";
+import { KnowledgeContext } from "../../../api/responsePayload/KnowledgeResponse";
 
-interface ChatHistoryButton {}
+interface ChatHistoryButton {
+  conversationData: KnowledgeContext
+}
 
-const ChatHistoryButton: React.FC<ChatHistoryButton> = ({}) => {
+const ChatHistoryButton: React.FC<ChatHistoryButton> = ({
+  conversationData
+}) => {
 
   const modalRef = useRef<HTMLDialogElement | null>(null);
   
@@ -29,7 +34,7 @@ const ChatHistoryButton: React.FC<ChatHistoryButton> = ({}) => {
       </button>
       
     </div>
-    <PopUpChatHistory modalRef={modalRef} />
+    <PopUpChatHistory modalRef={modalRef} conversationData={conversationData} />
     </>
 
   );

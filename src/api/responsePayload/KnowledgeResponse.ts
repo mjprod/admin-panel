@@ -1,6 +1,8 @@
 import { LanguageProps } from "../../components/language/Language";
+import { ChatDialogProps } from "../../components/popUp/ChatDialog";
 import { Category, SubCategory } from "../../util/ExampleData";
 
+//api response
 export interface KnowledgeContent {
   id: number;
   status: number;
@@ -9,10 +11,15 @@ export interface KnowledgeContent {
   language: number;
   date_created: string;
   last_updated: string;
-  question: string;
+  question: string | null;
   answer: string;
   content: string | null;
   knowledge: number;
+}
+
+export interface ContextItem {
+  id: number;
+  context: string;
 }
 
 export interface KnowledgeItem {
@@ -20,7 +27,8 @@ export interface KnowledgeItem {
   knowledge_uuid: string;
   category: Category | null;
   subcategory: SubCategory | null;
-  type: string;
+  type: number;
+  context: ContextItem;
   knowledge_content: KnowledgeContent[];
 }
 
@@ -33,6 +41,26 @@ export interface KnowledgeResponse {
   results: KnowledgeItem[];
 }
 
+export interface ChatResponse {
+  ChatId: number;
+  UserMsg: string;
+  RobotMsg: string;
+  AdminReply: string;
+  ReplyChatId: number;
+  ImgUrl: string;
+  CreateDate: string;
+  ConversationId: string;
+  IsService: boolean;
+  AdminAction: number;
+}
+
+
+//view model
+export interface KnowledgeContext {
+  conversationId: string;
+  date_time: string;
+  chat_data: ChatDialogProps[];
+}
 
 export interface ConversationKnowledge {
   count: number;
@@ -52,13 +80,14 @@ export interface KnowledgeCard {
   languages: LanguageProps[];
   currentlang: LanguageProps;
   subcategories: SubCategory | null;
-  question: string;
+  question: string | null;
   answer: string;
   status: KnowledgeStatus;
   isEdited?: boolean;
   inBrain?: boolean;
   isSelected?: boolean;
   onSelected?: (conversationId: string, checked: boolean) => void;
+  context: KnowledgeContext;
 }
 
 export enum KnowledgeStatus {

@@ -3,76 +3,28 @@ import styles from "./PopUpChatHistory.module.css";
 import AssetsPack from "../../util/AssetsPack";
 import PopUpChatHistoryDetail from "./PopUpChatHistoryDetail";
 import ChatDialog, { ChatDialogProps, ChatType } from "./ChatDialog";
+import { KnowledgeContext } from "../../api/responsePayload/KnowledgeResponse";
 
 interface PopUpChatHistory {
+  conversationData: KnowledgeContext;
   modalRef: React.RefObject<HTMLDialogElement | null>;
 }
 
-const PopUpChatHistory: React.FC<PopUpChatHistory> = ({ modalRef }) => {
-  const data: ChatDialogProps[] = [
-    {
-      id: 1,
-      type: ChatType.CustomerSupport,
-      datetime: "2025-03-17 08:04:50",
-      message: "Hello, bagaimana saya boleh membantu anda hari ini?",
-    },
-    {
-      id: 2,
-      type: ChatType.User,
-      datetime: "2025-03-17 08:04:50",
-      message: "morning..smlm sy out rm5400..hilang dr kiss",
-    },
-    {
-      id: 3,
-      type: ChatType.User,
-      datetime: "2025-03-17 08:09:14",
-      message: "x dpt out dr kiss",
-    },
-    {
-      id: 4,
-      type: ChatType.CustomerSupport,
-      datetime: "2025-03-17 08:10:10",
-      message: "boss dalam kiss masih ada credit?",
-    },
-    {
-      id: 5,
-      type: ChatType.User,
-      datetime: "2025-03-17 08:04:50",
-      message: "morning..smlm sy out rm5400..hilang dr kiss",
-      isActive: true,
-    },
-    {
-      id: 6,
-      type: ChatType.CustomerSupport,
-      datetime: "2025-03-17 08:10:10",
-      message: "bank maintenance..minta boss 1230pm tekan withdraw semula ya",
-      isActive: true,
-    },
-    {
-      id: 7,
-      type: ChatType.User,
-      datetime: "2025-03-17 08:09:14",
-      message: "ok tq",
-    },
-    {
-      id: 8,
-      type: ChatType.CustomerSupport,
-      datetime: "2025-03-17 08:10:10",
-      message: "ong2 boss",
-    },
-  ];
+const PopUpChatHistory: React.FC<PopUpChatHistory> = ({ 
+  conversationData,
+  modalRef }) => {
   return (
     <dialog className={styles["chat-conversation-modal"]} ref={modalRef}>
       <div className={styles["container"]}>
         <PopUpChatHistoryDetail
           modalRef={modalRef}
-          conversationId={"1111"}
-          datetime={"1111"}
+          conversationId={conversationData.conversationId}
+          datetime={conversationData.date_time}
         />
 
         <div className={styles["chat-conversation-modal-content-container"]}>
           <div className={styles["chat-conversation-group"]}>
-            {data.map((dialog) => {
+            {conversationData.chat_data.map((dialog) => {
               return (
                 <ChatDialog
                   key={dialog.id}
