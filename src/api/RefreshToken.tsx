@@ -1,8 +1,6 @@
 import { Endpoint } from "./contants";
 import { apiPostRequest, createPayload } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
-// import { apiGetRequest } from "./util/apiUtils";
-// import { AuthResponse } from "./responsePayload/AuthResponse";
 
 const useRefreshToken = () => {
   const refresh = async () => {
@@ -23,22 +21,6 @@ const useRefreshToken = () => {
         payload,
         { "Content-Type": "application/json" }
       );
-
-      // const response = await axios.post(
-      //   `${BASE_URI}/refresh`,
-      //   {
-      //     // Add the body here (for example, include a refresh token)
-      //     refresh: token,
-      //   },
-
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       // Authorization: `Bearer ${token}`,
-      //     },
-      //     withCredentials: true,
-      //   }
-      // );
 
       if (response == null) {
         return null;
