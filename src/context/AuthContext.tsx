@@ -35,34 +35,57 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [authErrors]);
 
+  // const login = async (username: string, password: string) => {
+  //   const response = await Login(username, password).catch((error) => {
+  //     console.log("-----LOGIN---ERROR---", error);
+
+  //     if (error.code === "ERR_NETWORK") {
+  //       setAuthErrors({
+  //         data: {
+  //           error: "Network error",
+  //           status: 503,
+  //         },
+  //       });
+  //     } else {
+  //       setAuthErrors(error);
+  //     }
+  //   });
+
+  //   if (response) {
+  //     console.log("-----LOGIN---response---", response);
+
+  //     setIsSignedIn(true);
+
+  //     localStorage.setItem("authToken", JSON.stringify(response.access));
+  //     localStorage.setItem("refreshToken", JSON.stringify(response.refresh));
+  //   }
+  //   return true;
+  // };
+
   const login = async (username: string, password: string) => {
-    const response = await Login(username, password).catch((error) => {
-      console.log("-----LOGIN---ERROR---", error);
-      if (error.code === "ERR_NETWORK") {
-        setAuthErrors({
-          data: {
-            error: "Network error",
-            status: 503,
-          },
-        });
-      } else {
-        setAuthErrors(error);
+    try {
+      const response = await Login(username, password);
+
+      if (response) {
+        setIsSignedIn(true);
+        localStorage.setItem("authToken", JSON.stringify(response.access));
+        localStorage.setItem("refreshToken", JSON.stringify(response.refresh));
+        return true;
       }
-    });
-    // console.log("-----LOGIN---response---", response);
 
-    if (response) {
-      setIsSignedIn(true);
+      return false;
+    } catch (error: any) {
+      console.error("Login error:", error);
 
-      localStorage.setItem("authToken", JSON.stringify(response.access));
-      localStorage.setItem("refreshToken", JSON.stringify(response.refresh));
+      setAuthErrors({
+        data: {
+          error: error?.message || "An error occurred during login",
+          status: error?.status || 500,
+        },
+      });
 
-      // localStorage.setItem(
-      //   "local_api_logged",
-      //   JSON.stringify(response.ResponseData.LocalAPIURL)
-      // );
+      return false; // Return false on failure
     }
-    return true;
   };
 
   const logout = () => {

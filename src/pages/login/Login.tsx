@@ -5,8 +5,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("super_admin");
+  const [password, setPassword] = useState("tla*pZ8TEz");
 
   const { login, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ const LoginPage = () => {
     const success = await login(username, password);
     if (success) {
       navigate("/newManager");
+      console.log("Success", success);
     } else {
       console.log("Login failed! Please try again.");
     }

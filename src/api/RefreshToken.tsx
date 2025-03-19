@@ -6,13 +6,16 @@ import { BASE_URI } from "./contants";
 const useRefreshToken = () => {
   const refresh = async () => {
     try {
-      const token =
-        localStorage.getItem("refreshToken") || "4d4a50524f4432303232";
+      const token = localStorage.getItem("refreshToken");
+      if (!token) {
+        console.error("No refresh token found.");
+        return null;
+      }
 
       const response = await axios.get(`${BASE_URI}/refresh`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         withCredentials: true,
       });

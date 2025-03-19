@@ -19,6 +19,7 @@ import {
 } from "../api/auth";
 import { DEFAULT_LANGUAGE_ID } from "../api/contants";
 import { Category, SubCategory } from "../util/ExampleData";
+import { AuthContext } from "./AuthContext";
 
 // Define the context type
 interface ConversationsContextType {
@@ -73,11 +74,15 @@ export const ConversationsProvider = ({
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
 
+  const { isSignedIn } = useContext(AuthContext);
+
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
     queryParams: Record<string, any> = {}
   ) => {
     try {
+      if (!isSignedIn) return;
+
       const updatedQuery = {
         ...queryParams,
         ...{ language: DEFAULT_LANGUAGE_ID },
@@ -194,9 +199,11 @@ export const ConversationsProvider = ({
   };
 
   useEffect(() => {
-    fetchConversations(QuestionStatus.NeedApproval);
-    getCategories();
-  }, []);
+    if (isSignedIn) {
+      fetchConversations(QuestionStatus.NeedApproval);
+      getCategories();
+    }
+  }, [isSignedIn]);
 
   useEffect(() => {
     getKnowledgeSummary();

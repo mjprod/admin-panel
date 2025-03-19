@@ -10,10 +10,11 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
     (config) => {
       setLoading(true); 
       showConsoleMessage("Resquest: ", config);
-          const token = localStorage.getItem("authToken") || "4d4a50524f4432303232";
+          const token = localStorage.getItem("authToken");
           config.headers.set("Accept", "*/*");
           config.headers.set("Content-Type", "application/json");
-          config.headers.set("Authorization", `Token ${token}`);
+          if(token)    
+            config.headers.set("Authorization", `Bearer ${token}`);
           config.transformRequest = [(data) => data];
           return config;
     },
@@ -41,7 +42,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         try {
           const newToken = await refresh();
           if (newToken) {
-            originalRequest.headers["Authorization"] = `Token ${newToken}`;
+            originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
             return Request(originalRequest); 
           }
         } catch (refreshError) {
