@@ -5,8 +5,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("super_admin");
-  const [password, setPassword] = useState("tla*pZ8TEz");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const { login, logout } = useContext(AuthContext);
   const navigate = useNavigate();
