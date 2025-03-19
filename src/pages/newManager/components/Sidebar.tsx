@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Sidebar.module.css";
 import QuestionTools, { CategoryProps } from "./QuestionTools";
 import SideCard from "./SideCard";
 import CreateNewButton from "./CreateNewButton";
 import { QuestionStatus } from "../../../util/QuestionStatus";
 import { useConversationsContext } from "../../../context/ConversationProvider";
+import { AuthContext } from "../../../context/AuthContext";
 
 interface SidebarProps {
   card: QuestionStatus;
@@ -20,6 +21,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   onCategoryClick,
 }) => {
   const { totalKnowledgeCount } = useConversationsContext();
+  const { logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <aside className={styles["sidebar"]}>
@@ -49,6 +55,10 @@ const Sidebar: React.FC<SidebarProps> = ({
           onSideCardClicked={onSideCardClicked}
           classNameStyle={styles["timeline-card"]}
         />
+      </div>
+
+      <div className={styles["logout"]} onClick={handleLogout}>
+        Logout
       </div>
     </aside>
   );
