@@ -33,7 +33,7 @@ const useRefreshToken = () => {
       return newToken;
     } catch (err) {
       console.error("Refresh token failed:", err);
-      return null;
+      return err;
     }
   };
 

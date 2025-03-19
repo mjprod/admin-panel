@@ -51,33 +51,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     checkAuth();
   }, []);
 
-  // const login = async (username: string, password: string) => {
-  //   const response = await Login(username, password).catch((error) => {
-  //     console.log("-----LOGIN---ERROR---", error);
-
-  //     if (error.code === "ERR_NETWORK") {
-  //       setAuthErrors({
-  //         data: {
-  //           error: "Network error",
-  //           status: 503,
-  //         },
-  //       });
-  //     } else {
-  //       setAuthErrors(error);
-  //     }
-  //   });
-
-  //   if (response) {
-  //     console.log("-----LOGIN---response---", response);
-
-  //     setIsSignedIn(true);
-
-  //     localStorage.setItem("authToken", JSON.stringify(response.access));
-  //     localStorage.setItem("refreshToken", JSON.stringify(response.refresh));
-  //   }
-  //   return true;
-  // };
-
   const login = async (username: string, password: string) => {
     try {
       const response = await Login(username, password);
