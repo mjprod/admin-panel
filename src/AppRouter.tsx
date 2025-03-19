@@ -7,6 +7,7 @@ import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 import SuperAdmin from "./pages/superAdmin/SuperAdmin";
 import NewManager from "./pages/newManager/NewManager";
 import LoginPage from "./pages/login/Login";
+import { ConversationsProvider } from "./context/ConversationProvider";
 // PrivateRoute component to handle protected routes
 // const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
 //   const { isSignedIn } = useContext(AuthContext);
@@ -36,7 +37,14 @@ const AppRouter = () => {
         {/* Private routes: Only render these if user is signed in */}
         {isSignedIn ? (
           <>
-            <Route path="/newManager" element={<NewManager />} />
+            <Route
+              path="/newManager"
+              element={
+                <ConversationsProvider>
+                  <NewManager />
+                </ConversationsProvider>
+              }
+            />
             <Route path="/superAdmin" element={<SuperAdmin />} />
             <Route path="/testPage" element={<TestPage />} />
             <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
