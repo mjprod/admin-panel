@@ -1,27 +1,17 @@
 import React, { useContext } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-
-import { AuthContext } from "./context/AuthContext";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext"; // Adjust this path based on your project
 import TestPage from "./pages/TestPage";
 import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 import SuperAdmin from "./pages/superAdmin/SuperAdmin";
 import NewManager from "./pages/newManager/NewManager";
 import LoginPage from "./pages/login/Login";
 import { ConversationsProvider } from "./context/ConversationProvider";
-// PrivateRoute component to handle protected routes
-// const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
-//   const { isSignedIn } = useContext(AuthContext);
-//   return isSignedIn ? element : <Navigate to="/login" />;
-// };
-
-// interface PrivateRouteProps {
-//   element: React.ReactElement;
-// }
+import PrivateRoute from "./PrivateRoute";
 
 const AppRouter = () => {
-  const { loadingAuth, isSignedIn } = useContext(AuthContext);
+  const { loadingAuth } = useContext(AuthContext);
 
-  // Show loading indicator while checking authentication status
   if (loadingAuth) {
     return <div>Loading...</div>;
   }
@@ -34,52 +24,47 @@ const AppRouter = () => {
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Private routes: Only render these if user is signed in */}
-        {isSignedIn ? (
-          <>
-            <Route
-              path="/newManager"
-              element={
-                <ConversationsProvider>
-                  <NewManager />
-                </ConversationsProvider>
-              }
-            />
-            <Route path="/superAdmin" element={<SuperAdmin />} />
-            <Route path="/testPage" element={<TestPage />} />
-            <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
-            {/* Redirect to Main for invalid routes */}
-            <Route path="*" element={<Navigate to="/newManager" />} />
-          </>
-        ) : (
-          // If not signed in, redirect all unknown routes to login
-          <Route path="*" element={<Navigate to="/login" />} />
-        )}
+        {/* Private routes */}
+        <Route
+          path="/newManager"
+          element={
+            <PrivateRoute>
+              <ConversationsProvider>
+                <NewManager />
+              </ConversationsProvider>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/superAdmin"
+          element={
+            <PrivateRoute>
+              <SuperAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/testPage"
+          element={
+            <PrivateRoute>
+              <TestPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/modifyKnowledge"
+          element={
+            <PrivateRoute>
+              <ModifyKnowledgePage />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Default redirect route */}
+        <Route path="*" element={<Navigate to="/newManager" />} />
       </Routes>
     </div>
   );
-
-  // return (
-  //   <div
-  //     style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}
-  //   >
-  //     <Routes>
-  //       {/* Public routes */}
-  //       <Route path="/login" element={<LoginPage />} />
-
-  //       {/* Authenticated routes */}
-  //       <Route path="/newManager" element={<NewManager />} />
-
-  //       <Route path="/superAdmin" element={<SuperAdmin />} />
-
-  //       <Route path="/testPage" element={<TestPage />} />
-  //       <Route path="/modifyKnowledge" element={<ModifyKnowledgePage />} />
-
-  //       {/* Redirect to Main for invalid routes */}
-  //       <Route path="*" element={<Navigate to="/newManager" />} />
-  //     </Routes>
-  //   </div>
-  // );
 };
 
 export default AppRouter;
