@@ -9,10 +9,20 @@ export const createPayload = <T>(basePayload: T): string => {
 
 export const apiPostRequest = async <T>(
   endpoint: string,
-  payload: string
+  payload: string,
+  headers?: Record<string, string> 
 ): Promise<T | null> => {
   try {
-    const response = await Request.post(endpoint, payload);
+
+    const mergedHeaders = {
+      ...headers, 
+    };
+
+    const response = await Request.post(endpoint, payload,
+      {
+        headers: mergedHeaders,
+      }
+    );
     return response.data as T;
   } catch (error: any) {
     showConsoleError("Axios Error: ", error.data.error);

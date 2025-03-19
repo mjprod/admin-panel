@@ -1,5 +1,6 @@
-import axios from "axios";
-import { BASE_URI } from "./contants";
+import { Endpoint } from "./contants";
+import { apiPostRequest, createPayload } from "./util/apiUtils";
+import { AuthResponse } from "./responsePayload/AuthResponse";
 // import { apiGetRequest } from "./util/apiUtils";
 // import { AuthResponse } from "./responsePayload/AuthResponse";
 
@@ -12,28 +13,45 @@ const useRefreshToken = () => {
         return null;
       }
 
-      const response = await axios.get(`${BASE_URI}/refresh`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+      const basePayload = {
+        refresh: token,
+      };
 
-      // const res = await apiGetRequest<AuthResponse>(Endpoint.Refresh);
+      const payload = createPayload(basePayload);
+      const response = await apiPostRequest<AuthResponse>(
+        Endpoint.Refresh,
+        payload,
+        { "Content-Type": "application/json" }
+      );
 
-      //TODO: change with real data
-      const newToken = response.data.access;
-      // localStorage.setItem("authToken", JSON.stringify(res?.access));
-      // localStorage.setItem("refreshToken", JSON.stringify(res?.access));
+      // const response = await axios.post(
+      //   `${BASE_URI}/refresh`,
+      //   {
+      //     // Add the body here (for example, include a refresh token)
+      //     refresh: token,
+      //   },
 
-      localStorage.setItem("authToken", `Bearer ${newToken}`);
-      localStorage.setItem("refreshToken", `Bearer ${response.data.refresh}`);
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       // Authorization: `Bearer ${token}`,
+      //     },
+      //     withCredentials: true,
+      //   }
+      // );
+
+      if (response == null) {
+        return null;
+      }
+      const newToken = `Bearer ${response.access}`;
+
+      localStorage.setItem("authToken", newToken);
+      localStorage.setItem("refreshToken", response.refresh);
 
       return newToken;
     } catch (err) {
       console.error("Refresh token failed:", err);
-      return err;
+      return null;
     }
   };
 
