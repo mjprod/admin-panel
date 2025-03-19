@@ -21,6 +21,10 @@ export const Endpoint = {
   Category: `${getBaseUri()}/categories/`,
   SubCategory: `${getBaseUri()}/subcategories/`,
   CreateKnowledge: `${getBaseUri()}/knowledge-content/`,
+
+  Login: `${getBaseUri()}/login/`,
+  Refresh: `${getBaseUri()}/refresh/`,
+
 };
 
 //API Constants

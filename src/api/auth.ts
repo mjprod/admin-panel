@@ -28,7 +28,9 @@ import {
   apiPostRequest,
   createPayload,
 } from "./util/apiUtils";
+import { AuthResponse } from "./responsePayload/AuthResponse";
 import { ChatDialogProps, ChatType } from "../components/popUp/ChatDialog";
+/* eslint-disable complexity */
 
 export const AllConversation = async (
   endpoint: string | undefined = Endpoint.Knowledge,
@@ -341,4 +343,19 @@ export const KowledgeSummary = async (
     pathVariables,
     query
   );
+};
+
+
+export const Login = async (
+  username: string,
+  password: string,
+): Promise<AuthResponse | null> => {
+  const basePayload = {
+    username: username,
+    password: password
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest<AuthResponse>(Endpoint.Login, payload);
+
 };
