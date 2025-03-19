@@ -10,12 +10,16 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
     (config) => {
       setLoading(true); 
       showConsoleMessage("Resquest: ", config);
-          const token = localStorage.getItem("authToken") || "4d4a50524f4432303232";
-          config.headers.set("Accept", "*/*");
-          config.headers.set("Content-Type", "application/json");
-          config.headers.set("Authorization", `Token ${token}`);
-          config.transformRequest = [(data) => data];
-          return config;
+      const token = localStorage.getItem("authToken");
+      
+      if (!config.url?.includes("/refresh") || !config.url?.includes("/login")) {
+        config.headers.set("Accept", "*/*");
+        config.headers.set("Content-Type", "application/json");
+        if (token) {
+          config.headers.set("Authorization", `${token}`);
+        }
+      }
+      return config;
     },
     (error) => {
       setLoading(false);
@@ -41,7 +45,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         try {
           const newToken = await refresh();
           if (newToken) {
-            originalRequest.headers["Authorization"] = `Token ${newToken}`;
+            originalRequest.headers["Authorization"] = `${newToken}`;
             return Request(originalRequest); 
           }
         } catch (refreshError) {
@@ -50,7 +54,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         }
       }
 
-      const errorMsg: AuthErrors = { data: { error: error.response || error.message || "Unknown error", status: -1 } };
+      const errorMsg: AuthErrors = { data: { error: error.response || error.message || "Unknown error", status: -1  } };
 
       return Promise.reject(errorMsg);
     }

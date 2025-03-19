@@ -36,7 +36,8 @@
   margin-bottom: 2rem;
   animation: slideUpFadeIn 1.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-h2 {
+
+.title {
   color: var(--color10-dark);
   font-size: 1.4rem;
 }

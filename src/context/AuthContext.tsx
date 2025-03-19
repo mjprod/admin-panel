@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
+import { Login } from "../api/auth";
+import useRefreshToken from "../api/RefreshToken";
 
 export interface AuthContextType {
   accessToken: string | undefined;
   loadingAuth: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: (callback?: () => void) => void;
   authErrors: AuthErrors | undefined;
   isSignedIn: boolean;
@@ -22,7 +24,7 @@ export const AuthContext = createContext<AuthContextType>(
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [loadingAuth] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(false);
   const [authErrors, setAuthErrors] = useState<AuthErrors>();
 
   useEffect(() => {
@@ -34,35 +36,65 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [authErrors]);
 
-  const login = async () => {
-    // const response = await loginByUsername(email, password).catch((error) => {
-    //   if (error.code === "ERR_NETWORK") {
-    //     setAuthErrors({
-    //       data: {
-    //         error: "Network error",
-    //         status: 503,
-    //       },
-    //     });
-    //   } else {
-    //     setAuthErrors(error);
-    //   }
-    // });
+  useEffect(() => {
+    // 🔥 Check authentication state on load
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const { refresh } = useRefreshToken();
 
-    // if (response) {
-    //   setIsSignedIn(true);
-    //   localStorage.setItem("user_logged", JSON.stringify(response));
-    //   localStorage.setItem(
-    //     "local_api_logged",
-    //     JSON.stringify(response.ResponseData.LocalAPIURL)
-    //   );
-    // }
-    return true;
+        if (token) {
+          // If token exists, validate it
+          const valid = await refresh();
+          setIsSignedIn(valid ? true : false);
+        } else {
+          setIsSignedIn(false);
+        }
+
+        // setIsSignedIn(!!token);
+      } catch {
+        setIsSignedIn(false);
+      } finally {
+        setLoadingAuth(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const login = async (username: string, password: string) => {
+    try {
+      const response = await Login(username, password);
+
+      if (response) {
+        setIsSignedIn(true);
+        localStorage.setItem("authToken", `Bearer ${response.access}`);
+        localStorage.setItem("refreshToken", response.refresh);
+        return true;
+      }
+
+      return false;
+    } catch (error: any) {
+      console.error("Login error:", error);
+
+      setAuthErrors({
+        data: {
+          error: error?.message || "An error occurred during login",
+          status: error?.status || 500,
+        },
+      });
+
+      return false; // Return false on failure
+    }
   };
 
   const logout = () => {
     setIsSignedIn(false);
-    localStorage.removeItem("user_logged");
-    localStorage.removeItem("local_api_logged");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("refreshToken");
+
+    // localStorage.removeItem("user_logged");
+    // localStorage.removeItem("local_api_logged");
   };
 
   return (

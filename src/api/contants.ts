@@ -1,8 +1,6 @@
 //API Domain Name
 import { showConsoleMessage } from "../util/ConsoleMessage";
 export const apiDomainName = "api-staging.mjproapps.com/api";
-//export const apiDomainName = "localhost:8000/api";
-//export const apiDomainName = "13.236.193.147:8000/api";
 export const BASE_URI = `https://${apiDomainName}`;
 
 export const getBaseUri = () => {
@@ -21,6 +19,10 @@ export const Endpoint = {
   Category: `${getBaseUri()}/categories/`,
   SubCategory: `${getBaseUri()}/subcategories/`,
   CreateKnowledge: `${getBaseUri()}/knowledge-content/`,
+
+  Login: `${getBaseUri()}/login/`,
+  Refresh: `${getBaseUri()}/refresh/`,
+
 };
 
 //API Constants

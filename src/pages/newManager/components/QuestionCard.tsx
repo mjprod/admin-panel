@@ -14,6 +14,7 @@ import {
   KnowledgeStatus,
   KnowledgeCard,
 } from "../../../api/responsePayload/KnowledgeResponse";
+import ChatHistoryButton from "./ChatHistoryButton";
 /* eslint-disable complexity */
 
 
@@ -50,6 +51,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   isEdited = false,
   isSelected = false,
   onSelected = () => {},
+  context
 }) => {
   const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
@@ -83,7 +85,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
 
   const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
-  const handleEditChange = (updatedQuestion: string, updatedAnswer: string) => {
+  const handleEditChange = (updatedQuestion: string | null, updatedAnswer: string) => {
     console.log(updatedQuestion, updatedAnswer);
     setUpdatedAnswer(updatedAnswer);
     setUpdatedQuestion(updatedQuestion);
@@ -122,6 +124,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
             time={dateTime}
             conversationId={conversationId}
           />
+          {context && context && <ChatHistoryButton conversationData={context} />}
           <CategorySection
             category={category ? category.name : ""}
             color={categoryColor}
