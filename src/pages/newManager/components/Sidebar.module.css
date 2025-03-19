@@ -9,6 +9,28 @@
   padding-right: 1.5rem;
 }
 
+.logout {
+  display: flex;
+  margin-top: -2rem;
+  margin-bottom: 3rem;
+  color: var(--color20-dark);
+  border-radius: 0.5rem;
+  border: 2px solid var(--color20-dark);
+  cursor: pointer;
+  align-items: flex-start;
+  align-content: flex-start;
+  align-self: flex-start;
+  justify-content: flex-start;
+  justify-items: flex-start;
+  justify-self: flex-start;
+  padding: 1rem;
+}
+
+.logout:hover {
+  background-color: var(--color20-dark);
+  color: var(--white);
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
