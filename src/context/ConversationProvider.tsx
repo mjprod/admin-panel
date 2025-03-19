@@ -8,7 +8,7 @@ import React, {
 import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
 import {
   CategorySummary,
-  KnowledgeCard,
+  KnowledgeCard
 } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
 import {

@@ -1,7 +1,12 @@
 import { AxiosResponse } from "axios";
 import { LanguageProps } from "../components/language/Language";
 import { Category, SubCategory } from "../util/ExampleData";
-import { getLanguageByCode, getLanguageById, hexToHsla, updateHslaValues } from "../util/ExtensionFunction";
+import {
+  getLanguageByCode,
+  getLanguageById,
+  hexToHsla,
+  updateHslaValues,
+} from "../util/ExtensionFunction";
 import {
   DEFAULT_LANGUAGE_CODE,
   DEFAULT_LANGUAGE_ID,
@@ -13,6 +18,8 @@ import {
   KnowledgeCard,
   KnowledgeResponse,
   KnowledgeSummary,
+  ChatResponse,
+  KnowledgeContext,
 } from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
@@ -22,6 +29,7 @@ import {
   createPayload,
 } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
+import { ChatDialogProps, ChatType } from "../components/popUp/ChatDialog";
 
 export const AllConversation = async (
   endpoint: string | undefined = Endpoint.Knowledge,
@@ -106,17 +114,66 @@ const mapKnowledgeConversationData = (
       const categories: Category | null = item.category
         ? {
             id: item.category.id,
-          name: item.category.name,
-          color: item.category.color,
-          description: item.category.description,
-          colorDetails: {
-            borderColor: updateHslaValues(hexToHsla(item.category.color), 25, 90),
-            lightColor: hexToHsla(item.category.color),
-            darkColor: updateHslaValues(hexToHsla(item.category.color), 86, 30),
-
-            }
+            name: item.category.name,
+            color: item.category.color,
+            description: item.category.description,
+            colorDetails: {
+              borderColor: updateHslaValues(
+                hexToHsla(item.category.color),
+                25,
+                90
+              ),
+              lightColor: hexToHsla(item.category.color),
+              darkColor: updateHslaValues(
+                hexToHsla(item.category.color),
+                86,
+                30
+              ),
+            },
           }
         : null;
+
+      const cleanedStr = (item.context?.context ?? "")
+        .replace(/'/g, '"')
+        .replace(/\bTrue\b/g, "true")
+        .replace(/\bFalse\b/g, "false");
+
+      let contextJsonArray: ChatResponse[] = [];
+      try {
+        contextJsonArray = JSON.parse(cleanedStr);
+      } catch (error) {
+        console.error(
+          "JSON parse error:",
+          error,
+          "Original string:",
+          cleanedStr
+        );
+        contextJsonArray = [];
+      }
+      const chatData: ChatDialogProps[] = contextJsonArray.map((chat) => {
+        const message = chat.IsService
+          ? chat.AdminAction == 2
+            ? chat.RobotMsg
+            : chat.AdminReply
+          : chat.UserMsg;
+        return {
+          id: chat.ChatId,
+          type: chat.IsService ? ChatType.CustomerSupport : ChatType.User,
+          datetime: chat.CreateDate,
+          message: message,
+          isActive: chat.IsService
+            ? knowledgeContent.answer == message
+            : knowledgeContent.question == message,
+        };
+      });
+
+      const context: KnowledgeContext = {
+        conversationId:
+          contextJsonArray.length > 0 ? contextJsonArray[0].ConversationId : "",
+        date_time:
+          contextJsonArray.length > 0 ? contextJsonArray[0].CreateDate : "",
+        chat_data: chatData,
+      };
 
       knowledgeinfo.push({
         knowledgeId: item.id,
@@ -132,6 +189,7 @@ const mapKnowledgeConversationData = (
         isEdited: knowledgeContent.is_edited,
         inBrain: knowledgeContent.in_brain,
         status: status,
+        context: contextJsonArray.length > 0 ? context : null,
       });
     }
   });
@@ -214,25 +272,20 @@ export const KowledgeContentBulkDelete = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.KnowledgeContentBulkDelete, payload);
-
 };
 
-export const getAllCategories = async (
-):  Promise<Category[] | null> => {
+export const getAllCategories = async (): Promise<Category[] | null> => {
   try {
-      const res =  await apiGetRequest<Category[]>(
-        Endpoint.Category
-    );
+    const res = await apiGetRequest<Category[]>(Endpoint.Category);
     res?.map((data) => {
       if (data.color) {
         data.colorDetails = {
           borderColor: updateHslaValues(hexToHsla(data.color), 25, 90),
-          lightColor : hexToHsla(data.color),
-          darkColor : updateHslaValues(hexToHsla(data.color), 86, 30),
-        }
-        
+          lightColor: hexToHsla(data.color),
+          darkColor: updateHslaValues(hexToHsla(data.color), 86, 30),
+        };
       }
-    })
+    });
     return res;
   } catch (error) {
     console.error("Error in All Categories:", error);
@@ -240,45 +293,39 @@ export const getAllCategories = async (
   }
 };
 
-
 export const getSubCategories = async (
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
-):  Promise<SubCategory[] | null> => {
-
+): Promise<SubCategory[] | null> => {
   try {
-
-      return await apiGetRequest<SubCategory[]>(
-        Endpoint.SubCategory,
-        pathVariables,
-        queryParams
-      );
-  
+    return await apiGetRequest<SubCategory[]>(
+      Endpoint.SubCategory,
+      pathVariables,
+      queryParams
+    );
   } catch (error) {
     console.error("Error in All Categories:", error);
     return null;
   }
 };
 
-
 export const CreateKnowledge = async (
   categoryId: number,
   subCategoryId: number,
   language: number,
   question: string,
-  answer: string,
+  answer: string
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     category: categoryId,
     subcategory: subCategoryId,
     language: language,
     question: question,
-    answer: answer
+    answer: answer,
   };
 
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.CreateKnowledge, payload);
-
 };
 
 export const KowledgeSummary = async (

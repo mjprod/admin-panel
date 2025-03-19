@@ -91,7 +91,7 @@ const CustomButton: React.FC<ButtonProps> = ({
 
   return (
     <button className={buttonClass} onClick={handleClick} disabled={disabled}>
-      {icon && <img src={`${icon}`} />}
+      {icon && <img className={styles["image"]} src={`${icon}`} />}
       {text}
     </button>
   );
