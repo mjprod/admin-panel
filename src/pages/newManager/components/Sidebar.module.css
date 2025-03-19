@@ -26,6 +26,11 @@
   padding: 1rem;
 }
 
+.logout:hover {
+  background-color: var(--color20-dark);
+  color: var(--white);
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
