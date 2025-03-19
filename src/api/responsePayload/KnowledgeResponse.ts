@@ -28,7 +28,7 @@ export interface KnowledgeItem {
   category: Category | null;
   subcategory: SubCategory | null;
   type: number;
-  context: ContextItem;
+  context: ContextItem | null;
   knowledge_content: KnowledgeContent[];
 }
 
@@ -87,7 +87,7 @@ export interface KnowledgeCard {
   inBrain?: boolean;
   isSelected?: boolean;
   onSelected?: (conversationId: string, checked: boolean) => void;
-  context: KnowledgeContext;
+  context: KnowledgeContext | null;
 }
 
 export enum KnowledgeStatus {

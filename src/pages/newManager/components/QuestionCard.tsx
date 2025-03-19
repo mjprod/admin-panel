@@ -124,7 +124,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
             time={dateTime}
             conversationId={conversationId}
           />
-          <ChatHistoryButton conversationData={context} />
+          {context && context && <ChatHistoryButton conversationData={context} />}
           <CategorySection
             category={category ? category.name : ""}
             color={categoryColor}
