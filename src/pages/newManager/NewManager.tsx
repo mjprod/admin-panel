@@ -2,7 +2,7 @@ import TopBar from "./components/topBar/TopBar";
 import Sidebar from "./components/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/bottomBar/BottomBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import clsx from "clsx";
 import SelectAllBar from "./components/topBar/SelectAllBar";
@@ -12,8 +12,16 @@ import {
   KowledgeContentBulkDelete,
   KowledgeContentBulkUpdate,
 } from "../../api/auth";
+import { AuthContext } from "../../context/AuthContext";
 
 const NewManager = () => {
+  const { isSignedIn } = useContext(AuthContext);
+
+  // 🔴 Prevent using the context before user logs in
+  if (!isSignedIn) {
+    return <div>Loading Conversations...</div>;
+  }
+
   const {
     conversations,
     setConversations,
@@ -26,7 +34,7 @@ const NewManager = () => {
     onNextPageClicked,
     totalPages,
     setUpdateConversationList,
-    categoriesFilter
+    categoriesFilter,
   } = useConversationsContext();
 
   const [checked, setChecked] = useState(false);

@@ -27,8 +27,9 @@ const useRefreshToken = () => {
       // localStorage.setItem("authToken", JSON.stringify(res?.access));
       // localStorage.setItem("refreshToken", JSON.stringify(res?.access));
 
-      localStorage.setItem("authToken", newToken);
-      localStorage.setItem("refreshToken", response.data.refresh);
+      localStorage.setItem("authToken", `Bearer ${newToken}`);
+      localStorage.setItem("refreshToken", `Bearer ${response.data.refresh}`);
+
       return newToken;
     } catch (err) {
       console.error("Refresh token failed:", err);
