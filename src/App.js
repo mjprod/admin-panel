@@ -9,7 +9,6 @@ import Loading from "./components/Loading";
 import { setupInterceptors } from "./api/axios-config";
 import { useLoading } from "./context/LoadingContext";
 import { useEffect } from "react";
-import { ConversationsProvider } from "./context/ConversationProvider";
 
 setupInterceptors(() => {});
 
@@ -23,12 +22,10 @@ function App() {
   return (
     <AuthProvider>
       <Provider store={store}>
-        <ConversationsProvider>
           <Router>
             <Loading />
             <AppRouter />
           </Router>
-        </ConversationsProvider>
       </Provider>
     </AuthProvider>
   );

@@ -141,7 +141,10 @@ const mapKnowledgeConversationData = (
 
       let contextJsonArray: ChatResponse[] = [];
       try {
-        contextJsonArray = JSON.parse(cleanedStr);
+        contextJsonArray =
+          !cleanedStr || cleanedStr.trim() === "" || cleanedStr === "[]"
+            ? []
+            : JSON.parse(cleanedStr);
       } catch (error) {
         console.error(
           "JSON parse error:",
@@ -345,17 +348,15 @@ export const KowledgeSummary = async (
   );
 };
 
-
 export const Login = async (
   username: string,
-  password: string,
+  password: string
 ): Promise<AuthResponse | null> => {
   const basePayload = {
     username: username,
-    password: password
+    password: password,
   };
 
   const payload = createPayload(basePayload);
   return await apiPostRequest<AuthResponse>(Endpoint.Login, payload);
-
 };

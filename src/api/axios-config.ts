@@ -13,8 +13,10 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
           const token = localStorage.getItem("authToken");
           config.headers.set("Accept", "*/*");
           config.headers.set("Content-Type", "application/json");
-          if(token)    
-            config.headers.set("Authorization", `Bearer ${token}`);
+          if(token) {
+            const tokenStr = JSON.parse(token || '""');
+            config.headers.set("Authorization", `Bearer ${tokenStr}`);
+          }
           config.transformRequest = [(data) => data];
           return config;
     },
