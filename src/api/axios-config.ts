@@ -10,14 +10,16 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
     (config) => {
       setLoading(true); 
       showConsoleMessage("Resquest: ", config);
-     
-          const token = localStorage.getItem("authToken");
-          config.headers.set("Accept", "*/*");
-          config.headers.set("Content-Type", "application/json");
-          if(token)    
-            config.headers.set("Authorization", `${token}`);
-          config.transformRequest = [(data) => data];
-          return config;
+      const token = localStorage.getItem("authToken");
+      
+      if (!config.url?.includes("/refresh") || !config.url?.includes("/login")) {
+        config.headers.set("Accept", "*/*");
+        config.headers.set("Content-Type", "application/json");
+        if (token) {
+          config.headers.set("Authorization", `${token}`);
+        }
+      }
+      return config;
     },
     (error) => {
       setLoading(false);

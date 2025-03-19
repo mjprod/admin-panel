@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { Login } from "../api/auth";
+import useRefreshToken from "../api/RefreshToken";
 
 export interface AuthContextType {
   accessToken: string | undefined;
@@ -40,7 +41,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        setIsSignedIn(!!token);
+        const { refresh } = useRefreshToken();
+
+        if (token) {
+          // If token exists, validate it
+          const valid = await refresh();
+          setIsSignedIn(valid ? true : false);
+        } else {
+          setIsSignedIn(false);
+        }
+
+        // setIsSignedIn(!!token);
       } catch {
         setIsSignedIn(false);
       } finally {
@@ -58,7 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (response) {
         setIsSignedIn(true);
         localStorage.setItem("authToken", `Bearer ${response.access}`);
-        localStorage.setItem("refreshToken", `Bearer ${response.refresh}`);
+        localStorage.setItem("refreshToken", response.refresh);
         return true;
       }
 
