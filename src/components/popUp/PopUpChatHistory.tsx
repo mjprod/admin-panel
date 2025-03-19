@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./PopUpChatHistory.module.css";
 import AssetsPack from "../../util/AssetsPack";
 import PopUpChatHistoryDetail from "./PopUpChatHistoryDetail";
-import ChatDialog, { ChatDialogProps, ChatType } from "./ChatDialog";
+import ChatDialog from "./ChatDialog";
 import { KnowledgeContext } from "../../api/responsePayload/KnowledgeResponse";
 
 interface PopUpChatHistory {

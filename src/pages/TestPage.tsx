@@ -1,14 +1,26 @@
 import React from "react";
 import CreateNewButton from "./newManager/components/CreateNewButton";
-import ChatHistoryButton from "./newManager/components/ChatHistoryButton";
 import QuestionCard from "./newManager/components/QuestionCard";
 import { KnowledgeStatus } from "../api/responsePayload/KnowledgeResponse";
+import { ChatType } from "../components/popUp/ChatDialog";
 
 const TestPage = () => {
+  const context = {
+    conversationId: "12tgvbhhgbhnj",
+    date_time: "09/09/2029",
+    chat_data: [
+      {
+        id: 123,
+        type: ChatType.User,
+        datetime: "09/09/2029",
+        message: "wertyhbvfgyhujkl",
+        isActive: false,
+      },
+    ],
+  };
   return (
     <div>
       <CreateNewButton />
-      <ChatHistoryButton />
       <QuestionCard
         knowledgeId={1}
         id={1}
@@ -21,6 +33,7 @@ const TestPage = () => {
         question={"1111111"}
         answer={"1111111"}
         status={KnowledgeStatus.NeedReview}
+        context={context}
       />
     </div>
   );
