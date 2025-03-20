@@ -47,6 +47,10 @@
     display: flex;
     width: 1.5rem;
     height: 1.5rem;
+    & img {
+      height: 2rem;
+      width: 2rem;
+    }
   }
 }
 
