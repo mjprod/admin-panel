@@ -6,6 +6,8 @@ import CreateNewButton from "./CreateNewButton";
 import { QuestionStatus } from "../../../util/QuestionStatus";
 import { useConversationsContext } from "../../../context/ConversationProvider";
 import { AuthContext } from "../../../context/AuthContext";
+import LanguageList from "../../../components/language/LanguageList";
+import { Language, LanguageCode } from "../../../api/responsePayload/KnowledgeResponse";
 
 interface SidebarProps {
   card: QuestionStatus;
@@ -20,12 +22,16 @@ const Sidebar: React.FC<SidebarProps> = ({
   categories,
   onCategoryClick,
 }) => {
-  const { totalKnowledgeCount } = useConversationsContext();
+  const { totalKnowledgeCount, language, setLanguage } = useConversationsContext();
   const { logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
   };
+
+  const handleLanguageSelect = (lang: LanguageCode) => {
+    setLanguage(lang)
+  }
 
   return (
     <aside className={styles["sidebar"]}>
@@ -57,8 +63,28 @@ const Sidebar: React.FC<SidebarProps> = ({
         />
       </div>
 
-      <div className={styles["logout"]} onClick={handleLogout}>
-        Logout
+      <div className={styles["bottom"]}>
+        <div className={styles["logout"]} onClick={handleLogout}>
+          Logout
+        </div>
+        <LanguageList
+          languages={[
+            {
+              lang: Language.ENGLISH,
+              isCompleted: language == Language.ENGLISH
+            },
+            {
+              lang: Language.MALAYSIAN,
+              isCompleted: language == Language.MALAYSIAN
+            },
+            {
+              lang: Language.CHINESE,
+              isCompleted: language == Language.CHINESE
+            },
+          ]}
+          showTitle = {true}
+          onLanguageSelected={handleLanguageSelect}
+        />
       </div>
     </aside>
   );

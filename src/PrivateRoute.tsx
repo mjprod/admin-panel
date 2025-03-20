@@ -22,7 +22,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  console.log("isSignedIn-----------", isSignedIn);
   if (!isSignedIn) {
     return <Navigate to="/login" />;
   }

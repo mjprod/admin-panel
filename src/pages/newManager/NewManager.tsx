@@ -13,6 +13,7 @@ import {
   KowledgeContentBulkUpdate,
 } from "../../api/auth";
 import { AuthContext } from "../../context/AuthContext";
+import { showConsoleError } from "../../util/ConsoleMessage";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -71,19 +72,17 @@ const NewManager = () => {
 
     if (statusClicked == QuestionStatus.PreApproved) {
       try {
-        const res = await KowledgeContentBulkUpdate(conversationIds, 3);
-        console.log("Res KowledgeContentBulkUpdate", conversationIds, res);
+        await KowledgeContentBulkUpdate(conversationIds, 3);
       } catch (e) {
-        console.log(e);
+        showConsoleError(e);
       }
     }
 
     if (statusClicked == QuestionStatus.Rejected) {
       try {
-        const res = await KowledgeContentBulkDelete(conversationIds);
-        console.log("Res KowledgeContentBulkDelete", conversationIds, res);
+        await KowledgeContentBulkDelete(conversationIds);
       } catch (e) {
-        console.log(e);
+        showConsoleError(e);
       }
     }
 

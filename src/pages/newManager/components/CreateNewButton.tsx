@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CreateNewButton.module.css";
 import AssetsPack from "../../../util/AssetsPack";
 import FilterSelect from "../../../components/dropDown/FilterSelect";
@@ -8,7 +8,7 @@ import CustomButton, {
 import { useTranslation } from "react-i18next";
 import { useConversationsContext } from "../../../context/ConversationProvider";
 import { CreateKnowledge } from "../../../api/auth";
-import { DEFAULT_LANGUAGE_ID } from "../../../api/contants";
+import { Category, SubCategory } from "../../../util/ExampleData";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
@@ -18,6 +18,44 @@ const CreateNewButton = () => {
 
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
+  const [subCategoryOptions, setSubCategoryOptions] =
+    useState<SubCategory[]>(subCategories);
+  const [categoryOptions, setCategoryOptions] =
+    useState<Category[]>(categories);
+
+  const { language, setUpdateConversationList } = useConversationsContext();
+
+  useEffect(() => {
+    setSubCategoryOptions(subCategories);
+    setCategoryOptions(categories);
+  }, [categories, subCategories]);
+
+  useEffect(() => {
+    if (selectedCategory == 0) {
+      setSubCategoryOptions(subCategories);
+    } else {
+      const filteredSubs = subCategories.filter(
+        (sub) => sub.category == selectedCategory
+      );
+      setSubCategoryOptions(filteredSubs);
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (selectedSubCategory != 0) {
+      const selected = subCategories.find(
+        (sub) => sub.id === selectedSubCategory
+      );
+      const selectedCat = categories.filter(
+        (cat) => cat.id == selected?.category
+      );
+      if (selectedCategory == 0 || selectedCategory != selected?.category) {
+        setCategoryOptions(selectedCat ?? categories);
+      }
+    } else {
+      setCategoryOptions(categories);
+    }
+  }, [selectedSubCategory]);
 
   const changeFormState = (state?: boolean) => {
     state ? setFormVisible(state) : setFormVisible(!isFormVisible);
@@ -40,10 +78,12 @@ const CreateNewButton = () => {
     await CreateKnowledge(
       selectedCategory,
       selectedSubCategory,
-      DEFAULT_LANGUAGE_ID,
+      language.id,
       question,
       answer
     );
+
+    setUpdateConversationList(true)
   };
 
   const InputContainer = (
@@ -101,12 +141,12 @@ const CreateNewButton = () => {
           <div className={styles["bottomSection"]}>
             <FilterSelect
               hint="Select Category"
-              options={categories}
+              options={categoryOptions}
               onChange={setSelectedCategory}
             />
             <FilterSelect
               hint="Sub Category"
-              options={subCategories}
+              options={subCategoryOptions}
               onChange={setSubSelectedCategory}
             />
           </div>

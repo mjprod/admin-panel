@@ -8,7 +8,9 @@ import React, {
 import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
 import {
   CategorySummary,
-  KnowledgeCard
+  KnowledgeCard,
+  Language,
+  LanguageCode
 } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/QuestionTools";
 import {
@@ -17,9 +19,10 @@ import {
   getAllCategories,
   getSubCategories,
 } from "../api/auth";
-import { DEFAULT_LANGUAGE_ID } from "../api/contants";
 import { Category, SubCategory } from "../util/ExampleData";
 import { AuthContext } from "./AuthContext";
+import { useTranslation } from "react-i18next";
+import { showConsoleError } from "../util/ConsoleMessage";
 
 // Define the context type
 interface ConversationsContextType {
@@ -44,6 +47,8 @@ interface ConversationsContextType {
   subCategories: SubCategory[];
   totalKnowledgeCount: number;
   categoriesFilter: CategoryProps[];
+  language: LanguageCode;
+  setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
 }
 
 const ConversationsContext = createContext<
@@ -56,6 +61,7 @@ export const ConversationsProvider = ({
 }: {
   children: ReactNode;
 }) => {
+  const {i18n} = useTranslation()
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
   const [statusClicked, setStatusClicked] = useState<QuestionStatus>(
     QuestionStatus.NeedApproval
@@ -73,6 +79,7 @@ export const ConversationsProvider = ({
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
+  const [language, setLanguage] = useState<LanguageCode>(Language.ENGLISH)
 
   const { isSignedIn } = useContext(AuthContext);
 
@@ -85,9 +92,9 @@ export const ConversationsProvider = ({
 
       const updatedQuery = {
         ...queryParams,
-        ...{ language: DEFAULT_LANGUAGE_ID },
+        ...{ language: language.id },
       };
-      const res = await AllConversation(endpoint, {}, updatedQuery);
+      const res = await AllConversation(language.code, endpoint, {}, updatedQuery);
       if (res) {
         setConversations(res.data);
         setCurrentPage(res.current_page);
@@ -96,10 +103,10 @@ export const ConversationsProvider = ({
         setTotalPages(res.total_pages);
         setTotalCount(res.count);
       } else {
-        console.log("API Response:Error", res);
+        showConsoleError("API Response:Error", res);
       }
     } catch (e) {
-      console.log("API Response:Error", e);
+      showConsoleError("API Response:Error", e);
     }
   };
 
@@ -137,7 +144,7 @@ export const ConversationsProvider = ({
 
   const getKnowledgeSummary = async () => {
     try {
-      const res = await KowledgeSummary();
+      const res = await KowledgeSummary(language.id);
       if (res && res.categories) {
         const totalKnowledgeCount = res.categories.reduce(
           (sum, category) => sum + category.knowledge_count,
@@ -147,7 +154,7 @@ export const ConversationsProvider = ({
         setCategoriesFilter(mapToCategoryProps(res.categories));
       }
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
@@ -172,6 +179,11 @@ export const ConversationsProvider = ({
   useEffect(() => {
     updateConvList();
   }, [isUpdateConversationList]);
+
+  useEffect(() => {
+    i18n.changeLanguage(language.code);
+    refreshConversations()
+  }, [language]);
 
   const onPrevPageClicked = () => {
     if (!!prePageUrl) {
@@ -241,6 +253,8 @@ export const ConversationsProvider = ({
         subCategories,
         totalKnowledgeCount,
         categoriesFilter,
+        language,
+        setLanguage
       }}
     >
       {children}

@@ -13,6 +13,7 @@ import {
 } from "../../../api/auth";
 import { getStatusNumber, QuestionStatus } from "../../../util/QuestionStatus";
 import { useConversationsContext } from "../../../context/ConversationProvider";
+import { showConsoleError, showConsoleMessage } from "../../../util/ConsoleMessage";
 
 interface ActionButtonsProps {
   id: number;
@@ -48,10 +49,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         isEditSelected ? updatedQuestion ?? "" : "",
         isEditSelected ? updatedAnswer : ""
       );
-      console.log("patch res ...... handleSaveAndPreApprove", id, res);
+      showConsoleError("patch res ...... handleSaveAndPreApprove", id, res);
       setUpdateConversationList(true);
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
@@ -61,24 +62,22 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handleReturn = async () => {
     try {
-      const res = await KowledgeContentBulkUpdate(
+      await KowledgeContentBulkUpdate(
         [id],
         getStatusNumber(QuestionStatus.NeedApproval)
       );
-      console.log("patch res ...... handle Return Approve", id, res);
       setUpdateConversationList(true);
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
   const handleDelete = async () => {
     try {
-      const res = await KowledgeContentDelete(id);
-      console.log("patch res ...... handle Delete", id, res);
+      await KowledgeContentDelete(id);
       setUpdateConversationList(true);
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
@@ -86,26 +85,24 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     selectOption: string,
     textMessage: string
   ) => {
-    console.log(selectOption, textMessage);
     try {
-      const res = await KowledgeContentStatusPatch(
+      showConsoleMessage(selectOption, textMessage)
+      await KowledgeContentStatusPatch(
         id,
         getStatusNumber(QuestionStatus.Rejected)
       );
-      console.log("patch res ...... handleReject", id, res);
       setUpdateConversationList(true);
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
   const handleApprove = async () => {
     try {
-      const res = await KowledgeContentBulkUpdate([id], 3);
-      console.log("Res handleApprove", [id], res);
+      await KowledgeContentBulkUpdate([id], 3);
       setUpdateConversationList(true);
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
