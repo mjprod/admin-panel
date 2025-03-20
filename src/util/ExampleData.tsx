@@ -115,6 +115,6 @@ export interface SubCategory {
   id: number;
   name: string;
   description?: string;
-  categoryId: number;
+  category: number;
 }
 

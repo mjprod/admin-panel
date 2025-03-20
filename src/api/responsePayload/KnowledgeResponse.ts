@@ -72,7 +72,7 @@ export interface ConversationKnowledge {
 }
 
 export interface KnowledgeCard {
-  knowledgeId: number,
+  knowledgeId: number;
   id: number;
   dateTime: string;
   conversationId: string;
@@ -95,6 +95,12 @@ export enum KnowledgeStatus {
   PreApproved = 2,
   Approved = 3,
   Rejected = 4
+}
+
+export interface LanguageCode {
+  label: string;
+  id: number;
+  code: string;
 }
 
 export const Language = {
