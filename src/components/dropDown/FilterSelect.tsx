@@ -16,9 +16,9 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    const id = options.find((cat) => cat.name == value).id;
+    const id = options.find((cat) => cat.name == value)?.id;
     setSelectedValue(value);
-    onChange(id);
+    onChange(id ?? 0);
   };
 
   return (

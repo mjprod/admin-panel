@@ -33,5 +33,5 @@ export const sha256Salt = String(process.env.REACT_APP_SHA256SALT);
 export const secretKey = String(process.env.REACT_APP_SECRET_KEY);
 export const apiKey = String(process.env.REACT_APP_API_KEY || "");
 
-export const DEFAULT_LANGUAGE_CODE = "cn";
-export const DEFAULT_LANGUAGE_ID = 3;
+export const DEFAULT_LANGUAGE_CODE = "en";
+export const DEFAULT_LANGUAGE_ID = 1;   //1: “en”, 2: "ms", 3: "cn"

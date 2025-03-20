@@ -327,7 +327,7 @@ export const CreateKnowledge = async (
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     category: categoryId,
-    Subcategory: subCategoryId,
+    subcategory: subCategoryId,
     language: language,
     question: question,
     answer: answer,
