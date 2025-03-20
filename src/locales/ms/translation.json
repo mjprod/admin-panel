@@ -1,46 +1,75 @@
 {
-    "category": {
-        "finance": "Kewangan",
-        "technology": "Teknologi",
-        "thirdParty": "Pihak Ketiga",
-        "account": "Akaun",
-        "feedback": "Maklum Balas",
-        "pointsShop": "Kedai Mata",
-        "referral": "Rujukan",
-        "security": "Keselamatan",
-        "fourDLotto": "4D Lotto",
-        "lucky7": "Lucky 7",
-        "all": "Semua"
-    },
-    "newManager": {
-        "question_tools": "Alat Soalan",
-        "total": "Jumlah",
-        "filter_by_tag": "Tapis Mengikut Tag:",
-        "choose_to_delete": "Pilih untuk dipadam",
-        "mark_to_save": "Tanda untuk disimpan",
-        "user_question": "Soalan Pengguna:",
-        "suggested_answer": "Jawapan Disyorkan:",
-        "conversation_id": "ID Perbualan:",
-        "create_new": "Cipta Baru",
-        "reject": "Tolak",
-        "exit_edit_mode": "Keluar dari Mod Edit",
-        "edit": "Sunting",
-        "edited": "Disunting",
-        "save_preApprove": "Simpan & Pralulus",
-        "preApproval": "Pra-Kelulusan",
-        "return_to_approval": "Kembali kepada \"Memerlukan Kelulusan\"",
-        "permanently_delete": "Padamkan Secara Kekal",
-        "select_all": "Pilih Semua",
-        "save_all_selected": "Simpan Semua yang Dipilih",
-        "delete_all_selected": "Padam Semua yang Dipilih",
-        "prev": "Sebelumnya",
-        "next": "Seterusnya",
-        "page": "Halaman",
-        "of": "daripada",
-        "need_approval": "Perlu Kelulusan",
-        "pre_approved": "Pra-Diluluskan",
-        "rejected": "Ditolak",
-        "question_strength": "Kekuatan Soalan"
-    }
-    
+  "category": {
+    "finance": "Kewangan",
+    "technology": "Teknologi",
+    "thirdParty": "Pihak Ketiga",
+    "account": "Akaun",
+    "feedback": "Maklum Balas",
+    "pointsShop": "Kedai Mata",
+    "referral": "Rujukan",
+    "security": "Keselamatan",
+    "fourDLotto": "4D Lotto",
+    "lucky7": "Lucky 7",
+    "all": "Semua"
+  },
+  "newManager": {
+    "question_tools": "Alat Soalan",
+    "total": "Jumlah",
+    "filter_by_tag": "Tapis Mengikut Tag:",
+    "choose_to_delete": "Pilih untuk dipadam",
+    "mark_to_save": "Tanda untuk disimpan",
+    "user_question": "Soalan Pengguna:",
+    "suggested_answer": "Jawapan Disyorkan:",
+    "conversation_id": "ID Perbualan:",
+    "create_new": "Cipta Baru",
+    "reject": "Tolak",
+    "exit_edit_mode": "Keluar dari Mod Edit",
+    "edit": "Sunting",
+    "edited": "Disunting",
+    "save_preApprove": "Simpan & Pralulus",
+    "preApproval": "Pra-Kelulusan",
+    "return_to_approval": "Kembali kepada \"Memerlukan Kelulusan\"",
+    "permanently_delete": "Padamkan Secara Kekal",
+    "select_all": "Pilih Semua",
+    "save_all_selected": "Simpan Semua yang Dipilih",
+    "delete_all_selected": "Padam Semua yang Dipilih",
+    "prev": "Sebelumnya",
+    "next": "Seterusnya",
+    "page": "Halaman",
+    "of": "daripada",
+    "need_approval": "Perlu Kelulusan",
+    "pre_approved": "Pra-Diluluskan",
+    "rejected": "Ditolak",
+    "question_strength": "Kekuatan Soalan"
+  },
+  "languageList": {
+    "Language": "Bahasa"
+  },
+  "chatDialog": {
+    "jokerUser": "Pengguna Joker",
+    "customer_service": "Sokongan pengguna"
+  },
+  "popUpChatHistory": {
+    "end_conversation": "Tamat perbualan"
+  },
+  "popUpChatHistoryDetail": {
+    "conversation_context": "Konteks Perbualan",
+    "jokerUser": "Pengguna Joker",
+    "conversation_id": "ID Perbualan:"
+  },
+  "popUpFeedback": {
+    "provide_feedback": "Beri Maklum Balas",
+    "wrong_question": "Soalan Salah",
+    "wrong_answer": "Jawapan Salah",
+    "other": "Lain-lain",
+    "submit": "Hantar"
+  },
+  "selectAllBar": {
+    "select_all": "Pilih Semua",
+    "approve_all": "Luluskan Semua",
+    "delete_all_selected": "Padam Semua Yang Dipilih"
+  },
+  "chatHistoryButton": {
+    "conversation_context": "Konteks Perbualan"
+  }
 }

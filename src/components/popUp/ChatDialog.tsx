@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ChatDialog.module.css";
 import AssetsPack from "../../util/AssetsPack";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 export enum ChatType {
   User = "user",
@@ -22,6 +23,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   message,
   isActive = false,
 }) => {
+  const { t } = useTranslation();
   return (
     <div
       className={clsx(
@@ -43,7 +45,9 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
                 alt=""
               />
             </div>
-            {type == ChatType.User ? "Pengguna Joker" : "Sokongan pengguna"}
+            {type == ChatType.User
+              ? t("chatDialog.jokerUser")
+              : t("chatDialog.customer_service")}
           </div>
           <p>{message}</p>
         </div>

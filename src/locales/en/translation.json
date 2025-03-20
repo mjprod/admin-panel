@@ -42,5 +42,35 @@
     "rejected": "Rejected",
     "question_strength": "Question Strength",
     "approved": "Approve"
+  },
+  "languageList": {
+    "Language": "Language"
+  },
+  "chatDialog": {
+    "jokerUser": "Joker User",
+    "customer_service": "Customer Service"
+  },
+  "popUpChatHistory": {
+    "end_conversation": "End Conversation"
+  },
+  "popUpChatHistoryDetail": {
+    "conversation_context": "Conversation Context",
+    "jokerUser": "Joker User",
+    "conversation_id": "Conversation ID:"
+  },
+  "popUpFeedback": {
+    "provide_feedback": "Provide Feedback",
+    "wrong_question": "Wrong Question",
+    "wrong_answer": "Wrong Answer",
+    "other": "Other",
+    "submit": "Submit"
+  },
+  "selectAllBar": {
+    "select_all": "Select All",
+    "approve_all": "Approved All",
+    "delete_all_selected": "Delete All Selected"
+  },
+  "chatHistoryButton": {
+    "conversation_context": "Conversation Context"
   }
 }

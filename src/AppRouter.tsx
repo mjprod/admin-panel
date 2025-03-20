@@ -13,7 +13,18 @@ const AppRouter = () => {
   const { loadingAuth } = useContext(AuthContext);
 
   if (loadingAuth) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        Loading...
+      </div>
+    );
   }
 
   return (

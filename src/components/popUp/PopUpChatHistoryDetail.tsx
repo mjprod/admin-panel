@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./PopUpChatHistoryDetail.module.css";
 import AssetsPack from "../../util/AssetsPack";
+import { useTranslation } from "react-i18next";
 
 interface PopUpChatHistoryDetail {
   modalRef: React.RefObject<HTMLDialogElement | null>;
@@ -18,12 +19,14 @@ const PopUpChatHistoryDetail: React.FC<PopUpChatHistoryDetail> = ({
     modalRef.current?.close();
   };
 
+  const {t} = useTranslation()
+
   return (
     <div className={styles["chat-conversation-modal-details"]}>
       <div className={styles["row01"]}>
         <div className={styles["leftcol"]}>
           <div className={styles["ConversationTitle"]}>
-            <h2>Konteks Perbualan</h2>
+            <h2>{t("popUpChatHistoryDetail.conversation_context")}</h2>
           </div>
         </div>
         <div className={styles["rightcol"]}>
@@ -39,13 +42,13 @@ const PopUpChatHistoryDetail: React.FC<PopUpChatHistoryDetail> = ({
         <div className={styles["chat-user-avatar"]}>
           <img src={AssetsPack.icons.ICON_CUSTOMER.default} alt="" />
         </div>
-        <h3>Pengguna Joker</h3>
+        <h3>{t("popUpChatHistoryDetail.jokerUser")}</h3>
       </div>
       <div className={styles["row03"]}>
         <div className={styles["leftcol"]}>
           <div className={styles["question-metadata"]}>
             <p>
-              <strong>Conversation ID:</strong> {conversationId}
+              <strong>{t("popUpChatHistoryDetail.conversation_id")}</strong> {conversationId}
             </p>
           </div>
         </div>

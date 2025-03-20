@@ -19,7 +19,18 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   }, []);
 
   if (delayedLoading || loadingAuth) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        Loading...
+      </div>
+    );
   }
 
   if (!isSignedIn) {

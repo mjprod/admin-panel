@@ -1,6 +1,7 @@
 import styles from "./SelectAllBar.module.css";
 import { QuestionStatus } from "../../../../util/QuestionStatus";
 import AssetsPack from "../../../../util/AssetsPack";
+import { useTranslation } from "react-i18next";
 /* eslint-disable complexity */
 
 interface SelectAllBarProps {
@@ -50,6 +51,8 @@ const SelectAllBar = ({
     onSelectAllClick(e.target.checked);
   };
 
+  const {t} = useTranslation()
+
   if (questionStatus !== QuestionStatus.NeedApproval) {
     return (
       <div className={containerClass}>
@@ -61,7 +64,7 @@ const SelectAllBar = ({
             onChange={handleCheckboxChange}
             checked={checked}
           />
-          <p>Select All</p>
+          <p>{t("selectAllBar.select_all")}</p>
         </div>
         <button
           className={buttonClass}
@@ -71,8 +74,8 @@ const SelectAllBar = ({
         >
           <img src={ICONS_MAP[questionStatus]} />
           {questionStatus === QuestionStatus.PreApproved
-            ? "Approved All"
-            : "Delete All Selected"}
+            ? t("selectAllBar.approve_all")
+            : t("selectAllBar.delete_all_selected")}
         </button>
       </div>
     );
