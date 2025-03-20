@@ -80,7 +80,7 @@ const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({
             <textarea
               name="explanation"
               id="explanation"
-              placeholder="Explain"
+              placeholder={t("popUpFeedback.explain")}
               value={textMessage}
               onChange={(e) => setTextMessage(e.target.value)}
               disabled={selectedOption !== "Other"}

@@ -40,7 +40,8 @@
     "need_approval": "需要批准",
     "pre_approved": "预批准",
     "rejected": "已拒绝",
-    "question_strength": "语言状态"
+    "question_strength": "语言状态",
+    "approved": "批准"
   },
   "languageList": {
     "Language": "语言"
@@ -62,7 +63,8 @@
     "wrong_question": "问题有误",
     "wrong_answer": "答案有误",
     "other": "其他",
-    "submit": "提交"
+    "submit": "提交",
+    "explain": "原因"
   },
   "selectAllBar": {
     "select_all": "全选",
@@ -71,5 +73,16 @@
   },
   "chatHistoryButton": {
     "conversation_context": "对话内容"
+  },
+  "sidebar": {
+    "logout": "登出"
+  },
+  "createNewButton": {
+    "create_new": "新建",
+    "question": "问题...",
+    "answer": "答案...",
+    "submit": "提交",
+    "category": "类别",
+    "subcategory": "子类别"
   }
 }

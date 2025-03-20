@@ -40,7 +40,8 @@
     "need_approval": "Perlu Kelulusan",
     "pre_approved": "Pra-Diluluskan",
     "rejected": "Ditolak",
-    "question_strength": "Kekuatan Soalan"
+    "question_strength": "Kekuatan Soalan",
+    "approved": "Diluluskan"
   },
   "languageList": {
     "Language": "Bahasa"
@@ -62,7 +63,8 @@
     "wrong_question": "Soalan Salah",
     "wrong_answer": "Jawapan Salah",
     "other": "Lain-lain",
-    "submit": "Hantar"
+    "submit": "Hantar",
+    "explain": "Mohon penjelasan"
   },
   "selectAllBar": {
     "select_all": "Pilih Semua",
@@ -71,5 +73,16 @@
   },
   "chatHistoryButton": {
     "conversation_context": "Konteks Perbualan"
+  },
+  "sidebar": {
+    "logout": "Log Keluar"
+  },
+  "createNewButton": {
+    "create_new": "Cipta Baru",
+    "question": "Soalan...",
+    "answer": "Jawapan...",
+    "submit": "Hantar",
+    "category": "Kategori",
+    "subcategory": "Subkategori"
   }
 }

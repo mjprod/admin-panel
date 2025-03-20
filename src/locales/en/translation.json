@@ -21,7 +21,6 @@
     "user_question": "User Question:",
     "suggested_answer": "Suggested Answer:",
     "conversation_id": "Conversation ID:",
-    "create_new": "Create New",
     "reject": "Reject",
     "exit_edit_mode": "Exit Edit Mode",
     "edit": "Edit",
@@ -63,7 +62,8 @@
     "wrong_question": "Wrong Question",
     "wrong_answer": "Wrong Answer",
     "other": "Other",
-    "submit": "Submit"
+    "submit": "Submit",
+    "explain": "Explain"
   },
   "selectAllBar": {
     "select_all": "Select All",
@@ -72,5 +72,16 @@
   },
   "chatHistoryButton": {
     "conversation_context": "Conversation Context"
+  },
+  "sidebar": {
+    "logout": "Logout"
+  },
+  "createNewButton": {
+    "create_new": "Create New",
+    "question": "Question...",
+    "answer": "Answer...",
+    "submit": "Submit",
+    "category": "Category",
+    "subcategory": "Sub Category"
   }
 }

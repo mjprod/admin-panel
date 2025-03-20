@@ -79,7 +79,7 @@ export const ConversationsProvider = ({
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
-  const [language, setLanguage] = useState<LanguageCode>(Language.ENGLISH)
+  const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN)
 
   const { isSignedIn } = useContext(AuthContext);
 

@@ -8,6 +8,7 @@ import { useConversationsContext } from "../../../context/ConversationProvider";
 import { AuthContext } from "../../../context/AuthContext";
 import LanguageList from "../../../components/language/LanguageList";
 import { Language, LanguageCode } from "../../../api/responsePayload/KnowledgeResponse";
+import { useTranslation } from "react-i18next";
 
 interface SidebarProps {
   card: QuestionStatus;
@@ -32,6 +33,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleLanguageSelect = (lang: LanguageCode) => {
     setLanguage(lang)
   }
+
+  const {t} = useTranslation()
 
   return (
     <aside className={styles["sidebar"]}>
@@ -65,17 +68,17 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <div className={styles["bottom"]}>
         <div className={styles["logout"]} onClick={handleLogout}>
-          Logout
+          {t("sidebar.logout")}
         </div>
         <LanguageList
           languages={[
             {
-              lang: Language.ENGLISH,
-              isCompleted: language == Language.ENGLISH
-            },
-            {
               lang: Language.MALAYSIAN,
               isCompleted: language == Language.MALAYSIAN
+            },
+            {
+              lang: Language.ENGLISH,
+              isCompleted: language == Language.ENGLISH
             },
             {
               lang: Language.CHINESE,

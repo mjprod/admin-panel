@@ -123,7 +123,7 @@ const CreateNewButton = () => {
             className={styles["icon"]}
             src={AssetsPack.icons.ICON_CREATE_NEW.default}
           />
-          <span>{t("newManager.create_new")}</span>
+          <span>{t("createNewButton.create_new")}</span>
         </div>
         <img
           onClick={() => changeFormState()}
@@ -137,24 +137,24 @@ const CreateNewButton = () => {
       </button>
       {isFormVisible && (
         <div className={styles["formSection"]}>
-          {InputContainer("Question...", question, handleQuestionChange)}
-          {InputContainer("Answer...", answer, handleAnswerChange)}
+          {InputContainer(t("createNewButton.question"), question, handleQuestionChange)}
+          {InputContainer(t("createNewButton.answer"), answer, handleAnswerChange)}
 
           <div className={styles["bottomSection"]}>
             <FilterSelect
-              hint="Select Category"
+              hint={t("createNewButton.category")}
               options={categoryOptions}
               onChange={setSelectedCategory}
             />
             <FilterSelect
-              hint="Sub Category"
+              hint={t("createNewButton.subcategory")}
               options={subCategoryOptions}
               onChange={setSubSelectedCategory}
             />
           </div>
 
           <CustomButton
-            text={"Submit"}
+            text={t("createNewButton.submit")}
             type={ButtonType.Submit}
             onClick={handleSubmit}
           />
