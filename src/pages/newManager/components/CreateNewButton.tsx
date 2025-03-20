@@ -84,6 +84,8 @@ const CreateNewButton = () => {
     );
 
     setUpdateConversationList(true)
+    setAnswer("")
+    setQuestion("")
   };
 
   const InputContainer = (

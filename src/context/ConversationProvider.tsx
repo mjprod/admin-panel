@@ -133,6 +133,7 @@ export const ConversationsProvider = ({
       status: getStatusNumber(statusClicked),
       ...{ category: getCategoryIds(selectedCategories) },
     });
+    getKnowledgeSummary();
   };
 
   const updateConvList = () => {
