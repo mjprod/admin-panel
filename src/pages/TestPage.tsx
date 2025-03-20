@@ -1,7 +1,7 @@
 import React from "react";
 import CreateNewButton from "./newManager/components/CreateNewButton";
 import QuestionCard from "./newManager/components/QuestionCard";
-import { KnowledgeStatus } from "../api/responsePayload/KnowledgeResponse";
+import { KnowledgeStatus, Language } from "../api/responsePayload/KnowledgeResponse";
 import { ChatType } from "../components/popUp/ChatDialog";
 
 const TestPage = () => {
@@ -28,7 +28,7 @@ const TestPage = () => {
         conversationId={"1"}
         category={null}
         languages={[]}
-        currentlang={{ lang: "ms", langLabel: "Mayla" }}
+        currentlang={{ lang: Language.MALAYSIAN, langLabel: "Mayla" }}
         subcategories={null}
         question={"1111111"}
         answer={"1111111"}

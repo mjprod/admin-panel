@@ -1,6 +1,6 @@
 export const showConsoleMessage = (message, ...optionalParams) => {
   if (process.env.NODE_ENV === "development") {
-    console.log(message, optionalParams);
+    showConsoleError(message, optionalParams);
   }
 };
 

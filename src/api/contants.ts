@@ -1,7 +1,11 @@
 //API Domain Name
 import { showConsoleMessage } from "../util/ConsoleMessage";
-export const apiDomainName = "api-staging.mjproapps.com/api";
-export const BASE_URI = `https://${apiDomainName}`;
+
+// export const apiDomainName = "api-staging.mjproapps.com/api";
+// export const BASE_URI = `https://${apiDomainName}`;
+
+export const apiDomainName = "localhost:8000/api";
+export const BASE_URI = `http://${apiDomainName}`;
 
 export const getBaseUri = () => {
   showConsoleMessage("Using Default API URL:", BASE_URI);
@@ -32,6 +36,3 @@ export const notificationToken = String(
 export const sha256Salt = String(process.env.REACT_APP_SHA256SALT);
 export const secretKey = String(process.env.REACT_APP_SECRET_KEY);
 export const apiKey = String(process.env.REACT_APP_API_KEY || "");
-
-export const DEFAULT_LANGUAGE_CODE = "en";
-export const DEFAULT_LANGUAGE_ID = 1;   //1: “en”, 2: "ms", 3: "cn"

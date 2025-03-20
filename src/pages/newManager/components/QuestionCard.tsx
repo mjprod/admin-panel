@@ -86,7 +86,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
   const handleEditChange = (updatedQuestion: string | null, updatedAnswer: string) => {
-    console.log(updatedQuestion, updatedAnswer);
     setUpdatedAnswer(updatedAnswer);
     setUpdatedQuestion(updatedQuestion);
   };

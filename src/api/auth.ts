@@ -8,8 +8,6 @@ import {
   updateHslaValues,
 } from "../util/ExtensionFunction";
 import {
-  DEFAULT_LANGUAGE_CODE,
-  DEFAULT_LANGUAGE_ID,
   Endpoint,
 } from "./contants";
 import {
@@ -33,6 +31,7 @@ import { ChatDialogProps, ChatType } from "../components/popUp/ChatDialog";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
+  languageCode: string,
   endpoint: string | undefined = Endpoint.Knowledge,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
@@ -47,7 +46,7 @@ export const AllConversation = async (
         throw new Error("Failed to load mock data: " + response.statusText);
       }
       const data = await response.json();
-      return mapKnowledgeConversationData(data);
+      return mapKnowledgeConversationData(languageCode, data);
     } else {
       const apiResponse = await apiGetRequest<KnowledgeResponse>(
         endpoint,
@@ -59,7 +58,7 @@ export const AllConversation = async (
         throw new Error("Failed to fetch data from the API.");
       }
 
-      return mapKnowledgeConversationData(apiResponse);
+      return mapKnowledgeConversationData(languageCode, apiResponse);
     }
   } catch (error) {
     console.error("Error in AllConversation:", error);
@@ -68,19 +67,20 @@ export const AllConversation = async (
 };
 
 const mapKnowledgeConversationData = (
+  languageCode: string,
   response: KnowledgeResponse
 ): ConversationKnowledge => {
   const knowledgeinfo: KnowledgeCard[] = [];
   response.results.map((item) => {
     const knowledgeContent = item.knowledge_content.find(
-      (con) => con.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id
+      (con) => con.language == getLanguageByCode(languageCode).id
     );
 
     const langStatus: LanguageProps[] = item.knowledge_content.map((lang) => ({
       id: lang.language,
-      lang: getLanguageById(lang.language).code,
+      lang: getLanguageById(lang.language),
       langLabel: getLanguageById(lang.language).label,
-      isSolid: lang.language == getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+      isSolid: lang.language == getLanguageByCode(languageCode).id,
       isCompleted: lang.status == KnowledgeStatus.Approved,
       status: KnowledgeStatus[lang.status],
     }));
@@ -103,11 +103,11 @@ const mapKnowledgeConversationData = (
 
       const lang: LanguageProps = {
         id: knowledgeContent.language,
-        lang: getLanguageById(knowledgeContent.language).code,
+        lang: getLanguageById(knowledgeContent.language),
         langLabel: getLanguageById(knowledgeContent.language).label,
         isSolid:
           knowledgeContent.language ==
-          getLanguageByCode(DEFAULT_LANGUAGE_CODE).id,
+          getLanguageByCode(languageCode).id,
         isCompleted: knowledgeContent.status == KnowledgeStatus.Approved,
         status: KnowledgeStatus[knowledgeContent.status],
       };
@@ -338,13 +338,14 @@ export const CreateKnowledge = async (
 };
 
 export const KowledgeSummary = async (
+  languageId: number,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
 ): Promise<KnowledgeSummary | null> => {
   const query = {
     in_brain: false,
     ...{ queryParams },
-    ...{ language: DEFAULT_LANGUAGE_ID },
+    ...{ language: languageId },
   };
   return await apiGetRequest<KnowledgeSummary>(
     Endpoint.KnowledgeSummary,

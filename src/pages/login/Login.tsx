@@ -3,6 +3,7 @@ import AssetsPack from "../../util/AssetsPack";
 import styles from "./Login.module.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { showConsoleError } from "../../util/ConsoleMessage";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -15,16 +16,14 @@ const LoginPage = () => {
     const success = await login(username, password);
     if (success) {
       navigate("/newManager");
-      console.log("Success", success);
     } else {
-      console.log("Login failed! Please try again.");
+      showConsoleError("Login failed! Please try again.");
     }
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     logout();
-    console.log("login----", username, password);
     handleLogin();
   };
 

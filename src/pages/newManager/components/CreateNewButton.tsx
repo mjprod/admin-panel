@@ -8,7 +8,6 @@ import CustomButton, {
 import { useTranslation } from "react-i18next";
 import { useConversationsContext } from "../../../context/ConversationProvider";
 import { CreateKnowledge } from "../../../api/auth";
-import { DEFAULT_LANGUAGE_ID } from "../../../api/contants";
 import { Category, SubCategory } from "../../../util/ExampleData";
 
 const CreateNewButton = () => {
@@ -19,41 +18,44 @@ const CreateNewButton = () => {
 
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
-  const [subCategoryOptions, setSubCategoryOptions] = useState<SubCategory[]>(subCategories);
-  const [categoryOptions, setCategoryOptions] = useState<Category[]>(categories);
+  const [subCategoryOptions, setSubCategoryOptions] =
+    useState<SubCategory[]>(subCategories);
+  const [categoryOptions, setCategoryOptions] =
+    useState<Category[]>(categories);
+
+  const { language, setUpdateConversationList } = useConversationsContext();
 
   useEffect(() => {
-      setSubCategoryOptions(subCategories)
-      setCategoryOptions(categories)
+    setSubCategoryOptions(subCategories);
+    setCategoryOptions(categories);
   }, [categories, subCategories]);
 
-    useEffect(() => {
-      console.log("selected Cat", selectedCategory)
-      if (selectedCategory == 0) {
-        setSubCategoryOptions(subCategories)
-      } else {
-        console.log("selected Cat", subCategories)
-        const filteredSubs = subCategories.filter(sub => sub.category == selectedCategory);
-        console.log("selected Cat filtered", filteredSubs)
-        setSubCategoryOptions(filteredSubs)
-      }
-    }, [selectedCategory]);
+  useEffect(() => {
+    if (selectedCategory == 0) {
+      setSubCategoryOptions(subCategories);
+    } else {
+      const filteredSubs = subCategories.filter(
+        (sub) => sub.category == selectedCategory
+      );
+      setSubCategoryOptions(filteredSubs);
+    }
+  }, [selectedCategory]);
 
-    useEffect(() => {
-      if (selectedSubCategory != 0) {
-        const selected = subCategories.find((sub) => 
-          sub.id === selectedSubCategory
-        )
-        const selectedCat = categories.filter((cat) => 
-          cat.id == selected?.category
-        )
-        if(selectedCategory == 0 || selectedCategory != selected?.category) {
-          setCategoryOptions(selectedCat ?? categories)
-        } 
-      } else {
-        setCategoryOptions(categories)
+  useEffect(() => {
+    if (selectedSubCategory != 0) {
+      const selected = subCategories.find(
+        (sub) => sub.id === selectedSubCategory
+      );
+      const selectedCat = categories.filter(
+        (cat) => cat.id == selected?.category
+      );
+      if (selectedCategory == 0 || selectedCategory != selected?.category) {
+        setCategoryOptions(selectedCat ?? categories);
       }
-    }, [selectedSubCategory]);
+    } else {
+      setCategoryOptions(categories);
+    }
+  }, [selectedSubCategory]);
 
   const changeFormState = (state?: boolean) => {
     state ? setFormVisible(state) : setFormVisible(!isFormVisible);
@@ -76,10 +78,12 @@ const CreateNewButton = () => {
     await CreateKnowledge(
       selectedCategory,
       selectedSubCategory,
-      DEFAULT_LANGUAGE_ID,
+      language.id,
       question,
       answer
     );
+
+    setUpdateConversationList(true)
   };
 
   const InputContainer = (
