@@ -47,6 +47,10 @@
     display: flex;
     width: 1.5rem;
     height: 1.5rem;
+    & img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 }
 
@@ -87,6 +91,11 @@
       width: 2rem;
     }
   }
+}
+
+.image {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .active-question {
