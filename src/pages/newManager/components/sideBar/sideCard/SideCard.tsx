@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./SideCard.module.css";
-import AssetsPack from "../../../util/AssetsPack";
+import AssetsPack from "../../../../../util/AssetsPack";
 import clsx from "clsx";
-import { QuestionStatus } from "../../../util/QuestionStatus";
+import { QuestionStatus } from "../../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
 
 interface SideCardProps {

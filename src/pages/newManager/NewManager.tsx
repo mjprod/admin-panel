@@ -1,12 +1,10 @@
-import TopBar from "./components/topBar/TopBar";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sideBar/Sidebar";
 import styles from "./NewManager.module.css";
-import BottomBar from "./components/bottomBar/BottomBar";
+import BottomBar from "./components/sideMain/bottomBar/BottomBar";
 import { useContext, useEffect, useState } from "react";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import clsx from "clsx";
-import SelectAllBar from "./components/topBar/SelectAllBar";
-import QuestionList from "./components/QuestionList";
+import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
 import {
   KowledgeContentBulkDelete,
@@ -14,6 +12,8 @@ import {
 } from "../../api/auth";
 import { AuthContext } from "../../context/AuthContext";
 import { showConsoleError } from "../../util/ConsoleMessage";
+import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
+import TopBar from "./components/sideMain/topBar/TopBar";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);

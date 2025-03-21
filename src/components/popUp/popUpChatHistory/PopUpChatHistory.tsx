@@ -1,18 +1,21 @@
 import React from "react";
 import styles from "./PopUpChatHistory.module.css";
-import AssetsPack from "../../util/AssetsPack";
+import AssetsPack from "../../../util/AssetsPack";
 import PopUpChatHistoryDetail from "./PopUpChatHistoryDetail";
 import ChatDialog from "./ChatDialog";
-import { KnowledgeContext } from "../../api/responsePayload/KnowledgeResponse";
+import { KnowledgeContext } from "../../../api/responsePayload/KnowledgeResponse";
+import { useTranslation } from "react-i18next";
 
 interface PopUpChatHistory {
   conversationData: KnowledgeContext;
   modalRef: React.RefObject<HTMLDialogElement | null>;
 }
 
-const PopUpChatHistory: React.FC<PopUpChatHistory> = ({ 
+const PopUpChatHistory: React.FC<PopUpChatHistory> = ({
   conversationData,
-  modalRef }) => {
+  modalRef,
+}) => {
+  const { t } = useTranslation();
   return (
     <dialog className={styles["chat-conversation-modal"]} ref={modalRef}>
       <div className={styles["container"]}>
@@ -44,7 +47,7 @@ const PopUpChatHistory: React.FC<PopUpChatHistory> = ({
                 src={AssetsPack.icons.ICON_END_CONVERSATION.default}
               />
             </div>
-            <p>Tamat perbualan</p>
+            <p>{t("popUpChatHistory.end_conversation")}</p>
           </div>
         </div>
       </div>

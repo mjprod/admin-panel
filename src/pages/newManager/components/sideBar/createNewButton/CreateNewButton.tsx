@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CreateNewButton.module.css";
-import AssetsPack from "../../../util/AssetsPack";
-import FilterSelect from "../../../components/dropDown/FilterSelect";
+import AssetsPack from "../../../../../util/AssetsPack";
+import FilterSelect from "../../../../../components/dropDown/FilterSelect";
 import CustomButton, {
   ButtonType,
-} from "../../../components/button/CustomButton";
+} from "../../../../../components/button/CustomButton";
 import { useTranslation } from "react-i18next";
-import { useConversationsContext } from "../../../context/ConversationProvider";
-import { CreateKnowledge } from "../../../api/auth";
-import { Category, SubCategory } from "../../../util/ExampleData";
+import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { CreateKnowledge } from "../../../../../api/auth";
+import { Category, SubCategory } from "../../../../../util/ExampleData";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
@@ -84,6 +84,8 @@ const CreateNewButton = () => {
     );
 
     setUpdateConversationList(true)
+    setAnswer("")
+    setQuestion("")
   };
 
   const InputContainer = (
@@ -121,7 +123,7 @@ const CreateNewButton = () => {
             className={styles["icon"]}
             src={AssetsPack.icons.ICON_CREATE_NEW.default}
           />
-          <span>{t("newManager.create_new")}</span>
+          <span>{t("createNewButton.create_new")}</span>
         </div>
         <img
           onClick={() => changeFormState()}
@@ -135,24 +137,24 @@ const CreateNewButton = () => {
       </button>
       {isFormVisible && (
         <div className={styles["formSection"]}>
-          {InputContainer("Question...", question, handleQuestionChange)}
-          {InputContainer("Answer...", answer, handleAnswerChange)}
+          {InputContainer(t("createNewButton.question"), question, handleQuestionChange)}
+          {InputContainer(t("createNewButton.answer"), answer, handleAnswerChange)}
 
           <div className={styles["bottomSection"]}>
             <FilterSelect
-              hint="Select Category"
+              hint={t("createNewButton.category")}
               options={categoryOptions}
               onChange={setSelectedCategory}
             />
             <FilterSelect
-              hint="Sub Category"
+              hint={t("createNewButton.subcategory")}
               options={subCategoryOptions}
               onChange={setSubSelectedCategory}
             />
           </div>
 
           <CustomButton
-            text={"Submit"}
+            text={t("createNewButton.submit")}
             type={ButtonType.Submit}
             onClick={handleSubmit}
           />

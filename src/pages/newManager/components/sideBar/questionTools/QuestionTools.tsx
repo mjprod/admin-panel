@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Tag from "../../../components/tags/Tag";
+import Tag from "../../../../../components/tags/Tag";
 import styles from "./QuestionTools.module.css";
 import { useTranslation } from "react-i18next";
-import { ColorTagDetails } from "../../../util/ExampleData";
+import { ColorTagDetails } from "../../../../../util/ExampleData";
 
 export interface CategoryProps {
   id: number;
