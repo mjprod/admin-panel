@@ -1,7 +1,7 @@
 import React from "react";
-import QuestionCard from "./QuestionCard";
-import styles from "../NewManager.module.css";
-import { KnowledgeCard } from "../../../api/responsePayload/KnowledgeResponse";
+import styles from "./QuestionList.module.css";
+import { KnowledgeCard } from "../../../../../api/responsePayload/KnowledgeResponse";
+import QuestionCard from "./components/questionCard/QuestionCard";
 
 interface QuestionListProps {
   conversations: KnowledgeCard[];

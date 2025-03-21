@@ -1,8 +1,8 @@
 import styles from "./TopBar.module.css";
-import AssetsPack from "../../../../util/AssetsPack";
-import { QuestionStatus } from "../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
 import React from "react";
+import AssetsPack from "../../../../../util/AssetsPack";
+import { QuestionStatus } from "../../../../../util/QuestionStatus";
 
 interface TopBarProps {
   statusClicked: QuestionStatus;

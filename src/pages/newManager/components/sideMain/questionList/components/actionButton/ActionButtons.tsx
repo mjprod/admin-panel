@@ -1,19 +1,14 @@
 import React, { useRef } from "react";
 import styles from "./ActionButtons.module.css";
-import CustomButton, {
-  ButtonType,
-} from "../../../components/button/CustomButton";
-import PopUpFeedback from "../../../components/popUp/PopUpFeedback";
 import { useTranslation } from "react-i18next";
-import { KnowledgeStatus } from "../../../api/responsePayload/KnowledgeResponse";
-import {
-  KowledgeContentBulkUpdate,
-  KowledgeContentDelete,
-  KowledgeContentStatusPatch,
-} from "../../../api/auth";
-import { getStatusNumber, QuestionStatus } from "../../../util/QuestionStatus";
-import { useConversationsContext } from "../../../context/ConversationProvider";
-import { showConsoleError, showConsoleMessage } from "../../../util/ConsoleMessage";
+import { KowledgeContentStatusPatch, KowledgeContentBulkUpdate, KowledgeContentDelete } from "../../../../../../../api/auth";
+import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
+import CustomButton, { ButtonType } from "../../../../../../../components/button/CustomButton";
+import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
+import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
+import { showConsoleError, showConsoleMessage } from "../../../../../../../util/ConsoleMessage";
+import { getStatusNumber, QuestionStatus } from "../../../../../../../util/QuestionStatus";
+
 
 interface ActionButtonsProps {
   id: number;

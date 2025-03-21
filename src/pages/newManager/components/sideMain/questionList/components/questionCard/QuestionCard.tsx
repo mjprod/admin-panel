@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
-import QuestionStrengthTab from "../../../components/language/QuestionStrengthTab";
-import CardSelector, { SelectorType } from "../../../components/CardSelector";
-import Metadata from "./Metadata";
-import CategorySection from "./CategorySection";
-import SubcategorySection from "./SubcategorySection";
-import QuestionAnswerSection from "./QuestionAnswerSection";
-import ActionButtons from "./ActionButtons";
-import { ColorTagDetails } from "../../../util/ExampleData";
 import { useTranslation } from "react-i18next";
-import {
-  KnowledgeStatus,
-  KnowledgeCard,
-} from "../../../api/responsePayload/KnowledgeResponse";
-import ChatHistoryButton from "./ChatHistoryButton";
+import { KnowledgeStatus, KnowledgeCard } from "../../../../../../../api/responsePayload/KnowledgeResponse";
+import QuestionStrengthTab from "../../../../../../../components/language/QuestionStrengthTab";
+import { ColorTagDetails } from "../../../../../../../util/ExampleData";
+import ActionButtons from "../actionButton/ActionButtons";
+import CardSelector, { SelectorType } from "../cardSelector/CardSelector";
+import CategorySection from "../categorySection/CategorySection";
+import ChatHistoryButton from "../chatHistoryButton/ChatHistoryButton";
+import Metadata from "../metaData/Metadata";
+import QuestionAnswerSection from "../questionAnswerSection/QuestionAnswerSection";
+import SubcategorySection from "../subcategorySection/SubcategorySection";
 /* eslint-disable complexity */
 
 

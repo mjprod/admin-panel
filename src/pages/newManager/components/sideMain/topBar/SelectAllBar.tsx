@@ -1,6 +1,6 @@
+import AssetsPack from "../../../../../util/AssetsPack";
+import { QuestionStatus } from "../../../../../util/QuestionStatus";
 import styles from "./SelectAllBar.module.css";
-import { QuestionStatus } from "../../../../util/QuestionStatus";
-import AssetsPack from "../../../../util/AssetsPack";
 import { useTranslation } from "react-i18next";
 /* eslint-disable complexity */
 

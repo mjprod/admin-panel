@@ -1,5 +1,5 @@
 import { LanguageProps } from "../../components/language/Language";
-import { ChatDialogProps } from "../../components/popUp/ChatDialog";
+import { ChatDialogProps } from "../../components/popUp/popUpChatHistory/ChatDialog";
 import { Category, SubCategory } from "../../util/ExampleData";
 
 //api response

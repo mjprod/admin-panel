@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CreateNewButton.module.css";
-import AssetsPack from "../../../util/AssetsPack";
-import FilterSelect from "../../../components/dropDown/FilterSelect";
+import AssetsPack from "../../../../../util/AssetsPack";
+import FilterSelect from "../../../../../components/dropDown/FilterSelect";
 import CustomButton, {
   ButtonType,
-} from "../../../components/button/CustomButton";
+} from "../../../../../components/button/CustomButton";
 import { useTranslation } from "react-i18next";
-import { useConversationsContext } from "../../../context/ConversationProvider";
-import { CreateKnowledge } from "../../../api/auth";
-import { Category, SubCategory } from "../../../util/ExampleData";
+import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { CreateKnowledge } from "../../../../../api/auth";
+import { Category, SubCategory } from "../../../../../util/ExampleData";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");

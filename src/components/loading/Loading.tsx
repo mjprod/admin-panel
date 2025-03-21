@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Loading.module.css";
-import { useLoading } from "../context/LoadingContext";
+import { useLoading } from "../../context/LoadingContext";
 
 const Loading: React.FC = () => {
   const { isLoading } = useLoading();

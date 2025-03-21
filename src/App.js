@@ -5,7 +5,7 @@ import AppRouter from "./AppRouter.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import Loading from "./components/Loading";
+import Loading from "./components/loading/Loading";
 import { setupInterceptors } from "./api/axios-config";
 import { useLoading } from "./context/LoadingContext";
 import { useEffect } from "react";

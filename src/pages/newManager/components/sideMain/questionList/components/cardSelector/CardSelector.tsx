@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./CardSelector.module.css";
 import clsx from "clsx";
-import Badge, { BadgeType } from "./badge/Badge";
-import AssetsPack from "../util/AssetsPack";
 import { useTranslation } from "react-i18next";
+import Badge, { BadgeType } from "../../../../../../../components/badge/Badge";
+import AssetsPack from "../../../../../../../util/AssetsPack";
 
 export const enum SelectorType {
   Delete,

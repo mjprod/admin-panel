@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./CategorySection.module.css";
-import Badge from "../../../components/badge/Badge";
-import Language from "../../../components/language/Language";
-import { ColorTagDetails } from "../../../util/ExampleData";
+import Badge from "../../../../../../../components/badge/Badge";
+import Language from "../../../../../../../components/language/Language";
+import { ColorTagDetails } from "../../../../../../../util/ExampleData";
 
 const CategorySection: React.FC<{
   category: string;

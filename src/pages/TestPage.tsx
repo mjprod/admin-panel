@@ -1,8 +1,8 @@
 import React from "react";
-import CreateNewButton from "./newManager/components/CreateNewButton";
-import QuestionCard from "./newManager/components/QuestionCard";
+import CreateNewButton from "./newManager/components/sideBar/createNewButton/CreateNewButton";
 import { KnowledgeStatus, Language } from "../api/responsePayload/KnowledgeResponse";
-import { ChatType } from "../components/popUp/ChatDialog";
+import { ChatType } from "../components/popUp/popUpChatHistory/ChatDialog";
+import QuestionCard from "./newManager/components/sideMain/questionList/components/questionCard/QuestionCard";
 
 const TestPage = () => {
   const context = {

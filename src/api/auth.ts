@@ -27,7 +27,7 @@ import {
   createPayload,
 } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
-import { ChatDialogProps, ChatType } from "../components/popUp/ChatDialog";
+import { ChatDialogProps, ChatType } from "../components/popUp/popUpChatHistory/ChatDialog";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -154,8 +154,10 @@ const mapKnowledgeConversationData = (
         console.error(
           "JSON parse error:",
           error,
-          "Original string:",
-          cleanedStr
+          "\n\nCleaned string\n\n",
+          cleanedStr,
+          "\n\nOriginal string:\n\n",
+          item.context?.context,
         );
         contextJsonArray = [];
       }

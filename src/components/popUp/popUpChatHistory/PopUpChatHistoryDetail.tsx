@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PopUpChatHistoryDetail.module.css";
-import AssetsPack from "../../util/AssetsPack";
+import AssetsPack from "../../../util/AssetsPack";
 import { useTranslation } from "react-i18next";
 
 interface PopUpChatHistoryDetail {

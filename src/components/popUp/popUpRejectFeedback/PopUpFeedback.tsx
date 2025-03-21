@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./PopUpFeedback.module.css";
-import AssetsPack from "../../util/AssetsPack";
+import AssetsPack from "../../../util/AssetsPack";
 import { useTranslation } from "react-i18next";
 
 interface PopUpFeedbackProps {

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
   utcToLocalDate,
   utcToLocalTime,
-} from "../../../util/ExtensionFunction";
+} from "../../../../../../../util/ExtensionFunction";
 
 const Metadata: React.FC<{
   date: string;

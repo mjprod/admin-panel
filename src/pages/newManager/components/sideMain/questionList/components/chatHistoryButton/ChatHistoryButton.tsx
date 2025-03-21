@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import styles from "./ChatHistoryButton.module.css";
-import AssetsPack from "../../../util/AssetsPack";
-import PopUpChatHistory from "../../../components/popUp/PopUpChatHistory";
-import { KnowledgeContext } from "../../../api/responsePayload/KnowledgeResponse";
 import { useTranslation } from "react-i18next";
+import { KnowledgeContext } from "../../../../../../../api/responsePayload/KnowledgeResponse";
+import PopUpChatHistory from "../../../../../../../components/popUp/popUpChatHistory/PopUpChatHistory";
+import AssetsPack from "../../../../../../../util/AssetsPack";
 
 interface ChatHistoryButton {
   conversationData: KnowledgeContext;

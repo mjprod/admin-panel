@@ -12,7 +12,7 @@ import {
   Language,
   LanguageCode
 } from "../api/responsePayload/KnowledgeResponse";
-import { CategoryProps } from "../pages/newManager/components/QuestionTools";
+import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
   AllConversation,
   KowledgeSummary,
@@ -133,12 +133,12 @@ export const ConversationsProvider = ({
       status: getStatusNumber(statusClicked),
       ...{ category: getCategoryIds(selectedCategories) },
     });
-    getKnowledgeSummary();
   };
 
   const updateConvList = () => {
     if (isUpdateConversationList) {
       refreshConversations();
+      getKnowledgeSummary();
       setUpdateConversationList(false);
     }
   };

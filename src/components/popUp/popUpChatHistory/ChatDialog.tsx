@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ChatDialog.module.css";
-import AssetsPack from "../../util/AssetsPack";
+import AssetsPack from "../../../util/AssetsPack";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
