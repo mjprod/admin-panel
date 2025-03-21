@@ -1,11 +1,11 @@
 //API Domain Name
 import { showConsoleMessage } from "../util/ConsoleMessage";
 
-export const apiDomainName = "api-staging.mjproapps.com/api";
-export const BASE_URI = `https://${apiDomainName}`;
+// export const apiDomainName = "api-staging.mjproapps.com/api";
+// export const BASE_URI = `https://${apiDomainName}`;
 
-// export const apiDomainName = "localhost:8000/api";
-// export const BASE_URI = `http://${apiDomainName}`;
+export const apiDomainName = "localhost:8000/api";
+export const BASE_URI = `http://${apiDomainName}`;
 
 export const getBaseUri = () => {
   showConsoleMessage("Using Default API URL:", BASE_URI);
@@ -15,7 +15,7 @@ export const getBaseUri = () => {
 export const Endpoint = {
   Knowledge: `${getBaseUri()}/knowledge`,
   KnowledgeContent: `${getBaseUri()}/knowledge-content/{id}/`,
-  KnowledgeContentBulkUpdate: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
+  KnowledgeContentBulkUpdateStatus: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
