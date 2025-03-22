@@ -1,0 +1,160 @@
+/* ShortCutPage.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+.sap-main-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.notification-bar {
+  background-color: #ffecec;
+  color: #a94442;
+  padding: 8px;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.question-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+}
+
+.question-card.selected {
+  border: 2px solid #28a745;
+  background-color: #f0fff4;
+}
+
+.row01 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.badge {
+  background-color: #000;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.language {
+  font-weight: bold;
+}
+
+.qa-content {
+  margin: 12px 0;
+  font-size: 16px;
+}
+
+.qa-content p {
+  margin: 4px 0;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.edit-button,
+.delete-button,
+.approve-button {
+  background-color: #ccc;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.edit-button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.delete-button:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.approve-button {
+  margin-left: auto;
+  background-color: #b5e6b5;
+}
+
+.approve-button:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-top: 1px solid #ccc;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shortcut {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.shortcut:hover {
+  background-color: #218838;
+}
+
+.warning {
+  font-size: 13px;
+  color: #dc3545;
+}
