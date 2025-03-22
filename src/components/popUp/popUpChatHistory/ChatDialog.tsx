@@ -37,6 +37,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
           <div className={styles[`chat-${type}-name-avatar`]}>
             <div className={styles[`chat-${type}-avatar`]}>
               <img
+              className={styles["image"]}
                 src={
                   type == ChatType.User
                     ? AssetsPack.icons.ICON_CUSTOMER.default

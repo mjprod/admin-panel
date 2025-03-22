@@ -27,27 +27,29 @@
     font-size: 0.8rem;
     opacity: 0.5;
   }
-
-  & .chat-agent-name-avatar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.125em;
-    font-weight: 600;
-  }
-
-  & .chat-agent-message {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  & .chat-agent-avatar {
-    display: flex;
+}
+.chat-agent-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.chat-agent-avatar {
+  display: flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  & img {
     width: 1.5rem;
     height: 1.5rem;
   }
+}
+
+.chat-agent-name-avatar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125em;
+  font-weight: 600;
 }
 
 .chat-user-bubble {
@@ -66,27 +68,33 @@
     font-size: 0.8rem;
     opacity: 0.5;
   }
-  & .chat-user-name-avatar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.125em;
-    font-weight: 600;
-  }
+}
 
-  & .chat-user-message {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+.chat-user-name-avatar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125em;
+  font-weight: 600;
+}
 
-  & .chat-user-avatar {
-    & img {
-      height: 2rem;
-      width: 2rem;
-    }
+.chat-user-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-user-avatar {
+  & img {
+    height: 2rem;
+    width: 2rem;
   }
+}
+
+.image {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .active-question {
