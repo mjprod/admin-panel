@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "./ShortCutPage.css";
 
 interface QuestionItem {
@@ -11,6 +13,12 @@ const ShortCutPage: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const { isSignedIn } = useContext(AuthContext);
+
+  if (!isSignedIn) {
+    return <Navigate to="/login" />;
+  }
 
   useEffect(() => {
     const fetchQuestions = async () => {
