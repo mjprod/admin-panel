@@ -24,7 +24,7 @@ const ShortCutPage: React.FC = () => {
     const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          "https://api-staging.mjproapps.com/api/get_pre_brain/",
+          "https://api.mjproapps.com/api/get_pre_brain/",
           {
             method: "GET",
             headers: {
@@ -53,7 +53,7 @@ const ShortCutPage: React.FC = () => {
 
     try {
       const res = await fetch(
-        `https://api-staging.mjproapps.com/api/delete_pre_brain/${id}/`,
+        `https://api.mjproapps.com/api/delete_pre_brain/${id}/`,
         {
           method: "DELETE",
           headers: {
@@ -92,17 +92,14 @@ const ShortCutPage: React.FC = () => {
     };
 
     try {
-      const res = await fetch(
-        "https://api-staging.mjproapps.com/api/insert_brain/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Token 4d4a50524f4432303232",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const res = await fetch("https://api.mjproapps.com/api/insert_brain/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token 4d4a50524f4432303232",
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (res.ok && selected._id) {
         await handleDelete(selected._id);
