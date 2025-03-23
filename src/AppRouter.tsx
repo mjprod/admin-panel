@@ -33,11 +33,18 @@ const AppRouter = () => {
       style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}
     >
       <Routes>
-        <Route path="/shortCutPage" element={<ShortCutPage />} />
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
 
         {/* Private routes */}
+        <Route
+          path="/shortCutPage"
+          element={
+            <PrivateRoute>
+              <ShortCutPage />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/newManager"
           element={
