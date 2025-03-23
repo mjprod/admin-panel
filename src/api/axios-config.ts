@@ -5,14 +5,17 @@ import useRefreshToken from "./RefreshToken";
 /* eslint-disable complexity */
 
 export const setupInterceptors = (setLoading: (value: boolean) => void) => {
-  const { refresh } = useRefreshToken()
+  const { refresh } = useRefreshToken();
   Request.interceptors.request.use(
     (config) => {
-      setLoading(true); 
+      setLoading(true);
       showConsoleMessage("Resquest: ", config);
       const token = localStorage.getItem("authToken");
-      
-      if (!config.url?.includes("/refresh") || !config.url?.includes("/login")) {
+
+      if (
+        !config.url?.includes("/refresh") ||
+        !config.url?.includes("/login")
+      ) {
         config.headers.set("Accept", "*/*");
         config.headers.set("Content-Type", "application/json");
         if (token) {
@@ -39,29 +42,41 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
       showConsoleError("Response Error: ", error.response || error.message);
 
       const originalRequest = error.config;
-      
-      if ((error?.response?.status === 401 || error?.response?.status === 403) && !originalRequest._retry) {
-        originalRequest._retry = true; 
+
+      if (
+        (error?.response?.status === 401 || error?.response?.status === 403) &&
+        !originalRequest._retry
+      ) {
+        originalRequest._retry = true;
         try {
           const newToken = await refresh();
           if (newToken) {
             originalRequest.headers["Authorization"] = `${newToken}`;
-            return Request(originalRequest); 
+            return Request(originalRequest);
+          } else {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("refreshToken");
           }
         } catch (refreshError) {
           console.error("Refresh token failed:", refreshError);
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("refreshToken");
           return Promise.reject(refreshError);
         }
       }
 
-      const errorMsg: AuthErrors = { data: { error: error.response || error.message || "Unknown error", status: -1  } };
+      const errorMsg: AuthErrors = {
+        data: {
+          error: error.response || error.message || "Unknown error",
+          status: -1,
+        },
+      };
 
       return Promise.reject(errorMsg);
     }
   );
 };
 
-
+export const RefreshRequest = axios.create();
 export const Request = axios;
 export default axios;
-
