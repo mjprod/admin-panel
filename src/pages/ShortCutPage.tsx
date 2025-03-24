@@ -1,5 +1,22 @@
 import React, { useEffect, useState } from "react";
+import FullScreenModal from "./FullScreenModal";
+import HistoryModalContent from "./HistoryModalContent";
 import "./ShortCutPage.css";
+
+interface ConversationItem {
+  UserMsg?: string;
+  AdminReply?: string;
+}
+
+interface ConversationItemChinese {
+  UserMsg_cn?: string;
+  AdminReply_cn?: string;
+}
+
+interface ConversationHistory {
+  Malay: ConversationItem[];
+  Chinese: ConversationItemChinese[];
+}
 
 interface QuestionItem {
   _id?: string;
@@ -7,18 +24,17 @@ interface QuestionItem {
   answer: string;
   question_cn: string;
   answer_cn: string;
+  history: ConversationHistory;
 }
 
 const ShortCutPage: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  // const { isSignedIn } = useContext(AuthContext);
-
-  //if (!isSignedIn) {
-  //return <Navigate to="/login" />;
-  //}
+  const [showModal, setShowModal] = useState(false);
+  const [historySelected, setHistorySelected] = useState<
+    ConversationHistory | undefined
+  >(undefined);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -50,18 +66,14 @@ const ShortCutPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     if (!id) return;
-
     try {
       const res = await fetch(
         `https://api.mjproapps.com/api/delete_pre_brain/${id}/`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: "Token 4d4a50524f4432303232",
-          },
+          headers: { Authorization: "Token 4d4a50524f4432303232" },
         }
       );
-
       if (res.ok) {
         setQuestions((prev) => prev.filter((item) => item._id !== id));
         if (selectedId === id) {
@@ -83,7 +95,6 @@ const ShortCutPage: React.FC = () => {
       return alert("Selecione uma pergunta primeiro.");
     const selected = questions[selectedIndex];
     if (!selected) return;
-
     const payload = {
       question: selected.question,
       answer_en: selected.answer,
@@ -100,7 +111,6 @@ const ShortCutPage: React.FC = () => {
         },
         body: JSON.stringify(payload),
       });
-
       if (res.ok && selected._id) {
         await handleDelete(selected._id);
         setSelectedIndex(null);
@@ -117,7 +127,6 @@ const ShortCutPage: React.FC = () => {
   const editQuestion = (id: string) => {
     const newQuestion = prompt("Soalan baru:");
     if (!newQuestion) return;
-
     setQuestions((prev) =>
       prev.map((q) => (q._id === id ? { ...q, question: newQuestion } : q))
     );
@@ -126,7 +135,6 @@ const ShortCutPage: React.FC = () => {
   const editAnswer = (id: string) => {
     const newAnswer = prompt("Masukkan jawapan baharu:");
     if (!newAnswer) return;
-
     setQuestions((prev) =>
       prev.map((q) => (q._id === id ? { ...q, answer: newAnswer } : q))
     );
@@ -153,6 +161,15 @@ const ShortCutPage: React.FC = () => {
             <div className="row01">
               <span className="badge">MY</span>
               <span className="language">Malay</span>
+              <button
+                className="all-conversation-button"
+                onClick={() => {
+                  setShowModal(true);
+                  setHistorySelected(item.history);
+                }}
+              >
+                📜 所有对话
+              </button>
             </div>
             <div className="qa-content">
               <p className="question-label">
@@ -210,6 +227,14 @@ const ShortCutPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      <FullScreenModal isOpen={showModal} onClose={() => setShowModal(false)}>
+        {historySelected ? (
+          <HistoryModalContent history={historySelected} />
+        ) : (
+          <p>Nenhum histórico encontrado.</p>
+        )}
+      </FullScreenModal>
     </div>
   );
 };

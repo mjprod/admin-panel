@@ -1,0 +1,56 @@
+/* HistoryModalContent.css */
+
+/* Container geral do histórico */
+.history-container {
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+/* Container que agrupa as mensagens (bubbles) em formato de chat */
+.conversation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* espaço entre as mensagens */
+  margin-bottom: 2rem;
+}
+
+/* Estilo padrão para cada “bubble” de mensagem */
+.message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin: 2px 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  position: relative;
+  word-wrap: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabeçalho da mensagem (quem enviou) */
+.message-header {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+/* Corpo da mensagem (conteúdo) */
+.message-body {
+  white-space: pre-wrap; /* permite quebra de linha dentro do texto */
+}
+
+/* Mensagens do usuário ficam à esquerda */
+.user-message {
+  align-self: flex-start;
+  background: #e2f3fe;
+  border: 1px solid #b5e3fa;
+}
+
+/* Mensagens do admin ficam à direita */
+.admin-message {
+  align-self: flex-end;
+  background: #ffe0d1;
+  border: 1px solid #ffc8a6;
+}
