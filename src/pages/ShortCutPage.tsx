@@ -164,7 +164,7 @@ const ShortCutPage: React.FC = () => {
             </div>
             <div className="qa-content">
               <p className="question-label">
-                <strong>Soalan Pengguna:</strong> {item.answer_cn}
+                <strong>Soalan Pengguna:</strong> {item.question_cn}
               </p>
               <p className="answer-label">
                 <strong>Cadang Ai menjawab:</strong> {item.answer_cn}
