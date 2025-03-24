@@ -1,5 +1,6 @@
+import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import AssetsPack from "../../../../../util/AssetsPack";
-import { QuestionStatus } from "../../../../../util/QuestionStatus";
+import { SideCardType } from "../../../../../util/QuestionStatus";
 import styles from "./SelectAllBar.module.css";
 import { useTranslation } from "react-i18next";
 /* eslint-disable complexity */
@@ -7,7 +8,6 @@ import { useTranslation } from "react-i18next";
 interface SelectAllBarProps {
   checkBoxLabel?: string;
   saveAllButtonText?: string;
-  questionStatus: QuestionStatus;
   checked: boolean;
   showActionButton?: boolean;
   onBulkActionCommit?: () => void;
@@ -19,31 +19,37 @@ const SelectAllBar = ({
   showActionButton = false,
   onBulkActionCommit = () => {},
   onSelectAllClick = () => {},
-  questionStatus,
 }: SelectAllBarProps) => {
-  const ICONS_MAP = {
-    [QuestionStatus.Rejected]: AssetsPack.icons.ICON_CLOSE.default,
-    [QuestionStatus.PreApproved]: AssetsPack.icons.ICON_TICK.default,
+  const {statusClicked} = useConversationsContext()
+
+  const getIcon = (type: SideCardType) => {
+    switch (type) {
+      case SideCardType.Rejected:
+        return AssetsPack.icons.ICON_CLOSE.default;
+      default:
+        return AssetsPack.icons.ICON_TICK.default;
+    }
   };
+  const icon = getIcon(statusClicked);
 
   const containerClass =
-    questionStatus === QuestionStatus.PreApproved
+  statusClicked === SideCardType.PreApproved
       ? styles["write-all-container"]
       : styles["delete-all-container"];
   const selectAllClass =
-    questionStatus === QuestionStatus.PreApproved
+  statusClicked === SideCardType.PreApproved
       ? styles["select-all-to-write"]
       : styles["select-all-to-delete"];
   const buttonClass =
-    questionStatus === QuestionStatus.PreApproved
+  statusClicked === SideCardType.PreApproved
       ? styles["pre-approve"]
       : styles["dismiss"];
   const checkboxId =
-    questionStatus === QuestionStatus.PreApproved
+  statusClicked === SideCardType.PreApproved
       ? styles["select-all-write"]
       : styles["select-all-delete"];
   const buttonId =
-    questionStatus === QuestionStatus.PreApproved
+  statusClicked === SideCardType.PreApproved
       ? styles["write-all-button"]
       : styles["delete-all-button"];
 
@@ -53,7 +59,7 @@ const SelectAllBar = ({
 
   const {t} = useTranslation()
 
-  if (questionStatus !== QuestionStatus.NeedApproval) {
+  if (statusClicked !== SideCardType.NeedApproval && statusClicked !== SideCardType.MaxPanel ) {
     return (
       <div className={containerClass}>
         <div className={selectAllClass}>
@@ -72,8 +78,8 @@ const SelectAllBar = ({
           style={showActionButton ? { display: "flex" } : { display: "none" }}
           onClick={onBulkActionCommit}
         >
-          <img src={ICONS_MAP[questionStatus]} />
-          {questionStatus === QuestionStatus.PreApproved
+          {icon && <img src={`${icon}`} />}
+          {statusClicked === SideCardType.PreApproved
             ? t("selectAllBar.approve_all")
             : t("selectAllBar.delete_all_selected")}
         </button>

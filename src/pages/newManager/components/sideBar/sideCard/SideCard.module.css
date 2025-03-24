@@ -10,9 +10,15 @@
 .active {
   transform: translateX(1rem);
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: hsl(0deg 0% 0% / 12%) -12px 6px 15px -2px,
+    hsl(0deg 0% 0% / 12%) -6px 3px 10px -3px;
+  background: linear-gradient(16deg, #d4d4d491, #b17143);
+  border: 1px solid var(--warm-gray);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .de-active {
+  background: #fff;
   transform: translateX(0rem);
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -46,6 +52,34 @@
 }
 
 .rejected {
-  fill: var(--color10-dark);
-  color: var(--color10-dark);
+  border-color: var(--color10-light);
+
+  & p {
+    color: var(--color10-dark);
+  }
+}
+
+.timeline-card {
+  display: grid;
+  grid-template-rows: 23px 1fr;
+  border-radius: 0.5rem;
+  border: 1px solid var(--black-200);
+  /* background: #fff; */
+  padding: 1.25rem;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-card.max-panel-card {background: rgba(225, 190, 115, 0.717); color: black;}
+
+@media screen and (max-width: 25em) {
+
+  .row01 {
+    align-items: center;
+  }
+
+  .timeline-card {
+    padding: 0.5rem 1rem;
+     
+  }
+  
 }

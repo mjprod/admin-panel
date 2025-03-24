@@ -1,16 +1,28 @@
-export enum QuestionStatus {
-  NeedApproval = "need_approval", // 1
-  PreApproved = "pre_approved", // 2
-  // Approved = "approved", // 3
-  Rejected = "rejected", // 4
+export enum SideCardType {
+  Core = "core",
+  MaxPanel = "max_panel",
+  NeedApproval = "need_approval",
+  PreApproved = "pre_approved",
+  Rejected = "rejected",
+  NONE = "",
 }
 
-const statusMap: Record<QuestionStatus, number> = {
-  [QuestionStatus.NeedApproval]: 1,
-  [QuestionStatus.PreApproved]: 2,
-  // [QuestionStatus.Approved]: 3,
-  [QuestionStatus.Rejected]: 4,
-};
+export enum QuestionStatus {
+  NeedApproval = 1, // 1
+  PreApproved = 2, // 2
+  Approved = 3, // 3
+  Rejected = 4, // 4
+}
 
-export const getStatusNumber = (status: QuestionStatus): number =>
-  statusMap[status];
+export const getQuestionStatusFromSideCardType  = (type: SideCardType): QuestionStatus | null => {
+  switch (type) {
+    case SideCardType.NeedApproval:
+      return QuestionStatus.NeedApproval;
+    case SideCardType.PreApproved:
+      return QuestionStatus.PreApproved;
+    case SideCardType.Rejected:
+      return QuestionStatus.Rejected;
+    default:
+      return null;
+  }
+};

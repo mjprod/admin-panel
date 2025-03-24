@@ -37,9 +37,6 @@
     "next": "Seterusnya",
     "page": "Halaman",
     "of": "daripada",
-    "need_approval": "Perlu Kelulusan",
-    "pre_approved": "Pra-Diluluskan",
-    "rejected": "Ditolak",
     "question_strength": "Kekuatan Soalan",
     "approved": "Diluluskan"
   },
@@ -84,5 +81,19 @@
     "submit": "Hantar",
     "category": "Kategori",
     "subcategory": "Subkategori"
+  },
+  "sidecard": {
+    "need_approval": "Perlu Kelulusan",
+    "pre_approved": "Pra-Diluluskan",
+    "rejected": "Ditolak",
+    "core": "Soalan Teras",
+    "max_panel": "MAX PANEL"
+  },
+  "topbar": {
+    "need_approval": "Perlu Kelulusan",
+    "pre_approved": "Pra-Diluluskan",
+    "rejected": "Ditolak",
+    "core": "Soalan Teras",
+    "max_panel": "Max Panel"
   }
 }

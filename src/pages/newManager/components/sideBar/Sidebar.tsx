@@ -1,29 +1,28 @@
 import React, { useContext } from "react";
 import styles from "./Sidebar.module.css";
-import QuestionTools, { CategoryProps } from "./questionTools/QuestionTools";
+import QuestionTools from "./questionTools/QuestionTools";
 import SideCard from "./sideCard/SideCard";
 import CreateNewButton from "./createNewButton/CreateNewButton";
-import { QuestionStatus } from "../../../../util/QuestionStatus";
+import { SideCardType } from "../../../../util/QuestionStatus";
 import { useConversationsContext } from "../../../../context/ConversationProvider";
 import { AuthContext } from "../../../../context/AuthContext";
 import LanguageList from "../../../../components/language/LanguageList";
-import { Language, LanguageCode } from "../../../../api/responsePayload/KnowledgeResponse";
+import {
+  Language,
+  LanguageCode,
+} from "../../../../api/responsePayload/KnowledgeResponse";
 import { useTranslation } from "react-i18next";
 
-interface SidebarProps {
-  card: QuestionStatus;
-  onSideCardClicked: (status: QuestionStatus) => void;
-  categories: CategoryProps[];
-  onCategoryClick: (category: CategoryProps) => void;
-}
+interface SidebarProps {}
 
-const Sidebar: React.FC<SidebarProps> = ({
-  card,
-  onSideCardClicked,
-  categories,
-  onCategoryClick,
-}) => {
-  const { totalKnowledgeCount, language, setLanguage } = useConversationsContext();
+const Sidebar: React.FC<SidebarProps> = ({}) => {
+  const {
+    totalKnowledgeCount,
+    language,
+    setLanguage,
+    categoriesFilter,
+    filterByCategory,
+  } = useConversationsContext();
   const { logout } = useContext(AuthContext);
 
   const handleLogout = () => {
@@ -31,39 +30,28 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleLanguageSelect = (lang: LanguageCode) => {
-    setLanguage(lang)
-  }
+    setLanguage(lang);
+  };
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <aside className={styles["sidebar"]}>
       <QuestionTools
         total={totalKnowledgeCount}
-        categories={categories}
-        onCategoryClick={onCategoryClick}
+        categories={categoriesFilter}
+        onCategoryClick={filterByCategory}
       />
 
       <div className={styles["list-container"]}>
+        <div className={styles["tools-heading"]}>Cipta/Edit</div>
         <CreateNewButton />
-        <SideCard
-          isActive={card == QuestionStatus.NeedApproval}
-          status={QuestionStatus.NeedApproval}
-          onSideCardClicked={onSideCardClicked}
-          classNameStyle={styles["timeline-card"]}
-        />
-        <SideCard
-          isActive={card == QuestionStatus.PreApproved}
-          status={QuestionStatus.PreApproved}
-          onSideCardClicked={onSideCardClicked}
-          classNameStyle={styles["timeline-card"]}
-        />
-        <SideCard
-          isActive={card == QuestionStatus.Rejected}
-          status={QuestionStatus.Rejected}
-          onSideCardClicked={onSideCardClicked}
-          classNameStyle={styles["timeline-card"]}
-        />
+        <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/>
+        <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
+        <SideCard type={SideCardType.MaxPanel} classNameStyle={styles["timeline-card"]}/>
+        <SideCard type={SideCardType.NeedApproval} classNameStyle={styles["timeline-card"]}/>
+        <SideCard type={SideCardType.PreApproved} classNameStyle={styles["timeline-card"]}/>
+        <SideCard type={SideCardType.Rejected} classNameStyle={styles["timeline-card"]}/>
       </div>
 
       <div className={styles["bottom"]}>
@@ -74,18 +62,18 @@ const Sidebar: React.FC<SidebarProps> = ({
           languages={[
             {
               lang: Language.MALAYSIAN,
-              isCompleted: language == Language.MALAYSIAN
+              isCompleted: language == Language.MALAYSIAN,
             },
             {
               lang: Language.ENGLISH,
-              isCompleted: language == Language.ENGLISH
+              isCompleted: language == Language.ENGLISH,
             },
             {
               lang: Language.CHINESE,
-              isCompleted: language == Language.CHINESE
+              isCompleted: language == Language.CHINESE,
             },
           ]}
-          showTitle = {true}
+          showTitle={true}
           onLanguageSelected={handleLanguageSelect}
         />
       </div>

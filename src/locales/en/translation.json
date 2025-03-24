@@ -36,9 +36,6 @@
     "next": "Next",
     "page": "Page",
     "of": "of",
-    "need_approval": "Need Approval",
-    "pre_approved": "Pre-Approved",
-    "rejected": "Rejected",
     "question_strength": "Question Strength",
     "approved": "Approve"
   },
@@ -83,5 +80,19 @@
     "submit": "Submit",
     "category": "Category",
     "subcategory": "Sub Category"
+  },
+  "sidecard": {
+    "need_approval": "Need Approval",
+    "pre_approved": "Pre-Approved",
+    "rejected": "Rejected",
+    "core": "Core Questions",
+    "max_panel": "MAX PANEL"
+  },
+  "topbar": {
+    "need_approval": "Need Approval",
+    "pre_approved": "Pre-Approved",
+    "rejected": "Rejected",
+    "core": "Core Questions",
+    "max_panel": "Max Panel"
   }
 }
