@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { showConsoleError } from "../../util/ConsoleMessage";
 import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
 import TopBar from "./components/sideMain/topBar/TopBar";
+import MaxList from "./components/sideMain/maxPanel/MaxList";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -106,7 +107,8 @@ const NewManager = () => {
       <Sidebar />
       <main
         className={clsx(
-          statusClicked !== SideCardType.NeedApproval && statusClicked !== SideCardType.MaxPanel
+          statusClicked !== SideCardType.NeedApproval &&
+            statusClicked !== SideCardType.MaxPanel
             ? styles["main-content"]
             : ""
         )}
@@ -118,10 +120,14 @@ const NewManager = () => {
           onSelectAllClick={handleSelectAll}
           onBulkActionCommit={handleBulkAction}
         />
-        <QuestionList
-          conversations={conversations}
-          onSelected={handleConversationSelected}
-        />
+        {statusClicked != SideCardType.MaxPanel && (
+          <QuestionList
+            conversations={conversations}
+            onSelected={handleConversationSelected}
+          />
+        )}
+        {statusClicked == SideCardType.MaxPanel && <MaxList />}
+
         <BottomBar
           currentPage={currentPage}
           onPrevPageClicked={onPrevPageClicked}
