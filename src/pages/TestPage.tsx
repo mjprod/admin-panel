@@ -1,15 +1,33 @@
 import React from "react";
-import TopBar from "./newManager/components/sideMain/topBar/TopBar";
-// import SideCard from "./newManager/components/sideBar/sideCard/SideCard";
-// import { SideCardType } from "../util/QuestionStatus";
+import CreateNewButton from "./newManager/components/sideBar/createNewButton/CreateNewButton";
+import {
+  KnowledgeStatus,
+  Language,
+} from "../api/responsePayload/KnowledgeResponse";
+import { ChatType } from "../components/popUp/popUpChatHistory/ChatDialog";
+import QuestionCard from "./newManager/components/sideMain/questionList/components/questionCard/QuestionCard";
+import MaxCard from "./newManager/components/sideMain/maxPanel/MaxCard";
 
 const TestPage = () => {
   return (
     <div>
-      {/* <SideCard type={SideCardType.Core} />
-      <SideCard type={SideCardType.MaxPanel} />
-      <SideCard type={SideCardType.NeedApproval} /> */}
-      <TopBar />
+      <CreateNewButton />
+      <QuestionCard
+        knowledgeId={1}
+        id={1}
+        dateTime={"15/2/2025"}
+        conversationId={"1"}
+        category={null}
+        languages={[]}
+        currentlang={{ lang: Language.MALAYSIAN, langLabel: "Mayla" }}
+        subcategories={null}
+        question={"1111111"}
+        answer={"1111111"}
+        status={KnowledgeStatus.NeedReview}
+        context={context}
+      />
+
+      <MaxCard />
     </div>
   );
 };
