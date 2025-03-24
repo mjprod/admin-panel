@@ -1,8 +1,12 @@
 import React from "react";
 import CreateNewButton from "./newManager/components/sideBar/createNewButton/CreateNewButton";
-import { KnowledgeStatus, Language } from "../api/responsePayload/KnowledgeResponse";
+import {
+  KnowledgeStatus,
+  Language,
+} from "../api/responsePayload/KnowledgeResponse";
 import { ChatType } from "../components/popUp/popUpChatHistory/ChatDialog";
 import QuestionCard from "./newManager/components/sideMain/questionList/components/questionCard/QuestionCard";
+import MaxCard from "./newManager/components/sideMain/maxPanel/MaxCard";
 
 const TestPage = () => {
   const context = {
@@ -35,6 +39,8 @@ const TestPage = () => {
         status={KnowledgeStatus.NeedReview}
         context={context}
       />
+
+      <MaxCard />
     </div>
   );
 };

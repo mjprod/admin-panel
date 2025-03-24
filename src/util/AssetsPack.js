@@ -19,6 +19,7 @@ const AssetsPack = {
     ICON_CUSTOMER: await import("../assets/person.png"),
     ICON_CUSTOMER_SUPPORT: await import("../assets/icon-customer-service.png"),
     ICON_END_CONVERSATION: await import("../assets/endConversationIcon.svg"),
+    ICON_REGENERATE: await import("../assets/regenerate.svg"),
   },
   logos: {
     LOGIN_PAGE_LOGO: await import("../assets/ai_brain.svg"),
