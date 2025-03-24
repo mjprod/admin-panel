@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import styles from "./FilterSelect.module.css";
+import clsx from "clsx";
 
 interface FilterSelectProps {
   hint: string;
   options: any[];
   onChange: (selectedValue: number) => void;
+  classNameStyle?: string;
 }
 
 const FilterSelect: React.FC<FilterSelectProps> = ({
   hint,
   options,
   onChange,
+  classNameStyle,
 }) => {
   const [selectedValue, setSelectedValue] = useState<string>();
 
@@ -22,11 +25,11 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   };
 
   return (
-    <div className={styles["filter-select-container"]}>
+    <div className={clsx(styles["filter-select-container"])}>
       <select
         name="filter"
         id="filterSelect"
-        className={styles["filter-select"]}
+        className={clsx(styles["filter-select"], classNameStyle)}
         value={selectedValue}
         onChange={handleChange}
       >

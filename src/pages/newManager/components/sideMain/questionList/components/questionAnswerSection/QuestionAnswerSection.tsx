@@ -9,6 +9,7 @@ interface QuestionAnswerSectionProps {
   isEditing: boolean;
   onChange: (updatedQuestion: string | null, updatedAnswer: string) => void;
   color: string;
+  classNameStyle?: string;
 }
 
 const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
@@ -17,11 +18,12 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
   isEditing,
   onChange,
   color,
+  classNameStyle,
 }) => {
   const [editedQuestion, setEditedQuestion] = useState(question);
   const [editedAnswer, setEditedAnswer] = useState(answer);
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleQuestionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -40,10 +42,12 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
   };
 
   return (
-    <div className={styles["question-answer-container"]}>
+    <div className={clsx(styles["question-answer-container"], classNameStyle)}>
       <div className={styles["question-block-container"]}>
         <div className={styles["inline-container"]}>
-          <p className={styles["question-title"]}>{t("newManager.user_question")}</p>
+          <p className={styles["question-title"]}>
+            {t("newManager.user_question")}
+          </p>
           {isEditing ? (
             <textarea
               value={editedQuestion ?? ""}
@@ -58,7 +62,9 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
       </div>
       <div className={styles["answer-block-container"]}>
         <div className={styles["inline-container"]}>
-          <p className={styles["answer-title"]}>{t("newManager.suggested_answer")}</p>
+          <p className={styles["answer-title"]}>
+            {t("newManager.suggested_answer")}
+          </p>
           {isEditing ? (
             <textarea
               value={editedAnswer}

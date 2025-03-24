@@ -67,7 +67,9 @@ const AppRouter = () => {
           path="/testPage"
           element={
             <PrivateRoute>
-              <TestPage />
+              <ConversationsProvider>
+                <TestPage />
+              </ConversationsProvider>
             </PrivateRoute>
           }
         />

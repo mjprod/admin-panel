@@ -13,6 +13,7 @@ export enum ButtonType {
   Delete = "Delete",
   Cancel = "Cancel",
   Done = "Done",
+  Regenerate = "Regenerate",
 }
 
 type ButtonProps = {
@@ -53,6 +54,9 @@ const CustomButton: React.FC<ButtonProps> = ({
         return AssetsPack.icons.ICON_CANCEL.default;
       case ButtonType.Done:
         return AssetsPack.icons.ICON_SAVE.default;
+
+      case ButtonType.Regenerate:
+        return AssetsPack.icons.ICON_REGENERATE.default;
       default:
         return null;
     }
@@ -78,6 +82,8 @@ const CustomButton: React.FC<ButtonProps> = ({
         return styles["cancel-edit"];
       case ButtonType.Done:
         return styles["submit-edit"];
+      case ButtonType.Regenerate:
+        return styles["regenerate"];
       default:
         return styles["normal"];
     }
