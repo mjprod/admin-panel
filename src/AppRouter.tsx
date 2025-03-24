@@ -37,14 +37,7 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginPage />} />
 
         {/* Private routes */}
-        <Route
-          path="/shortCutPage"
-          element={
-            <PrivateRoute>
-              <ShortCutPage />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/shortCutPage" element={<ShortCutPage />} />
         <Route
           path="/newManager"
           element={
