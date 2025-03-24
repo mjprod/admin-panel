@@ -5,6 +5,8 @@ interface QuestionItem {
   _id?: string;
   question: string;
   answer: string;
+  question_cn: string;
+  answer_cn: string;
 }
 
 const ShortCutPage: React.FC = () => {
@@ -158,6 +160,14 @@ const ShortCutPage: React.FC = () => {
               </p>
               <p className="answer-label">
                 <strong>Cadang Ai menjawab:</strong> {item.answer}
+              </p>
+            </div>
+            <div className="qa-content">
+              <p className="question-label">
+                <strong>Soalan Pengguna:</strong> {item.answer_cn}
+              </p>
+              <p className="answer-label">
+                <strong>Cadang Ai menjawab:</strong> {item.answer_cn}
               </p>
             </div>
             <div className="actions">
