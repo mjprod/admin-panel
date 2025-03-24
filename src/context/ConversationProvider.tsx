@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { getStatusNumber, QuestionStatus } from "../util/QuestionStatus";
+import { getQuestionStatusFromSideCardType, SideCardType } from "../util/QuestionStatus";
 import {
   CategorySummary,
   KnowledgeCard,
@@ -28,8 +28,8 @@ import { showConsoleError } from "../util/ConsoleMessage";
 interface ConversationsContextType {
   conversations: KnowledgeCard[];
   setConversations: React.Dispatch<React.SetStateAction<KnowledgeCard[]>>;
-  statusClicked: QuestionStatus;
-  setStatusClicked: React.Dispatch<React.SetStateAction<QuestionStatus>>;
+  statusClicked: SideCardType;
+  setStatusClicked: React.Dispatch<React.SetStateAction<SideCardType>>;
   selectedCategories: CategoryProps[];
   setSelectedCategories: React.Dispatch<React.SetStateAction<CategoryProps[]>>;
   filterByCategory: (category: CategoryProps) => void;
@@ -63,8 +63,8 @@ export const ConversationsProvider = ({
 }) => {
   const {i18n} = useTranslation()
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
-  const [statusClicked, setStatusClicked] = useState<QuestionStatus>(
-    QuestionStatus.NeedApproval
+  const [statusClicked, setStatusClicked] = useState<SideCardType>(
+    SideCardType.Core
   );
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []
@@ -118,8 +118,16 @@ export const ConversationsProvider = ({
     );
   };
 
-  const fetchConversations = async (status: QuestionStatus) => {
-    conversationApiCall(undefined, { status: getStatusNumber(status) });
+  const fetchConversations = async () => {
+    const currentStatus = getQuestionStatusFromSideCardType(statusClicked);
+    const categoryIds = getCategoryIds(selectedCategories);
+
+    const params = {
+      ...(currentStatus !== null && { status: currentStatus }),
+      ...(categoryIds.length > 0 && { category: categoryIds }),
+    };
+
+    conversationApiCall(undefined, params);
   };
 
   const getCategoryIds = (categories?: { id: number }[]): string => {
@@ -128,16 +136,9 @@ export const ConversationsProvider = ({
       : "";
   };
 
-  const refreshConversations = async () => {
-    conversationApiCall(undefined, {
-      status: getStatusNumber(statusClicked),
-      ...{ category: getCategoryIds(selectedCategories) },
-    });
-  };
-
   const updateConvList = () => {
     if (isUpdateConversationList) {
-      refreshConversations();
+      fetchConversations();
       getKnowledgeSummary();
       setUpdateConversationList(false);
     }
@@ -183,7 +184,7 @@ export const ConversationsProvider = ({
 
   useEffect(() => {
     i18n.changeLanguage(language.code);
-    refreshConversations()
+    fetchConversations()
   }, [language]);
 
   const onPrevPageClicked = () => {
@@ -213,8 +214,8 @@ export const ConversationsProvider = ({
 
   useEffect(() => {
     if (isSignedIn) {
-      fetchConversations(QuestionStatus.NeedApproval);
       getCategories();
+      fetchConversations();
     }
   }, [isSignedIn]);
 
@@ -223,11 +224,7 @@ export const ConversationsProvider = ({
   }, [categories]);
 
   useEffect(() => {
-    fetchConversations(statusClicked);
-  }, [statusClicked]);
-
-  useEffect(() => {
-    refreshConversations();
+    fetchConversations();
   }, [selectedCategories, statusClicked]);
 
   return (

@@ -9,19 +9,6 @@ import QuestionCard from "./newManager/components/sideMain/questionList/componen
 import MaxCard from "./newManager/components/sideMain/maxPanel/MaxCard";
 
 const TestPage = () => {
-  const context = {
-    conversationId: "12tgvbhhgbhnj",
-    date_time: "09/09/2029",
-    chat_data: [
-      {
-        id: 123,
-        type: ChatType.User,
-        datetime: "09/09/2029",
-        message: "wertyhbvfgyhujkl",
-        isActive: false,
-      },
-    ],
-  };
   return (
     <div>
       <CreateNewButton />
