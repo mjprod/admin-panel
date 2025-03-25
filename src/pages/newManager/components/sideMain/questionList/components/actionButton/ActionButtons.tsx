@@ -95,7 +95,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       showConsoleMessage(selectOption, textMessage);
       await KowledgeContentBulkUpdateStatus(
         [id],
-        getStatusNumber(QuestionStatus.Rejected)
+        QuestionStatus.Rejected
       );
       setUpdateConversationList(true);
     } catch (e) {
