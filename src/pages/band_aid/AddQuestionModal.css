@@ -1,0 +1,71 @@
+/* Button to open the inline view */
+.open-view-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Inline view container with animation */
+.add-question-view {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+
+  padding: 0 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+}
+
+/* When open, view expands */
+.add-question-view.open {
+  max-height: 500px; /* Adjust as needed */
+  opacity: 1;
+  padding: 16px;
+  margin-bottom: 50px;
+}
+
+/* Style for inputs */
+.add-question-view input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Buttons container */
+.view-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.view-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
