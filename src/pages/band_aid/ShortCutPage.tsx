@@ -9,14 +9,9 @@ interface ConversationItem {
   AdminReply?: string;
 }
 
-interface ConversationItemChinese {
-  UserMsg_cn?: string;
-  AdminReply_cn?: string;
-}
-
 interface ConversationHistory {
   Malay: ConversationItem[];
-  Chinese: ConversationItemChinese[];
+  Chinese: ConversationItem[];
 }
 
 interface QuestionItem {

@@ -7,14 +7,9 @@ interface ConversationItem {
   AdminReply?: string;
 }
 
-interface ConversationItemChinese {
-  UserMsg_cn?: string;
-  AdminReply_cn?: string;
-}
-
 interface ConversationHistory {
   Malay: ConversationItem[];
-  Chinese: ConversationItemChinese[];
+  Chinese: ConversationItem[];
 }
 
 interface HistoryModalContentProps {
@@ -55,16 +50,16 @@ const HistoryModalContent: React.FC<HistoryModalContentProps> = ({
         <div className="conversation-container">
           {history.Chinese.map((item, index) => (
             <React.Fragment key={index}>
-              {item.UserMsg_cn && (
+              {item.UserMsg && (
                 <div className="message user-message">
                   <div className="message-header">用户:</div>
-                  <div className="message-body">{item.UserMsg_cn}</div>
+                  <div className="message-body">{item.UserMsg}</div>
                 </div>
               )}
-              {item.AdminReply_cn && (
+              {item.AdminReply && (
                 <div className="message admin-message">
                   <div className="message-header">管理员:</div>
-                  <div className="message-body">{item.AdminReply_cn}</div>
+                  <div className="message-body">{item.AdminReply}</div>
                 </div>
               )}
             </React.Fragment>
