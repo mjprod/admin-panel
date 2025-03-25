@@ -158,3 +158,16 @@ body {
   font-size: 13px;
   color: #dc3545;
 }
+
+.add-question-button {
+  color: white;
+  width: 20%;
+  padding: 0px 0px;
+  font-weight: bold;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 8px;
+  float: right;
+  cursor: pointer;
+  background-color: #007bff;
+}

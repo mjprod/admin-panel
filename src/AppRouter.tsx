@@ -3,8 +3,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import { AuthContext } from "./context/AuthContext"; // Adjust this path based on your project
 import { ConversationsProvider } from "./context/ConversationProvider";
-import ShortCutPage from "./pages/ShortCutPage";
 import TestPage from "./pages/TestPage";
+import ShortCutPage from "./pages/band_aid/ShortCutPage";
 import LoginPage from "./pages/login/Login";
 import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 import NewManager from "./pages/newManager/NewManager";

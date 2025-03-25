@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AddQuestionModal from "./AddQuestionModal";
 import FullScreenModal from "./FullScreenModal";
 import HistoryModalContent from "./HistoryModalContent";
 import "./ShortCutPage.css";
@@ -91,8 +92,7 @@ const ShortCutPage: React.FC = () => {
   };
 
   const handleAddToBrain = async () => {
-    if (selectedIndex === null)
-      return alert("Selecione uma pergunta primeiro.");
+    if (selectedIndex === null) return alert("Select first.");
     const selected = questions[selectedIndex];
     if (!selected) return;
     const payload = {
@@ -117,10 +117,10 @@ const ShortCutPage: React.FC = () => {
         setSelectedId(null);
       } else {
         const error = await res.text();
-        console.error("❌ Erro:", error);
+        console.error("❌ Error:", error);
       }
     } catch (err) {
-      console.error("❌ Erro de rede:", err);
+      console.error("❌ Error:", err);
     }
   };
 
@@ -140,6 +140,44 @@ const ShortCutPage: React.FC = () => {
     );
   };
 
+  const [isModalAddQuestion, setIsModalAddQuestion] = useState(false);
+
+  const handleAddQuestion = () => setIsModalAddQuestion(true);
+
+  const handleSavedQuestion = async (data: {
+    question: string;
+    answer: string;
+  }) => {
+    console.log("Saved question:", data.question);
+    console.log("Saved answer:", data.answer);
+
+    const payload = {
+      question: data.question,
+      answer_en: data.answer,
+      answer_cn: data.answer,
+      answer_ms: data.answer,
+    };
+
+    try {
+      const res = await fetch("https://api.mjproapps.com/api/insert_brain/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token 4d4a50524f4432303232",
+        },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        setIsModalAddQuestion(false);
+      } else {
+        const error = await res.text();
+        console.error("❌ Error:", error);
+      }
+    } catch (err) {
+      console.error("❌ Error:", err);
+    }
+  };
+
   return (
     <div className="sap-main-container">
       <header className="header">
@@ -148,8 +186,17 @@ const ShortCutPage: React.FC = () => {
           一旦確認答案後，它們將寫入Ai資料庫並且影響未來的回覆，請在確認前審慎評估。
         </div>
         <h1 className="title">Add to Ai Knowledge Base</h1>
+        <button className="add-question-button" onClick={handleAddQuestion}>
+          +
+        </button>
       </header>
-
+      {isModalAddQuestion && (
+        <AddQuestionModal
+          onSaved={handleSavedQuestion}
+          isModalAddQuestion={isModalAddQuestion}
+          setIsModalAddQuestion={setIsModalAddQuestion}
+        />
+      )}
       <main className="main-content">
         {questions.map((item, index) => (
           <div
@@ -232,7 +279,7 @@ const ShortCutPage: React.FC = () => {
         {historySelected ? (
           <HistoryModalContent history={historySelected} />
         ) : (
-          <p>Nenhum histórico encontrado.</p>
+          <p>History not found.</p>
         )}
       </FullScreenModal>
     </div>
