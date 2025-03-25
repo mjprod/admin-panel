@@ -12,14 +12,9 @@ import CustomButton, {
 } from "../../../../../../../components/button/CustomButton";
 import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
 import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
-import {
-  showConsoleError,
-  showConsoleMessage,
-} from "../../../../../../../util/ConsoleMessage";
-import {
-  getStatusNumber,
-  QuestionStatus,
-} from "../../../../../../../util/QuestionStatus";
+import { showConsoleError, showConsoleMessage } from "../../../../../../../util/ConsoleMessage";
+import { QuestionStatus } from "../../../../../../../util/QuestionStatus";
+
 
 interface ActionButtonsProps {
   id: number;
@@ -59,7 +54,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
       await KowledgeContentBulkUpdateStatus(
         [id],
-        getStatusNumber(QuestionStatus.PreApproved)
+        QuestionStatus.PreApproved
       );
       setUpdateConversationList(true);
     } catch (e) {
@@ -75,7 +70,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     try {
       await KowledgeContentBulkUpdateStatus(
         [id],
-        getStatusNumber(QuestionStatus.NeedApproval)
+        QuestionStatus.NeedApproval
       );
       setUpdateConversationList(true);
     } catch (e) {

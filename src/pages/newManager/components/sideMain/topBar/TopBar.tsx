@@ -2,21 +2,31 @@ import styles from "./TopBar.module.css";
 import { useTranslation } from "react-i18next";
 import React from "react";
 import AssetsPack from "../../../../../util/AssetsPack";
-import { QuestionStatus } from "../../../../../util/QuestionStatus";
+import { SideCardType } from "../../../../../util/QuestionStatus";
+import { useConversationsContext } from "../../../../../context/ConversationProvider";
 
-interface TopBarProps {
-  statusClicked: QuestionStatus;
-  totalCount: number;
-}
+interface TopBarProps {}
 
-const TopBar: React.FC<TopBarProps> = ({ statusClicked, totalCount }) => {
-  // const { statusClicked, totalCount } = useConversations();
+const TopBar: React.FC<TopBarProps> = () => {
+  const { statusClicked, totalCount } = useConversationsContext();
 
-  const ICONS_MAP = {
-    [QuestionStatus.Rejected]: AssetsPack.icons.ICON_REJECT.default,
-    [QuestionStatus.PreApproved]: AssetsPack.icons.ICON_PRE_APPROVED.default,
-    [QuestionStatus.NeedApproval]: AssetsPack.icons.ICON_NEED_APPROVAL.default,
+  const getIcon = (type: SideCardType) => {
+    switch (type) {
+      case SideCardType.NeedApproval:
+        return AssetsPack.icons.ICON_NEED_APPROVAL.default;
+      case SideCardType.PreApproved:
+        return AssetsPack.icons.ICON_PRE_APPROVED.default;
+      case SideCardType.Rejected:
+        return AssetsPack.icons.ICON_REJECT.default;
+      case SideCardType.Core:
+        return AssetsPack.icons.ICON_CORE.default;
+      case SideCardType.MaxPanel:
+        return AssetsPack.icons.ICON_MAX.default;
+      default:
+        return null;
+    }
   };
+  const icon = getIcon(statusClicked);
 
   const { t } = useTranslation();
 
@@ -25,9 +35,9 @@ const TopBar: React.FC<TopBarProps> = ({ statusClicked, totalCount }) => {
       <div className={styles["row01"]}>
         <div className={styles["leftcol"]}>
           <div className={styles["icon-need-approval"]}>
-            <img src={ICONS_MAP[statusClicked]} alt="icon" />
+            {icon && <img src={`${icon}`} />}
           </div>
-          <p>{t(`newManager.${statusClicked}`)}</p>
+          <p>{t(`topbar.${statusClicked}`)}</p>
         </div>
         <div className={styles["rightcol"]}>
           <div className={styles["question-count"]}>
@@ -36,6 +46,21 @@ const TopBar: React.FC<TopBarProps> = ({ statusClicked, totalCount }) => {
             </p>
           </div>
         </div>
+        {statusClicked == SideCardType.MaxPanel && (
+          <div className={styles["core-question-notes"]}>
+            <p className={styles["notes"]}>
+              <strong>Sila ambil perhatian:</strong>Sila semak soalan dan
+              jawapan berikut. Ini adalah "soalan teras" yang mungkin berubah
+              dan melibatkan perkara seperti masa keluaran dan tempoh menunggu
+              pembayaran. Selepas mengemas kini maklumat, sila pastikan anda
+              memilih kotak semak dan menekan butang{" "}
+              <span className={styles["highlight"]}>
+                "Simpan Semua yang Dipilih"
+              </span>{" "}
+              untuk mengesahkan perubahan anda.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

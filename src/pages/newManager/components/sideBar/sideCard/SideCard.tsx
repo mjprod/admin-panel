@@ -2,66 +2,64 @@ import React from "react";
 import styles from "./SideCard.module.css";
 import AssetsPack from "../../../../../util/AssetsPack";
 import clsx from "clsx";
-import { QuestionStatus } from "../../../../../util/QuestionStatus";
+import { SideCardType } from "../../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
+import { useConversationsContext } from "../../../../../context/ConversationProvider";
 
 interface SideCardProps {
-  isActive: boolean;
-  status: QuestionStatus;
+  type: SideCardType;
   number?: number;
-  onSideCardClicked: (status: QuestionStatus) => void;
   classNameStyle: string;
 }
 
-const SideCard: React.FC<SideCardProps> = ({
-  isActive,
-  status,
-  // number,
-  onSideCardClicked,
-  classNameStyle,
-}) => {
-  const getIcon = (status: QuestionStatus) => {
-    switch (status) {
-      case QuestionStatus.NeedApproval:
+const SideCard: React.FC<SideCardProps> = ({ type, classNameStyle,}) => {
+  const { statusClicked, setStatusClicked } = useConversationsContext();
+  const getIcon = (type: SideCardType) => {
+    switch (type) {
+      case SideCardType.NeedApproval:
+      case SideCardType.MaxPanel:
         return AssetsPack.icons.ICON_NEED_APPROVAL.default;
-      case QuestionStatus.PreApproved:
+      case SideCardType.PreApproved:
         return AssetsPack.icons.ICON_PRE_APPROVED.default;
-      case QuestionStatus.Rejected:
+      case SideCardType.Rejected:
         return AssetsPack.icons.ICON_REJECT.default;
+      case SideCardType.Core:
+        return AssetsPack.icons.ICON_CORE.default;
       default:
         return null;
     }
   };
-  const icon = getIcon(status);
+  const icon = getIcon(type);
 
   const { t } = useTranslation();
 
   return (
     <div
       className={clsx(
+        styles["timeline-card"],
         classNameStyle,
-        isActive ? styles["active"] : styles["de-active"]
+        statusClicked == type ? styles["active"] : styles["de-active"]
       )}
-      onClick={() => onSideCardClicked(status)}
+      onClick={() => setStatusClicked(type)}
     >
-      <div className={styles["row01"]}>
-        {/* <p>{number}</p> */}
-      </div>
+      {type != SideCardType.Core && (
+        <div className={styles["row01"]}>
+          {type == SideCardType.MaxPanel ? "MAX ONLY" : ""}
+        </div>
+      )}
       <div className={styles["row02"]}>
         <div
           className={clsx(
             styles["icon"],
-            status == QuestionStatus.Rejected && styles["rejected"]
+            type == SideCardType.Rejected && styles["rejected"]
           )}
         >
           {icon && <img src={`${icon}`} />}
         </div>
         <p
-          className={clsx(
-            status == QuestionStatus.Rejected && styles["rejected"]
-          )}
+          className={clsx(type == SideCardType.Rejected && styles["rejected"])}
         >
-          {t(`newManager.${status}`)}
+          {t(`sidecard.${type}`)}
         </p>
       </div>
     </div>

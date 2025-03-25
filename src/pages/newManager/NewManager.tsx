@@ -2,7 +2,7 @@ import Sidebar from "./components/sideBar/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/sideMain/bottomBar/BottomBar";
 import { useContext, useEffect, useState } from "react";
-import { QuestionStatus } from "../../util/QuestionStatus";
+import { SideCardType } from "../../util/QuestionStatus";
 import clsx from "clsx";
 import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { showConsoleError } from "../../util/ConsoleMessage";
 import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
 import TopBar from "./components/sideMain/topBar/TopBar";
+import MaxList from "./components/sideMain/maxPanel/MaxList";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -27,15 +28,11 @@ const NewManager = () => {
     conversations,
     setConversations,
     statusClicked,
-    setStatusClicked,
-    filterByCategory,
-    totalCount,
     currentPage,
     onPrevPageClicked,
     onNextPageClicked,
     totalPages,
     setUpdateConversationList,
-    categoriesFilter,
   } = useConversationsContext();
 
   const [checked, setChecked] = useState(false);
@@ -70,7 +67,7 @@ const NewManager = () => {
       .filter((con) => con.isSelected === true)
       .map((con) => con.id);
 
-    if (statusClicked == QuestionStatus.PreApproved) {
+    if (statusClicked == SideCardType.PreApproved) {
       try {
         await KowledgeContentBulkUpdateStatus(conversationIds, 3);
       } catch (e) {
@@ -78,7 +75,7 @@ const NewManager = () => {
       }
     }
 
-    if (statusClicked == QuestionStatus.Rejected) {
+    if (statusClicked == SideCardType.Rejected) {
       try {
         await KowledgeContentBulkDelete(conversationIds);
       } catch (e) {
@@ -107,31 +104,30 @@ const NewManager = () => {
 
   return (
     <div className={styles["main-container"]}>
-      <Sidebar
-        card={statusClicked}
-        onSideCardClicked={setStatusClicked}
-        categories={categoriesFilter}
-        onCategoryClick={filterByCategory}
-      />
+      <Sidebar />
       <main
         className={clsx(
-          statusClicked !== QuestionStatus.NeedApproval
+          statusClicked !== SideCardType.NeedApproval &&
+            statusClicked !== SideCardType.MaxPanel
             ? styles["main-content"]
             : ""
         )}
       >
-        <TopBar statusClicked={statusClicked} totalCount={totalCount} />
+        <TopBar />
         <SelectAllBar
-          questionStatus={statusClicked}
           showActionButton={showActionButton}
           checked={checked}
           onSelectAllClick={handleSelectAll}
           onBulkActionCommit={handleBulkAction}
         />
-        <QuestionList
-          conversations={conversations}
-          onSelected={handleConversationSelected}
-        />
+        {statusClicked != SideCardType.MaxPanel && (
+          <QuestionList
+            conversations={conversations}
+            onSelected={handleConversationSelected}
+          />
+        )}
+        {statusClicked == SideCardType.MaxPanel && <MaxList />}
+
         <BottomBar
           currentPage={currentPage}
           onPrevPageClicked={onPrevPageClicked}

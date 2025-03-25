@@ -37,21 +37,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [authErrors]);
 
   useEffect(() => {
-    // 🔥 Check authentication state on load
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem("authToken");
         const { refresh } = useRefreshToken();
 
         if (token) {
-          // If token exists, validate it
           const valid = await refresh();
           setIsSignedIn(valid ? true : false);
         } else {
           setIsSignedIn(false);
         }
-
-        // setIsSignedIn(!!token);
       } catch {
         setIsSignedIn(false);
       } finally {
@@ -92,9 +88,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsSignedIn(false);
     localStorage.removeItem("authToken");
     localStorage.removeItem("refreshToken");
-
-    // localStorage.removeItem("user_logged");
-    // localStorage.removeItem("local_api_logged");
   };
 
   return (

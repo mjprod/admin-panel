@@ -12,7 +12,7 @@
   align-items: stretch;
   justify-content: center;
   display: flex;
-  padding: auto 3.5rem;
+  padding: 1.5rem;
 }
 
 .conversation-details .row01 {
@@ -54,4 +54,29 @@
 
 .icon-need-approval> img {
   width: 2rem;
+}
+
+.core-question-notes {
+  background-color: var(--color06-light);
+  border: 1px solid var(--color06-border);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  max-width: 60rem;
+}
+
+.conversation-details .row01 .notes {
+  line-height: 150%;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.highlight {
+  background-color: var(--color11-light);
+  color: var(--color11-dark);
+  padding: 0.3rem 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color11-border);
+  margin: auto 0.2rem;
+  user-select: none;
 }

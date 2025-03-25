@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext"; // Adjust this path based on your project
-import TestPage from "./pages/TestPage";
-import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
-import SuperAdmin from "./pages/superAdmin/SuperAdmin";
-import NewManager from "./pages/newManager/NewManager";
-import LoginPage from "./pages/login/Login";
-import { ConversationsProvider } from "./context/ConversationProvider";
 import PrivateRoute from "./PrivateRoute";
+import { AuthContext } from "./context/AuthContext"; // Adjust this path based on your project
+import { ConversationsProvider } from "./context/ConversationProvider";
+import ShortCutPage from "./pages/ShortCutPage";
+import TestPage from "./pages/TestPage";
+import LoginPage from "./pages/login/Login";
+import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
+import NewManager from "./pages/newManager/NewManager";
+import SuperAdmin from "./pages/superAdmin/SuperAdmin";
 
 const AppRouter = () => {
   const { loadingAuth } = useContext(AuthContext);
@@ -37,6 +38,14 @@ const AppRouter = () => {
 
         {/* Private routes */}
         <Route
+          path="/shortCutPage"
+          element={
+            <PrivateRoute>
+              <ShortCutPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/newManager"
           element={
             <PrivateRoute>
@@ -58,7 +67,9 @@ const AppRouter = () => {
           path="/testPage"
           element={
             <PrivateRoute>
-              <TestPage />
+              <ConversationsProvider>
+                <TestPage />
+              </ConversationsProvider>
             </PrivateRoute>
           }
         />

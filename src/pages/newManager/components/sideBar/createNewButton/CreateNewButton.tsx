@@ -14,7 +14,7 @@ const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isFormVisible, setFormVisible] = useState(false);
-  const { categories, subCategories } = useConversationsContext();
+  const { categories, subCategories, language, setUpdateConversationList } = useConversationsContext();
 
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
@@ -22,8 +22,6 @@ const CreateNewButton = () => {
     useState<SubCategory[]>(subCategories);
   const [categoryOptions, setCategoryOptions] =
     useState<Category[]>(categories);
-
-  const { language, setUpdateConversationList } = useConversationsContext();
 
   useEffect(() => {
     setSubCategoryOptions(subCategories);

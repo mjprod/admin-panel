@@ -1,42 +1,44 @@
 import { Endpoint } from "./contants";
-import { apiPostRequest, createPayload } from "./util/apiUtils";
+import { createPayload } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
+import { RefreshRequest } from "./axios-config";
 
 const useRefreshToken = () => {
   const refresh = async () => {
+    const token = localStorage.getItem("refreshToken");
+    if (!token) {
+      console.error("No refresh token found.");
+      return null;
+    }
+
+    const basePayload = {
+      refresh: token,
+    };
+
+    const payload = createPayload(basePayload);
     try {
-      const token = localStorage.getItem("refreshToken");
-      if (!token) {
-        console.error("No refresh token found.");
-        return null;
-      }
-
-      const basePayload = {
-        refresh: token,
-      };
-
-      const payload = createPayload(basePayload);
-      const response = await apiPostRequest<AuthResponse>(
+      const response = await RefreshRequest.post<AuthResponse>(
         Endpoint.Refresh,
         payload,
-        { "Content-Type": "application/json" }
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      if (response == null) {
+      if (!response || !response.data) {
         return null;
       }
-      const newToken = `Bearer ${response.access}`;
 
+      const newToken = `Bearer ${response.data.access}`;
       localStorage.setItem("authToken", newToken);
-      localStorage.setItem("refreshToken", response.refresh);
+      localStorage.setItem("refreshToken", response.data.refresh);
 
       return newToken;
     } catch (err) {
-      console.error("Refresh token failed:", err);
+      console.error("Refresh failed:", err);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
       return null;
     }
   };
-
   return { refresh };
 };
 

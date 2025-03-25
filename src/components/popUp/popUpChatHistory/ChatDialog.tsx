@@ -7,6 +7,14 @@ import { useTranslation } from "react-i18next";
 export enum ChatType {
   User = "user",
   CustomerSupport = "agent",
+  JokerBot = "robot",
+}
+
+export enum MessageType {
+  Bad = "bad",
+  Changed = "changed",
+  Good = "good",
+  Normal = "normal",
 }
 
 export interface ChatDialogProps {
@@ -15,6 +23,7 @@ export interface ChatDialogProps {
   datetime: string;
   message: string;
   isActive?: boolean;
+  messageType?: MessageType;
 }
 
 const ChatDialog: React.FC<ChatDialogProps> = ({
@@ -22,34 +31,36 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   datetime,
   message,
   isActive = false,
+  messageType = MessageType.Normal,
 }) => {
   const { t } = useTranslation();
+
+  const ICONS_MAP = {
+    [ChatType.User]: AssetsPack.icons.ICON_CUSTOMER.default,
+    [ChatType.CustomerSupport]: AssetsPack.icons.ICON_CUSTOMER_SUPPORT.default,
+    [ChatType.JokerBot]: AssetsPack.icons.ICON_ROBOT.default,
+  };
+
   return (
     <div
       className={clsx(
+        styles["chat-row"],
         styles[`chat-${type}-row`],
         isActive && styles["active-question"]
       )}
     >
-      <div className={styles[`chat-${type}-bubble`]}>
+      <div className={styles[`chat-bubble`]}>
         <div className={styles["chat-bubble-date"]}>{datetime}</div>
-        <div className={styles[`chat-${type}-message`]}>
-          <div className={styles[`chat-${type}-name-avatar`]}>
-            <div className={styles[`chat-${type}-avatar`]}>
-              <img
-                src={
-                  type == ChatType.User
-                    ? AssetsPack.icons.ICON_CUSTOMER.default
-                    : AssetsPack.icons.ICON_CUSTOMER_SUPPORT.default
-                }
-                alt=""
-              />
+        <div className={styles[`chat-message`]}>
+          <div className={styles[`chat-name-avatar`]}>
+            <div className={styles[`chat-avatar`]}>
+              <img className={styles["image"]} src={ICONS_MAP[type]} alt="" />
             </div>
             {type == ChatType.User
               ? t("chatDialog.jokerUser")
               : t("chatDialog.customer_service")}
           </div>
-          <p>{message}</p>
+          <p className={styles[`${messageType}`]}>{message}</p>
         </div>
       </div>
     </div>

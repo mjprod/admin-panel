@@ -84,7 +84,9 @@
 .cancel-edit {
   background-color: #fff;
 }
-.icon-cancel-edit > svg {width: 0.75rem;}
+.icon-cancel-edit > svg {
+  width: 0.75rem;
+}
 
 .submit-edit {
   min-width: 10rem;
@@ -92,9 +94,16 @@
   color: var(--white);
   border: none;
   border-color: var(--color11-dark);
-  & path {stroke:var(--color12-dark);}
+  & path {
+    stroke: var(--color12-dark);
+  }
 }
 
 .image {
   width: 1rem;
+}
+
+.regenerate {
+  border-color: var(--black);
+  background-color: var(--white);
 }
