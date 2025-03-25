@@ -8,7 +8,7 @@ import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
 import {
   KowledgeContentBulkDelete,
-  KowledgeContentBulkUpdate,
+  KowledgeContentBulkUpdateStatus,
 } from "../../api/auth";
 import { AuthContext } from "../../context/AuthContext";
 import { showConsoleError } from "../../util/ConsoleMessage";
@@ -69,7 +69,7 @@ const NewManager = () => {
 
     if (statusClicked == SideCardType.PreApproved) {
       try {
-        await KowledgeContentBulkUpdate(conversationIds, 3);
+        await KowledgeContentBulkUpdateStatus(conversationIds, 3);
       } catch (e) {
         showConsoleError(e);
       }

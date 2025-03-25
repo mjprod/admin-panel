@@ -217,12 +217,10 @@ const mapKnowledgeConversationData = (
 
 export const KowledgeContentStatusPatch = async (
   id: number,
-  status: number,
   updatedQuestion: string = "",
   updatedAnswer: string = ""
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
-    status: status,
     ...(updatedQuestion && { question: updatedQuestion }),
     ...(updatedAnswer && { answer: updatedAnswer }),
   };
@@ -230,7 +228,7 @@ export const KowledgeContentStatusPatch = async (
   return await apiPatchRequest(Endpoint.KnowledgeContent, { id: id }, payload);
 };
 
-export const KowledgeContentBulkUpdate = async (
+export const KowledgeContentBulkUpdateStatus = async (
   ids: number[],
   status: number
 ): Promise<AxiosResponse | null> => {
@@ -242,7 +240,7 @@ export const KowledgeContentBulkUpdate = async (
   const payload = createPayload(basePayload);
   try {
     const res: AxiosResponse | null = await apiPostRequest(
-      Endpoint.KnowledgeContentBulkUpdate,
+      Endpoint.KnowledgeContentBulkUpdateStatus,
       payload
     );
 

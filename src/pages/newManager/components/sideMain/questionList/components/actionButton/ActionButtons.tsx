@@ -1,9 +1,15 @@
 import React, { useRef } from "react";
 import styles from "./ActionButtons.module.css";
 import { useTranslation } from "react-i18next";
-import { KowledgeContentStatusPatch, KowledgeContentBulkUpdate, KowledgeContentDelete } from "../../../../../../../api/auth";
+import {
+  KowledgeContentStatusPatch,
+  KowledgeContentBulkUpdateStatus,
+  KowledgeContentDelete,
+} from "../../../../../../../api/auth";
 import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
-import CustomButton, { ButtonType } from "../../../../../../../components/button/CustomButton";
+import CustomButton, {
+  ButtonType,
+} from "../../../../../../../components/button/CustomButton";
 import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
 import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
 import { showConsoleError, showConsoleMessage } from "../../../../../../../util/ConsoleMessage";
@@ -38,13 +44,18 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handlePreApprove = async () => {
     try {
-      const res = await KowledgeContentStatusPatch(
-        id,
-        QuestionStatus.PreApproved,
-        isEditSelected ? updatedQuestion ?? "" : "",
-        isEditSelected ? updatedAnswer : ""
+      if (isEditSelected) {
+        await KowledgeContentStatusPatch(
+          id,
+          updatedQuestion ?? "",
+          updatedAnswer
+        );
+      }
+
+      await KowledgeContentBulkUpdateStatus(
+        [id],
+        QuestionStatus.PreApproved
       );
-      showConsoleError("patch res ...... handleSaveAndPreApprove", id, res);
       setUpdateConversationList(true);
     } catch (e) {
       showConsoleError(e);
@@ -57,7 +68,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handleReturn = async () => {
     try {
-      await KowledgeContentBulkUpdate(
+      await KowledgeContentBulkUpdateStatus(
         [id],
         QuestionStatus.NeedApproval
       );
@@ -81,9 +92,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     textMessage: string
   ) => {
     try {
-      showConsoleMessage(selectOption, textMessage)
-      await KowledgeContentStatusPatch(
-        id,
+      showConsoleMessage(selectOption, textMessage);
+      await KowledgeContentBulkUpdateStatus(
+        [id],
         QuestionStatus.Rejected
       );
       setUpdateConversationList(true);
@@ -94,7 +105,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handleApprove = async () => {
     try {
-      await KowledgeContentBulkUpdate([id], 3);
+      await KowledgeContentBulkUpdateStatus([id], 3);
       setUpdateConversationList(true);
     } catch (e) {
       showConsoleError(e);
