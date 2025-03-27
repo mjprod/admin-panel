@@ -26,7 +26,8 @@ export const Endpoint = {
 
   Login: `${getBaseUri()}/login/`,
   Refresh: `${getBaseUri()}/refresh/`,
-
+  User: `${getBaseUri()}/user/`,
+  Logout: `${getBaseUri()}/logout/`,
 };
 
 //API Constants

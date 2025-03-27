@@ -64,7 +64,7 @@ export const ConversationsProvider = ({
   const {i18n} = useTranslation()
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
   const [statusClicked, setStatusClicked] = useState<SideCardType>(
-    SideCardType.Core
+    SideCardType.NeedApproval
   );
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []

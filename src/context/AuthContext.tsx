@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
-import { Login } from "../api/auth";
+import { GetUser, Login, Logout } from "../api/auth";
 import useRefreshToken from "../api/RefreshToken";
+import { UserResponse } from "../api/responsePayload/AuthResponse";
+import { showConsoleError } from "../util/ConsoleMessage";
 
 export interface AuthContextType {
   accessToken: string | undefined;
@@ -9,6 +11,7 @@ export interface AuthContextType {
   logout: (callback?: () => void) => void;
   authErrors: AuthErrors | undefined;
   isSignedIn: boolean;
+  user: UserResponse | undefined;
 }
 
 export interface AuthErrors {
@@ -26,6 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [authErrors, setAuthErrors] = useState<AuthErrors>();
+  const [user, setUser] = useState<UserResponse | undefined>();
 
   useEffect(() => {
     if (authErrors) {
@@ -44,6 +48,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (token) {
           const valid = await refresh();
+          if (valid) {
+            getUserInfo();
+          }
           setIsSignedIn(valid ? true : false);
         } else {
           setIsSignedIn(false);
@@ -63,6 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await Login(username, password);
 
       if (response) {
+        getUserInfo();
         setIsSignedIn(true);
         localStorage.setItem("authToken", `Bearer ${response.access}`);
         localStorage.setItem("refreshToken", response.refresh);
@@ -84,10 +92,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    setIsSignedIn(false);
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("refreshToken");
+  const getUserInfo = async () => {
+    try {
+      const res = await GetUser();
+      setUser(res);
+    } catch (e) {
+      showConsoleError(e);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("refreshToken");
+      if (!token) {
+        return;
+      }
+      await Logout(token);
+      setIsSignedIn(false);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+    } catch (e) {
+      showConsoleError(e);
+    }
   };
 
   return (
@@ -99,6 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         logout,
         authErrors,
+        user,
       }}
     >
       {children}

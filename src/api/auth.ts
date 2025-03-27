@@ -7,9 +7,7 @@ import {
   hexToHsla,
   updateHslaValues,
 } from "../util/ExtensionFunction";
-import {
-  Endpoint,
-} from "./contants";
+import { Endpoint } from "./contants";
 import {
   ConversationKnowledge,
   KnowledgeStatus,
@@ -26,8 +24,11 @@ import {
   apiPostRequest,
   createPayload,
 } from "./util/apiUtils";
-import { AuthResponse } from "./responsePayload/AuthResponse";
-import { ChatDialogProps, ChatType } from "../components/popUp/popUpChatHistory/ChatDialog";
+import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
+import {
+  ChatDialogProps,
+  ChatType,
+} from "../components/popUp/popUpChatHistory/ChatDialog";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -106,8 +107,7 @@ const mapKnowledgeConversationData = (
         lang: getLanguageById(knowledgeContent.language),
         langLabel: getLanguageById(knowledgeContent.language).label,
         isSolid:
-          knowledgeContent.language ==
-          getLanguageByCode(languageCode).id,
+          knowledgeContent.language == getLanguageByCode(languageCode).id,
         isCompleted: knowledgeContent.status == KnowledgeStatus.Approved,
         status: KnowledgeStatus[knowledgeContent.status],
       };
@@ -157,7 +157,7 @@ const mapKnowledgeConversationData = (
           "\n\nCleaned string\n\n",
           cleanedStr,
           "\n\nOriginal string:\n\n",
-          item.context?.context,
+          item.context?.context
         );
         contextJsonArray = [];
       }
@@ -283,7 +283,7 @@ export const KowledgeContentBulkDelete = async (
   return await apiPostRequest(Endpoint.KnowledgeContentBulkDelete, payload);
 };
 
-export const getAllCategories = async (): Promise<Category[] | null> => {
+export const getAllCategories = async (): Promise<Category[] | undefined> => {
   try {
     const res = await apiGetRequest<Category[]>(Endpoint.Category);
     res?.map((data) => {
@@ -298,14 +298,14 @@ export const getAllCategories = async (): Promise<Category[] | null> => {
     return res;
   } catch (error) {
     console.error("Error in All Categories:", error);
-    return null;
+    return undefined;
   }
 };
 
 export const getSubCategories = async (
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
-): Promise<SubCategory[] | null> => {
+): Promise<SubCategory[] | undefined> => {
   try {
     return await apiGetRequest<SubCategory[]>(
       Endpoint.SubCategory,
@@ -314,7 +314,7 @@ export const getSubCategories = async (
     );
   } catch (error) {
     console.error("Error in All Categories:", error);
-    return null;
+    return undefined;
   }
 };
 
@@ -341,7 +341,7 @@ export const KowledgeSummary = async (
   languageId: number,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
-): Promise<KnowledgeSummary | null> => {
+): Promise<KnowledgeSummary | undefined> => {
   const query = {
     in_brain: false,
     ...{ queryParams },
@@ -365,4 +365,21 @@ export const Login = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest<AuthResponse>(Endpoint.Login, payload);
+};
+
+export const GetUser = async (
+
+): Promise<UserResponse | undefined> => {
+  return await apiGetRequest<UserResponse>(Endpoint.User);
+};
+
+export const Logout = async (
+  refreshToken: string,
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    refresh: refreshToken,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.Logout, payload);
 };
