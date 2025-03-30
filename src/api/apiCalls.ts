@@ -28,6 +28,7 @@ import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
 import {
   ChatDialogProps,
   ChatType,
+  MessageType,
 } from "../components/popUp/popUpChatHistory/ChatDialog";
 /* eslint-disable complexity */
 
@@ -134,57 +135,11 @@ const mapKnowledgeConversationData = (
           }
         : null;
 
-      const cleanedStr = (item.context?.context ?? "")
-        .replace(/'(\w+)'(?=\s*:)/g, '"$1"')
-        .replace(/:\s*'([^']*)'/g, ': "$1"')
-        .replace(
-          /"(\w+)": \\"([^"]*?)\\"/g,
-          (_, key, value) => `"${key}": "${value}"`
-        )
-        .replace(/\bTrue\b/g, "true")
-        .replace(/\bFalse\b/g, "false");
-
-      let contextJsonArray: ChatResponse[] = [];
-      try {
-        contextJsonArray =
-          !cleanedStr || cleanedStr.trim() === "" || cleanedStr === "[]"
-            ? []
-            : JSON.parse(cleanedStr);
-      } catch (error) {
-        console.error(
-          "JSON parse error:",
-          error,
-          "\n\nCleaned string\n\n",
-          cleanedStr,
-          "\n\nOriginal string:\n\n",
-          item.context?.context
-        );
-        contextJsonArray = [];
-      }
-      const chatData: ChatDialogProps[] = contextJsonArray.map((chat) => {
-        const message = chat.IsService
-          ? chat.AdminAction == 2
-            ? chat.RobotMsg
-            : chat.AdminReply
-          : chat.UserMsg;
-        return {
-          id: chat.ChatId,
-          type: chat.IsService ? ChatType.CustomerSupport : ChatType.User,
-          datetime: chat.CreateDate,
-          message: message,
-          isActive: chat.IsService
-            ? knowledgeContent.answer == message
-            : knowledgeContent.question == message,
-        };
-      });
-
-      const context: KnowledgeContext = {
-        conversationId:
-          contextJsonArray.length > 0 ? contextJsonArray[0].ConversationId : "",
-        date_time:
-          contextJsonArray.length > 0 ? contextJsonArray[0].CreateDate : "",
-        chat_data: chatData,
-      };
+      const context = mapToKnowledgeContext(
+        item.context?.context,
+        knowledgeContent.question,
+        knowledgeContent.answer
+      );
 
       knowledgeinfo.push({
         knowledgeId: item.id,
@@ -200,7 +155,7 @@ const mapKnowledgeConversationData = (
         isEdited: knowledgeContent.is_edited,
         inBrain: knowledgeContent.in_brain,
         status: status,
-        context: contextJsonArray.length > 0 ? context : null,
+        context: context,
       });
     }
   });
@@ -213,6 +168,99 @@ const mapKnowledgeConversationData = (
     previous: response.previous,
     data: knowledgeinfo,
   };
+};
+
+const mapToKnowledgeContext = (
+  context: string | undefined,
+  question: string | null,
+  answer: string | null
+): KnowledgeContext | null => {
+  const contextJsonArray = mapToChatResponse(context);
+
+  const chatData: ChatDialogProps[] = mapToChatDialogProps(
+    contextJsonArray,
+    question,
+    answer
+  );
+
+  return contextJsonArray.length > 0
+    ? {
+        conversationId:
+          contextJsonArray.length > 0 ? contextJsonArray[0].ConversationId : "",
+        date_time:
+          contextJsonArray.length > 0 ? contextJsonArray[0].CreateDate : "",
+        chat_data: chatData,
+      }
+    : null;
+};
+
+const mapToChatResponse = (chatString: string | undefined): ChatResponse[] => {
+  const cleanedStr = (chatString ?? "")
+    .replace(/\bTrue\b/g, "true")
+    .replace(/\bFalse\b/g, "false");
+
+  try {
+    return !cleanedStr || cleanedStr.trim() === "" || cleanedStr === "[]"
+      ? []
+      : JSON.parse(cleanedStr);
+  } catch (error) {
+    console.error(
+      "JSON parse error:",
+      error,
+      "\n\nCleaned string\n\n",
+      cleanedStr,
+      "\n\nOriginal string:\n\n",
+      chatString
+    );
+    return [];
+  }
+};
+
+const mapToChatDialogProps = (
+  context: ChatResponse[],
+  question: string | null,
+  answer: string | null
+): ChatDialogProps[] => {
+  const chatData: ChatDialogProps[] = context.flatMap((chat) => {
+    const message = chat.IsService ? chat.AdminReply : chat.UserMsg;
+    const robotMsg = chat.RobotMsg;
+    const messageTyep = () => {
+      switch (chat.AdminAction) {
+        case 0:
+          return MessageType.Bad;
+        case 1:
+          return MessageType.Changed;
+        case 2:
+          return MessageType.Good;
+        default:
+          return MessageType.Normal;
+      }
+    };
+
+    const userOrServiceMessage: ChatDialogProps = {
+      id: chat.ChatId,
+      type: chat.IsService ? ChatType.CustomerSupport : ChatType.User,
+      datetime: chat.CreateDate,
+      message: message,
+      isActive: chat.IsService ? answer === message : question === message,
+    };
+
+    const robotMessageObj: ChatDialogProps | null = robotMsg
+      ? {
+          id: chat.ChatId,
+          type: ChatType.JokerBot,
+          datetime: chat.CreateDate,
+          message: robotMsg,
+          isActive: answer === message,
+          messageType: messageTyep(),
+        }
+      : null;
+
+    return robotMessageObj
+      ? [userOrServiceMessage, robotMessageObj]
+      : [userOrServiceMessage];
+  });
+  return chatData;
 };
 
 export const KowledgeContentStatusPatch = async (
@@ -367,14 +415,12 @@ export const Login = async (
   return await apiPostRequest<AuthResponse>(Endpoint.Login, payload);
 };
 
-export const GetUser = async (
-
-): Promise<UserResponse | undefined> => {
+export const GetUser = async (): Promise<UserResponse | undefined> => {
   return await apiGetRequest<UserResponse>(Endpoint.User);
 };
 
 export const Logout = async (
-  refreshToken: string,
+  refreshToken: string
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     refresh: refreshToken,
@@ -382,4 +428,10 @@ export const Logout = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.Logout, payload);
+};
+
+export const GetContext = async (): Promise<KnowledgeContext | null> => {
+  const response = await apiGetRequest<string>(Endpoint.Context);
+  // const context = mapToKnowledgeContext(response, "", "");
+  return context;
 };

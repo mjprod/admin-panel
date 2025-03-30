@@ -3,12 +3,6 @@
   flex-direction: column;
 }
 
-@media (max-width: 1700px) {
-  .question-group-scroll-container {
-    grid-template-columns: 1fr;
-  }
-}
-
 .question-group-scroll-container .question-group-container:last-of-type {
   margin-bottom: 3rem;
 }
@@ -33,20 +27,6 @@
     -0.4px 16.6px 20.7px -1.7px hsl(var(--shadow-color) / 0.02);
 }
 
-.question-strength-tab {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  justify-self: end;
-  align-items: center;
-  width: max-content;
-  padding: 0.6rem 1.5rem;
-  gap: 1rem;
-  align-self: flex-end;
-  background-color: var(--black-100);
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
-}
-
 .question-group-main {
   display: flex;
   flex-direction: column;
@@ -57,34 +37,6 @@
   border-color: var(--color09-border);
 }
 
-.styled-checkbox {
-  min-width: 1.5rem;
-  min-height: 1.5rem;
-  border: 2px solid var(--color09-dark);
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0.25rem;
-  position: relative;
-}
-
-.styled-checkbox:checked::after {
-  content: "✓";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 0.75rem;
-}
-
-.styled-checkbox:checked {
-  background-color: var(--color09-dark);
-  border-color: var(--color09-dark);
-  border-radius: 0.25rem;
-  color: var(--white);
-}
-
 .question-container {
   display: flex;
   flex-direction: column;
@@ -93,49 +45,6 @@
   border: 1px solid var(--black-200);
   padding: 2rem;
   border-radius: 8px;
-}
-
-.question-answer-container-view {
-  /* flex: 1; */
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  justify-content: flex-start;
-  align-items: flex-start;
-  max-width: 100%;
-  border-bottom: 1px solid var(--black-200);
-  padding-bottom: 1rem;
-}
-
-.question-answer-sub-con {
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  width: 100%;
-}
-
-.category-container {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-}
-
-.category_view {
-  border-radius: 18px;
-  appearance: none;
-  padding: 0.5rem 1rem;
-  background-image: url("./../../../../../assets/dropdown.svg");
-  background-repeat: no-repeat;
-  background-position: calc(100% - 1rem) center;
-  background-size: 12px;
-}
-
-.align-checkbox {
-  margin-top: 0.5rem;
-}
-
-.remove-padding {
-  gap: unset;
 }
 
 .buttons-container {
@@ -149,4 +58,10 @@
   display: flex;
   gap: 1rem;
   flex-direction: row;
+}
+
+@media (max-width: 1700px) {
+  .question-group-scroll-container {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,0 +1,21 @@
+.question-answer-container-view {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 100%;
+  border-bottom: 1px solid var(--black-200);
+  padding-bottom: 1rem;
+}
+
+.question-answer-sub-con {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.remove-padding {
+  gap: unset;
+}

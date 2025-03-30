@@ -15,10 +15,11 @@ import {
 import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
   AllConversation,
+  GetContext,
   KowledgeSummary,
   getAllCategories,
   getSubCategories,
-} from "../api/auth";
+} from "../api/apiCalls";
 import { Category, SubCategory } from "../util/ExampleData";
 import { AuthContext } from "./AuthContext";
 import { useTranslation } from "react-i18next";
@@ -80,8 +81,21 @@ export const ConversationsProvider = ({
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
   const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN)
+  const [context, setContext] = useState<>([])
 
   const { isSignedIn } = useContext(AuthContext);
+
+  const contextApiCall = async (
+  ) => {
+    try {
+      if (!isSignedIn) return;
+      const res = await GetContext()
+      
+    }
+    catch (e) {
+      showConsoleError("API Response:Error", e);
+    }
+  };
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,

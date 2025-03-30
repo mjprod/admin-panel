@@ -4,7 +4,7 @@ import AssetsPack from "../../../../../util/AssetsPack";
 import { SideCardType } from "../../../../../util/QuestionStatus";
 import styles from "./SelectAllBar.module.css";
 import { useTranslation } from "react-i18next";
-import { KowledgeContentBulkUpdateStatus, KowledgeContentBulkDelete } from "../../../../../api/auth";
+import { KowledgeContentBulkUpdateStatus, KowledgeContentBulkDelete } from "../../../../../api/apiCalls";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
 /* eslint-disable complexity */
 

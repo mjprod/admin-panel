@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { GetUser, Login, Logout } from "../api/auth";
+import { GetUser, Login, Logout } from "../api/apiCalls";
 import useRefreshToken from "../api/RefreshToken";
 import { UserResponse } from "../api/responsePayload/AuthResponse";
 import { showConsoleError } from "../util/ConsoleMessage";

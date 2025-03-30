@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./FilterSelect.module.css";
 import clsx from "clsx";
 
-interface FilterSelectProps {
+export interface FilterSelectProps {
   hint: string;
   options: any[];
   onChange: (selectedValue: number) => void;
