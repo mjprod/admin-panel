@@ -4,36 +4,22 @@ import QuestionTools from "./questionTools/QuestionTools";
 import SideCard from "./sideCard/SideCard";
 import CreateNewButton from "./createNewButton/CreateNewButton";
 import { SideCardType } from "../../../../util/QuestionStatus";
-import { useConversationsContext } from "../../../../context/ConversationProvider";
-import { AuthContext } from "../../../../context/AuthContext";
 import LanguageList from "../../../../components/language/LanguageList";
 import {
   Language,
   LanguageCode,
 } from "../../../../api/responsePayload/KnowledgeResponse";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../../../store/hooks";
+import { logout } from "../../../../store/slice/auth.slice";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
-  const {
-    totalKnowledgeCount,
-    language,
-    setLanguage,
-    categoriesFilter,
-    filterByCategory,
-  } = useConversationsContext();
-  const { user, logout } = useContext(AuthContext);
-
-  useEffect(() => {
-    const selectedLanguage = Object.values(Language).find(
-      (lang) => lang.id === user?.language_preference
-    );
-    if (selectedLanguage) {
-      setLanguage(selectedLanguage)
-    }
-  }, [user]);
   
+
+  const { user } = useAppSelector((state) => state.auth);
+
   const handleLogout = () => {
     logout();
   };
@@ -54,13 +40,15 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
 
       <div className={styles["list-container"]}>
         <div className={styles["tools-heading"]}>Cipta/Edit</div>
-        { user?.is_superuser && <CreateNewButton /> }
+        {user?.is_superuser && <CreateNewButton />}
         {/* <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/> */}
         <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
-        { user?.is_superuser && <SideCard
-          type={SideCardType.MaxPanel}
-          classNameStyle={styles["timeline-card"]}
-        /> }
+        {user?.is_superuser && (
+          <SideCard
+            type={SideCardType.MaxPanel}
+            classNameStyle={styles["timeline-card"]}
+          />
+        )}
         <SideCard
           type={SideCardType.NeedApproval}
           classNameStyle={styles["timeline-card"]}

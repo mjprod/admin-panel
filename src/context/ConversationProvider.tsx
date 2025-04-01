@@ -15,7 +15,6 @@ import {
 import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
   AllConversation,
-  GetContext,
   KowledgeSummary,
   getAllCategories,
   getSubCategories,
@@ -81,21 +80,8 @@ export const ConversationsProvider = ({
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
   const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN)
-  const [context, setContext] = useState<>([])
 
   const { isSignedIn } = useContext(AuthContext);
-
-  const contextApiCall = async (
-  ) => {
-    try {
-      if (!isSignedIn) return;
-      const res = await GetContext()
-      
-    }
-    catch (e) {
-      showConsoleError("API Response:Error", e);
-    }
-  };
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
@@ -226,12 +212,12 @@ export const ConversationsProvider = ({
     }
   };
 
-  useEffect(() => {
-    if (isSignedIn) {
-      getCategories();
-      fetchConversations();
-    }
-  }, [isSignedIn]);
+  // useEffect(() => {
+  //   if (isSignedIn) {
+  //     getCategories();
+  //     fetchConversations();
+  //   }
+  // }, [isSignedIn]);
 
   useEffect(() => {
     getKnowledgeSummary();
@@ -275,12 +261,12 @@ export const ConversationsProvider = ({
 };
 
 // Custom hook to use the ConversationsContext
-export const useConversationsContext = (): ConversationsContextType => {
-  const context = useContext(ConversationsContext);
-  if (!context) {
-    throw new Error(
-      "useConversationsContext must be used within a ConversationsProvider"
-    );
-  }
-  return context;
-};
+// export const useConversationsContext = (): ConversationsContextType => {
+//   const context = useContext(ConversationsContext);
+//   if (!context) {
+//     throw new Error(
+//       "useConversationsContext must be used within a ConversationsProvider"
+//     );
+//   }
+//   return context;
+// };

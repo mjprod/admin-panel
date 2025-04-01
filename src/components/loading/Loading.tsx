@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./Loading.module.css";
-import { useLoading } from "../../context/LoadingContext";
+import { useAppSelector } from "../../store/hooks";
 
 const Loading: React.FC = () => {
-  const { isLoading } = useLoading();
+  const { isLoading } = useAppSelector((state) => state.loading);
 
   if (!isLoading) return null;
 

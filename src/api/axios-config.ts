@@ -1,14 +1,18 @@
 import axios from "axios";
 import { showConsoleError, showConsoleMessage } from "../util/ConsoleMessage";
-import { AuthErrors } from "../context/AuthContext.js";
 import useRefreshToken from "./RefreshToken";
+import { useAppDispatch } from "../store/hooks";
+import { setLoading } from "../store/slice/loading.slice";
 /* eslint-disable complexity */
 
-export const setupInterceptors = (setLoading: (value: boolean) => void) => {
+export const setupInterceptors = () => {
+  const dispatch = useAppDispatch();
+
   const { refresh } = useRefreshToken();
+
   Request.interceptors.request.use(
     (config) => {
-      setLoading(true);
+      dispatch(setLoading(true));
       showConsoleMessage("Resquest: ", config);
       const token = localStorage.getItem("authToken");
 
@@ -25,7 +29,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
       return config;
     },
     (error) => {
-      setLoading(false);
+      dispatch(setLoading(false));
       showConsoleError("Request config error", error);
       return Promise.reject(error);
     }
@@ -33,12 +37,12 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
 
   Request.interceptors.response.use(
     (response) => {
-      setLoading(false);
+      dispatch(setLoading(false));
       showConsoleMessage("Response: Success", response);
       return response;
     },
     async (error) => {
-      setLoading(false);
+      dispatch(setLoading(false));
       showConsoleError("Response Error: ", error.response || error.message);
 
       const originalRequest = error.config;
@@ -58,21 +62,13 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
             localStorage.removeItem("refreshToken");
           }
         } catch (refreshError) {
-          console.error("Refresh token failed:", refreshError);
           localStorage.removeItem("authToken");
           localStorage.removeItem("refreshToken");
           return Promise.reject(refreshError);
         }
       }
 
-      const errorMsg: AuthErrors = {
-        data: {
-          error: error.response || error.message || "Unknown error",
-          status: -1,
-        },
-      };
-
-      return Promise.reject(errorMsg);
+      return Promise.reject(error);
     }
   );
 };

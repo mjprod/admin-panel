@@ -2,7 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import styles from "./BottomBar.module.css";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { fetchConversationsByUrl } from "../../../../../store/slice/conversation.slice";
 
 interface BottomBarProps {
 }
@@ -10,13 +11,21 @@ interface BottomBarProps {
 const BottomBar: React.FC<BottomBarProps> = ({
 }) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
-  const {
-      currentPage,
-      onPrevPageClicked,
-      onNextPageClicked,
-      totalPages,
-    } = useConversationsContext();
+  const {currentPage, totalPages, nextPageUrl, prevPageUrl} = useAppSelector((state) => state.pagination);
+
+  const onPrevPageClicked = () => {
+    if (prevPageUrl) {
+      dispatch(fetchConversationsByUrl(prevPageUrl));
+    }
+  };
+
+  const onNextPageClicked = () => {
+    if (nextPageUrl) {
+      dispatch(fetchConversationsByUrl(nextPageUrl));
+    }
+  };
     
   return (
     <div className={styles["pagination-container"]}>

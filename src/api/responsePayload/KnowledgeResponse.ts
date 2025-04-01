@@ -20,6 +20,8 @@ export interface KnowledgeContent {
 export interface ContextItem {
   id: number;
   context: string;
+  date_created: string;
+  status: number;
 }
 
 export interface KnowledgeItem {

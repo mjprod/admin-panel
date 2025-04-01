@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import { AuthContext } from "./context/AuthContext"; // Adjust this path based on your project
-import { ConversationsProvider } from "./context/ConversationProvider";
 import ShortCutPage from "./pages/ShortCutPage";
 import TestPage from "./pages/TestPage";
 import LoginPage from "./pages/login/Login";
@@ -49,9 +48,7 @@ const AppRouter = () => {
           path="/newManager"
           element={
             <PrivateRoute>
-              <ConversationsProvider>
-                <NewManager />
-              </ConversationsProvider>
+              <NewManager />
             </PrivateRoute>
           }
         />
@@ -67,9 +64,7 @@ const AppRouter = () => {
           path="/testPage"
           element={
             <PrivateRoute>
-              <ConversationsProvider>
-                <TestPage />
-              </ConversationsProvider>
+              <TestPage />
             </PrivateRoute>
           }
         />

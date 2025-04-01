@@ -7,17 +7,14 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import Loading from "./components/loading/Loading";
 import { setupInterceptors } from "./api/axios-config";
-import { useLoading } from "./context/LoadingContext";
 import { useEffect } from "react";
 
-setupInterceptors(() => {});
-
 function App() {
-  const { setLoading } = useLoading();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setupInterceptors(setLoading);
-  }, [setLoading]);
+    setupInterceptors();
+  }, [dispatch]);
 
   return (
     <AuthProvider>

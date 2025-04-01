@@ -4,7 +4,6 @@ import FilterSelectList from "../../../../../components/dropDown/FilterSelectLis
 import styles from "./CategorySection.module.css";
 import { useEffect, useState } from "react";
 import { SubCategory, Category } from "../../../../../util/ExampleData";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { FilterSelectProps } from "../../../../../components/dropDown/FilterSelect";
 import Checkbox from "../../../../../components/button/Checkbox";
 
