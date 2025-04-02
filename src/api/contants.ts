@@ -20,7 +20,7 @@ export const Endpoint = {
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
   Context: `${getBaseUri()}/context/`,
-  ContextAI: `${getBaseUri()}/context-ai/`,
+  ContextAI: `${getBaseUri()}/context-ai/{id}/`,
 
   Category: `${getBaseUri()}/categories/`,
   SubCategory: `${getBaseUri()}/subcategories/`,

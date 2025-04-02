@@ -26,7 +26,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   return (
     <div>
       <CategorySection
-        showBackend={true}
+        showBackend={false}
         onCategorySelect={setSelectedCategory}
         onSubCategorySelect={setSubSelectedCategory}
         defaultSelectedCategory={defaultSelectedCategory}
