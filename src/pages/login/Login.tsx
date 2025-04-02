@@ -1,19 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import AssetsPack from "../../util/AssetsPack";
 import styles from "./Login.module.css";
-import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { showConsoleError } from "../../util/ConsoleMessage";
+import { useAppDispatch } from "../../store/hooks";
+import { login, logout } from "../../store/slice/auth.slice";
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const handleLogin = async () => {
-    const success = await login(username, password);
+    const success = await dispatch(login({ username, password }));
     if (success) {
       navigate("/newManager");
     } else {
@@ -23,7 +24,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    logout();
+    dispatch(logout());
     handleLogin();
   };
 

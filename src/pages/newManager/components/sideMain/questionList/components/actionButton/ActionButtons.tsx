@@ -11,10 +11,14 @@ import CustomButton, {
   ButtonType,
 } from "../../../../../../../components/button/CustomButton";
 import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
-import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
-import { showConsoleError, showConsoleMessage } from "../../../../../../../util/ConsoleMessage";
+import {
+  showConsoleError,
+  showConsoleMessage,
+} from "../../../../../../../util/ConsoleMessage";
 import { QuestionStatus } from "../../../../../../../util/QuestionStatus";
-
+import { useAppDispatch } from "../../../../../../../store/hooks";
+import { fetchConversations } from "../../../../../../../store/slice/conversation.slice";
+import { fetchKnowledgeSummary } from "../../../../../../../store/slice/category.slice";
 
 interface ActionButtonsProps {
   id: number;
@@ -34,9 +38,14 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   updatedAnswer,
 }) => {
   const { t } = useTranslation();
-  const { setUpdateConversationList } = useConversationsContext();
 
+  const dispatch = useAppDispatch();
   const modalRef = useRef<HTMLDialogElement | null>(null);
+
+  const refreshConversations = () => {
+    dispatch(fetchConversations());
+    dispatch(fetchKnowledgeSummary());
+  };
 
   const handleEdit = () => {
     setEditSelected(!isEditSelected);
@@ -52,11 +61,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         );
       }
 
-      await KowledgeContentBulkUpdateStatus(
-        [id],
-        QuestionStatus.PreApproved
-      );
-      setUpdateConversationList(true);
+      await KowledgeContentBulkUpdateStatus([id], QuestionStatus.PreApproved);
+      refreshConversations();
     } catch (e) {
       showConsoleError(e);
     }
@@ -68,11 +74,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handleReturn = async () => {
     try {
-      await KowledgeContentBulkUpdateStatus(
-        [id],
-        QuestionStatus.NeedApproval
-      );
-      setUpdateConversationList(true);
+      await KowledgeContentBulkUpdateStatus([id], QuestionStatus.NeedApproval);
+      refreshConversations();
     } catch (e) {
       showConsoleError(e);
     }
@@ -81,7 +84,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   const handleDelete = async () => {
     try {
       await KowledgeContentDelete(id);
-      setUpdateConversationList(true);
+      refreshConversations();
     } catch (e) {
       showConsoleError(e);
     }
@@ -93,11 +96,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   ) => {
     try {
       showConsoleMessage(selectOption, textMessage);
-      await KowledgeContentBulkUpdateStatus(
-        [id],
-        QuestionStatus.Rejected
-      );
-      setUpdateConversationList(true);
+      await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Rejected);
+      refreshConversations();
     } catch (e) {
       showConsoleError(e);
     }
@@ -106,7 +106,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   const handleApprove = async () => {
     try {
       await KowledgeContentBulkUpdateStatus([id], 3);
-      setUpdateConversationList(true);
+      refreshConversations();
     } catch (e) {
       showConsoleError(e);
     }

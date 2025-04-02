@@ -29,8 +29,8 @@ interface CategoryState {
   
   export const fetchKnowledgeSummary = createAsyncThunk(
     "category/fetchSummary",
-    async (languageId: number) => {
-      const res = await KowledgeSummary(languageId);
+    async () => {
+      const res = await KowledgeSummary();
       return res;
     }
   );

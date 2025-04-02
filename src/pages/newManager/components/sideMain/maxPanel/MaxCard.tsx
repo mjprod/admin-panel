@@ -6,13 +6,11 @@ import CustomButton, {
   ButtonType,
 } from "../../../../../components/button/CustomButton";
 import { useTranslation } from "react-i18next";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
 
 interface MaxCard {}
 
 const MaxCard: React.FC<MaxCard> = ({}) => {
   const { t } = useTranslation();
-  const {} = useConversationsContext();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
   const [checked, setChecked] = useState(false);

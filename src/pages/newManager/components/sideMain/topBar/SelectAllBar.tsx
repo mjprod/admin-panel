@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import AssetsPack from "../../../../../util/AssetsPack";
 import { SideCardType } from "../../../../../util/QuestionStatus";
 import styles from "./SelectAllBar.module.css";
 import { useTranslation } from "react-i18next";
-import { KowledgeContentBulkUpdateStatus, KowledgeContentBulkDelete } from "../../../../../api/apiCalls";
+import {
+  KowledgeContentBulkUpdateStatus,
+  KowledgeContentBulkDelete,
+} from "../../../../../api/apiCalls";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { fetchConversations, setConversations } from "../../../../../store/slice/conversation.slice";
+import { fetchKnowledgeSummary } from "../../../../../store/slice/category.slice";
 /* eslint-disable complexity */
 
 interface SelectAllBarProps {
@@ -13,53 +18,49 @@ interface SelectAllBarProps {
   saveAllButtonText?: string;
 }
 
-const SelectAllBar = ({
-}: SelectAllBarProps) => {
-  const {setUpdateConversationList, conversations, statusClicked, setConversations} = useConversationsContext()
+const SelectAllBar = ({}: SelectAllBarProps) => {
+  const dispatch = useAppDispatch();
+  const { conversations } = useAppSelector((state) => state.conversation);
+  const { statusClicked } = useAppSelector((state) => state.status);
+
   const [showActionButton, setShowActionButton] = useState(false);
   const [checked, setChecked] = useState(false);
 
-    useEffect(() => {
-      conversations.some((conv) => conv.isSelected)
-        ? setShowActionButton(true)
-        : setShowActionButton(false);
-      conversations.some((conv) => !conv.isSelected)
-        ? setChecked(false)
-        : setChecked(true);
-  
-      if (conversations.length == 0) setChecked(false);
-    }, [conversations]);
+  useEffect(() => {
+    conversations.some((conv) => conv.isSelected)
+      ? setShowActionButton(true)
+      : setShowActionButton(false);
+    conversations.some((conv) => !conv.isSelected)
+      ? setChecked(false)
+      : setChecked(true);
 
-    const handleBulkAction = async () => {
-      const conversationIds: number[] = conversations
-        .filter((con) => con.isSelected === true)
-        .map((con) => con.id);
-  
-      if (statusClicked == SideCardType.PreApproved) {
-        try {
-          await KowledgeContentBulkUpdateStatus(conversationIds, 3);
-        } catch (e) {
-          showConsoleError(e);
-        }
+    if (conversations.length == 0) setChecked(false);
+  }, [conversations]);
+
+  const handleBulkAction = async () => {
+    const conversationIds: number[] = conversations
+      .filter((con) => con.isSelected === true)
+      .map((con) => con.id);
+
+    if (statusClicked == SideCardType.PreApproved) {
+      try {
+        await KowledgeContentBulkUpdateStatus(conversationIds, 3);
+      } catch (e) {
+        showConsoleError(e);
       }
-  
-      if (statusClicked == SideCardType.Rejected) {
-        try {
-          await KowledgeContentBulkDelete(conversationIds);
-        } catch (e) {
-          showConsoleError(e);
-        }
+    }
+
+    if (statusClicked == SideCardType.Rejected) {
+      try {
+        await KowledgeContentBulkDelete(conversationIds);
+      } catch (e) {
+        showConsoleError(e);
       }
-  
-      setConversations((conversations) =>
-        conversations.map((con) => {
-          con.isSelected = false;
-          return con;
-        })
-      );
-  
-      setUpdateConversationList(true);
-    };
+    }
+
+    dispatch(fetchKnowledgeSummary())
+    dispatch(fetchConversations())
+  };
 
   const getIcon = (type: SideCardType) => {
     switch (type) {
@@ -72,38 +73,41 @@ const SelectAllBar = ({
   const icon = getIcon(statusClicked);
 
   const containerClass =
-  statusClicked === SideCardType.PreApproved
+    statusClicked === SideCardType.PreApproved
       ? styles["write-all-container"]
       : styles["delete-all-container"];
   const selectAllClass =
-  statusClicked === SideCardType.PreApproved
+    statusClicked === SideCardType.PreApproved
       ? styles["select-all-to-write"]
       : styles["select-all-to-delete"];
   const buttonClass =
-  statusClicked === SideCardType.PreApproved
+    statusClicked === SideCardType.PreApproved
       ? styles["pre-approve"]
       : styles["dismiss"];
   const checkboxId =
-  statusClicked === SideCardType.PreApproved
+    statusClicked === SideCardType.PreApproved
       ? styles["select-all-write"]
       : styles["select-all-delete"];
   const buttonId =
-  statusClicked === SideCardType.PreApproved
+    statusClicked === SideCardType.PreApproved
       ? styles["write-all-button"]
       : styles["delete-all-button"];
 
   const handleCheckboxChange = () => {
-    setConversations((conversations) =>
-      conversations.map((con) => {
-        con.isSelected = !checked;
-        return con;
-      })
-    );
+    const updated = conversations.map((con) => ({
+      ...con,
+      isSelected: !checked,
+    }));
+
+    dispatch(setConversations(updated));
   };
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
-  if (statusClicked !== SideCardType.NeedApproval && statusClicked !== SideCardType.MaxPanel ) {
+  if (
+    statusClicked !== SideCardType.NeedApproval &&
+    statusClicked !== SideCardType.MaxPanel
+  ) {
     return (
       <div className={containerClass}>
         <div className={selectAllClass}>

@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./QuestionList.module.css";
 import QuestionCard from "./components/questionCard/QuestionCard";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { fetchConversations, setConversations } from "../../../../../store/slice/conversation.slice";
 
 interface QuestionListProps {}
 
 const QuestionList: React.FC<QuestionListProps> = ({ }) => {
+    const dispatch = useAppDispatch();
 
-   const {
-      conversations,
-      setConversations,
-    } = useConversationsContext();
+    const selectedCategories = useAppSelector((state) => state.category.selectedCategories);
+    const statusClicked = useAppSelector((state) => state.status.statusClicked);
+    const {conversations} = useAppSelector((state) => state.conversation);
+  
+    useEffect(() => {
+      dispatch(fetchConversations());
+    }, [selectedCategories, statusClicked, dispatch]);
 
     const handleConversationSelected = (
       conversationId: string,
@@ -21,9 +26,10 @@ const QuestionList: React.FC<QuestionListProps> = ({ }) => {
       );
       if (convo) {
         convo.isSelected = checked;
-        setConversations([...conversations]);
+        dispatch(setConversations([...conversations]))
       }
     };
+
   return (
     <div className={styles["question-group-scroll-container"]}>
       {conversations.map((con, index) => (

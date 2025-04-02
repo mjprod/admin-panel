@@ -4,7 +4,8 @@ import AssetsPack from "../../../../../util/AssetsPack";
 import clsx from "clsx";
 import { SideCardType } from "../../../../../util/QuestionStatus";
 import { useTranslation } from "react-i18next";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { setStatusClicked } from "../../../../../store/slice/status.slice";
 
 interface SideCardProps {
   type: SideCardType;
@@ -13,7 +14,8 @@ interface SideCardProps {
 }
 
 const SideCard: React.FC<SideCardProps> = ({ type, classNameStyle,}) => {
-  const { statusClicked, setStatusClicked } = useConversationsContext();
+  const { statusClicked } = useAppSelector((state) => state.status);
+  const dispatch = useAppDispatch();
   const getIcon = (type: SideCardType) => {
     switch (type) {
       case SideCardType.NeedApproval:
@@ -40,7 +42,7 @@ const SideCard: React.FC<SideCardProps> = ({ type, classNameStyle,}) => {
         classNameStyle,
         statusClicked == type ? styles["active"] : styles["de-active"]
       )}
-      onClick={() => setStatusClicked(type)}
+      onClick={() => dispatch(setStatusClicked(type))}
     >
       {type != SideCardType.Core && (
         <div className={styles["row01"]}>

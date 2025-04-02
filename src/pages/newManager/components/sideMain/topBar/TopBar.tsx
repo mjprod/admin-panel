@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import React from "react";
 import AssetsPack from "../../../../../util/AssetsPack";
 import { SideCardType } from "../../../../../util/QuestionStatus";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { useAppSelector } from "../../../../../store/hooks";
 
 interface TopBarProps {}
 
 const TopBar: React.FC<TopBarProps> = () => {
-  const { statusClicked, totalCount } = useConversationsContext();
+  const {statusClicked} = useAppSelector((state) => state.status)
+  const {totalCount} = useAppSelector((state) => state.pagination)
 
   const getIcon = (type: SideCardType) => {
     switch (type) {

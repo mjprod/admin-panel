@@ -1,13 +1,13 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { useAppSelector } from "./store/hooks";
 
 interface PrivateRouteProps {
   children: ReactNode;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  const { isSignedIn, loadingAuth } = useContext(AuthContext);
+  const {isSignedIn, loading} = useAppSelector((state) => state.auth)
   const [delayedLoading, setDelayedLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  if (delayedLoading || loadingAuth) {
+  if (delayedLoading || loading) {
     return (
       <div
         style={{

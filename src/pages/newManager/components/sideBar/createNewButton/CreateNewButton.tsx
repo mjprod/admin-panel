@@ -5,17 +5,20 @@ import CustomButton, {
   ButtonType,
 } from "../../../../../components/button/CustomButton";
 import { useTranslation } from "react-i18next";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { CreateKnowledge } from "../../../../../api/apiCalls";
 import CategorySection from "../../sideMain/maxPanel/CategorySection";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { fetchConversations } from "../../../../../store/slice/conversation.slice";
+import { fetchKnowledgeSummary } from "../../../../../store/slice/category.slice";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isFormVisible, setFormVisible] = useState(false);
-  const { language, setUpdateConversationList } = useConversationsContext();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
+  const {language} = useAppSelector((state) => state.language);
+  const dispatch = useAppDispatch();
 
   const changeFormState = (state?: boolean) => {
     state ? setFormVisible(state) : setFormVisible(!isFormVisible);
@@ -43,7 +46,8 @@ const CreateNewButton = () => {
       answer
     );
 
-    setUpdateConversationList(true);
+    dispatch(fetchConversations())
+    dispatch(fetchKnowledgeSummary());
     setAnswer("");
     setQuestion("");
   };

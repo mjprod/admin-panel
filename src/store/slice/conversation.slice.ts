@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { KnowledgeCard } from "../../api/responsePayload/KnowledgeResponse";
 import { RootState } from "../store";
 import { AllConversation } from "../../api/apiCalls";
@@ -6,14 +6,10 @@ import { getQuestionStatusFromSideCardType } from "../../util/QuestionStatus";
 
 interface ConversationState {
   conversations: KnowledgeCard[];
-  loading: boolean;
-  error: string | null;
 }
 
 const initialState: ConversationState = {
   conversations: [],
-  loading: false,
-  error: null,
 };
 
 export const fetchConversations = createAsyncThunk(
@@ -50,18 +46,21 @@ export const fetchConversationsByUrl = createAsyncThunk(
 const conversationSlice = createSlice({
   name: "conversation",
   initialState,
-  reducers: {},
+  reducers: {
+    setConversations: (state, action: PayloadAction<KnowledgeCard[]>) => {
+      state.conversations = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchConversations.fulfilled, (state, action) => {
-      state.loading = false;
       state.conversations = action.payload?.data ?? [];
     });
     builder.addCase(fetchConversationsByUrl.fulfilled, (state, action) => {
-      state.loading = false;
       state.conversations = action.payload?.data ?? [];
     }
     );
   },
 });
 
+export const { setConversations } = conversationSlice.actions;
 export default conversationSlice.reducer;

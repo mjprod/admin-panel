@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { SubCategory, Category } from "../../../../../util/ExampleData";
 import { FilterSelectProps } from "../../../../../components/dropDown/FilterSelect";
 import Checkbox from "../../../../../components/button/Checkbox";
+import { useAppSelector } from "../../../../../store/hooks";
 
 interface CategorySectionProps {
   showBackend?: boolean;
@@ -17,7 +18,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   showBackend = false,
 }) => {
   const { t } = useTranslation();
-  const { categories, subCategories } = useConversationsContext();
+  const {categories, subCategories} = useAppSelector((state) => state.category)
 
   const [subCategoryOptions, setSubCategoryOptions] =
     useState<SubCategory[]>(subCategories);

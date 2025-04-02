@@ -21,6 +21,7 @@ import {
   mapKnowledgeConversationData,
   mapToKnowledgeContext,
 } from "./util/responseMaps";
+import store from "../store/store";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -163,14 +164,14 @@ export const CreateKnowledge = async (
 };
 
 export const KowledgeSummary = async (
-  languageId: number,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
 ): Promise<KnowledgeSummary | undefined> => {
+  const language = store.getState().language.language
   const query = {
     in_brain: false,
     ...{ queryParams },
-    ...{ language: languageId },
+    ...{ language: language.id },
   };
   return await apiGetRequest<KnowledgeSummary>(
     Endpoint.KnowledgeSummary,

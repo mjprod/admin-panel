@@ -10,22 +10,25 @@ import {
   LanguageCode,
 } from "../../../../api/responsePayload/KnowledgeResponse";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { logout } from "../../../../store/slice/auth.slice";
+import { setLanguage } from "../../../../store/slice/language.slice";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   
-
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const { totalKnowledgeCount, categoriesFilter } = useAppSelector((state) => state.category);
+  const { language } = useAppSelector((state) => state.language);
 
   const handleLogout = () => {
     logout();
   };
 
   const handleLanguageSelect = (lang: LanguageCode) => {
-    setLanguage(lang);
+    dispatch(setLanguage(lang))
   };
 
   const { t } = useTranslation();
@@ -35,7 +38,6 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
       <QuestionTools
         total={totalKnowledgeCount}
         categories={categoriesFilter}
-        onCategoryClick={filterByCategory}
       />
 
       <div className={styles["list-container"]}>

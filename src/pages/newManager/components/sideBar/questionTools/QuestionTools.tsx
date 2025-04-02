@@ -3,6 +3,8 @@ import Tag from "../../../../../components/tags/Tag";
 import styles from "./QuestionTools.module.css";
 import { useTranslation } from "react-i18next";
 import { ColorTagDetails } from "../../../../../util/ExampleData";
+import { useAppDispatch } from "../../../../../store/hooks";
+import { toggleCategory } from "../../../../../store/slice/category.slice";
 
 export interface CategoryProps {
   id: number;
@@ -15,14 +17,13 @@ export interface CategoryProps {
 interface QuestionToolsProps {
   total: number;
   categories: CategoryProps[];
-  onCategoryClick: (category: CategoryProps) => void;
 }
 
 const QuestionTools: React.FC<QuestionToolsProps> = ({
   total,
   categories = [],
-  onCategoryClick,
 }) => {
+  const dispatch = useAppDispatch();
   const [selectedCategories, setSelectedCategories] = useState<
     Map<number, boolean>
   >(
@@ -41,7 +42,7 @@ const QuestionTools: React.FC<QuestionToolsProps> = ({
       newState.set(category.id, !newState.get(category.id));
       return newState;
     });
-    onCategoryClick(category);
+    dispatch(toggleCategory(category));
   };
 
   const {t} = useTranslation();
