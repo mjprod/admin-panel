@@ -8,7 +8,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
   const { refresh } = useRefreshToken();
   Request.interceptors.request.use(
     (config) => {
-      setLoading(true);
+      // setLoading(true);
       showConsoleMessage("Resquest: ", config);
       const token = localStorage.getItem("authToken");
 

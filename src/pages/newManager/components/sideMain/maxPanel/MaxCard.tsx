@@ -43,7 +43,7 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
   useEffect(() => {
     const getAIResponse = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const res = await GetContextAI(context.id);
         const messages: string[] =
           res?.flatMap((item) => [item.question, item.answer]) ?? [];
@@ -54,10 +54,10 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
           selected: false,
         }));
         setPairs(enhancedPairs);
-        setLoading(false)
+        setLoading(false);
       } catch (e) {
-        console.log(e)
-        setLoading(false)
+        console.log(e);
+        setLoading(false);
       }
     };
     getAIResponse();
@@ -77,41 +77,48 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
             <div className={styles["question-chat-history"]}>
               <ChatHistoryButton conversationData={chatData} />
             </div>
-            {loading && <div className={styles.spinner}></div>}
-            {pairs.map((pair, index) => (
-              <QuestionAnswerCard
-                question={pair.question}
-                answer={pair.answer}
-                setSelectedCategory={(id) =>
-                  updatePair(index, { category_id: id })
-                }
-                setSubSelectedCategory={(id) =>
-                  updatePair(index, { subcategory_id: id })
-                }
-                defaultSelectedCategory={pair.category_id}
-                defaultSelectedSubCategory={pair.subcategory_id}
-              />
-            ))}
-
-            <div className={styles["buttons-container"]}>
-              <CustomButton
-                text={t("newManager.reject")}
-                type={ButtonType.Reject}
-                onClick={handleReject}
-              />
-              <div className={styles["buttons-sub-container"]}>
-                <CustomButton
-                  text={"Regenerate"}
-                  type={ButtonType.Regenerate}
-                  onClick={handleRegenerate}
-                />
-                <CustomButton
-                  text={t("newManager.approved")}
-                  type={ButtonType.Approve}
-                  onClick={handleApprove}
-                />
+            {loading && (
+              <div className={styles["spinner-container"]}>
+                <div className={styles.spinner}></div>
               </div>
-            </div>
+            )}
+            {!loading &&
+              pairs.map((pair, index) => (
+                <QuestionAnswerCard
+                  question={pair.question}
+                  answer={pair.answer}
+                  setSelectedCategory={(id) =>
+                    updatePair(index, { category_id: id })
+                  }
+                  setSubSelectedCategory={(id) =>
+                    updatePair(index, { subcategory_id: id })
+                  }
+                  defaultSelectedCategory={pair.category_id}
+                  defaultSelectedSubCategory={pair.subcategory_id}
+                />
+              ))}
+
+            {!loading && (
+              <div className={styles["buttons-container"]}>
+                <CustomButton
+                  text={t("newManager.reject")}
+                  type={ButtonType.Reject}
+                  onClick={handleReject}
+                />
+                <div className={styles["buttons-sub-container"]}>
+                  <CustomButton
+                    text={"Regenerate"}
+                    type={ButtonType.Regenerate}
+                    onClick={handleRegenerate}
+                  />
+                  <CustomButton
+                    text={t("newManager.approved")}
+                    type={ButtonType.Approve}
+                    onClick={handleApprove}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

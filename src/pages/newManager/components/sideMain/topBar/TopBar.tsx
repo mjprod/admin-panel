@@ -46,7 +46,8 @@ const TopBar: React.FC<TopBarProps> = () => {
             </p>
           </div>
         </div>
-        {statusClicked == SideCardType.MaxPanel && (
+      </div>
+      {statusClicked == SideCardType.MaxPanel && (
           <div className={styles["core-question-notes"]}>
             <p className={styles["notes"]}>
               <strong>Sila ambil perhatian:</strong>Sila semak soalan dan
@@ -61,7 +62,6 @@ const TopBar: React.FC<TopBarProps> = () => {
             </p>
           </div>
         )}
-      </div>
     </div>
   );
 };
