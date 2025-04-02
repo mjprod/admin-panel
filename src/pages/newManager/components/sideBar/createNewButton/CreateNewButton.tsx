@@ -110,8 +110,8 @@ const CreateNewButton = () => {
 
           <div className={styles["bottomSection"]}>
             <CategorySection
-              setSelectedCategory={setSelectedCategory}
-              setSubSelectedCategory={setSubSelectedCategory}
+              onCategorySelect={setSelectedCategory}
+              onSubCategorySelect={setSubSelectedCategory}
             />
           </div>
 

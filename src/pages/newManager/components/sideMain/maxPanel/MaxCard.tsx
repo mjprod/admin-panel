@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./MaxCard.module.css";
 import Metadata from "../questionList/components/metaData/Metadata";
 import ChatHistoryButton from "../questionList/components/chatHistoryButton/ChatHistoryButton";
@@ -6,28 +6,62 @@ import CustomButton, {
   ButtonType,
 } from "../../../../../components/button/CustomButton";
 import { useTranslation } from "react-i18next";
-import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import {
+  ContextItem,
+  EditablePair,
+  KnowledgeContext,
+} from "../../../../../api/responsePayload/KnowledgeResponse";
+import { GetContextAI } from "../../../../../api/apiCalls";
+import QuestionAnswerCard from "./QuestionAnswerCard";
+import { mapToKnowledgeContext } from "../../../../../api/util/responseMap";
 
-interface MaxCard {}
+interface MaxCard {
+  context: ContextItem;
+}
 
-const MaxCard: React.FC<MaxCard> = ({}) => {
+const MaxCard: React.FC<MaxCard> = ({ context }) => {
   const { t } = useTranslation();
-  const {} = useConversationsContext();
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
-  const [checked, setChecked] = useState(false);
 
-  const data = [{
+  const [loading, setLoading] = useState<boolean>(false);
+  const [pairs, setPairs] = useState<EditablePair[]>([]);
+  const [chatData, setChatData] = useState<KnowledgeContext>();
 
-  }]
+  const handleReject = () => {};
 
-  const handleReject = () => {
-    console.log(selectedCategory, selectedSubCategory)
+  const handleRegenerate = () => {};
+
+  const handleApprove = () => {};
+
+  const updatePair = (index: number, updatedFields: Partial<EditablePair>) => {
+    setPairs((prev) =>
+      prev.map((pair, i) =>
+        i === index ? { ...pair, ...updatedFields } : pair
+      )
+    );
   };
 
-  const handleChange = (checked: boolean) => {
-    setChecked(checked);
-  };
+  useEffect(() => {
+    const getAIResponse = async () => {
+      try {
+        setLoading(true)
+        const res = await GetContextAI(context.id);
+        const messages: string[] =
+          res?.flatMap((item) => [item.question, item.answer]) ?? [];
+        const chat = mapToKnowledgeContext(context.context, messages);
+        setChatData(chat ?? undefined);
+        const enhancedPairs = (res ?? []).map((item) => ({
+          ...item,
+          selected: false,
+        }));
+        setPairs(enhancedPairs);
+        setLoading(false)
+      } catch (e) {
+        console.log(e)
+        setLoading(false)
+      }
+    };
+    getAIResponse();
+  }, [context]);
 
   return (
     <div className={styles["question-group-scroll-container"]}>
@@ -35,24 +69,29 @@ const MaxCard: React.FC<MaxCard> = ({}) => {
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
             <Metadata
-              date={"2025-03-21T05:38:23.484456Z"}
-              time={"2025-03-21T05:38:23.484456Z"}
-              conversationId={"159c3640-200a-4bdc-bbeb-85a9b83eb0d2"}
+              date={context.date_created}
+              time={context.date_created}
+              conversationId={""}
             />
 
             <div className={styles["question-chat-history"]}>
-              <ChatHistoryButton
-                conversationData={{
-                  conversationId: "",
-                  date_time: "2025-03-21T05:38:23.484456Z",
-                  chat_data: [],
-                }}
-              />
+              <ChatHistoryButton conversationData={chatData} />
             </div>
-
-            {
-
-            }
+            {loading && <div className={styles.spinner}></div>}
+            {pairs.map((pair, index) => (
+              <QuestionAnswerCard
+                question={pair.question}
+                answer={pair.answer}
+                setSelectedCategory={(id) =>
+                  updatePair(index, { category_id: id })
+                }
+                setSubSelectedCategory={(id) =>
+                  updatePair(index, { subcategory_id: id })
+                }
+                defaultSelectedCategory={pair.category_id}
+                defaultSelectedSubCategory={pair.subcategory_id}
+              />
+            ))}
 
             <div className={styles["buttons-container"]}>
               <CustomButton
@@ -64,12 +103,12 @@ const MaxCard: React.FC<MaxCard> = ({}) => {
                 <CustomButton
                   text={"Regenerate"}
                   type={ButtonType.Regenerate}
-                  onClick={handleReject}
+                  onClick={handleRegenerate}
                 />
                 <CustomButton
                   text={t("newManager.approved")}
                   type={ButtonType.Approve}
-                  onClick={handleReject}
+                  onClick={handleApprove}
                 />
               </div>
             </div>

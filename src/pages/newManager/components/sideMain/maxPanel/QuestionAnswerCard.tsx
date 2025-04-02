@@ -1,37 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./QuestionAnswerCard.module.css";
 import Checkbox from "../../../../../components/button/Checkbox";
 import QuestionAnswerSection from "../questionList/components/questionAnswerSection/QuestionAnswerSection";
 import CategorySection from "./CategorySection";
 
 interface QuestionAnswerCardProps {
+  question: string;
+  answer: string;
   setSelectedCategory: (selectedCategory: number) => void;
   setSubSelectedCategory: (selectedSubCategory: number) => void;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
+  defaultSelectedCategory: number;
+  defaultSelectedSubCategory: number;
 }
 
 const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
+  question,
+  answer,
   setSelectedCategory,
   setSubSelectedCategory,
-  checked,
-  onChange,
+  defaultSelectedCategory,
+  defaultSelectedSubCategory,
 }) => {
+  const [checked, setChecked] = useState<boolean>(false);
+
   return (
     <div>
       <CategorySection
-        setSelectedCategory={setSelectedCategory}
-        setSubSelectedCategory={setSubSelectedCategory}
         showBackend={true}
+        onCategorySelect={setSelectedCategory}
+        onSubCategorySelect={setSubSelectedCategory}
+        defaultSelectedCategory={defaultSelectedCategory}
+        defaultSelectedSubCategory={defaultSelectedSubCategory}
       />
       <div className={styles["question-answer-container-view"]}>
-        <Checkbox checked={checked} onChange={onChange} />
+        <Checkbox checked={checked} onChange={setChecked} />
         <div className={styles["question-answer-sub-con"]}>
           <QuestionAnswerSection
-            question={"Could you please investigate why my deposit is missing?"}
-            answer={
-              "Give it another 5 minutes, and then see if the funds have appeared"
-            }
+            question={question}
+            answer={answer}
             isEditing={false}
             onChange={() => {}}
             color={"#fff"}

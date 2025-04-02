@@ -1,6 +1,5 @@
 import React from "react";
 import CreateNewButton from "./newManager/components/sideBar/createNewButton/CreateNewButton";
-import MaxCard from "./newManager/components/sideMain/maxPanel/MaxCard";
 import ChatHistoryButton from "./newManager/components/sideMain/questionList/components/chatHistoryButton/ChatHistoryButton";
 import { ChatType, MessageType } from "../components/popUp/popUpChatHistory/ChatDialog";
 
@@ -54,7 +53,7 @@ const TestPage = () => {
   return (
     <div>
       <CreateNewButton />
-      <MaxCard />
+      {/* <MaxCard /> */}
       <ChatHistoryButton conversationData={context} />
     </div>
   );

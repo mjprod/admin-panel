@@ -7,7 +7,7 @@ import { KnowledgeContext } from "../../../api/responsePayload/KnowledgeResponse
 import { useTranslation } from "react-i18next";
 
 interface PopUpChatHistory {
-  conversationData: KnowledgeContext;
+  conversationData?: KnowledgeContext;
   modalRef: React.RefObject<HTMLDialogElement | null>;
 }
 
@@ -21,13 +21,13 @@ const PopUpChatHistory: React.FC<PopUpChatHistory> = ({
       <div className={styles["container"]}>
         <PopUpChatHistoryDetail
           modalRef={modalRef}
-          conversationId={conversationData.conversationId}
-          datetime={conversationData.date_time}
+          conversationId={conversationData?.conversationId ?? ""}
+          datetime={conversationData?.date_time ?? ""}
         />
 
         <div className={styles["chat-conversation-modal-content-container"]}>
           <div className={styles["chat-conversation-group"]}>
-            {conversationData.chat_data.map((dialog) => {
+            {conversationData?.chat_data.map((dialog) => {
               return (
                 <ChatDialog
                   key={dialog.id}

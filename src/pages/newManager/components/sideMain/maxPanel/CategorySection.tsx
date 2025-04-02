@@ -10,12 +10,18 @@ import Checkbox from "../../../../../components/button/Checkbox";
 
 interface CategorySectionProps {
   showBackend?: boolean;
-  setSelectedCategory: (selectedCategory: number) => void;
-  setSubSelectedCategory: (selectedSubCategory: number) => void;
+  onCategorySelect: (id: number) => void;
+  onSubCategorySelect: (id: number) => void;
+  defaultSelectedCategory?: number
+  defaultSelectedSubCategory?: number
 }
 
 const CategorySection: React.FC<CategorySectionProps> = ({
   showBackend = false,
+  onCategorySelect,
+  onSubCategorySelect,
+  defaultSelectedCategory = 0,
+  defaultSelectedSubCategory = 0
 }) => {
   const { t } = useTranslation();
   const { categories, subCategories } = useConversationsContext();
@@ -60,7 +66,17 @@ const CategorySection: React.FC<CategorySectionProps> = ({
     }
   }, [selectedSubCategory]);
 
-  const handleChange = (checked: boolean) => {
+  const onCategoryChange = (id: number) => {
+    setSelectedCategory(id)
+    onCategorySelect(id)
+  }
+
+  const onSubCategoryChange = (id: number) => {
+    setSubSelectedCategory(id)
+    onSubCategorySelect(id)
+  }
+
+  const handleCheckboxChange = (checked: boolean) => {
     setChecked(checked);
   };
 
@@ -68,14 +84,16 @@ const CategorySection: React.FC<CategorySectionProps> = ({
     {
       hint: t("createNewButton.category"),
       options: categoryOptions,
-      onChange: setSelectedCategory,
+      onChange: onCategoryChange,
       classNameStyle: styles["category_view"],
+      selectedId: defaultSelectedCategory
     },
     {
       hint: t("createNewButton.subcategory"),
       options: subCategoryOptions,
-      onChange: setSubSelectedCategory,
+      onChange: onSubCategoryChange,
       classNameStyle: styles["category_view"],
+      selectedId: defaultSelectedSubCategory
     },
   ];
   return (
@@ -83,7 +101,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
       <FilterSelectList data={data} />
       {showBackend && (
         <div className={styles["rightcol"]}>
-          <Checkbox checked={checked} onChange={handleChange} />
+          <Checkbox checked={checked} onChange={handleCheckboxChange} />
           <p>Backend</p>
         </div>
       )}

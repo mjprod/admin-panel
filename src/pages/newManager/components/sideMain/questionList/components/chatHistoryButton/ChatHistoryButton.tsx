@@ -6,7 +6,7 @@ import PopUpChatHistory from "../../../../../../../components/popUp/popUpChatHis
 import AssetsPack from "../../../../../../../util/AssetsPack";
 
 interface ChatHistoryButton {
-  conversationData: KnowledgeContext;
+  conversationData?: KnowledgeContext;
 }
 
 const ChatHistoryButton: React.FC<ChatHistoryButton> = ({

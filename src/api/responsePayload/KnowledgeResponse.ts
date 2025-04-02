@@ -20,6 +20,8 @@ export interface KnowledgeContent {
 export interface ContextItem {
   id: number;
   context: string;
+  date_created: string;
+  status: number;
 }
 
 export interface KnowledgeItem {
@@ -117,4 +119,34 @@ export interface CategorySummary {
   id: number,
   name: string,
   knowledge_count: number
+}
+
+//context
+export interface ContextResponse {
+  count: number;
+  total_pages: number;
+  current_page: number;
+  next: string | null;
+  previous: string | null;
+  results: ContextItem[];
+}
+
+export interface TopicItem {
+  id: number
+  question: string
+  answer: string
+  category_id: number
+  subcategory_id: number
+}
+
+export interface ContextAIResponse {
+  topics: TopicItem[]
+}
+
+export interface EditablePair extends TopicItem {
+  selected: boolean;
+  question: string;
+  answer: string;
+  category_id: number;
+  subcategory_id: number;
 }

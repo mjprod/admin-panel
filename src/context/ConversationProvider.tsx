@@ -5,12 +5,16 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { getQuestionStatusFromSideCardType, SideCardType } from "../util/QuestionStatus";
+import {
+  getQuestionStatusFromSideCardType,
+  SideCardType,
+} from "../util/QuestionStatus";
 import {
   CategorySummary,
+  ContextItem,
   KnowledgeCard,
   Language,
-  LanguageCode
+  LanguageCode,
 } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
@@ -50,6 +54,7 @@ interface ConversationsContextType {
   categoriesFilter: CategoryProps[];
   language: LanguageCode;
   setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
+  context: ContextItem[];
 }
 
 const ConversationsContext = createContext<
@@ -62,7 +67,7 @@ export const ConversationsProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const {i18n} = useTranslation()
+  const { i18n } = useTranslation();
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
   const [statusClicked, setStatusClicked] = useState<SideCardType>(
     SideCardType.NeedApproval
@@ -80,19 +85,24 @@ export const ConversationsProvider = ({
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
-  const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN)
-  const [context, setContext] = useState<>([])
+  const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN);
+  const [context, setContext] = useState<ContextItem[]>([]);
 
   const { isSignedIn } = useContext(AuthContext);
 
-  const contextApiCall = async (
-  ) => {
+  const contextApiCall = async () => {
     try {
       if (!isSignedIn) return;
-      const res = await GetContext()
-      
-    }
-    catch (e) {
+      const res = await GetContext();
+      if (res) {
+        setContext(res.results)
+        setCurrentPage(res.current_page);
+        setNextPageUrl(res.next);
+        setPrePageUrl(res.previous);
+        setTotalPages(res.total_pages);
+        setTotalCount(res.count);
+      } 
+    } catch (e) {
       showConsoleError("API Response:Error", e);
     }
   };
@@ -108,7 +118,12 @@ export const ConversationsProvider = ({
         ...queryParams,
         ...{ language: language.id },
       };
-      const res = await AllConversation(language.code, endpoint, {}, updatedQuery);
+      const res = await AllConversation(
+        language.code,
+        endpoint,
+        {},
+        updatedQuery
+      );
       if (res) {
         setConversations(res.data);
         setCurrentPage(res.current_page);
@@ -116,9 +131,7 @@ export const ConversationsProvider = ({
         setPrePageUrl(res.previous);
         setTotalPages(res.total_pages);
         setTotalCount(res.count);
-      } else {
-        showConsoleError("API Response:Error", res);
-      }
+      } 
     } catch (e) {
       showConsoleError("API Response:Error", e);
     }
@@ -198,7 +211,7 @@ export const ConversationsProvider = ({
 
   useEffect(() => {
     i18n.changeLanguage(language.code);
-    fetchConversations()
+    fetchConversations();
   }, [language]);
 
   const onPrevPageClicked = () => {
@@ -238,7 +251,18 @@ export const ConversationsProvider = ({
   }, [categories]);
 
   useEffect(() => {
-    fetchConversations();
+    switch (statusClicked) {
+      case SideCardType.NeedApproval:
+      case SideCardType.PreApproved:
+      case SideCardType.Rejected:
+        fetchConversations();
+        break;
+      case SideCardType.MaxPanel:
+        contextApiCall();
+        break;
+      default:
+        break;
+    }
   }, [selectedCategories, statusClicked]);
 
   return (
@@ -266,7 +290,8 @@ export const ConversationsProvider = ({
         totalKnowledgeCount,
         categoriesFilter,
         language,
-        setLanguage
+        setLanguage,
+        context
       }}
     >
       {children}

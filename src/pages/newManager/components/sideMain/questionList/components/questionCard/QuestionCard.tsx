@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
-import { KnowledgeStatus, KnowledgeCard } from "../../../../../../../api/responsePayload/KnowledgeResponse";
+import {
+  KnowledgeStatus,
+  KnowledgeCard,
+} from "../../../../../../../api/responsePayload/KnowledgeResponse";
 import QuestionStrengthTab from "../../../../../../../components/language/QuestionStrengthTab";
 import { ColorTagDetails } from "../../../../../../../util/ExampleData";
 import ActionButtons from "../actionButton/ActionButtons";
@@ -12,8 +15,8 @@ import ChatHistoryButton from "../chatHistoryButton/ChatHistoryButton";
 import Metadata from "../metaData/Metadata";
 import QuestionAnswerSection from "../questionAnswerSection/QuestionAnswerSection";
 import SubcategorySection from "../subcategorySection/SubcategorySection";
+import { AuthContext } from "../../../../../../../context/AuthContext";
 /* eslint-disable complexity */
-
 
 const getStatusStyles = (
   status: KnowledgeStatus,
@@ -48,9 +51,10 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   isEdited = false,
   isSelected = false,
   onSelected = () => {},
-  context
+  context,
 }) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const [isEditSelected, setEditSelected] = useState(false);
   const [updatedQuestion, setUpdatedQuestion] = useState(question);
   const [updatedAnswer, setUpdatedAnswer] = useState(answer);
@@ -82,7 +86,10 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
 
   const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
-  const handleEditChange = (updatedQuestion: string | null, updatedAnswer: string) => {
+  const handleEditChange = (
+    updatedQuestion: string | null,
+    updatedAnswer: string
+  ) => {
     setUpdatedAnswer(updatedAnswer);
     setUpdatedQuestion(updatedQuestion);
   };
@@ -120,7 +127,9 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
             time={dateTime}
             conversationId={conversationId}
           />
-          {context && context && <ChatHistoryButton conversationData={context} />}
+          {context && context && (
+            <ChatHistoryButton conversationData={context} />
+          )}
           <CategorySection
             category={category ? category.name : ""}
             color={categoryColor}
@@ -143,14 +152,16 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
                 styles["preapproved"]
             )}
           >
-            <ActionButtons
-              status={status}
-              isEditSelected={isEditSelected}
-              setEditSelected={setEditSelected}
-              id={id}
-              updatedQuestion={updatedQuestion}
-              updatedAnswer={updatedAnswer}
-            />
+            {!user?.is_superuser && (
+              <ActionButtons
+                status={status}
+                isEditSelected={isEditSelected}
+                setEditSelected={setEditSelected}
+                id={id}
+                updatedQuestion={updatedQuestion}
+                updatedAnswer={updatedAnswer}
+              />
+            )}
           </div>
         </div>
       </div>

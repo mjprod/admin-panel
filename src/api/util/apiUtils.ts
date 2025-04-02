@@ -36,7 +36,10 @@ export const apiGetRequest = async <T>(
   queryParams: Record<string, any> = {} 
 ): Promise<T | undefined> => {
   Object.keys(pathVariables).forEach((key) => {
-    endpoint = endpoint.replace(`{${key}}`, encodeURIComponent(pathVariables[key]));
+    endpoint = endpoint.replace(
+      `{${key}}`,
+      encodeURIComponent(pathVariables[key])
+    );
   });
 
   try {

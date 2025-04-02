@@ -19,9 +19,7 @@ const NewManager = () => {
     return <div>Loading Conversations...</div>;
   }
 
-  const {
-    statusClicked,
-  } = useConversationsContext();
+  const { statusClicked } = useConversationsContext();
 
   return (
     <div className={styles["main-container"]}>
@@ -36,11 +34,8 @@ const NewManager = () => {
       >
         <TopBar />
         <SelectAllBar />
-        {statusClicked != SideCardType.MaxPanel && (
-          <QuestionList />
-        )}
+        {statusClicked != SideCardType.MaxPanel && <QuestionList />}
         {statusClicked == SideCardType.MaxPanel && <MaxList />}
-
         <BottomBar />
       </main>
     </div>

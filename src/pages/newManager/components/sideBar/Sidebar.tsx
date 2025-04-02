@@ -30,10 +30,10 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
       (lang) => lang.id === user?.language_preference
     );
     if (selectedLanguage) {
-      setLanguage(selectedLanguage)
+      setLanguage(selectedLanguage);
     }
   }, [user]);
-  
+
   const handleLogout = () => {
     logout();
   };
@@ -54,13 +54,15 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
 
       <div className={styles["list-container"]}>
         <div className={styles["tools-heading"]}>Cipta/Edit</div>
-        { user?.is_superuser && <CreateNewButton /> }
+        {user?.is_superuser && <CreateNewButton />}
         {/* <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/> */}
         <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
-        { user?.is_superuser && <SideCard
-          type={SideCardType.MaxPanel}
-          classNameStyle={styles["timeline-card"]}
-        /> }
+        {user?.is_superuser && (
+          <SideCard
+            type={SideCardType.MaxPanel}
+            classNameStyle={styles["timeline-card"]}
+          />
+        )}
         <SideCard
           type={SideCardType.NeedApproval}
           classNameStyle={styles["timeline-card"]}
@@ -69,10 +71,12 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
           type={SideCardType.PreApproved}
           classNameStyle={styles["timeline-card"]}
         />
-        <SideCard
-          type={SideCardType.Rejected}
-          classNameStyle={styles["timeline-card"]}
-        />
+        {user?.is_superuser && (
+          <SideCard
+            type={SideCardType.Rejected}
+            classNameStyle={styles["timeline-card"]}
+          />
+        )}
       </div>
 
       <div className={styles["bottom"]}>

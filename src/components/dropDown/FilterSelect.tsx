@@ -7,6 +7,7 @@ export interface FilterSelectProps {
   options: any[];
   onChange: (selectedValue: number) => void;
   classNameStyle?: string;
+  selectedId?: number;
 }
 
 const FilterSelect: React.FC<FilterSelectProps> = ({
@@ -14,8 +15,9 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   options,
   onChange,
   classNameStyle,
+  selectedId
 }) => {
-  const [selectedValue, setSelectedValue] = useState<string>();
+  const [selectedValue, setSelectedValue] = useState<string>(options.find(opt => opt.id === selectedId)?.name ?? "");
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
