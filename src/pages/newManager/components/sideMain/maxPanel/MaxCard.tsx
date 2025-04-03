@@ -11,7 +11,7 @@ import {
   EditablePair,
   KnowledgeContext,
 } from "../../../../../api/responsePayload/KnowledgeResponse";
-import { DeleteContext, GetContextAI } from "../../../../../api/apiCalls";
+import { DeleteContext, GetContextAI, KowledgeContentBulkCreate } from "../../../../../api/apiCalls";
 import QuestionAnswerCard from "./QuestionAnswerCard";
 import { mapToKnowledgeContext } from "../../../../../api/util/responseMap";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
@@ -42,8 +42,13 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
     getAIResponse();
   };
 
-  const handleApprove = () => {
-    
+  const handleApprove = async () => {
+    try {
+      await KowledgeContentBulkCreate(context.id, pairs);
+      setUpdateContextList(true);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const updatePair = (index: number, updatedFields: Partial<EditablePair>) => {

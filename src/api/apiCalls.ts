@@ -9,6 +9,7 @@ import {
   ContextResponse,
   ContextAIResponse,
   TopicItem,
+  EditablePair,
 } from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
@@ -18,9 +19,7 @@ import {
   createPayload,
 } from "./util/apiUtils";
 import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
-import {
-  mapKnowledgeConversationData,
-} from "./util/responseMap";
+import { mapKnowledgeConversationData } from "./util/responseMap";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -74,6 +73,40 @@ export const KowledgeContentBulkUpdateStatus = async (
     if (status == 3) {
       await UpdateBrainKnowledge(ids);
     }
+    return res;
+  } catch (error) {
+    console.error("Error during bulk update:", error);
+
+    return null;
+  }
+};
+
+export const KowledgeContentBulkCreate = async (
+  contextId: number,
+  data: EditablePair[]
+): Promise<AxiosResponse | null> => {
+  const knowledges = data
+    .filter((item) => item.selected)
+    .map((item) => ({
+      context: contextId,
+      category: item.category_id,
+      subcategory: item.subcategory_id,
+      type: 1,
+      question: item.question,
+      answer: item.answer,
+      content: "",
+    }));
+  const basePayload = {
+    knowledge_content_list: knowledges,
+  };
+
+  const payload = createPayload(basePayload);
+  try {
+    const res: AxiosResponse | null = await apiPostRequest(
+      Endpoint.KowledgeContentBulkCreate,
+      payload
+    );
+
     return res;
   } catch (error) {
     console.error("Error during bulk update:", error);
@@ -210,7 +243,7 @@ export const Logout = async (
 };
 
 export const GetContext = async (): Promise<ContextResponse | undefined> => {
-  return await apiGetRequest<ContextResponse>(Endpoint.Context);
+  return await apiGetRequest<ContextResponse>(Endpoint.Context, {status: 1});
 };
 
 export const DeleteContext = async (
@@ -227,5 +260,5 @@ export const GetContextAI = async (
   const res = await apiGetRequest<ContextAIResponse>(Endpoint.ContextAI, {
     id: contextId,
   });
-  return res?.topics
+  return res?.topics;
 };

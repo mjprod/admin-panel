@@ -18,6 +18,8 @@ export const Endpoint = {
   KnowledgeContentBulkUpdateStatus: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
+  KowledgeContentBulkCreate: `${getBaseUri()}/knowledge-content/bulk-create/`,
+
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
   Context: `${getBaseUri()}/context/`,
   ContextDelete: `${getBaseUri()}/context/{id}/`,
