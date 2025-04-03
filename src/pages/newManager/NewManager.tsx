@@ -3,7 +3,7 @@ import styles from "./NewManager.module.css";
 import BottomBar from "./components/sideMain/bottomBar/BottomBar";
 import { useContext } from "react";
 import { SideCardType } from "../../util/QuestionStatus";
-import clsx from "clsx";
+// import clsx from "clsx";
 import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
 import { AuthContext } from "../../context/AuthContext";
@@ -24,16 +24,11 @@ const NewManager = () => {
   return (
     <div className={styles["main-container"]}>
       <Sidebar />
-      <main
-        className={clsx(
-          statusClicked !== SideCardType.NeedApproval &&
-            statusClicked !== SideCardType.MaxPanel
-            ? styles["main-content"]
-            : ""
-        )}
-      >
-        <TopBar />
-        <SelectAllBar />
+      <main>
+        <div>
+          <TopBar />
+          <SelectAllBar />
+        </div>
         {statusClicked != SideCardType.MaxPanel && <QuestionList />}
         {statusClicked == SideCardType.MaxPanel && <MaxList />}
         <BottomBar />

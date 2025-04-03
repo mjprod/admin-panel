@@ -114,7 +114,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
         }
       >
         <div className={styles["question-container"]}>
-          {status !== KnowledgeStatus.NeedReview && (
+          { ((status === KnowledgeStatus.PreApproved && !user?.is_superuser) || status === KnowledgeStatus.Rejected) && (
             <CardSelector
               {...selectorProps}
               onChecked={(checked) => {
@@ -152,7 +152,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
                 styles["preapproved"]
             )}
           >
-            {!user?.is_superuser && (
+            {(!user?.is_superuser || (user.is_superuser && status === KnowledgeStatus.Rejected)) && (
               <ActionButtons
                 status={status}
                 isEditSelected={isEditSelected}
