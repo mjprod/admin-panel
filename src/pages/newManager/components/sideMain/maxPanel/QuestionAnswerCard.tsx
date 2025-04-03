@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./QuestionAnswerCard.module.css";
 import Checkbox from "../../../../../components/button/Checkbox";
 import QuestionAnswerSection from "../questionList/components/questionAnswerSection/QuestionAnswerSection";
@@ -13,6 +13,7 @@ interface QuestionAnswerCardProps {
   defaultSelectedSubCategory: number;
   defaultChecked: boolean;
   onCheckedChange: (checked: boolean) => void;
+  onQuestionAnswerChanged: (question: string, answer: string) => void;
 }
 
 const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
@@ -23,14 +24,38 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   defaultSelectedCategory,
   defaultSelectedSubCategory,
   defaultChecked,
-  onCheckedChange
+  onCheckedChange,
+  onQuestionAnswerChanged,
 }) => {
   const [checked, setChecked] = useState<boolean>(defaultChecked);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsEditing(false);
+      }
+    };
+
+    if (isEditing) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isEditing]);
 
   const onCheckChange = (checked: boolean) => {
-    setChecked(checked)
-    onCheckedChange(checked)
-  }
+    setChecked(checked);
+    onCheckedChange(checked);
+  };
+  
   return (
     <div>
       <CategorySection
@@ -42,12 +67,16 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
       />
       <div className={styles["question-answer-container-view"]}>
         <Checkbox checked={checked} onChange={onCheckChange} />
-        <div className={styles["question-answer-sub-con"]}>
+        <div
+          ref={containerRef}
+          className={styles["question-answer-sub-con"]}
+          onClick={() => setIsEditing(true)}
+        >
           <QuestionAnswerSection
             question={question}
             answer={answer}
-            isEditing={false}
-            onChange={() => {}}
+            isEditing={isEditing}
+            onChange={onQuestionAnswerChanged}
             color={"#fff"}
             classNameStyle={styles["remove-padding"]}
           />

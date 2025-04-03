@@ -7,7 +7,7 @@ interface QuestionAnswerSectionProps {
   question: string | null;
   answer: string;
   isEditing: boolean;
-  onChange: (updatedQuestion: string | null, updatedAnswer: string) => void;
+  onChange: (updatedQuestion: string, updatedAnswer: string) => void;
   color: string;
   classNameStyle?: string;
 }
@@ -38,7 +38,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
   ) => {
     const newAnswer = event.target.value;
     setEditedAnswer(newAnswer);
-    onChange(editedQuestion, newAnswer);
+    onChange(editedQuestion ?? "", newAnswer);
   };
 
   return (

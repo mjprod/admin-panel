@@ -11,7 +11,11 @@ import {
   EditablePair,
   KnowledgeContext,
 } from "../../../../../api/responsePayload/KnowledgeResponse";
-import { DeleteContext, GetContextAI, KowledgeContentBulkCreate } from "../../../../../api/apiCalls";
+import {
+  DeleteContext,
+  GetContextAI,
+  KowledgeContentBulkCreate,
+} from "../../../../../api/apiCalls";
 import QuestionAnswerCard from "./QuestionAnswerCard";
 import { mapToKnowledgeContext } from "../../../../../api/util/responseMap";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
@@ -82,6 +86,14 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
     }
   };
 
+  const handleQuestionAnswerChange = (
+    index: number,
+    question: string,
+    answer: string
+  ) => {
+    updatePair(index, { question: question, answer: answer });
+  };
+
   useEffect(() => {
     getAIResponse();
   }, [context]);
@@ -124,6 +136,9 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
                   defaultChecked={pair.selected}
                   onCheckedChange={(val) =>
                     updatePair(index, { selected: val })
+                  }
+                  onQuestionAnswerChanged={(question: string, answer: string) =>
+                    handleQuestionAnswerChange(index, question, answer)
                   }
                 />
               ))}
