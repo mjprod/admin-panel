@@ -3,7 +3,7 @@
   flex-direction: row;
   gap: 0.5rem;
   justify-content: flex-start;
-  align-items: center;
+  align-items: start;
   max-width: 100%;
   border-bottom: 1px solid var(--black-200);
   padding-bottom: 1rem;

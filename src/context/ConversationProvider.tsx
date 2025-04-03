@@ -12,6 +12,7 @@ import {
 import {
   CategorySummary,
   ContextItem,
+  EditablePair,
   KnowledgeCard,
   Language,
   LanguageCode,
@@ -56,6 +57,7 @@ interface ConversationsContextType {
   setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
   context: ContextItem[];
   setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
+  addedPairs: { [key: number]: EditablePair[] };
 }
 
 const ConversationsContext = createContext<
@@ -89,6 +91,7 @@ export const ConversationsProvider = ({
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
   const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN);
   const [context, setContext] = useState<ContextItem[]>([]);
+  const addedPairs: { [key: number]: EditablePair[] } = {};
 
   const { isSignedIn } = useContext(AuthContext);
 
@@ -305,7 +308,8 @@ export const ConversationsProvider = ({
         language,
         setLanguage,
         context,
-        setUpdateContextList
+        setUpdateContextList,
+        addedPairs
       }}
     >
       {children}

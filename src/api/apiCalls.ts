@@ -82,22 +82,23 @@ export const KowledgeContentBulkUpdateStatus = async (
 };
 
 export const KowledgeContentBulkCreate = async (
-  contextId: number,
-  data: EditablePair[]
+  data: { [key: number]: EditablePair[] }
 ): Promise<AxiosResponse | null> => {
-  const knowledges = data
-    .filter((item) => item.selected)
-    .map((item) => ({
-      context: contextId,
-      category: item.category_id,
-      subcategory: item.subcategory_id,
-      type: 1,
-      question: item.question,
-      answer: item.answer,
-      content: "",
-    }));
+  const result = Object.entries(data).flatMap(([contextId, items]) =>
+    items
+      .filter(item => item.selected)
+      .map(item => ({
+        context: Number(contextId),
+        category: item.category_id,
+        subcategory: item.subcategory_id,
+        type: 1,
+        question: item.question,
+        answer: item.answer,
+        content: "",
+      }))
+  );
   const basePayload = {
-    knowledge_content_list: knowledges,
+    knowledge_content_list: result,
   };
 
   const payload = createPayload(basePayload);
