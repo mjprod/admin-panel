@@ -11,6 +11,8 @@ interface QuestionAnswerCardProps {
   setSubSelectedCategory: (selectedSubCategory: number) => void;
   defaultSelectedCategory: number;
   defaultSelectedSubCategory: number;
+  defaultChecked: boolean;
+  onCheckedChange: (checked: boolean) => void;
 }
 
 const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
@@ -20,9 +22,15 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   setSubSelectedCategory,
   defaultSelectedCategory,
   defaultSelectedSubCategory,
+  defaultChecked,
+  onCheckedChange
 }) => {
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(defaultChecked);
 
+  const onCheckChange = (checked: boolean) => {
+    setChecked(checked)
+    onCheckedChange(checked)
+  }
   return (
     <div>
       <CategorySection
@@ -33,7 +41,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
         defaultSelectedSubCategory={defaultSelectedSubCategory}
       />
       <div className={styles["question-answer-container-view"]}>
-        <Checkbox checked={checked} onChange={setChecked} />
+        <Checkbox checked={checked} onChange={onCheckChange} />
         <div className={styles["question-answer-sub-con"]}>
           <QuestionAnswerSection
             question={question}

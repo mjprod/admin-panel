@@ -55,6 +55,7 @@ interface ConversationsContextType {
   language: LanguageCode;
   setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
   context: ContextItem[];
+  setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ConversationsContext = createContext<
@@ -81,6 +82,7 @@ export const ConversationsProvider = ({
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [isUpdateConversationList, setUpdateConversationList] = useState(false);
+  const [isUpdateContextList, setUpdateContextList] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
@@ -171,6 +173,13 @@ export const ConversationsProvider = ({
     }
   };
 
+  const updateContextList = () => {
+    if (isUpdateContextList) {
+      contextApiCall()
+      setUpdateContextList(false);
+    }
+  };
+
   const getKnowledgeSummary = async () => {
     try {
       const res = await KowledgeSummary(language.id);
@@ -208,6 +217,10 @@ export const ConversationsProvider = ({
   useEffect(() => {
     updateConvList();
   }, [isUpdateConversationList]);
+
+  useEffect(() => {
+    updateContextList();
+  }, [isUpdateContextList]);
 
   useEffect(() => {
     i18n.changeLanguage(language.code);
@@ -291,7 +304,8 @@ export const ConversationsProvider = ({
         categoriesFilter,
         language,
         setLanguage,
-        context
+        context,
+        setUpdateContextList
       }}
     >
       {children}

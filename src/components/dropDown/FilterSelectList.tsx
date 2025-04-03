@@ -9,8 +9,8 @@ interface FilterSelectListProps {
 const FilterSelectList: React.FC<FilterSelectListProps> = ({ data }) => {
   return (
     <div className={styles["category-container"]}>
-      {data.map((filterSelectProps) => (
-        <FilterSelect {...filterSelectProps} />
+      {data.map((filterSelectProps, index) => (
+        <FilterSelect key={index} {...filterSelectProps} />
       ))}
     </div>
   );

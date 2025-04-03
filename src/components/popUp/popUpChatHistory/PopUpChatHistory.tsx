@@ -27,10 +27,10 @@ const PopUpChatHistory: React.FC<PopUpChatHistory> = ({
 
         <div className={styles["chat-conversation-modal-content-container"]}>
           <div className={styles["chat-conversation-group"]}>
-            {conversationData?.chat_data.map((dialog) => {
+            {conversationData?.chat_data.map((dialog, index) => {
               return (
                 <ChatDialog
-                  key={dialog.id}
+                  key={index}
                   id={dialog.id}
                   type={dialog.type}
                   datetime={dialog.datetime}

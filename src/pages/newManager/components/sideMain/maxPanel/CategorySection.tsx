@@ -30,8 +30,8 @@ const CategorySection: React.FC<CategorySectionProps> = ({
     useState<SubCategory[]>(subCategories);
   const [categoryOptions, setCategoryOptions] =
     useState<Category[]>(categories);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<number>(defaultSelectedCategory);
+  const [selectedSubCategory, setSubSelectedCategory] = useState<number>(defaultSelectedSubCategory);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {

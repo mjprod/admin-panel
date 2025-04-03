@@ -213,6 +213,14 @@ export const GetContext = async (): Promise<ContextResponse | undefined> => {
   return await apiGetRequest<ContextResponse>(Endpoint.Context);
 };
 
+export const DeleteContext = async (
+  contextId: number
+): Promise<AxiosResponse | null> => {
+  return await apiDeleteRequest(Endpoint.ContextDelete, {
+    id: contextId,
+  });
+};
+
 export const GetContextAI = async (
   contextId: number
 ): Promise<TopicItem[] | undefined> => {
