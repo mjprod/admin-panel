@@ -18,7 +18,12 @@ export const Endpoint = {
   KnowledgeContentBulkUpdateStatus: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
+  KowledgeContentBulkCreate: `${getBaseUri()}/knowledge-content/bulk-create/`,
+
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
+  Context: `${getBaseUri()}/context/`,
+  ContextDelete: `${getBaseUri()}/context/{id}/`,
+  ContextAI: `${getBaseUri()}/context-ai/{id}/`,
 
   Category: `${getBaseUri()}/categories/`,
   SubCategory: `${getBaseUri()}/subcategories/`,
@@ -26,7 +31,8 @@ export const Endpoint = {
 
   Login: `${getBaseUri()}/login/`,
   Refresh: `${getBaseUri()}/refresh/`,
-
+  User: `${getBaseUri()}/user/`,
+  Logout: `${getBaseUri()}/logout/`,
 };
 
 //API Constants

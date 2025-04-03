@@ -1,14 +1,13 @@
 /* Filter Select Container */
 .filter-select-container {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 /* Dropdown Styling */
 .filter-select {
-  /* width: 12rem; */
   width: 100%;
   padding: 0.5rem;
   font-size: 1rem;

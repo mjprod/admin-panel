@@ -5,7 +5,7 @@ import {
   KowledgeContentStatusPatch,
   KowledgeContentBulkUpdateStatus,
   KowledgeContentDelete,
-} from "../../../../../../../api/auth";
+} from "../../../../../../../api/apiCalls";
 import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
 import CustomButton, {
   ButtonType,

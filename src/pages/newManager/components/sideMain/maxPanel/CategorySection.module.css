@@ -1,0 +1,27 @@
+.category-row {
+  justify-content: flex-start;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.category_view {
+  border-radius: 18px;
+  appearance: none;
+  padding: 0.5rem 1rem;
+  background-image: url("./../../../../../assets/dropdown.svg");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 1rem) center;
+  background-size: 12px;
+}
+
+.rightcol {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}

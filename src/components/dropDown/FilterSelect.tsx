@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import styles from "./FilterSelect.module.css";
 import clsx from "clsx";
 
-interface FilterSelectProps {
+export interface FilterSelectProps {
   hint: string;
   options: any[];
   onChange: (selectedValue: number) => void;
   classNameStyle?: string;
+  selectedId?: number;
 }
 
 const FilterSelect: React.FC<FilterSelectProps> = ({
@@ -14,8 +15,9 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   options,
   onChange,
   classNameStyle,
+  selectedId
 }) => {
-  const [selectedValue, setSelectedValue] = useState<string>();
+  const [selectedValue, setSelectedValue] = useState<string>(options.find(opt => opt.id === selectedId)?.name ?? "");
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;

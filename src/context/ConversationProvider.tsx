@@ -5,20 +5,25 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { getQuestionStatusFromSideCardType, SideCardType } from "../util/QuestionStatus";
+import {
+  getQuestionStatusFromSideCardType,
+  SideCardType,
+} from "../util/QuestionStatus";
 import {
   CategorySummary,
+  ContextItem,
   KnowledgeCard,
   Language,
-  LanguageCode
+  LanguageCode,
 } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
   AllConversation,
+  GetContext,
   KowledgeSummary,
   getAllCategories,
   getSubCategories,
-} from "../api/auth";
+} from "../api/apiCalls";
 import { Category, SubCategory } from "../util/ExampleData";
 import { AuthContext } from "./AuthContext";
 import { useTranslation } from "react-i18next";
@@ -49,6 +54,8 @@ interface ConversationsContextType {
   categoriesFilter: CategoryProps[];
   language: LanguageCode;
   setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
+  context: ContextItem[];
+  setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ConversationsContext = createContext<
@@ -61,10 +68,10 @@ export const ConversationsProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const {i18n} = useTranslation()
+  const { i18n } = useTranslation();
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
   const [statusClicked, setStatusClicked] = useState<SideCardType>(
-    SideCardType.Core
+    SideCardType.NeedApproval
   );
   const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
     []
@@ -75,13 +82,32 @@ export const ConversationsProvider = ({
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [isUpdateConversationList, setUpdateConversationList] = useState(false);
+  const [isUpdateContextList, setUpdateContextList] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
-  const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN)
+  const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN);
+  const [context, setContext] = useState<ContextItem[]>([]);
 
   const { isSignedIn } = useContext(AuthContext);
+
+  const contextApiCall = async () => {
+    try {
+      if (!isSignedIn) return;
+      const res = await GetContext();
+      if (res) {
+        setContext(res.results)
+        setCurrentPage(res.current_page);
+        setNextPageUrl(res.next);
+        setPrePageUrl(res.previous);
+        setTotalPages(res.total_pages);
+        setTotalCount(res.count);
+      } 
+    } catch (e) {
+      showConsoleError("API Response:Error", e);
+    }
+  };
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
@@ -94,7 +120,12 @@ export const ConversationsProvider = ({
         ...queryParams,
         ...{ language: language.id },
       };
-      const res = await AllConversation(language.code, endpoint, {}, updatedQuery);
+      const res = await AllConversation(
+        language.code,
+        endpoint,
+        {},
+        updatedQuery
+      );
       if (res) {
         setConversations(res.data);
         setCurrentPage(res.current_page);
@@ -102,9 +133,7 @@ export const ConversationsProvider = ({
         setPrePageUrl(res.previous);
         setTotalPages(res.total_pages);
         setTotalCount(res.count);
-      } else {
-        showConsoleError("API Response:Error", res);
-      }
+      } 
     } catch (e) {
       showConsoleError("API Response:Error", e);
     }
@@ -141,6 +170,13 @@ export const ConversationsProvider = ({
       fetchConversations();
       getKnowledgeSummary();
       setUpdateConversationList(false);
+    }
+  };
+
+  const updateContextList = () => {
+    if (isUpdateContextList) {
+      contextApiCall()
+      setUpdateContextList(false);
     }
   };
 
@@ -183,8 +219,12 @@ export const ConversationsProvider = ({
   }, [isUpdateConversationList]);
 
   useEffect(() => {
+    updateContextList();
+  }, [isUpdateContextList]);
+
+  useEffect(() => {
     i18n.changeLanguage(language.code);
-    fetchConversations()
+    fetchConversations();
   }, [language]);
 
   const onPrevPageClicked = () => {
@@ -224,7 +264,18 @@ export const ConversationsProvider = ({
   }, [categories]);
 
   useEffect(() => {
-    fetchConversations();
+    switch (statusClicked) {
+      case SideCardType.NeedApproval:
+      case SideCardType.PreApproved:
+      case SideCardType.Rejected:
+        fetchConversations();
+        break;
+      case SideCardType.MaxPanel:
+        contextApiCall();
+        break;
+      default:
+        break;
+    }
   }, [selectedCategories, statusClicked]);
 
   return (
@@ -252,7 +303,9 @@ export const ConversationsProvider = ({
         totalKnowledgeCount,
         categoriesFilter,
         language,
-        setLanguage
+        setLanguage,
+        context,
+        setUpdateContextList
       }}
     >
       {children}

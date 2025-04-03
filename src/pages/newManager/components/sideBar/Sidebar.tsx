@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./Sidebar.module.css";
 import QuestionTools from "./questionTools/QuestionTools";
 import SideCard from "./sideCard/SideCard";
@@ -23,7 +23,16 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
     categoriesFilter,
     filterByCategory,
   } = useConversationsContext();
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    const selectedLanguage = Object.values(Language).find(
+      (lang) => lang.id === user?.language_preference
+    );
+    if (selectedLanguage) {
+      setLanguage(selectedLanguage);
+    }
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -45,13 +54,15 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
 
       <div className={styles["list-container"]}>
         <div className={styles["tools-heading"]}>Cipta/Edit</div>
-        <CreateNewButton />
+        {user?.is_superuser && <CreateNewButton />}
         {/* <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/> */}
         <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
-        <SideCard
-          type={SideCardType.MaxPanel}
-          classNameStyle={styles["timeline-card"]}
-        />
+        {user?.is_superuser && (
+          <SideCard
+            type={SideCardType.MaxPanel}
+            classNameStyle={styles["timeline-card"]}
+          />
+        )}
         <SideCard
           type={SideCardType.NeedApproval}
           classNameStyle={styles["timeline-card"]}
@@ -60,10 +71,12 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
           type={SideCardType.PreApproved}
           classNameStyle={styles["timeline-card"]}
         />
-        <SideCard
-          type={SideCardType.Rejected}
-          classNameStyle={styles["timeline-card"]}
-        />
+        {user?.is_superuser && (
+          <SideCard
+            type={SideCardType.Rejected}
+            classNameStyle={styles["timeline-card"]}
+          />
+        )}
       </div>
 
       <div className={styles["bottom"]}>

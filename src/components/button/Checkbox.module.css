@@ -1,0 +1,31 @@
+.styled-checkbox {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border: 2px solid var(--color09-dark);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.styled-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+}
+
+.styled-checkbox:checked {
+  background-color: var(--color09-dark);
+  border-color: var(--color09-dark);
+  border-radius: 0.25rem;
+  color: var(--white);
+}
+
+.align-checkbox {
+    margin-top: 0.5rem;
+  }

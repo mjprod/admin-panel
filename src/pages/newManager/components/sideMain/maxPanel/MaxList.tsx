@@ -1,16 +1,17 @@
 import React from "react";
 import styles from "./MaxList.module.css";
 import MaxCard from "./MaxCard";
+import { useConversationsContext } from "../../../../../context/ConversationProvider";
 
 interface MaxList {}
 
 const MaxList: React.FC<MaxList> = ({}) => {
-  const list = [1, 2, 3, 4, 5];
+  const { context } = useConversationsContext();
 
   return (
     <div className={styles["question-group-scroll-container"]}>
-      {list.map((con, index) => (
-        <MaxCard key={index + con} />
+      {context.map((context) => (
+        <MaxCard key={context.id} context={ context } />
       ))}
     </div>
   );
