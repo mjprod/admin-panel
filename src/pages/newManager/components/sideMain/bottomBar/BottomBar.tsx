@@ -12,7 +12,7 @@ const BottomBar: React.FC<BottomBarProps> = ({}) => {
   const { currentPage, onPrevPageClicked, onNextPageClicked, totalPages } =
     useConversationsContext();
 
-  useEffect(() => {}, [totalPages]);
+  useEffect(() => {}, [totalPages, currentPage]);
 
   return (
     <div className={styles["pagination-container"]}>
