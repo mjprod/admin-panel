@@ -175,6 +175,7 @@ export const mapToChatDialogProps = (
     const message = chat.IsService ? chat.AdminReply : chat.UserMsg;
     const robotMsg = chat.RobotMsg;
     const nextAdminAction = array[index + 1]?.AdminAction;
+    const image = chat.ImgUrl
     const messageTyep = () => {
       switch (nextAdminAction) {
         case 0:
@@ -194,6 +195,7 @@ export const mapToChatDialogProps = (
       datetime: chat.CreateDate,
       message: message,
       isActive: messages.some((msg) => msg === message),
+      ...(image ? { image: `${image}` } : {})
     };
 
     const robotMessageObj: ChatDialogProps | null = robotMsg

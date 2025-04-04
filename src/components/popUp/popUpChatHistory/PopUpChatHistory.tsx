@@ -31,12 +31,7 @@ const PopUpChatHistory: React.FC<PopUpChatHistory> = ({
               return (
                 <ChatDialog
                   key={index}
-                  id={dialog.id}
-                  type={dialog.type}
-                  datetime={dialog.datetime}
-                  message={dialog.message}
-                  isActive={dialog.isActive}
-                  messageType={dialog.messageType}
+                  {...dialog}
                 />
               );
             })}

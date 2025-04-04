@@ -24,6 +24,7 @@ export interface ChatDialogProps {
   message: string;
   isActive?: boolean;
   messageType?: MessageType;
+  image?: string;
 }
 
 const ChatDialog: React.FC<ChatDialogProps> = ({
@@ -32,6 +33,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   message,
   isActive = false,
   messageType = MessageType.Normal,
+  image
 }) => {
   const { t } = useTranslation();
 
@@ -65,6 +67,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
             {chatUserName[type]}
           </div>
           <p className={styles[`${messageType}`]}>{message}</p>
+          { image && <img className={styles["chat-image"]} src={image} alt="chat-image"/> }
         </div>
       </div>
     </div>
