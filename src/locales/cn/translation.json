@@ -45,7 +45,8 @@
   },
   "chatDialog": {
     "jokerUser": "Joker用户",
-    "customer_service": "客户服务"
+    "customer_service": "客户服务",
+    "jokerBot": "JokerAI"
   },
   "popUpChatHistory": {
     "end_conversation": "结束对话"

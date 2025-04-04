@@ -45,7 +45,8 @@
   },
   "chatDialog": {
     "jokerUser": "Pengguna Joker",
-    "customer_service": "Sokongan pengguna"
+    "customer_service": "Sokongan pengguna",
+    "jokerBot": "Robot Pelawak"
   },
   "popUpChatHistory": {
     "end_conversation": "Tamat perbualan"

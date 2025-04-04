@@ -44,7 +44,8 @@
   },
   "chatDialog": {
     "jokerUser": "Joker User",
-    "customer_service": "Customer Service"
+    "customer_service": "Customer Service",
+    "jokerBot": "Joker Robot"
   },
   "popUpChatHistory": {
     "end_conversation": "End Conversation"

@@ -41,6 +41,12 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
     [ChatType.JokerBot]: AssetsPack.icons.ICON_ROBOT.default,
   };
 
+  const chatUserName = {
+    [ChatType.User]: t("chatDialog.jokerUser"),
+    [ChatType.CustomerSupport]: t("chatDialog.customer_service"),
+    [ChatType.JokerBot]: t("chatDialog.jokerBot"),
+  }
+
   return (
     <div
       className={clsx(
@@ -56,9 +62,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
             <div className={styles[`chat-avatar`]}>
               <img className={styles["image"]} src={ICONS_MAP[type]} alt="" />
             </div>
-            {type == ChatType.User
-              ? t("chatDialog.jokerUser")
-              : t("chatDialog.customer_service")}
+            {chatUserName[type]}
           </div>
           <p className={styles[`${messageType}`]}>{message}</p>
         </div>
