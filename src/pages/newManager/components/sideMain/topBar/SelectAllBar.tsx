@@ -7,15 +7,22 @@ import { useTranslation } from "react-i18next";
 import {
   KowledgeContentBulkUpdateStatus,
   KowledgeContentBulkDelete,
+  KowledgeContentBulkCreate,
 } from "../../../../../api/apiCalls";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
 import { AuthContext } from "../../../../../context/AuthContext";
 import clsx from "clsx";
 /* eslint-disable complexity */
 
-
 const SelectAllBar = () => {
-  const { setUpdateConversationList, conversations, statusClicked, setConversations } = useConversationsContext();
+  const {
+    setUpdateConversationList,
+    conversations,
+    statusClicked,
+    setConversations,
+    addedPairs,
+    setUpdateContextList,
+  } = useConversationsContext();
   const [checked, setChecked] = useState(false);
   const [showActionButton, setShowActionButton] = useState(false);
   const { t } = useTranslation();
@@ -30,7 +37,27 @@ const SelectAllBar = () => {
   }, [conversations]);
 
   const handleBulkAction = async () => {
-    const selectedIds = conversations.filter((c) => c.isSelected).map((c) => c.id);
+    if (statusClicked === SideCardType.MaxPanel) {
+      try {
+        if (
+          Object.keys(addedPairs).length === 0 ||
+          Object.values(addedPairs).every((pairs) =>
+            pairs.every((item) => !item.selected)
+          )
+        ) {
+          return;
+        }
+        await KowledgeContentBulkCreate(addedPairs);
+        setUpdateContextList(true);
+      } catch (e) {
+        showConsoleError(e);
+      }
+      return;
+    }
+
+    const selectedIds = conversations
+      .filter((c) => c.isSelected)
+      .map((c) => c.id);
 
     try {
       if (statusClicked === SideCardType.PreApproved) {
@@ -47,12 +74,13 @@ const SelectAllBar = () => {
   };
 
   const handleSelectAll = () => {
-    setConversations(conversations.map((c) => ({ ...c, isSelected: !checked })));
+    setConversations(
+      conversations.map((c) => ({ ...c, isSelected: !checked }))
+    );
   };
 
   if (
     statusClicked === SideCardType.NeedApproval ||
-    statusClicked === SideCardType.MaxPanel ||
     (statusClicked === SideCardType.PreApproved && user?.is_superuser)
   ) {
     return null;
@@ -65,29 +93,35 @@ const SelectAllBar = () => {
 
   return (
     <div className={styles["all-container"]}>
-      <div
-        className={clsx(styles["select-all-box"], isDelete && styles.delete)}
-      >
-        <input
-          type="checkbox"
-          className={clsx(styles.checkbox, isDelete && styles.delete)}
-          onChange={handleSelectAll}
-          checked={checked}
-        />
-        <p>{t("selectAllBar.select_all")}</p>
-      </div>
-
-      {showActionButton && (
-        <button
-          className={clsx(styles["bulk-button"], isDelete ? styles.delete : styles.approve)}
-          onClick={handleBulkAction}
+      {statusClicked !== SideCardType.MaxPanel && (
+        <div
+          className={clsx(styles["select-all-box"], isDelete && styles.delete)}
         >
-          <img src={icon} alt="" />
-          {isDelete
-            ? t("selectAllBar.delete_all_selected")
-            : t("selectAllBar.approve_all")}
-        </button>
+          <input
+            type="checkbox"
+            className={clsx(styles.checkbox, isDelete && styles.delete)}
+            onChange={handleSelectAll}
+            checked={checked}
+          />
+          <p>{t("selectAllBar.select_all")}</p>
+        </div>
       )}
+
+      {showActionButton ||
+        (statusClicked == SideCardType.MaxPanel && (
+          <button
+            className={clsx(
+              styles["bulk-button"],
+              isDelete ? styles.delete : styles.approve
+            )}
+            onClick={handleBulkAction}
+          >
+            <img src={icon} alt="" />
+            {isDelete
+              ? t("selectAllBar.delete_all_selected")
+              : t("selectAllBar.approve_all")}
+          </button>
+        ))}
     </div>
   );
 };

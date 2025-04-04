@@ -19,26 +19,35 @@ import {
 import QuestionAnswerCard from "./QuestionAnswerCard";
 import { mapToKnowledgeContext } from "../../../../../api/util/responseMap";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import CardSelector, {
+  SelectorType,
+} from "../questionList/components/cardSelector/CardSelector";
+import { showConsoleError } from "../../../../../util/ConsoleMessage";
 
 interface MaxCard {
   context: ContextItem;
+  onChecked: (checked: boolean, contextId: number, pairs: EditablePair[]) => void;
 }
 
-const MaxCard: React.FC<MaxCard> = ({ context }) => {
+const MaxCard: React.FC<MaxCard> = ({ 
+  context,
+  onChecked,
+ }) => {
   const { t } = useTranslation();
-  const { setUpdateContextList } = useConversationsContext();
+  const { setContext, setUpdateContextList, setTotalCount } = useConversationsContext();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [pairs, setPairs] = useState<EditablePair[]>([]);
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
+  const [checked, setChecked] = useState<boolean>(false);
 
   const handleReject = async () => {
     try {
       await DeleteContext(context.id);
-      setUpdateContextList(true);
+      updateList()
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
@@ -46,12 +55,23 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
     getAIResponse();
   };
 
+  const updateList = () => {
+    setTotalCount((prev) => prev - 1);
+    setContext((prev) => {
+      const data = prev.filter((item) => item.id !== context.id)
+      if (data.length === 0) {
+        setUpdateContextList(true);
+      }
+      return data
+    });
+  }
+
   const handleApprove = async () => {
     try {
-      await KowledgeContentBulkCreate(context.id, pairs);
-      setUpdateContextList(true);
+      await KowledgeContentBulkCreate({ [context.id]: pairs });
+      updateList()
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
     }
   };
 
@@ -79,7 +99,7 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
       setPairs(enhancedPairs);
       setLoading(false);
     } catch (e) {
-      console.log(e);
+      showConsoleError(e);
       const chat = mapToKnowledgeContext(context.context, []);
       setChatData(chat ?? undefined);
       setLoading(false);
@@ -98,13 +118,24 @@ const MaxCard: React.FC<MaxCard> = ({ context }) => {
     getAIResponse();
   }, [context]);
 
-  useEffect(() => {}, [pairs]);
+  useEffect(() => {
+    onChecked(checked, context.id, pairs);
+  }, [pairs]);
 
   return (
     <div className={styles["question-group-scroll-container"]}>
       <div className={styles["question-group-container"]}>
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
+            <CardSelector
+              title={t("newManager.mark_to_save")}
+              type={SelectorType.Write}
+              checked={checked}
+              onChecked={(checked) => {
+                setChecked(checked);
+                onChecked(checked, context.id, pairs);
+              }}
+            />
             <Metadata
               date={context.date_created}
               time={context.date_created}
