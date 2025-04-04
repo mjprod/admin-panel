@@ -1,6 +1,6 @@
 import styles from "./TopBar.module.css";
 import { useTranslation } from "react-i18next";
-import React from "react";
+import React, { useEffect } from "react";
 import AssetsPack from "../../../../../util/AssetsPack";
 import { SideCardType } from "../../../../../util/QuestionStatus";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
@@ -29,6 +29,10 @@ const TopBar: React.FC<TopBarProps> = () => {
   const icon = getIcon(statusClicked);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+  }
+  , [totalCount]);
 
   return (
     <div className={styles["conversation-details"]}>

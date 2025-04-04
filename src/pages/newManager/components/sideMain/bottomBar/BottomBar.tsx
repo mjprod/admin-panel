@@ -1,23 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import styles from "./BottomBar.module.css";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 
-interface BottomBarProps {
-}
+interface BottomBarProps {}
 
-const BottomBar: React.FC<BottomBarProps> = ({
-}) => {
+const BottomBar: React.FC<BottomBarProps> = ({}) => {
   const { t } = useTranslation();
 
-  const {
-      currentPage,
-      onPrevPageClicked,
-      onNextPageClicked,
-      totalPages,
-    } = useConversationsContext();
-    
+  const { currentPage, onPrevPageClicked, onNextPageClicked, totalPages } =
+    useConversationsContext();
+
+  useEffect(() => {}, [totalPages]);
+
   return (
     <div className={styles["pagination-container"]}>
       <button

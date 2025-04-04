@@ -36,7 +36,7 @@ const MaxCard: React.FC<MaxCard> = ({
   const { t } = useTranslation();
   const { setContext, setUpdateContextList, setTotalCount } = useConversationsContext();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [pairs, setPairs] = useState<EditablePair[]>([]);
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
