@@ -96,18 +96,18 @@ export const ConversationsProvider = ({
 
   const { isSignedIn } = useContext(AuthContext);
 
-  const contextApiCall = async () => {
+  const contextApiCall = async (endpoint: string | undefined = undefined) => {
     try {
       if (!isSignedIn) return;
-      const res = await GetContext();
+      const res = await GetContext(endpoint);
       if (res) {
-        setContext(res.results)
+        setContext(res.results);
         setCurrentPage(res.current_page);
         setNextPageUrl(res.next);
         setPrePageUrl(res.previous);
         setTotalPages(res.total_pages);
         setTotalCount(res.count);
-      } 
+      }
     } catch (e) {
       showConsoleError("API Response:Error", e);
     }
@@ -137,7 +137,7 @@ export const ConversationsProvider = ({
         setPrePageUrl(res.previous);
         setTotalPages(res.total_pages);
         setTotalCount(res.count);
-      } 
+      }
     } catch (e) {
       showConsoleError("API Response:Error", e);
     }
@@ -179,7 +179,7 @@ export const ConversationsProvider = ({
 
   const updateContextList = () => {
     if (isUpdateContextList) {
-      contextApiCall()
+      contextApiCall();
       setUpdateContextList(false);
     }
   };
@@ -233,13 +233,21 @@ export const ConversationsProvider = ({
 
   const onPrevPageClicked = () => {
     if (!!prePageUrl) {
-      conversationApiCall(prePageUrl, {});
+      if (statusClicked === SideCardType.MaxPanel) {
+        contextApiCall(prePageUrl);
+      } else {
+        conversationApiCall(prePageUrl, {});
+      }
     }
   };
 
   const onNextPageClicked = () => {
     if (!!nextPageUrl) {
-      conversationApiCall(nextPageUrl, {});
+      if (statusClicked === SideCardType.MaxPanel) {
+        contextApiCall(nextPageUrl);
+      } else {
+        conversationApiCall(nextPageUrl, {});
+      }
     }
   };
 
@@ -311,7 +319,7 @@ export const ConversationsProvider = ({
         context,
         setContext,
         setUpdateContextList,
-        addedPairs
+        addedPairs,
       }}
     >
       {children}

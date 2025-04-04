@@ -171,11 +171,12 @@ export const mapToChatDialogProps = (
   context: ChatResponse[],
   messages: string[]
 ): ChatDialogProps[] => {
-  const chatData: ChatDialogProps[] = context.flatMap((chat) => {
+  const chatData: ChatDialogProps[] = context.flatMap((chat, index, array) => {
     const message = chat.IsService ? chat.AdminReply : chat.UserMsg;
     const robotMsg = chat.RobotMsg;
+    const nextAdminAction = array[index + 1]?.AdminAction;
     const messageTyep = () => {
-      switch (chat.AdminAction) {
+      switch (nextAdminAction) {
         case 0:
           return MessageType.Bad;
         case 1:
