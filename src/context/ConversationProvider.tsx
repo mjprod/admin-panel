@@ -56,6 +56,7 @@ interface ConversationsContextType {
   language: LanguageCode;
   setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
   context: ContextItem[];
+  setContext: React.Dispatch<React.SetStateAction<ContextItem[]>>;
   setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
   addedPairs: { [key: number]: EditablePair[] };
 }
@@ -308,6 +309,7 @@ export const ConversationsProvider = ({
         language,
         setLanguage,
         context,
+        setContext,
         setUpdateContextList,
         addedPairs
       }}

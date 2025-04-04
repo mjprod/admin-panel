@@ -34,7 +34,7 @@ const MaxCard: React.FC<MaxCard> = ({
   onChecked,
  }) => {
   const { t } = useTranslation();
-  const { setUpdateContextList } = useConversationsContext();
+  const { setContext, setUpdateContextList, setTotalCount } = useConversationsContext();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [pairs, setPairs] = useState<EditablePair[]>([]);
@@ -45,7 +45,7 @@ const MaxCard: React.FC<MaxCard> = ({
   const handleReject = async () => {
     try {
       await DeleteContext(context.id);
-      setUpdateContextList(true);
+      updateList()
     } catch (e) {
       showConsoleError(e);
     }
@@ -55,10 +55,21 @@ const MaxCard: React.FC<MaxCard> = ({
     getAIResponse();
   };
 
+  const updateList = () => {
+    setTotalCount((prev) => prev - 1);
+    setContext((prev) => {
+      const data = prev.filter((item) => item.id !== context.id)
+      if (data.length === 0) {
+        setUpdateContextList(true);
+      }
+      return data
+    });
+  }
+
   const handleApprove = async () => {
     try {
       await KowledgeContentBulkCreate({ [context.id]: pairs });
-      setUpdateContextList(true);
+      updateList()
     } catch (e) {
       showConsoleError(e);
     }
