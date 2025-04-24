@@ -8093,6 +8093,11 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-chatbotify@^2.0.0-beta.33:
+  version "2.0.0-beta.33"
+  resolved "https://registry.yarnpkg.com/react-chatbotify/-/react-chatbotify-2.0.0-beta.33.tgz#19e0e0cba277923fa1f876201947b5572395f39d"
+  integrity sha512-JSLeLvvye0nRBmjFAvOJPa2339BdywLlF8bo0J0wWQAXjC611fJkDyUTchMINkQ99WTIFwRH+EXhlhehH9wOgA==
+
 react-dev-utils@^12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-12.0.1.tgz#ba92edb4a1f379bd46ccd6bcd4e7bc398df33e73"
