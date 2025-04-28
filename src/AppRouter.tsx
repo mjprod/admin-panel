@@ -3,12 +3,10 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import { AuthContext } from "./context/AuthContext"; // Adjust this path based on your project
 import { ConversationsProvider } from "./context/ConversationProvider";
-import ShortCutPage from "./pages/ShortCutPage";
 import TestPage from "./pages/TestPage";
 import LoginPage from "./pages/login/Login";
-import ModifyKnowledgePage from "./pages/modify/ModifyKnowledgePage";
 import NewManager from "./pages/newManager/NewManager";
-import SuperAdmin from "./pages/superAdmin/SuperAdmin";
+import ChatbotPage from "./pages/chatbot/ChatbotPage";
 
 const AppRouter = () => {
   const { loadingAuth } = useContext(AuthContext);
@@ -38,28 +36,12 @@ const AppRouter = () => {
 
         {/* Private routes */}
         <Route
-          path="/shortCutPage"
-          element={
-            <PrivateRoute>
-              <ShortCutPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
           path="/newManager"
           element={
             <PrivateRoute>
               <ConversationsProvider>
                 <NewManager />
               </ConversationsProvider>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/superAdmin"
-          element={
-            <PrivateRoute>
-              <SuperAdmin />
             </PrivateRoute>
           }
         />
@@ -74,10 +56,10 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/modifyKnowledge"
+          path="/chatbot"
           element={
             <PrivateRoute>
-              <ModifyKnowledgePage />
+              <ChatbotPage />
             </PrivateRoute>
           }
         />

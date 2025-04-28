@@ -1,6 +1,7 @@
-import MyChatBot from "./chatbot/MyChatBot";
+import MyChatBot from "./MyChatBot";
 
-const TestPage = () => {
+
+const ChatbotPage = () => {
   return (
     <div 
     style={{
@@ -14,4 +15,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default ChatbotPage;

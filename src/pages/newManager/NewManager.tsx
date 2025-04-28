@@ -3,13 +3,13 @@ import styles from "./NewManager.module.css";
 import BottomBar from "./components/sideMain/bottomBar/BottomBar";
 import { useContext } from "react";
 import { SideCardType } from "../../util/QuestionStatus";
-// import clsx from "clsx";
 import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
 import { AuthContext } from "../../context/AuthContext";
 import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
 import TopBar from "./components/sideMain/topBar/TopBar";
 import MaxList from "./components/sideMain/maxPanel/MaxList";
+import ChatbotButton from "../chatbot/ChatbotButton";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -33,6 +33,7 @@ const NewManager = () => {
         {statusClicked == SideCardType.MaxPanel && <MaxList />}
         <BottomBar />
       </main>
+      <ChatbotButton />
     </div>
   );
 };
