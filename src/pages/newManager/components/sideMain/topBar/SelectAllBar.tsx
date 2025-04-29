@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import AssetsPack from "../../../../../util/AssetsPack";
 import { SideCardType } from "../../../../../util/QuestionStatus";
@@ -10,7 +10,6 @@ import {
   KowledgeContentBulkCreate,
 } from "../../../../../api/apiCalls";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
-import { AuthContext } from "../../../../../context/AuthContext";
 import clsx from "clsx";
 /* eslint-disable complexity */
 
@@ -26,7 +25,6 @@ const SelectAllBar = () => {
   const [checked, setChecked] = useState(false);
   const [showActionButton, setShowActionButton] = useState(false);
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const anySelected = conversations.some((conv) => conv.isSelected);
@@ -80,8 +78,7 @@ const SelectAllBar = () => {
   };
 
   if (
-    statusClicked === SideCardType.NeedApproval ||
-    (statusClicked === SideCardType.PreApproved && user?.is_superuser)
+    statusClicked === SideCardType.NeedApproval
   ) {
     return null;
   }
@@ -107,8 +104,8 @@ const SelectAllBar = () => {
         </div>
       )}
 
-      {showActionButton ||
-        (statusClicked == SideCardType.MaxPanel && (
+      {(showActionButton ||
+        statusClicked == SideCardType.MaxPanel) && (
           <button
             className={clsx(
               styles["bulk-button"],
@@ -121,7 +118,7 @@ const SelectAllBar = () => {
               ? t("selectAllBar.delete_all_selected")
               : t("selectAllBar.approve_all")}
           </button>
-        ))}
+        )}
     </div>
   );
 };

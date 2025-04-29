@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,6 @@ import ChatHistoryButton from "../chatHistoryButton/ChatHistoryButton";
 import Metadata from "../metaData/Metadata";
 import QuestionAnswerSection from "../questionAnswerSection/QuestionAnswerSection";
 import SubcategorySection from "../subcategorySection/SubcategorySection";
-import { AuthContext } from "../../../../../../../context/AuthContext";
 /* eslint-disable complexity */
 
 const getStatusStyles = (
@@ -54,7 +53,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   context,
 }) => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
   const [isEditSelected, setEditSelected] = useState(false);
   const [updatedQuestion, setUpdatedQuestion] = useState(question);
   const [updatedAnswer, setUpdatedAnswer] = useState(answer);
@@ -114,7 +112,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
         }
       >
         <div className={styles["question-container"]}>
-          { ((status === KnowledgeStatus.PreApproved && !user?.is_superuser) || status === KnowledgeStatus.Rejected) && (
+          { ((status === KnowledgeStatus.PreApproved) || status === KnowledgeStatus.Rejected) && (
             <CardSelector
               {...selectorProps}
               onChecked={(checked) => {
@@ -152,7 +150,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
                 styles["preapproved"]
             )}
           >
-            {(!user?.is_superuser || (user.is_superuser && status === KnowledgeStatus.Rejected)) && (
+            {
               <ActionButtons
                 status={status}
                 isEditSelected={isEditSelected}
@@ -161,7 +159,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
                 updatedQuestion={updatedQuestion}
                 updatedAnswer={updatedAnswer}
               />
-            )}
+            }
           </div>
         </div>
       </div>
