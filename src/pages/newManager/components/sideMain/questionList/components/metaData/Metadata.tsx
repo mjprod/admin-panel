@@ -7,17 +7,19 @@ import {
 } from "../../../../../../../util/ExtensionFunction";
 
 const Metadata: React.FC<{
-  date: string;
-  time: string;
+  date?: string;
+  time?: string;
   conversationId: string;
 }> = ({ date, time, conversationId }) => {
   const { t } = useTranslation();
 
   return (
     <div className={styles["question-metadata"]}>
-      <p>
-        {utcToLocalDate(date)} | {utcToLocalTime(time)}
-      </p>
+      {date && time && (
+        <p>
+          {utcToLocalDate(date)} | {utcToLocalTime(time)}
+        </p>
+      )}
       <p>
         {t("newManager.conversation_id")} {conversationId}
       </p>

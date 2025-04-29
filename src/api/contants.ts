@@ -14,11 +14,14 @@ export const getBaseUri = () => {
 
 export const Endpoint = {
   Knowledge: `${getBaseUri()}/knowledge`,
+
   KnowledgeContent: `${getBaseUri()}/knowledge-content/{id}/`,
   KnowledgeContentBulkUpdateStatus: `${getBaseUri()}/knowledge-content/bulk-update-status/`,
-  BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
   KowledgeContentBulkCreate: `${getBaseUri()}/knowledge-content/bulk-create/`,
+
+  Brain: `${getBaseUri()}/brain/{id}`,
+  BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
 
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
   Context: `${getBaseUri()}/context/`,

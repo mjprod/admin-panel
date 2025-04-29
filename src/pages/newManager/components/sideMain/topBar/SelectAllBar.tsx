@@ -78,7 +78,8 @@ const SelectAllBar = () => {
   };
 
   if (
-    statusClicked === SideCardType.NeedApproval
+    statusClicked === SideCardType.NeedApproval ||
+    statusClicked === SideCardType.Core
   ) {
     return null;
   }

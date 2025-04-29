@@ -38,7 +38,7 @@ export const apiGetRequest = async <T>(
   Object.keys(pathVariables).forEach((key) => {
     endpoint = endpoint.replace(
       `{${key}}`,
-      encodeURIComponent(pathVariables[key])
+      pathVariables[key] ? encodeURIComponent(pathVariables[key]) : ""
     );
   });
 

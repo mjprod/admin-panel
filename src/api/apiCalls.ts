@@ -20,6 +20,7 @@ import {
 } from "./util/apiUtils";
 import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
 import { mapKnowledgeConversationData } from "./util/responseMap";
+import { BrainResponse } from "./responsePayload/BrainResponse";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -264,4 +265,13 @@ export const GetContextAI = async (
     id: contextId,
   });
   return res?.topics;
+};
+
+export const GetBrain = async (
+  endpoint: string | undefined = Endpoint.Brain,
+  brainId: number | undefined = undefined
+): Promise<BrainResponse | undefined> => {
+  return await apiGetRequest<BrainResponse>(endpoint, {
+    id: brainId,
+  });
 };

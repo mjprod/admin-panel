@@ -55,7 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
       <div className={styles["list-container"]}>
         <div className={styles["tools-heading"]}>Cipta/Edit</div>
         {user?.is_superuser && <CreateNewButton />}
-        {/* <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/> */}
+        {user?.is_superuser && <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/>}
         <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
         {user?.is_superuser && (
           <SideCard

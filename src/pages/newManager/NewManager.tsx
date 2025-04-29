@@ -10,6 +10,7 @@ import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
 import TopBar from "./components/sideMain/topBar/TopBar";
 import MaxList from "./components/sideMain/maxPanel/MaxList";
 import ChatbotButton from "../chatbot/ChatbotButton";
+import BrainList from "./components/sideMain/brainList/BrainList";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -29,8 +30,9 @@ const NewManager = () => {
           <TopBar />
           <SelectAllBar />
         </div>
-        {statusClicked != SideCardType.MaxPanel && <QuestionList />}
+        {statusClicked != SideCardType.MaxPanel && statusClicked != SideCardType.Core && <QuestionList />}
         {statusClicked == SideCardType.MaxPanel && <MaxList />}
+        {statusClicked == SideCardType.Core && <BrainList />}
         <BottomBar />
       </main>
       <ChatbotButton />

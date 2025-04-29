@@ -20,6 +20,7 @@ import {
 import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
   AllConversation,
+  GetBrain,
   GetContext,
   KowledgeSummary,
   getAllCategories,
@@ -29,6 +30,7 @@ import { Category, SubCategory } from "../util/ExampleData";
 import { AuthContext } from "./AuthContext";
 import { useTranslation } from "react-i18next";
 import { showConsoleError } from "../util/ConsoleMessage";
+import { BrainItem } from "../api/responsePayload/BrainResponse";
 
 // Define the context type
 interface ConversationsContextType {
@@ -59,6 +61,7 @@ interface ConversationsContextType {
   setContext: React.Dispatch<React.SetStateAction<ContextItem[]>>;
   setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
   addedPairs: { [key: number]: EditablePair[] };
+  brainList: BrainItem[];
 }
 
 const ConversationsContext = createContext<
@@ -91,8 +94,11 @@ export const ConversationsProvider = ({
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
   const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN);
+
   const [context, setContext] = useState<ContextItem[]>([]);
   const addedPairs: { [key: number]: EditablePair[] } = {};
+
+  const [brainList, setBrainList] = useState<BrainItem[]>([]);
 
   const { isSignedIn } = useContext(AuthContext);
 
@@ -132,6 +138,24 @@ export const ConversationsProvider = ({
       );
       if (res) {
         setConversations(res.data);
+        setCurrentPage(res.current_page);
+        setNextPageUrl(res.next);
+        setPrePageUrl(res.previous);
+        setTotalPages(res.total_pages);
+        setTotalCount(res.count);
+      }
+    } catch (e) {
+      showConsoleError("API Response:Error", e);
+    }
+  };
+
+
+  const brainApiCall = async (endpoint: string | undefined = undefined) => {
+    try {
+      if (!isSignedIn) return;
+      const res = await GetBrain(endpoint);
+      if (res) {
+        setBrainList(res.results);
         setCurrentPage(res.current_page);
         setNextPageUrl(res.next);
         setPrePageUrl(res.previous);
@@ -235,6 +259,8 @@ export const ConversationsProvider = ({
     if (!!prePageUrl) {
       if (statusClicked === SideCardType.MaxPanel) {
         contextApiCall(prePageUrl);
+      } else if (statusClicked === SideCardType.Core) {
+        brainApiCall(prePageUrl);
       } else {
         conversationApiCall(prePageUrl, {});
       }
@@ -245,6 +271,8 @@ export const ConversationsProvider = ({
     if (!!nextPageUrl) {
       if (statusClicked === SideCardType.MaxPanel) {
         contextApiCall(nextPageUrl);
+      } else if (statusClicked === SideCardType.Core) {
+        brainApiCall(nextPageUrl);
       } else {
         conversationApiCall(nextPageUrl, {});
       }
@@ -285,6 +313,8 @@ export const ConversationsProvider = ({
       case SideCardType.MaxPanel:
         contextApiCall();
         break;
+      case SideCardType.Core:
+        brainApiCall();
       default:
         break;
     }
@@ -320,6 +350,7 @@ export const ConversationsProvider = ({
         setContext,
         setUpdateContextList,
         addedPairs,
+        brainList
       }}
     >
       {children}

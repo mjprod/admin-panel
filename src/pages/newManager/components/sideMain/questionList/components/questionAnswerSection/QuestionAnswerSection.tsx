@@ -4,19 +4,23 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 interface QuestionAnswerSectionProps {
+  questionTitle?: string;
+  answerTitle?: string;
   question: string | null;
   answer: string;
-  isEditing: boolean;
-  onChange: (updatedQuestion: string, updatedAnswer: string) => void;
+  isEditing?: boolean;
+  onChange?: (updatedQuestion: string, updatedAnswer: string) => void;
   color: string;
   classNameStyle?: string;
 }
 
 const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
+  questionTitle,
+  answerTitle,
   question,
   answer,
-  isEditing,
-  onChange,
+  isEditing = false,
+  onChange = () => {},
   color,
   classNameStyle,
 }) => {
@@ -46,7 +50,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
       <div className={styles["question-block-container"]}>
         <div className={styles["inline-container"]}>
           <p className={styles["question-title"]}>
-            {t("newManager.user_question")}
+            {questionTitle? questionTitle : t("newManager.user_question")}
           </p>
           {isEditing ? (
             <textarea
@@ -63,7 +67,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
       <div className={styles["answer-block-container"]}>
         <div className={styles["inline-container"]}>
           <p className={styles["answer-title"]}>
-            {t("newManager.suggested_answer")}
+            {answerTitle ? answerTitle : t("newManager.suggested_answer")}
           </p>
           {isEditing ? (
             <textarea
