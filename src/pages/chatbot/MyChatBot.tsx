@@ -34,6 +34,8 @@ const MyChatBot = () => {
             {
               message: message,
               thread_id: thread,
+              member_id: "303",
+              team_id: "10",
             },
             {
               headers: { "Content-Type": "application/json" },
