@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ChatBot from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
+import { getBaseUri } from "../../api/contants";
 
 const MyChatBot = () => {
   const [thread, setThread] = useState<string>("1");
@@ -30,7 +31,7 @@ const MyChatBot = () => {
   async function fetchData(message: string) {
     try {
         const response = await axios.post(
-            "https://api-staging.mjproapps.com/api/rag-chat/",
+            `${getBaseUri()}/rag-chat/`,
             {
               message: message,
               thread_id: thread,
