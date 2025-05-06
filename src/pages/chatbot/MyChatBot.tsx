@@ -40,7 +40,7 @@ const MyChatBot = () => {
             },
             {
               headers: { "Content-Type": "application/json" },
-              timeout: 150000,
+              timeout: 300000,
             }
           );
     
