@@ -32,6 +32,8 @@ export const Endpoint = {
   SubCategory: `${getBaseUri()}/subcategories/`,
   CreateKnowledge: `${getBaseUri()}/knowledge-content/`,
 
+  Ragchat: `${getBaseUri()}/rag-chat/`,
+
   Login: `${getBaseUri()}/login/`,
   Refresh: `${getBaseUri()}/refresh/`,
   User: `${getBaseUri()}/user/`,

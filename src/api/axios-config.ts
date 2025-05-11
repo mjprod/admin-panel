@@ -22,6 +22,10 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
           config.headers.set("Authorization", `${token}`);
         }
       }
+
+      if(config.url?.includes("/rag-chat")) {
+        config.timeout = 300000; // 5 minutes
+      }
       return config;
     },
     (error) => {

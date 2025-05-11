@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ChatBot from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
-import { getBaseUri } from "../../api/contants";
+import { RagChat } from "../../api/apiCalls";
+import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
 
 const MyChatBot = () => {
   const [thread, setThread] = useState<string>("1");
@@ -28,29 +28,9 @@ const MyChatBot = () => {
     changeThread();
   }, []);
 
-  async function fetchData(message: string) {
-    try {
-        const response = await axios.post(
-            `${getBaseUri()}/rag-chat/`,
-            {
-              message: message,
-              thread_id: thread,
-              member_id: "303",
-              team_id: "10",
-            },
-            {
-              headers: { "Content-Type": "application/json" },
-              timeout: 300000,
-            }
-          );
-    
-        const data = response.data;
-        console.log("data", data);
-      return data;
-    } catch (error) {
-      console.log("error", error);
-      return `Oh no I don't know what to say! ${error}`;
-    }
+  async function fetchData(message: string): Promise<ChatbotResponse | null> {
+    const response = await RagChat(message, thread, "303", "10");
+    return response;
   }
   const flow = {
     start: {
@@ -60,16 +40,20 @@ const MyChatBot = () => {
     loop: {
       message: async (param: Params) => {
         const result = await fetchData(param.userInput);
-        const reply = result.reply || "No title returned";
-        const contexts = result.retrieved_context || [];
+        const reply = result?.reply || "No title returned";
+        const contexts = result?.retrieved_context || [];
 
         if (contexts.length > 0) {
-            const contextText = "📚 Retrieved Contexts:\n" + contexts.map((ctx: string, idx: number) => `${idx + 1}. ${ctx}`).join("\n");
-            
-            await param.injectMessage(contextText, "bot");
-          }
-      
-          return reply;
+          const contextText =
+            "📚 Retrieved Contexts:\n" +
+            contexts
+              .map((ctx: string, idx: number) => `${idx + 1}. ${ctx}`)
+              .join("\n");
+
+          await param.injectMessage(contextText, "bot");
+        }
+
+        return reply;
       },
       path: "loop",
     },

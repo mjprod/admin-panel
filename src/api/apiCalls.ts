@@ -21,6 +21,7 @@ import {
 import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
 import { mapKnowledgeConversationData } from "./util/responseMap";
 import { BrainResponse } from "./responsePayload/BrainResponse";
+import { ChatbotResponse } from "./responsePayload/ChatbotResponse";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -274,4 +275,21 @@ export const GetBrain = async (
   return await apiGetRequest<BrainResponse>(endpoint, {
     id: brainId,
   });
+};
+
+export const RagChat = async (
+  message: string,
+  threadId: string,
+  memberId: string,
+  teamId: string,
+): Promise<ChatbotResponse | null> => {
+  const basePayload = {
+    message: message,
+    thread_id: threadId,
+    member_id: memberId,
+    team_id: teamId,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest<ChatbotResponse>(Endpoint.Ragchat, payload);
 };
