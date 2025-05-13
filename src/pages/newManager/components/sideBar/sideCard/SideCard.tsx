@@ -16,14 +16,13 @@ const SideCard: React.FC<SideCardProps> = ({ type, classNameStyle,}) => {
   const { statusClicked, setStatusClicked } = useConversationsContext();
   const getIcon = (type: SideCardType) => {
     switch (type) {
-      case SideCardType.NeedApproval:
-      case SideCardType.MaxPanel:
+      case SideCardType.Context:
         return AssetsPack.icons.ICON_NEED_APPROVAL.default;
-      case SideCardType.PreApproved:
+      case SideCardType.NeedApproval:
         return AssetsPack.icons.ICON_PRE_APPROVED.default;
       case SideCardType.Rejected:
         return AssetsPack.icons.ICON_REJECT.default;
-      case SideCardType.Core:
+      case SideCardType.Brain:
         return AssetsPack.icons.ICON_CORE.default;
       default:
         return null;
@@ -42,9 +41,9 @@ const SideCard: React.FC<SideCardProps> = ({ type, classNameStyle,}) => {
       )}
       onClick={() => setStatusClicked(type)}
     >
-      {type != SideCardType.Core && (
+      {type != SideCardType.Brain && (
         <div className={styles["row01"]}>
-          {type == SideCardType.MaxPanel ? "MAX ONLY" : ""}
+          {type == SideCardType.Context ? "Context" : ""}
         </div>
       )}
       <div className={styles["row02"]}>

@@ -15,7 +15,7 @@ const BrainCard: React.FC<BrainCard> = ({ data }) => {
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
             <Metadata
-              conversationId={data.id + ".." + data.knowledge_content}
+              text={`Id: ${data.id}  KnowledgeContentId: ${data.knowledge_content} `}
             />
             <QuestionAnswerSection
               questionTitle="Section Heading"

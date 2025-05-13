@@ -139,7 +139,7 @@ const MaxCard: React.FC<MaxCard> = ({
             <Metadata
               date={context.date_created}
               time={context.date_created}
-              conversationId={conversationId + ".." + context.id}
+              text={`ConversationId: ${conversationId} ContextId: ${context.id} `}
             />
 
             <div className={styles["question-chat-history"]}>

@@ -83,13 +83,13 @@ export const KowledgeContentBulkUpdateStatus = async (
   }
 };
 
-export const KowledgeContentBulkCreate = async (
-  data: { [key: number]: EditablePair[] }
-): Promise<AxiosResponse | null> => {
+export const KowledgeContentBulkCreate = async (data: {
+  [key: number]: EditablePair[];
+}): Promise<AxiosResponse | null> => {
   const result = Object.entries(data).flatMap(([contextId, items]) =>
     items
-      .filter(item => item.selected)
-      .map(item => ({
+      .filter((item) => item.selected)
+      .map((item) => ({
         context: Number(contextId),
         category: item.category_id,
         subcategory: item.subcategory_id,
@@ -246,9 +246,9 @@ export const Logout = async (
 };
 
 export const GetContext = async (
-  endpoint: string | undefined = Endpoint.Context,
+  endpoint: string | undefined = Endpoint.Context
 ): Promise<ContextResponse | undefined> => {
-  return await apiGetRequest<ContextResponse>(endpoint, {status: 1});
+  return await apiGetRequest<ContextResponse>(endpoint, { status: 1 });
 };
 
 export const DeleteContext = async (
@@ -281,7 +281,7 @@ export const RagChat = async (
   message: string,
   threadId: string,
   memberId: string,
-  teamId: string,
+  teamId: string
 ): Promise<ChatbotResponse | null> => {
   const basePayload = {
     message: message,
@@ -292,4 +292,15 @@ export const RagChat = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest<ChatbotResponse>(Endpoint.Ragchat, payload);
+};
+
+export const SearchBrain = async (
+  endpoint: string | undefined = Endpoint.BrainSearch,
+  queryParams: Record<string, any> = {}
+): Promise<BrainResponse | undefined> => {
+  return await apiGetRequest<BrainResponse>(
+    endpoint,
+    {},
+    queryParams
+  );
 };

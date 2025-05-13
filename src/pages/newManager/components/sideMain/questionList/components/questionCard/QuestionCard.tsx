@@ -123,7 +123,7 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
           <Metadata
             date={dateTime}
             time={dateTime}
-            conversationId={conversationId}
+            text={`ConversationId: ${conversationId}`}
           />
           {context && context && (
             <ChatHistoryButton conversationData={context} />

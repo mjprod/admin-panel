@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Metadata.module.css";
-import { useTranslation } from "react-i18next";
 import {
   utcToLocalDate,
   utcToLocalTime,
@@ -9,9 +8,8 @@ import {
 const Metadata: React.FC<{
   date?: string;
   time?: string;
-  conversationId: string;
-}> = ({ date, time, conversationId }) => {
-  const { t } = useTranslation();
+  text?: string;
+}> = ({ date, time, text }) => {
 
   return (
     <div className={styles["question-metadata"]}>
@@ -21,7 +19,7 @@ const Metadata: React.FC<{
         </p>
       )}
       <p>
-        {t("newManager.conversation_id")} {conversationId}
+        {text}
       </p>
     </div>
   );
