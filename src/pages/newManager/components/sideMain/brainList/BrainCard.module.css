@@ -48,6 +48,13 @@
     border-radius: 8px;
   }
 
+  .buttons-container {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   @media (max-width: 1700px) {
     .question-group-scroll-container {
       grid-template-columns: 1fr;

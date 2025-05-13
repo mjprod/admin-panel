@@ -304,3 +304,14 @@ export const SearchBrain = async (
     queryParams
   );
 };
+
+export const BrainBulkDelete = async (
+  ids: number[]
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    knowledge_content_ids: ids,
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.BrainBulkRemove, payload);
+};

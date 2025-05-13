@@ -16,7 +16,6 @@ import SearchBar from "../../components/searchBar/SearchBar";
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
 
-  // 🔴 Prevent using the context before user logs in
   if (!isSignedIn) {
     return <div>Loading Conversations...</div>;
   }

@@ -24,6 +24,7 @@ export const Endpoint = {
   Brain: `${getBaseUri()}/brain/{id}`,
   BrainSearch: `${getBaseUri()}/brain/search/`,
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
+  BrainBulkRemove: `${getBaseUri()}/brain/bulk-remove-from-brain/`,
 
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
   Context: `${getBaseUri()}/context/`,
