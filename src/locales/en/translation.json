@@ -87,13 +87,17 @@
     "pre_approved": "Pre-Approved",
     "rejected": "Rejected",
     "core": "Core Questions",
-    "max_panel": "MAX PANEL"
+    "max_panel": "MAX PANEL",
+    "brain": "Brain",
+    "context_panel": "Context"
   },
   "topbar": {
     "need_approval": "Need Approval",
     "pre_approved": "Pre-Approved",
     "rejected": "Rejected",
     "core": "Core Questions",
-    "max_panel": "Max Panel"
+    "max_panel": "Max Panel",
+    "brain": "Brain",
+    "context_panel": "Context"
   }
 }

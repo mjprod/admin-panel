@@ -14,7 +14,6 @@ import {
   ContextItem,
   EditablePair,
   KnowledgeCard,
-  Language,
   LanguageCode,
 } from "../api/responsePayload/KnowledgeResponse";
 import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
@@ -23,6 +22,7 @@ import {
   GetBrain,
   GetContext,
   KowledgeSummary,
+  SearchBrain,
   getAllCategories,
   getSubCategories,
 } from "../api/apiCalls";
@@ -31,6 +31,7 @@ import { AuthContext } from "./AuthContext";
 import { useTranslation } from "react-i18next";
 import { showConsoleError } from "../util/ConsoleMessage";
 import { BrainItem } from "../api/responsePayload/BrainResponse";
+import { defaultLanguage } from "../api/contants";
 
 // Define the context type
 interface ConversationsContextType {
@@ -62,6 +63,7 @@ interface ConversationsContextType {
   setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
   addedPairs: { [key: number]: EditablePair[] };
   brainList: BrainItem[];
+  searchBrain: (query: string, searchType: string) => void
 }
 
 const ConversationsContext = createContext<
@@ -93,7 +95,7 @@ export const ConversationsProvider = ({
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
   const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
-  const [language, setLanguage] = useState<LanguageCode>(Language.MALAYSIAN);
+  const [language, setLanguage] = useState<LanguageCode>(defaultLanguage);
 
   const [context, setContext] = useState<ContextItem[]>([]);
   const addedPairs: { [key: number]: EditablePair[] } = {};
@@ -166,6 +168,37 @@ export const ConversationsProvider = ({
       showConsoleError("API Response:Error", e);
     }
   };
+
+  const searchBrainApiCall = async (endpoint: string | undefined = undefined, queryParams: Record<string, any> = {}
+  ) => {
+    try {
+      if (!isSignedIn) return;
+
+      const res = await SearchBrain(endpoint, queryParams);
+      if (res) {
+        setBrainList(res.results);
+        setCurrentPage(res.current_page);
+        setNextPageUrl(res.next);
+        setPrePageUrl(res.previous);
+        setTotalPages(res.total_pages);
+        setTotalCount(res.count);
+      }
+    } catch (e) {
+      showConsoleError("API Response:Error", e);
+    }
+  };
+
+  const searchBrain = (query: string, searchType: string) => {
+    if (!query) {
+      brainApiCall()
+      return
+    }
+    const queryParams = {
+      ...(searchType == "id" && { id: query }),
+      ...(searchType == "query" && { query: query }),
+    };
+    searchBrainApiCall(undefined, queryParams)
+  }
 
   const filterByCategory = (category: CategoryProps) => {
     setSelectedCategories((prev) =>
@@ -257,9 +290,9 @@ export const ConversationsProvider = ({
 
   const onPrevPageClicked = () => {
     if (!!prePageUrl) {
-      if (statusClicked === SideCardType.MaxPanel) {
+      if (statusClicked === SideCardType.Context) {
         contextApiCall(prePageUrl);
-      } else if (statusClicked === SideCardType.Core) {
+      } else if (statusClicked === SideCardType.Brain) {
         brainApiCall(prePageUrl);
       } else {
         conversationApiCall(prePageUrl, {});
@@ -269,9 +302,9 @@ export const ConversationsProvider = ({
 
   const onNextPageClicked = () => {
     if (!!nextPageUrl) {
-      if (statusClicked === SideCardType.MaxPanel) {
+      if (statusClicked === SideCardType.Context) {
         contextApiCall(nextPageUrl);
-      } else if (statusClicked === SideCardType.Core) {
+      } else if (statusClicked === SideCardType.Brain) {
         brainApiCall(nextPageUrl);
       } else {
         conversationApiCall(nextPageUrl, {});
@@ -306,14 +339,13 @@ export const ConversationsProvider = ({
   useEffect(() => {
     switch (statusClicked) {
       case SideCardType.NeedApproval:
-      case SideCardType.PreApproved:
       case SideCardType.Rejected:
         fetchConversations();
         break;
-      case SideCardType.MaxPanel:
+      case SideCardType.Context:
         contextApiCall();
         break;
-      case SideCardType.Core:
+      case SideCardType.Brain:
         brainApiCall();
       default:
         break;
@@ -350,7 +382,8 @@ export const ConversationsProvider = ({
         setContext,
         setUpdateContextList,
         addedPairs,
-        brainList
+        brainList,
+        searchBrain
       }}
     >
       {children}

@@ -1,3 +1,4 @@
+import { defaultLanguage } from "../api/contants";
 import { Language } from "../api/responsePayload/KnowledgeResponse";
 
 export const utcToLocalDate = (utcDateString: string): string => {
@@ -26,10 +27,10 @@ export const utcToLocalTime = (utcDateString: string): string => {
 
 
 export const getLanguageByCode = (code: string) => 
-      Object.values(Language).find(lang => lang.code === code) || Language.MALAYSIAN;
+      Object.values(Language).find(lang => lang.code === code) || defaultLanguage;
     
 export const getLanguageById = (id: number) => 
-  Object.values(Language).find(lang => lang.id === id) || Language.MALAYSIAN;
+  Object.values(Language).find(lang => lang.id === id) || defaultLanguage;
 
     
 export function hexToHsla(hex: string): string {

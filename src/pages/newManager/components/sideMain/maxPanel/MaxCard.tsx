@@ -26,17 +26,19 @@ import { showConsoleError } from "../../../../../util/ConsoleMessage";
 
 interface MaxCard {
   context: ContextItem;
-  onChecked: (checked: boolean, contextId: number, pairs: EditablePair[]) => void;
+  onChecked: (
+    checked: boolean,
+    contextId: number,
+    pairs: EditablePair[]
+  ) => void;
 }
 
-const MaxCard: React.FC<MaxCard> = ({ 
-  context,
-  onChecked,
- }) => {
+const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
   const { t } = useTranslation();
-  const { setContext, setUpdateContextList, setTotalCount } = useConversationsContext();
+  const { setContext, setUpdateContextList, setTotalCount } =
+    useConversationsContext();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [pairs, setPairs] = useState<EditablePair[]>([]);
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
@@ -45,7 +47,7 @@ const MaxCard: React.FC<MaxCard> = ({
   const handleReject = async () => {
     try {
       await DeleteContext(context.id);
-      updateList()
+      updateList();
     } catch (e) {
       showConsoleError(e);
     }
@@ -58,18 +60,18 @@ const MaxCard: React.FC<MaxCard> = ({
   const updateList = () => {
     setTotalCount((prev) => prev - 1);
     setContext((prev) => {
-      const data = prev.filter((item) => item.id !== context.id)
+      const data = prev.filter((item) => item.id !== context.id);
       if (data.length === 0) {
         setUpdateContextList(true);
       }
-      return data
+      return data;
     });
-  }
+  };
 
   const handleApprove = async () => {
     try {
       await KowledgeContentBulkCreate({ [context.id]: pairs });
-      updateList()
+      updateList();
     } catch (e) {
       showConsoleError(e);
     }
@@ -115,7 +117,8 @@ const MaxCard: React.FC<MaxCard> = ({
   };
 
   useEffect(() => {
-    getAIResponse();
+    const chat = mapToKnowledgeContext(context.context, []);
+    setChatData(chat ?? undefined);
   }, [context]);
 
   useEffect(() => {
@@ -139,7 +142,7 @@ const MaxCard: React.FC<MaxCard> = ({
             <Metadata
               date={context.date_created}
               time={context.date_created}
-              conversationId={conversationId + ".." + context.id}
+              text={`ConversationId: ${conversationId} ContextId: ${context.id} `}
             />
 
             <div className={styles["question-chat-history"]}>

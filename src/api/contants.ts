@@ -1,5 +1,6 @@
 //API Domain Name
 import { showConsoleMessage } from "../util/ConsoleMessage";
+import { Language } from "./responsePayload/KnowledgeResponse";
 
 export const apiDomainName = "api-staging.mjproapps.com/api";
 export const BASE_URI = `https://${apiDomainName}`;
@@ -21,7 +22,9 @@ export const Endpoint = {
   KowledgeContentBulkCreate: `${getBaseUri()}/knowledge-content/bulk-create/`,
 
   Brain: `${getBaseUri()}/brain/{id}`,
+  BrainSearch: `${getBaseUri()}/brain/search/`,
   BrainKnowledgeBulkUpdate: `${getBaseUri()}/brain/bulk-add-to-brain/`,
+  BrainBulkRemove: `${getBaseUri()}/brain/bulk-remove-from-brain/`,
 
   KnowledgeSummary: `${getBaseUri()}/knowledge-summary/`,
   Context: `${getBaseUri()}/context/`,
@@ -47,3 +50,5 @@ export const notificationToken = String(
 export const sha256Salt = String(process.env.REACT_APP_SHA256SALT);
 export const secretKey = String(process.env.REACT_APP_SECRET_KEY);
 export const apiKey = String(process.env.REACT_APP_API_KEY || "");
+
+export const defaultLanguage = Language.ENGLISH;

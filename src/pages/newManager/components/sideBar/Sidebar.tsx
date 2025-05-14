@@ -55,20 +55,16 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
       <div className={styles["list-container"]}>
         <div className={styles["tools-heading"]}>Cipta/Edit</div>
         {user?.is_superuser && <CreateNewButton />}
-        {user?.is_superuser && <SideCard type={SideCardType.Core} classNameStyle={styles["timeline-card"]}/>}
+        {user?.is_superuser && <SideCard type={SideCardType.Brain} classNameStyle={styles["timeline-card"]}/>}
         <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
         {user?.is_superuser && (
           <SideCard
-            type={SideCardType.MaxPanel}
+            type={SideCardType.Context}
             classNameStyle={styles["timeline-card"]}
           />
         )}
         <SideCard
           type={SideCardType.NeedApproval}
-          classNameStyle={styles["timeline-card"]}
-        />
-        <SideCard
-          type={SideCardType.PreApproved}
           classNameStyle={styles["timeline-card"]}
         />
         {user?.is_superuser && (

@@ -14,13 +14,11 @@ const TopBar: React.FC<TopBarProps> = () => {
     switch (type) {
       case SideCardType.NeedApproval:
         return AssetsPack.icons.ICON_NEED_APPROVAL.default;
-      case SideCardType.PreApproved:
-        return AssetsPack.icons.ICON_PRE_APPROVED.default;
       case SideCardType.Rejected:
         return AssetsPack.icons.ICON_REJECT.default;
-      case SideCardType.Core:
+      case SideCardType.Brain:
         return AssetsPack.icons.ICON_CORE.default;
-      case SideCardType.MaxPanel:
+      case SideCardType.Context:
         return AssetsPack.icons.ICON_MAX.default;
       default:
         return null;
@@ -51,7 +49,7 @@ const TopBar: React.FC<TopBarProps> = () => {
           </div>
         </div>
       </div>
-      {statusClicked == SideCardType.MaxPanel && (
+      {statusClicked == SideCardType.Context && (
           <div className={styles["core-question-notes"]}>
             <p className={styles["notes"]}>
               <strong>Sila ambil perhatian:</strong>Sila semak soalan dan

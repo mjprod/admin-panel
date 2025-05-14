@@ -54,7 +54,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
       await KowledgeContentBulkUpdateStatus(
         [id],
-        QuestionStatus.PreApproved
+        QuestionStatus.Approved
       );
       setUpdateConversationList(true);
     } catch (e) {

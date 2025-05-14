@@ -35,7 +35,7 @@ const SelectAllBar = () => {
   }, [conversations]);
 
   const handleBulkAction = async () => {
-    if (statusClicked === SideCardType.MaxPanel) {
+    if (statusClicked === SideCardType.Context) {
       try {
         if (
           Object.keys(addedPairs).length === 0 ||
@@ -58,7 +58,7 @@ const SelectAllBar = () => {
       .map((c) => c.id);
 
     try {
-      if (statusClicked === SideCardType.PreApproved) {
+      if (statusClicked === SideCardType.NeedApproval) {
         await KowledgeContentBulkUpdateStatus(selectedIds, 3);
       } else if (statusClicked === SideCardType.Rejected) {
         await KowledgeContentBulkDelete(selectedIds);
@@ -79,7 +79,7 @@ const SelectAllBar = () => {
 
   if (
     statusClicked === SideCardType.NeedApproval ||
-    statusClicked === SideCardType.Core
+    statusClicked === SideCardType.Brain
   ) {
     return null;
   }
@@ -91,7 +91,7 @@ const SelectAllBar = () => {
 
   return (
     <div className={styles["all-container"]}>
-      {statusClicked !== SideCardType.MaxPanel && (
+      {statusClicked !== SideCardType.Context && (
         <div
           className={clsx(styles["select-all-box"], isDelete && styles.delete)}
         >
@@ -106,7 +106,7 @@ const SelectAllBar = () => {
       )}
 
       {(showActionButton ||
-        statusClicked == SideCardType.MaxPanel) && (
+        statusClicked == SideCardType.Context) && (
           <button
             className={clsx(
               styles["bulk-button"],

@@ -1,8 +1,7 @@
 export enum SideCardType {
-  Core = "core",
-  MaxPanel = "max_panel",
+  Brain = "brain",
+  Context = "context_panel",
   NeedApproval = "need_approval",
-  PreApproved = "pre_approved",
   Rejected = "rejected",
   NONE = "",
 }
@@ -18,8 +17,6 @@ export const getQuestionStatusFromSideCardType  = (type: SideCardType): Question
   switch (type) {
     case SideCardType.NeedApproval:
       return QuestionStatus.NeedApproval;
-    case SideCardType.PreApproved:
-      return QuestionStatus.PreApproved;
     case SideCardType.Rejected:
       return QuestionStatus.Rejected;
     default:

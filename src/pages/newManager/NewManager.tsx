@@ -11,11 +11,11 @@ import TopBar from "./components/sideMain/topBar/TopBar";
 import MaxList from "./components/sideMain/maxPanel/MaxList";
 import ChatbotButton from "../chatbot/ChatbotButton";
 import BrainList from "./components/sideMain/brainList/BrainList";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
 
-  // 🔴 Prevent using the context before user logs in
   if (!isSignedIn) {
     return <div>Loading Conversations...</div>;
   }
@@ -29,10 +29,11 @@ const NewManager = () => {
         <div>
           <TopBar />
           <SelectAllBar />
+          {statusClicked == SideCardType.Brain && <SearchBar />}
         </div>
-        {statusClicked != SideCardType.MaxPanel && statusClicked != SideCardType.Core && <QuestionList />}
-        {statusClicked == SideCardType.MaxPanel && <MaxList />}
-        {statusClicked == SideCardType.Core && <BrainList />}
+        {statusClicked != SideCardType.Context && statusClicked != SideCardType.Brain && <QuestionList />}
+        {statusClicked == SideCardType.Context && <MaxList />}
+        {statusClicked == SideCardType.Brain && <BrainList />}
         <BottomBar />
       </main>
       <ChatbotButton />
