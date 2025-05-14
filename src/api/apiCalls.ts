@@ -20,7 +20,7 @@ import {
 } from "./util/apiUtils";
 import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
 import { mapKnowledgeConversationData } from "./util/responseMap";
-import { BrainResponse } from "./responsePayload/BrainResponse";
+import { BrainItem, BrainResponse } from "./responsePayload/BrainResponse";
 import { ChatbotResponse } from "./responsePayload/ChatbotResponse";
 /* eslint-disable complexity */
 
@@ -277,6 +277,18 @@ export const GetBrain = async (
   });
 };
 
+export const GetBrainId = async (
+  brainId: number | undefined = undefined
+): Promise<BrainItem | undefined> => {
+  try {
+    return await apiGetRequest<BrainItem>(Endpoint.Brain, {
+      id: brainId,
+    });
+  } catch {
+    return undefined;
+  }
+};
+
 export const RagChat = async (
   message: string,
   threadId: string,
@@ -298,11 +310,7 @@ export const SearchBrain = async (
   endpoint: string | undefined = Endpoint.BrainSearch,
   queryParams: Record<string, any> = {}
 ): Promise<BrainResponse | undefined> => {
-  return await apiGetRequest<BrainResponse>(
-    endpoint,
-    {},
-    queryParams
-  );
+  return await apiGetRequest<BrainResponse>(endpoint, {}, queryParams);
 };
 
 export const BrainBulkDelete = async (

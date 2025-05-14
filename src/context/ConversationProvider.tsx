@@ -20,6 +20,7 @@ import { CategoryProps } from "../pages/newManager/components/sideBar/questionTo
 import {
   AllConversation,
   GetBrain,
+  GetBrainId,
   GetContext,
   KowledgeSummary,
   SearchBrain,
@@ -63,7 +64,7 @@ interface ConversationsContextType {
   setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
   addedPairs: { [key: number]: EditablePair[] };
   brainList: BrainItem[];
-  searchBrain: (query: string, searchType: string) => void
+  searchBrain: (query: string, searchType: string) => void;
 }
 
 const ConversationsContext = createContext<
@@ -151,11 +152,13 @@ export const ConversationsProvider = ({
     }
   };
 
-
-  const brainApiCall = async (endpoint: string | undefined = undefined) => {
+  const brainApiCall = async (
+    endpoint: string | undefined = undefined,
+    id: number | undefined = undefined
+  ) => {
     try {
       if (!isSignedIn) return;
-      const res = await GetBrain(endpoint);
+      const res = await GetBrain(endpoint, id);
       if (res) {
         setBrainList(res.results);
         setCurrentPage(res.current_page);
@@ -169,7 +172,9 @@ export const ConversationsProvider = ({
     }
   };
 
-  const searchBrainApiCall = async (endpoint: string | undefined = undefined, queryParams: Record<string, any> = {}
+  const searchBrainApiCall = async (
+    endpoint: string | undefined = undefined,
+    queryParams: Record<string, any> = {}
   ) => {
     try {
       if (!isSignedIn) return;
@@ -190,15 +195,29 @@ export const ConversationsProvider = ({
 
   const searchBrain = (query: string, searchType: string) => {
     if (!query) {
-      brainApiCall()
-      return
+      brainApiCall();
+      return;
     }
-    const queryParams = {
-      ...(searchType == "id" && { id: query }),
-      ...(searchType == "query" && { query: query }),
-    };
-    searchBrainApiCall(undefined, queryParams)
-  }
+    if (searchType == "id") {
+      GetBrainId(Number(query))
+        .then((res) => {
+          res && setBrainList([res]);
+          setCurrentPage(1);
+          setNextPageUrl(null);
+          setPrePageUrl(null);
+          setTotalPages(1);
+          setTotalCount(res ? 1 : 0);
+        })
+        .catch((error) => {
+          console.error("Failed to get brain ID:", error);
+        });
+    } else {
+      const queryParams = {
+        ...(searchType == "query" && { query: query }),
+      };
+      searchBrainApiCall(undefined, queryParams);
+    }
+  };
 
   const filterByCategory = (category: CategoryProps) => {
     setSelectedCategories((prev) =>
@@ -383,7 +402,7 @@ export const ConversationsProvider = ({
         setUpdateContextList,
         addedPairs,
         brainList,
-        searchBrain
+        searchBrain,
       }}
     >
       {children}
