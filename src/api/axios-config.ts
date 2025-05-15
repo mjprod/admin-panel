@@ -2,6 +2,7 @@ import axios from "axios";
 import { showConsoleError, showConsoleMessage } from "../util/ConsoleMessage";
 import { AuthErrors } from "../context/AuthContext.js";
 import useRefreshToken from "./RefreshToken";
+import { ragKey } from "./contants";
 /* eslint-disable complexity */
 
 export const setupInterceptors = (setLoading: (value: boolean) => void) => {
@@ -18,8 +19,10 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
       ) {
         config.headers.set("Accept", "*/*");
         config.headers.set("Content-Type", "application/json");
-        if (token) {
+        if (token && !config.url?.includes("/rag-chat")) {
           config.headers.set("Authorization", `${token}`);
+        } else if (ragKey && config.url?.includes("/rag-chat")) {
+          config.headers.set("Authorization", `Api-Key ${ragKey}`);
         }
       }
 
