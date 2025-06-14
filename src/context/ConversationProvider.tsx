@@ -64,7 +64,7 @@ interface ConversationsContextType {
   setUpdateContextList: React.Dispatch<React.SetStateAction<boolean>>;
   addedPairs: { [key: number]: EditablePair[] };
   brainList: BrainItem[];
-  searchBrain: (query: string, searchType: string) => void;
+  searchBrain: (query: string, searchType: string, page: number | undefined) => void;
 }
 
 const ConversationsContext = createContext<
@@ -154,11 +154,12 @@ export const ConversationsProvider = ({
 
   const brainApiCall = async (
     endpoint: string | undefined = undefined,
-    id: number | undefined = undefined
+    id: number | undefined = undefined,
+    page: number | undefined = undefined,
   ) => {
     try {
       if (!isSignedIn) return;
-      const res = await GetBrain(endpoint, id);
+      const res = await GetBrain(endpoint, id, page);
       if (res) {
         setBrainList(res.results);
         setCurrentPage(res.current_page);
@@ -193,9 +194,9 @@ export const ConversationsProvider = ({
     }
   };
 
-  const searchBrain = (query: string, searchType: string) => {
+  const searchBrain = (query: string, searchType: string, page: number | undefined = undefined) => {
     if (!query) {
-      brainApiCall();
+      brainApiCall(undefined, undefined, page);
       return;
     }
     if (searchType == "id") {

@@ -270,10 +270,13 @@ export const GetContextAI = async (
 
 export const GetBrain = async (
   endpoint: string | undefined = Endpoint.Brain,
-  brainId: number | undefined = undefined
+  brainId: number | undefined = undefined,
+  page: number| undefined = undefined,
 ): Promise<BrainResponse | undefined> => {
   return await apiGetRequest<BrainResponse>(endpoint, {
-    id: brainId,
+    id: brainId
+  },{
+    page: page
   });
 };
 

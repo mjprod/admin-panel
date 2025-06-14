@@ -16,12 +16,12 @@ interface BrainCard {
 
 const BrainCard: React.FC<BrainCard> = ({ data }) => {
   const { t } = useTranslation();
-  const {searchBrain} = useConversationsContext();
+  const {searchBrain, currentPage} = useConversationsContext();
 
   const handleReject = async () => {
     try {
       await BrainBulkDelete([data.knowledge_content]);
-      searchBrain("", "")
+      searchBrain("", "", currentPage)
     } catch (e) {
       console.log(e)
     }

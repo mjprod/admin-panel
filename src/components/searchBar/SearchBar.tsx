@@ -13,13 +13,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ }) => {
 
   const handleSend = () => {
     if (query.trim()) {
-        searchBrain(query, searchType)
+        searchBrain(query, searchType, undefined)
     }
   };
 
   const handleClear = () => {
     setQuery("")
-    searchBrain("", searchType)
+    searchBrain("", searchType, undefined)
   }
 
   return (
