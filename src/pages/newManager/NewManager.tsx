@@ -28,7 +28,7 @@ const NewManager = () => {
       <main>
         <div>
           <TopBar />
-          <SelectAllBar />
+          {statusClicked == SideCardType.Rejected && <SelectAllBar />}
           {statusClicked == SideCardType.Brain && <SearchBar />}
         </div>
         {statusClicked != SideCardType.Context && statusClicked != SideCardType.Brain && <QuestionList />}

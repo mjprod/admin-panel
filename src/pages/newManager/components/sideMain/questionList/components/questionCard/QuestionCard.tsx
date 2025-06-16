@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import styles from "./QuestionCard.module.css";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
 import {
   KnowledgeStatus,
   KnowledgeCard,
 } from "../../../../../../../api/responsePayload/KnowledgeResponse";
 import { ColorTagDetails } from "../../../../../../../util/ExampleData";
 import ActionButtons from "../actionButton/ActionButtons";
-import CardSelector, { SelectorType } from "../cardSelector/CardSelector";
 import CategorySection from "../categorySection/CategorySection";
 import ChatHistoryButton from "../chatHistoryButton/ChatHistoryButton";
 import Metadata from "../metaData/Metadata";
@@ -44,12 +42,9 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   question,
   answer,
   status,
-  isEdited = false,
   isSelected = false,
-  onSelected = () => {},
   context,
 }) => {
-  const { t } = useTranslation();
   const [isEditSelected, setEditSelected] = useState(false);
   const [updatedQuestion, setUpdatedQuestion] = useState(question);
   const [updatedAnswer, setUpdatedAnswer] = useState(answer);
@@ -59,27 +54,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
     : { borderColor: "#fff", lightColor: "#fff", darkColor: "#000" };
 
   const statusStyle = getStatusStyles(status, isSelected, categoryColor);
-
-  const getSelectorProps = (
-    status: KnowledgeStatus,
-    isEdited: boolean,
-    checked: boolean
-  ) => {
-    return status === KnowledgeStatus.Rejected
-      ? {
-          title: t("newManager.choose_to_delete"),
-          type: SelectorType.Delete,
-          checked: checked,
-        }
-      : {
-          title: t("newManager.mark_to_save"),
-          type: SelectorType.Write,
-          isEdited: isEdited,
-          checked: checked,
-        };
-  };
-
-  const selectorProps = getSelectorProps(status, isEdited, isSelected);
 
   const handleEditChange = (
     updatedQuestion: string | null,
@@ -108,14 +82,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
         }
       >
         <div className={styles["question-container"]}>
-          { ((status === KnowledgeStatus.PreApproved) || status === KnowledgeStatus.Rejected) && (
-            <CardSelector
-              {...selectorProps}
-              onChecked={(checked) => {
-                onSelected(conversationId, checked);
-              }}
-            />
-          )}
           <Metadata
             date={dateTime}
             time={dateTime}

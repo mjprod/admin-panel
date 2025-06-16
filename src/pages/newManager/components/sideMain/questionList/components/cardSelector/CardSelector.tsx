@@ -1,9 +1,6 @@
 import React from "react";
 import styles from "./CardSelector.module.css";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import Badge, { BadgeType } from "../../../../../../../components/badge/Badge";
-import AssetsPack from "../../../../../../../util/AssetsPack";
 
 export const enum SelectorType {
   Delete,
@@ -14,7 +11,6 @@ interface CardSelectorProps {
   title: string;
   type: SelectorType;
   onChecked: (checked: boolean) => void;
-  isEdited?: boolean;
   checked?: boolean;
 }
 
@@ -22,10 +18,8 @@ const CardSelector: React.FC<CardSelectorProps> = ({
   title,
   type,
   onChecked,
-  isEdited = false,
   checked = false,
 }) => {
-  const {t} = useTranslation();
 
   return (
     <div className={styles["card-selector"]}>
@@ -42,21 +36,6 @@ const CardSelector: React.FC<CardSelectorProps> = ({
         />
         <label>{title}</label>
       </div>
-      {isEdited && (
-        <div
-          className={clsx(
-            styles["rightcol"],
-            "badge-color-edited",
-            styles["badge-color-edited"]
-          )}
-        >
-          <Badge
-            text={t("newManager.edited")}
-            type={BadgeType.edit}
-            icon={AssetsPack.icons.ICON_EDIT.default}
-          />
-        </div>
-      )}
     </div>
   );
 };
