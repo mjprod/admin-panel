@@ -4,11 +4,7 @@ import AssetsPack from "../../../../../util/AssetsPack";
 import { SideCardType } from "../../../../../util/QuestionStatus";
 import styles from "./SelectAllBar.module.css";
 import { useTranslation } from "react-i18next";
-import {
-  KowledgeContentBulkUpdateStatus,
-  KowledgeContentBulkDelete,
-  KowledgeContentBulkCreate,
-} from "../../../../../api/apiCalls";
+import { KowledgeContentBulkDelete } from "../../../../../api/apiCalls";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
 import clsx from "clsx";
 /* eslint-disable complexity */
@@ -19,8 +15,6 @@ const SelectAllBar = () => {
     conversations,
     statusClicked,
     setConversations,
-    addedPairs,
-    setUpdateContextList,
   } = useConversationsContext();
   const [checked, setChecked] = useState(false);
   const [showActionButton, setShowActionButton] = useState(false);
@@ -35,32 +29,12 @@ const SelectAllBar = () => {
   }, [conversations]);
 
   const handleBulkAction = async () => {
-    if (statusClicked === SideCardType.Context) {
-      try {
-        if (
-          Object.keys(addedPairs).length === 0 ||
-          Object.values(addedPairs).every((pairs) =>
-            pairs.every((item) => !item.selected)
-          )
-        ) {
-          return;
-        }
-        await KowledgeContentBulkCreate(addedPairs);
-        setUpdateContextList(true);
-      } catch (e) {
-        showConsoleError(e);
-      }
-      return;
-    }
-
     const selectedIds = conversations
       .filter((c) => c.isSelected)
       .map((c) => c.id);
 
     try {
-      if (statusClicked === SideCardType.NeedApproval) {
-        await KowledgeContentBulkUpdateStatus(selectedIds, 3);
-      } else if (statusClicked === SideCardType.Rejected) {
+      if (statusClicked === SideCardType.Rejected) {
         await KowledgeContentBulkDelete(selectedIds);
       }
     } catch (e) {
@@ -77,27 +51,15 @@ const SelectAllBar = () => {
     );
   };
 
-  if (
-    statusClicked === SideCardType.NeedApproval ||
-    statusClicked === SideCardType.Brain
-  ) {
-    return null;
-  }
-
-  const isDelete = statusClicked === SideCardType.Rejected;
-  const icon = isDelete
-    ? AssetsPack.icons.ICON_CLOSE.default
-    : AssetsPack.icons.ICON_TICK.default;
+  const icon = AssetsPack.icons.ICON_CLOSE.default;
 
   return (
     <div className={styles["all-container"]}>
       {statusClicked !== SideCardType.Context && (
-        <div
-          className={clsx(styles["select-all-box"], isDelete && styles.delete)}
-        >
+        <div className={clsx(styles["select-all-box"], styles.delete)}>
           <input
             type="checkbox"
-            className={clsx(styles.checkbox, isDelete && styles.delete)}
+            className={clsx(styles.checkbox, styles.delete)}
             onChange={handleSelectAll}
             checked={checked}
           />
@@ -105,21 +67,15 @@ const SelectAllBar = () => {
         </div>
       )}
 
-      {(showActionButton ||
-        statusClicked == SideCardType.Context) && (
-          <button
-            className={clsx(
-              styles["bulk-button"],
-              isDelete ? styles.delete : styles.approve
-            )}
-            onClick={handleBulkAction}
-          >
-            <img src={icon} alt="" />
-            {isDelete
-              ? t("selectAllBar.delete_all_selected")
-              : t("selectAllBar.approve_all")}
-          </button>
-        )}
+      {showActionButton && (
+        <button
+          className={clsx(styles["bulk-button"], styles.delete)}
+          onClick={handleBulkAction}
+        >
+          <img src={icon} alt="" />
+          {t("selectAllBar.delete_all_selected")}
+        </button>
+      )}
     </div>
   );
 };
