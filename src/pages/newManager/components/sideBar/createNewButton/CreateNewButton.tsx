@@ -7,7 +7,7 @@ import CustomButton, {
 import { useTranslation } from "react-i18next";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { CreateKnowledge } from "../../../../../api/apiCalls";
-import CategorySection from "../../sideMain/maxPanel/CategorySection";
+import CategorySection from "../../sideMain/contextList/CategorySection";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
