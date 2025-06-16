@@ -13,7 +13,7 @@ const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isFormVisible, setFormVisible] = useState(false);
-  const { language, setUpdateConversationList } = useConversationsContext();
+  const { setUpdateConversationList } = useConversationsContext();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
 
@@ -38,7 +38,6 @@ const CreateNewButton = () => {
     await CreateKnowledge(
       selectedCategory,
       selectedSubCategory,
-      language.id,
       question,
       answer
     );

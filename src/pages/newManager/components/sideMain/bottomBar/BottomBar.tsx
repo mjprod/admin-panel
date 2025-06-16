@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import styles from "./BottomBar.module.css";
+import { RootState } from "../../../../../store/store";
+import { useSelector } from "react-redux";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 
 interface BottomBarProps {}
@@ -9,15 +11,15 @@ interface BottomBarProps {}
 const BottomBar: React.FC<BottomBarProps> = ({}) => {
   const { t } = useTranslation();
 
-  const { currentPage, onPrevPageClicked, onNextPageClicked, totalPages } =
-    useConversationsContext();
-
-  useEffect(() => {}, [totalPages, currentPage]);
+  const { onPrevPageClicked, onNextPageClicked } = useConversationsContext();
+  const { currentPage, totalPages, prevPageUrl, nextPageUrl } = useSelector(
+    (state: RootState) => state.pagination
+  );
 
   return (
     <div className={styles["pagination-container"]}>
       <button
-        onClick={onPrevPageClicked}
+        onClick={() => onPrevPageClicked(prevPageUrl)}
         disabled={currentPage === 1}
         className={clsx({
           [styles["disabled"]]: currentPage === 1,
@@ -29,7 +31,7 @@ const BottomBar: React.FC<BottomBarProps> = ({}) => {
         {t("newManager.page")} {currentPage} {t("newManager.of")} {totalPages}
       </p>
       <button
-        onClick={onNextPageClicked}
+        onClick={() => onNextPageClicked(nextPageUrl)}
         disabled={currentPage === totalPages}
         className={clsx({
           [styles["disabled"]]: currentPage === totalPages || totalPages == 0,

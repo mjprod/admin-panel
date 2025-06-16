@@ -5,7 +5,6 @@ import {
 } from "../../components/popUp/popUpChatHistory/ChatDialog";
 import { Category } from "../../util/ExampleData";
 import {
-  getLanguageByCode,
   updateHslaValues,
   hexToHsla,
 } from "../../util/ExtensionFunction";
@@ -19,16 +18,12 @@ import {
 } from "../responsePayload/KnowledgeResponse";
 
 export const mapKnowledgeConversationData = (
-  languageCode: string,
   response: KnowledgeResponse
 ): ConversationKnowledge => {
   const knowledgeinfo: KnowledgeCard[] = [];
-  response.results.map((item) => {
-    const knowledgeContent = item.knowledge_content.find(
-      (con) => con.language == getLanguageByCode(languageCode).id
-    );
 
-    if (knowledgeContent != null) {
+  response.results.forEach((item) => {
+    item.knowledge_content.forEach((knowledgeContent) => {
       const status: KnowledgeStatus = (() => {
         switch (knowledgeContent.status) {
           case 1:
@@ -74,8 +69,8 @@ export const mapKnowledgeConversationData = (
       knowledgeinfo.push({
         knowledgeId: item.id,
         conversationId: item.knowledge_uuid,
-        category: categories ? categories : null,
-        subcategories: item.subcategory ? item.subcategory : null,
+        category: categories,
+        subcategories: item.subcategory,
         id: knowledgeContent.id,
         dateTime: knowledgeContent.last_updated,
         question: knowledgeContent.question,
@@ -83,9 +78,9 @@ export const mapKnowledgeConversationData = (
         isEdited: knowledgeContent.is_edited,
         inBrain: knowledgeContent.in_brain,
         status: status,
-        context: context,
+        context: context
       });
-    }
+    });
   });
 
   return {
