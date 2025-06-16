@@ -58,6 +58,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
+  align-self: flex-end;
 }
 
 .list-container:has(:active, :focus-within, :hover)
