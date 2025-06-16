@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./MaxCard.module.css";
+import styles from "./ContextCard.module.css";
 import Metadata from "../questionList/components/metaData/Metadata";
 import ChatHistoryButton from "../questionList/components/chatHistoryButton/ChatHistoryButton";
 import CustomButton, {
@@ -28,7 +28,7 @@ import { setPagination } from "../../../../../store/pagination.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
 
-interface MaxCard {
+interface ContextCard {
   context: ContextItem;
   onChecked: (
     checked: boolean,
@@ -37,7 +37,7 @@ interface MaxCard {
   ) => void;
 }
 
-const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
+const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const totalCount = useSelector(
@@ -212,4 +212,4 @@ const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
   );
 };
 
-export default MaxCard;
+export default ContextCard;
