@@ -35,7 +35,12 @@
   border-bottom: 1px solid var(--black-200);
   margin-bottom: 2rem;
   animation: slideUpFadeIn 1.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
 }
+.radio-input-row label {
+  cursor: pointer;
+}
+
 
 .title {
   color: var(--color10-dark);
