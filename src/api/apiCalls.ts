@@ -82,6 +82,37 @@ export const KowledgeContentBulkUpdateStatus = async (
   }
 };
 
+export const KowledgeContentUpdateReject = async (
+  ids: number,
+  status: number,
+  errorCode: number,
+  message?: string
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    knowledge_content: ids,
+    new_status: status,
+    error_code: errorCode,
+  ...(message && { reason: message })
+  };
+
+  const payload = createPayload(basePayload);
+  try {
+    const res: AxiosResponse | null = await apiPostRequest(
+      Endpoint.knowledgeContentUpdateReject,
+      payload
+    );
+
+    if (status == 3) {
+      await UpdateBrainKnowledge([ids]);
+    }
+    return res;
+  } catch (error) {
+    console.error("Error during bulk update:", error);
+
+    return null;
+  }
+};
+
 export const KowledgeContentBulkCreate = async (data: {
   [key: number]: EditablePair[];
 }): Promise<AxiosResponse | null> => {

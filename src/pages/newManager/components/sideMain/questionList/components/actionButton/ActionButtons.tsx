@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React, {  useState } from "react";
 import styles from "./ActionButtons.module.css";
 import { useTranslation } from "react-i18next";
 import {
   KowledgeContentStatusPatch,
   KowledgeContentBulkUpdateStatus,
   KowledgeContentDelete,
+  KowledgeContentUpdateReject,
 } from "../../../../../../../api/apiCalls";
 import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
 import CustomButton, {
@@ -38,8 +39,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   const { t } = useTranslation();
   const { setUpdateConversationList } = useConversationsContext();
 
-  const modalRef = useRef<HTMLDialogElement | null>(null);
-
+  const [open, setOpen] = useState(false)
   const handleEdit = () => {
     setEditSelected(!isEditSelected);
   };
@@ -63,8 +63,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handleReject = () => {
-    modalRef.current?.showModal();
+    setOpen(true)
   };
+
 
   const handleReturn = async () => {
     try {
@@ -85,12 +86,18 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handleRejectModalSubmit = async (
-    selectOption: string,
+    selectOption: number,
     textMessage: string
   ) => {
     try {
       showConsoleMessage(selectOption, textMessage);
-      await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Rejected);
+      await KowledgeContentUpdateReject(
+        id,
+        QuestionStatus.Rejected,
+        selectOption,
+        textMessage
+      );
+
       setUpdateConversationList(true);
     } catch (e) {
       showConsoleError(e);
@@ -137,10 +144,12 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           />
         </div>
 
-        <PopUpFeedback
-          modalRef={modalRef}
+        {open && <PopUpFeedback
+          key={id}
+          isOpen={open}
           handleSubmit={handleRejectModalSubmit}
-        />
+          onClose={() => setOpen(false)}
+        />}
       </>
     );
   }
@@ -150,17 +159,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     type: ButtonType;
     onClick: () => void;
   }[] = [
-    {
-      text: t("newManager.return_to_approval"),
-      type: ButtonType.Return,
-      onClick: handleReturn,
-    },
-    {
-      text: t("newManager.approved"),
-      type: ButtonType.Approve,
-      onClick: handleApprove,
-    },
-  ];
+      {
+        text: t("newManager.return_to_approval"),
+        type: ButtonType.Return,
+        onClick: handleReturn,
+      },
+      {
+        text: t("newManager.approved"),
+        type: ButtonType.Approve,
+        onClick: handleApprove,
+      },
+    ];
 
   if (status === KnowledgeStatus.PreApproved) {
     return (
