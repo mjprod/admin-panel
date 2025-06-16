@@ -23,6 +23,10 @@ import CardSelector, {
   SelectorType,
 } from "../questionList/components/cardSelector/CardSelector";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
+import { useAppDispatch } from "../../../../../store/hooks";
+import { setPagination } from "../../../../../store/pagination.slice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../store/store";
 
 interface MaxCard {
   context: ContextItem;
@@ -35,8 +39,11 @@ interface MaxCard {
 
 const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
   const { t } = useTranslation();
-  const { setContext, setUpdateContextList, setTotalCount } =
-    useConversationsContext();
+  const dispatch = useAppDispatch();
+  const totalCount = useSelector(
+    (state: RootState) => state.pagination.totalCount
+  );
+  const { setContext, setUpdateContextList } = useConversationsContext();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [pairs, setPairs] = useState<EditablePair[]>([]);
@@ -58,7 +65,7 @@ const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
   };
 
   const updateList = () => {
-    setTotalCount((prev) => prev - 1);
+    dispatch(setPagination({ totalCount: totalCount - 1 }));
     setContext((prev) => {
       const data = prev.filter((item) => item.id !== context.id);
       if (data.length === 0) {
