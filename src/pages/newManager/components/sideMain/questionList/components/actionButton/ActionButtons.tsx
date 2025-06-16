@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {  useState } from "react";
 import styles from "./ActionButtons.module.css";
 import { useTranslation } from "react-i18next";
 import {
@@ -39,8 +39,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   const { t } = useTranslation();
   const { setUpdateConversationList } = useConversationsContext();
 
-  const modalRef = useRef<HTMLDialogElement | null>(null);
-
+  const [open, setOpen] = useState(false)
   const handleEdit = () => {
     setEditSelected(!isEditSelected);
   };
@@ -64,8 +63,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handleReject = () => {
-    modalRef.current?.showModal();
+    setOpen(true)
   };
+
 
   const handleReturn = async () => {
     try {
@@ -90,9 +90,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     textMessage: string
   ) => {
     try {
-      showConsoleMessage(`------REJECT-----` + selectOption, textMessage);
-
-
+      showConsoleMessage(selectOption, textMessage);
       await KowledgeContentUpdateReject(
         id,
         QuestionStatus.Rejected,
@@ -146,11 +144,12 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           />
         </div>
 
-        <PopUpFeedback
-      
-          modalRef={modalRef}
+        {open && <PopUpFeedback
+          key={id}
+          isOpen={open}
           handleSubmit={handleRejectModalSubmit}
-        />
+          onClose={() => setOpen(false)}
+        />}
       </>
     );
   }
