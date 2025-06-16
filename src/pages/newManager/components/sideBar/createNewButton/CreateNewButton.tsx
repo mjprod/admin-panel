@@ -7,13 +7,13 @@ import CustomButton, {
 import { useTranslation } from "react-i18next";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { CreateKnowledge } from "../../../../../api/apiCalls";
-import CategorySection from "../../sideMain/maxPanel/CategorySection";
+import CategorySection from "../../sideMain/contextList/CategorySection";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isFormVisible, setFormVisible] = useState(false);
-  const { language, setUpdateConversationList } = useConversationsContext();
+  const { setUpdateConversationList } = useConversationsContext();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
 
@@ -38,7 +38,6 @@ const CreateNewButton = () => {
     await CreateKnowledge(
       selectedCategory,
       selectedSubCategory,
-      language.id,
       question,
       answer
     );

@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "./MaxList.module.css";
-import MaxCard from "./MaxCard";
+import styles from "./ContextList.module.css";
+import ContextCard from "./ContextCard";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { EditablePair } from "../../../../../api/responsePayload/KnowledgeResponse";
 
-interface MaxList {}
+interface ContextListProps {}
 
-const MaxList: React.FC<MaxList> = ({}) => {
+const ContextList: React.FC<ContextListProps> = ({}) => {
   const { context, addedPairs } = useConversationsContext();
 
   const handleCardSelected = (checked: boolean, contextId: number, pairs: EditablePair[]) => {
@@ -20,7 +20,7 @@ const MaxList: React.FC<MaxList> = ({}) => {
   return (
     <div className={styles["question-group-scroll-container"]}>
       {context.map((context) => (
-        <MaxCard
+        <ContextCard
           key={context.id}
           context={context}
           onChecked={handleCardSelected}
@@ -30,4 +30,4 @@ const MaxList: React.FC<MaxList> = ({}) => {
   );
 };
 
-export default MaxList;
+export default ContextList;

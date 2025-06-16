@@ -25,7 +25,6 @@ import { ChatbotResponse } from "./responsePayload/ChatbotResponse";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
-  languageCode: string,
   endpoint: string | undefined = Endpoint.Knowledge,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
@@ -40,7 +39,7 @@ export const AllConversation = async (
     throw new Error("Failed to fetch data from the API.");
   }
 
-  return mapKnowledgeConversationData(languageCode, apiResponse);
+  return mapKnowledgeConversationData(apiResponse);
 };
 
 export const KowledgeContentStatusPatch = async (
@@ -215,14 +214,12 @@ export const getSubCategories = async (
 export const CreateKnowledge = async (
   categoryId: number,
   subCategoryId: number,
-  language: number,
   question: string,
   answer: string
 ): Promise<AxiosResponse | null> => {
   const basePayload = {
     category: categoryId,
     subcategory: subCategoryId,
-    language: language,
     question: question,
     answer: answer,
   };
@@ -232,14 +229,12 @@ export const CreateKnowledge = async (
 };
 
 export const KowledgeSummary = async (
-  languageId: number,
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
 ): Promise<KnowledgeSummary | undefined> => {
   const query = {
     in_brain: false,
     ...{ queryParams },
-    ...{ language: languageId },
   };
   return await apiGetRequest<KnowledgeSummary>(
     Endpoint.KnowledgeSummary,
@@ -277,9 +272,16 @@ export const Logout = async (
 };
 
 export const GetContext = async (
-  endpoint: string | undefined = Endpoint.Context
+  endpoint: string | undefined = Endpoint.Context,
+  page: number | undefined = undefined
 ): Promise<ContextResponse | undefined> => {
-  return await apiGetRequest<ContextResponse>(endpoint, { status: 1 });
+  return await apiGetRequest<ContextResponse>(
+    endpoint,
+    { status: 1 },
+    {
+      page: page,
+    }
+  );
 };
 
 export const DeleteContext = async (
@@ -302,13 +304,17 @@ export const GetContextAI = async (
 export const GetBrain = async (
   endpoint: string | undefined = Endpoint.Brain,
   brainId: number | undefined = undefined,
-  page: number| undefined = undefined,
+  page: number | undefined = undefined
 ): Promise<BrainResponse | undefined> => {
-  return await apiGetRequest<BrainResponse>(endpoint, {
-    id: brainId
-  },{
-    page: page
-  });
+  return await apiGetRequest<BrainResponse>(
+    endpoint,
+    {
+      id: brainId,
+    },
+    {
+      page: page,
+    }
+  );
 };
 
 export const GetBrainId = async (

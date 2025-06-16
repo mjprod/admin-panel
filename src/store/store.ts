@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { onConversationListSlice } from "./conversation.slice";
+import paginationReducer from "./pagination.slice";
 
 const store = configureStore({
     reducer: {
         conversation: onConversationListSlice.reducer,
-
+        pagination: paginationReducer,
     }
 })
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "./MaxCard.module.css";
+import styles from "./ContextCard.module.css";
 import Metadata from "../questionList/components/metaData/Metadata";
-import ChatHistoryButton from "../questionList/components/chatHistoryButton/ChatHistoryButton";
 import CustomButton, {
   ButtonType,
 } from "../../../../../components/button/CustomButton";
@@ -16,15 +15,20 @@ import {
   GetContextAI,
   KowledgeContentBulkCreate,
 } from "../../../../../api/apiCalls";
-import QuestionAnswerCard from "./QuestionAnswerCard";
 import { mapToKnowledgeContext } from "../../../../../api/util/responseMap";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import CardSelector, {
   SelectorType,
 } from "../questionList/components/cardSelector/CardSelector";
 import { showConsoleError } from "../../../../../util/ConsoleMessage";
+import { useAppDispatch } from "../../../../../store/hooks";
+import { setPagination } from "../../../../../store/pagination.slice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../store/store";
+import AIGenerateList from "./AIGenerateList";
+import ChatDialog from "../../../../../components/popUp/popUpChatHistory/ChatDialog";
 
-interface MaxCard {
+interface ContextCard {
   context: ContextItem;
   onChecked: (
     checked: boolean,
@@ -33,10 +37,13 @@ interface MaxCard {
   ) => void;
 }
 
-const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
+const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
   const { t } = useTranslation();
-  const { setContext, setUpdateContextList, setTotalCount } =
-    useConversationsContext();
+  const dispatch = useAppDispatch();
+  const totalCount = useSelector(
+    (state: RootState) => state.pagination.totalCount
+  );
+  const { setContext, setUpdateContextList } = useConversationsContext();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [pairs, setPairs] = useState<EditablePair[]>([]);
@@ -58,7 +65,7 @@ const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
   };
 
   const updateList = () => {
-    setTotalCount((prev) => prev - 1);
+    dispatch(setPagination({ totalCount: totalCount - 1 }));
     setContext((prev) => {
       const data = prev.filter((item) => item.id !== context.id);
       if (data.length === 0) {
@@ -144,40 +151,20 @@ const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
               time={context.date_created}
               text={`ConversationId: ${conversationId} ContextId: ${context.id} `}
             />
-
-            <div className={styles["question-chat-history"]}>
-              <ChatHistoryButton conversationData={chatData} />
+            <div className={styles["chat-conversation-group"]}>
+              {chatData?.chat_data.map((dialog, index) => {
+                return <ChatDialog key={index} {...dialog} />;
+              })}
             </div>
-            {loading && (
-              <div className={styles["spinner-container"]}>
-                <div className={styles.spinner}></div>
-              </div>
-            )}
-            {!loading &&
-              pairs.map((pair, index) => (
-                <QuestionAnswerCard
-                  key={`${context.id}-${pair.id}`}
-                  question={pair.question}
-                  answer={pair.answer}
-                  setSelectedCategory={(id) =>
-                    updatePair(index, { category_id: id })
-                  }
-                  setSubSelectedCategory={(id) =>
-                    updatePair(index, { subcategory_id: id })
-                  }
-                  defaultSelectedCategory={pair.category_id}
-                  defaultSelectedSubCategory={pair.subcategory_id}
-                  defaultChecked={pair.selected}
-                  onCheckedChange={(val) =>
-                    updatePair(index, { selected: val })
-                  }
-                  onQuestionAnswerChanged={(question: string, answer: string) =>
-                    handleQuestionAnswerChange(index, question, answer)
-                  }
-                />
-              ))}
+            <AIGenerateList
+              loading={loading}
+              contextId={context.id}
+              pairs={pairs}
+              onUpdatePair={updatePair}
+              onQuestionAnswerChange={handleQuestionAnswerChange}
+            />
 
-            {!loading && (
+            {!loading && checked && (
               <div className={styles["buttons-container"]}>
                 <CustomButton
                   text={t("newManager.reject")}
@@ -205,4 +192,4 @@ const MaxCard: React.FC<MaxCard> = ({ context, onChecked }) => {
   );
 };
 
-export default MaxCard;
+export default ContextCard;

@@ -9,6 +9,8 @@ import CustomButton, {
 import { useTranslation } from "react-i18next";
 import { BrainBulkDelete } from "../../../../../api/apiCalls";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../store/store";
 
 interface BrainCard {
   data: BrainItem;
@@ -16,7 +18,11 @@ interface BrainCard {
 
 const BrainCard: React.FC<BrainCard> = ({ data }) => {
   const { t } = useTranslation();
-  const {searchBrain, currentPage} = useConversationsContext();
+  const {searchBrain} = useConversationsContext();
+
+    const { currentPage } = useSelector(
+    (state: RootState) => state.pagination
+  );
 
   const handleReject = async () => {
     try {

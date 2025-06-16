@@ -13,9 +13,11 @@ import CustomButton, {
 } from "../../../../../../../components/button/CustomButton";
 import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
 import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
-import { showConsoleError, showConsoleMessage } from "../../../../../../../util/ConsoleMessage";
+import {
+  showConsoleError,
+  showConsoleMessage,
+} from "../../../../../../../util/ConsoleMessage";
 import { QuestionStatus } from "../../../../../../../util/QuestionStatus";
-
 
 interface ActionButtonsProps {
   id: number;
@@ -51,13 +53,11 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           updatedQuestion ?? "",
           updatedAnswer
         );
+        setEditSelected(!isEditSelected);
+      } else {
+        await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
+        setUpdateConversationList(true);
       }
-
-      await KowledgeContentBulkUpdateStatus(
-        [id],
-        QuestionStatus.Approved
-      );
-      setUpdateConversationList(true);
     } catch (e) {
       showConsoleError(e);
     }
@@ -69,10 +69,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   const handleReturn = async () => {
     try {
-      await KowledgeContentBulkUpdateStatus(
-        [id],
-        QuestionStatus.NeedApproval
-      );
+      await KowledgeContentBulkUpdateStatus([id], QuestionStatus.NeedApproval);
       setUpdateConversationList(true);
     } catch (e) {
       showConsoleError(e);
@@ -141,7 +138,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           <CustomButton
             text={
               isEditSelected
-                ? t("newManager.save_preApprove")
+                ? t("newManager.save")
                 : t("newManager.preApproval")
             }
             type={isEditSelected ? ButtonType.Done : ButtonType.Approve}

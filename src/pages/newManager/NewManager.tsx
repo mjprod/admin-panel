@@ -8,7 +8,7 @@ import { useConversationsContext } from "../../context/ConversationProvider";
 import { AuthContext } from "../../context/AuthContext";
 import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
 import TopBar from "./components/sideMain/topBar/TopBar";
-import MaxList from "./components/sideMain/maxPanel/MaxList";
+import MaxList from "./components/sideMain/contextList/ContextList";
 import ChatbotButton from "../chatbot/ChatbotButton";
 import BrainList from "./components/sideMain/brainList/BrainList";
 import SearchBar from "../../components/searchBar/SearchBar";
@@ -28,7 +28,7 @@ const NewManager = () => {
       <main>
         <div>
           <TopBar />
-          <SelectAllBar />
+          {statusClicked == SideCardType.Rejected && <SelectAllBar />}
           {statusClicked == SideCardType.Brain && <SearchBar />}
         </div>
         {statusClicked != SideCardType.Context && statusClicked != SideCardType.Brain && <QuestionList />}
