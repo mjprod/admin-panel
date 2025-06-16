@@ -37,6 +37,10 @@
   animation: slideUpFadeIn 1.2s cubic-bezier(0.075, 0.82, 0.165, 1);
   cursor: pointer;
 }
+
+.radio-input-row{
+    transform: translateZ(0); /* Fixes GPU paint delay in Firefox */
+}
 .radio-input-row label {
   cursor: pointer;
 }
@@ -106,3 +110,5 @@ textarea:disabled {
   opacity: 0.6;
   transform: none;
 }
+
+

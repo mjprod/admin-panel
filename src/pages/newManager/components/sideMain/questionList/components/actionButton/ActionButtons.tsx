@@ -5,6 +5,7 @@ import {
   KowledgeContentStatusPatch,
   KowledgeContentBulkUpdateStatus,
   KowledgeContentDelete,
+  KowledgeContentUpdateReject,
 } from "../../../../../../../api/apiCalls";
 import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
 import CustomButton, {
@@ -88,15 +89,20 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handleRejectModalSubmit = async (
-    selectOption: string,
+    selectOption: number,
     textMessage: string
   ) => {
     try {
-      showConsoleMessage(selectOption, textMessage);
-      await KowledgeContentBulkUpdateStatus(
-        [id],
-        QuestionStatus.Rejected
+      showConsoleMessage(`------REJECT-----` + selectOption, textMessage);
+
+
+      await KowledgeContentUpdateReject(
+        id,
+        QuestionStatus.Rejected,
+        selectOption,
+        textMessage
       );
+
       setUpdateConversationList(true);
     } catch (e) {
       showConsoleError(e);
@@ -144,6 +150,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         </div>
 
         <PopUpFeedback
+      
           modalRef={modalRef}
           handleSubmit={handleRejectModalSubmit}
         />
@@ -156,17 +163,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     type: ButtonType;
     onClick: () => void;
   }[] = [
-    {
-      text: t("newManager.return_to_approval"),
-      type: ButtonType.Return,
-      onClick: handleReturn,
-    },
-    {
-      text: t("newManager.approved"),
-      type: ButtonType.Approve,
-      onClick: handleApprove,
-    },
-  ];
+      {
+        text: t("newManager.return_to_approval"),
+        type: ButtonType.Return,
+        onClick: handleReturn,
+      },
+      {
+        text: t("newManager.approved"),
+        type: ButtonType.Approve,
+        onClick: handleApprove,
+      },
+    ];
 
   if (status === KnowledgeStatus.PreApproved) {
     return (
