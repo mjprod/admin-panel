@@ -10,13 +10,11 @@ import {
   SideCardType,
 } from "../util/QuestionStatus";
 import {
-  CategorySummary,
   ContextItem,
   EditablePair,
   KnowledgeCard,
   LanguageCode,
 } from "../api/responsePayload/KnowledgeResponse";
-import { CategoryProps } from "../pages/newManager/components/sideBar/questionTools/QuestionTools";
 import {
   AllConversation,
   GetBrain,
@@ -40,9 +38,6 @@ interface ConversationsContextType {
   setConversations: React.Dispatch<React.SetStateAction<KnowledgeCard[]>>;
   statusClicked: SideCardType;
   setStatusClicked: React.Dispatch<React.SetStateAction<SideCardType>>;
-  selectedCategories: CategoryProps[];
-  setSelectedCategories: React.Dispatch<React.SetStateAction<CategoryProps[]>>;
-  filterByCategory: (category: CategoryProps) => void;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   nextPageUrl: string | null;
@@ -56,7 +51,6 @@ interface ConversationsContextType {
   categories: Category[];
   subCategories: SubCategory[];
   totalKnowledgeCount: number;
-  categoriesFilter: CategoryProps[];
   language: LanguageCode;
   setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
   context: ContextItem[];
@@ -82,9 +76,6 @@ export const ConversationsProvider = ({
   const [statusClicked, setStatusClicked] = useState<SideCardType>(
     SideCardType.NeedApproval
   );
-  const [selectedCategories, setSelectedCategories] = useState<CategoryProps[]>(
-    []
-  );
   const [currentPage, setCurrentPage] = useState(1);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
   const [prePageUrl, setPrePageUrl] = useState<string | null>(null);
@@ -95,7 +86,6 @@ export const ConversationsProvider = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [totalKnowledgeCount, setTotalKnowledgeCount] = useState(0);
-  const [categoriesFilter, setCategoriesFilter] = useState<CategoryProps[]>([]);
   const [language, setLanguage] = useState<LanguageCode>(defaultLanguage);
 
   const [context, setContext] = useState<ContextItem[]>([]);
@@ -220,30 +210,14 @@ export const ConversationsProvider = ({
     }
   };
 
-  const filterByCategory = (category: CategoryProps) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((prev) => prev.id !== category.id)
-        : [...prev, category]
-    );
-  };
-
   const fetchConversations = async () => {
     const currentStatus = getQuestionStatusFromSideCardType(statusClicked);
-    const categoryIds = getCategoryIds(selectedCategories);
 
     const params = {
       ...(currentStatus !== null && { status: currentStatus }),
-      ...(categoryIds.length > 0 && { category: categoryIds }),
     };
 
     conversationApiCall(undefined, params);
-  };
-
-  const getCategoryIds = (categories?: { id: number }[]): string => {
-    return categories && categories.length > 0
-      ? categories.map((category) => category.id).join(",")
-      : "";
   };
 
   const updateConvList = () => {
@@ -270,29 +244,10 @@ export const ConversationsProvider = ({
           0
         );
         setTotalKnowledgeCount(totalKnowledgeCount);
-        setCategoriesFilter(mapToCategoryProps(res.categories));
       }
     } catch (e) {
       showConsoleError(e);
     }
-  };
-
-  const mapToCategoryProps = (cats: CategorySummary[]): CategoryProps[] => {
-    const filteredCategories = cats.filter(
-      (category) => category.knowledge_count > 0
-    );
-    return filteredCategories.map((cat) => {
-      return {
-        id: cat.id,
-        title: cat.name,
-        number: cat.knowledge_count,
-        color: categories.find((data) => cat.id == data.id)?.colorDetails || {
-          borderColor: "#fff",
-          lightColor: "#fff",
-          darkColor: "#000",
-        },
-      };
-    });
   };
 
   useEffect(() => {
@@ -370,7 +325,7 @@ export const ConversationsProvider = ({
       default:
         break;
     }
-  }, [selectedCategories, statusClicked]);
+  }, [statusClicked]);
 
   return (
     <ConversationsContext.Provider
@@ -379,9 +334,6 @@ export const ConversationsProvider = ({
         setConversations,
         statusClicked,
         setStatusClicked,
-        selectedCategories,
-        setSelectedCategories,
-        filterByCategory,
         currentPage,
         setCurrentPage,
         nextPageUrl,
@@ -395,7 +347,6 @@ export const ConversationsProvider = ({
         categories,
         subCategories,
         totalKnowledgeCount,
-        categoriesFilter,
         language,
         setLanguage,
         context,

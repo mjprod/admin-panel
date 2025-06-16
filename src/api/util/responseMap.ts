@@ -1,4 +1,3 @@
-import { LanguageProps } from "../../components/language/Language";
 import {
   ChatDialogProps,
   MessageType,
@@ -7,7 +6,6 @@ import {
 import { Category } from "../../util/ExampleData";
 import {
   getLanguageByCode,
-  getLanguageById,
   updateHslaValues,
   hexToHsla,
 } from "../../util/ExtensionFunction";
@@ -30,15 +28,6 @@ export const mapKnowledgeConversationData = (
       (con) => con.language == getLanguageByCode(languageCode).id
     );
 
-    const langStatus: LanguageProps[] = item.knowledge_content.map((lang) => ({
-      id: lang.language,
-      lang: getLanguageById(lang.language),
-      langLabel: getLanguageById(lang.language).label,
-      isSolid: lang.language == getLanguageByCode(languageCode).id,
-      isCompleted: lang.status == KnowledgeStatus.Approved,
-      status: KnowledgeStatus[lang.status],
-    }));
-
     if (knowledgeContent != null) {
       const status: KnowledgeStatus = (() => {
         switch (knowledgeContent.status) {
@@ -54,16 +43,6 @@ export const mapKnowledgeConversationData = (
             return KnowledgeStatus.Approved;
         }
       })();
-
-      const lang: LanguageProps = {
-        id: knowledgeContent.language,
-        lang: getLanguageById(knowledgeContent.language),
-        langLabel: getLanguageById(knowledgeContent.language).label,
-        isSolid:
-          knowledgeContent.language == getLanguageByCode(languageCode).id,
-        isCompleted: knowledgeContent.status == KnowledgeStatus.Approved,
-        status: KnowledgeStatus[knowledgeContent.status],
-      };
 
       const categories: Category | null = item.category
         ? {
@@ -99,8 +78,6 @@ export const mapKnowledgeConversationData = (
         subcategories: item.subcategory ? item.subcategory : null,
         id: knowledgeContent.id,
         dateTime: knowledgeContent.last_updated,
-        languages: langStatus,
-        currentlang: lang,
         question: knowledgeContent.question,
         answer: knowledgeContent.answer,
         isEdited: knowledgeContent.is_edited,

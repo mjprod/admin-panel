@@ -1,5 +1,3 @@
-import { LanguageProps } from "../components/language/Language";
-
 export interface LanguageData {
   en: string;
   ms: string;
@@ -71,45 +69,6 @@ export interface ColorTagDetails {
   lightColor: string;
   darkColor: string;
 }
-
-export const categoryOptions = [
-  {
-    value: "Thrdparty",
-    label: "3rd Party",
-  },
-  {
-    value: "FourDLotto",
-    label: "4D Lotto",
-  },
-  {
-    value: "Account",
-    label: "Account",
-  },
-  {
-    value: "Feedback",
-    label: "Feedback",
-  },
-  {
-    value: "Finance",
-    label: "Finance",
-  },
-  {
-    value: "PointsShop",
-    label: "Points Shop",
-  },
-  {
-    value: "Referral",
-    label: "Referral",
-  },
-  {
-    value: "Security",
-    label: "Security",
-  },
-  {
-    value: "Technology",
-    label: "Technology",
-  },
-];
 
 export interface SubCategory {
   id: number;

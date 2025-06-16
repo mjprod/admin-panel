@@ -6,7 +6,6 @@ import {
   KnowledgeStatus,
   KnowledgeCard,
 } from "../../../../../../../api/responsePayload/KnowledgeResponse";
-import QuestionStrengthTab from "../../../../../../../components/language/QuestionStrengthTab";
 import { ColorTagDetails } from "../../../../../../../util/ExampleData";
 import ActionButtons from "../actionButton/ActionButtons";
 import CardSelector, { SelectorType } from "../cardSelector/CardSelector";
@@ -41,8 +40,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
   dateTime,
   conversationId,
   category,
-  languages,
-  currentlang,
   subcategories,
   question,
   answer,
@@ -94,7 +91,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
 
   return (
     <div className={clsx(styles["question-group-container"])}>
-      <QuestionStrengthTab languages={languages} />
       <div
         className={clsx(
           styles["question-group-main"],
@@ -131,7 +127,6 @@ const QuestionCard: React.FC<KnowledgeCard> = ({
           <CategorySection
             category={category ? category.name : ""}
             color={categoryColor}
-            currentlang={currentlang}
           />
           {subcategories && (
             <SubcategorySection subcategories={subcategories} />

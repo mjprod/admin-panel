@@ -1,4 +1,3 @@
-import { LanguageProps } from "../../components/language/Language";
 import { ChatDialogProps } from "../../components/popUp/popUpChatHistory/ChatDialog";
 import { Category, SubCategory } from "../../util/ExampleData";
 
@@ -79,8 +78,6 @@ export interface KnowledgeCard {
   dateTime: string;
   conversationId: string;
   category: Category | null;
-  languages: LanguageProps[];
-  currentlang: LanguageProps;
   subcategories: SubCategory | null;
   question: string | null;
   answer: string;
