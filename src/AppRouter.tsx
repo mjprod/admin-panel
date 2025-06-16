@@ -7,6 +7,7 @@ import TestPage from "./pages/TestPage";
 import LoginPage from "./pages/login/Login";
 import NewManager from "./pages/newManager/NewManager";
 import ChatbotPage from "./pages/chatbot/ChatbotPage";
+import AdminPanel from "./pages/adminPanel/AdminPanel";
 
 const AppRouter = () => {
   const { loadingAuth } = useContext(AuthContext);
@@ -42,6 +43,14 @@ const AppRouter = () => {
               <ConversationsProvider>
                 <NewManager />
               </ConversationsProvider>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/adminPanel"
+          element={
+            <PrivateRoute>
+              <AdminPanel />
             </PrivateRoute>
           }
         />
