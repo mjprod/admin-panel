@@ -40,6 +40,7 @@ interface ConversationsContextType {
   setUpdateConversationList: React.Dispatch<React.SetStateAction<boolean>>;
   onPrevPageClicked: (prePageUrl: string | null) => void;
   onNextPageClicked: (nextPageUrl: string | null) => void;
+  onPageChanged: (page: number | null) => void;
   categories: Category[];
   subCategories: SubCategory[];
   totalKnowledgeCount: number;
@@ -84,10 +85,13 @@ export const ConversationsProvider = ({
 
   const dispatch = useAppDispatch();
 
-  const contextApiCall = async (endpoint: string | undefined = undefined) => {
+  const contextApiCall = async (
+    endpoint: string | undefined = undefined,
+    page: number | undefined = undefined
+  ) => {
     try {
       if (!isSignedIn) return;
-      const res = await GetContext(endpoint);
+      const res = await GetContext(endpoint, page);
       if (res) {
         setContext(res.results);
         dispatch(
@@ -107,22 +111,22 @@ export const ConversationsProvider = ({
 
   const conversationApiCall = async (
     endpoint: string | undefined = undefined,
-    queryParams: Record<string, any> = {}
+    page: number | undefined = undefined
   ) => {
     try {
       if (!isSignedIn) return;
 
-      const updatedQuery = {
-        ...queryParams,
+      const currentStatus = getQuestionStatusFromSideCardType(statusClicked);
+
+      const params = {
+        ...(currentStatus !== null && { status: currentStatus }),
+        ...(page !== null && { page: page }),
       };
-      const res = await AllConversation(
-        endpoint,
-        {},
-        updatedQuery
-      );
+
+      const res = await AllConversation(endpoint, {}, params);
       if (res) {
         setConversations(res.data);
-                dispatch(
+        dispatch(
           setPagination({
             currentPage: res.current_page,
             nextPageUrl: res.next,
@@ -147,7 +151,7 @@ export const ConversationsProvider = ({
       const res = await GetBrain(endpoint, id, page);
       if (res) {
         setBrainList(res.results);
-                dispatch(
+        dispatch(
           setPagination({
             currentPage: res.current_page,
             nextPageUrl: res.next,
@@ -172,7 +176,7 @@ export const ConversationsProvider = ({
       const res = await SearchBrain(endpoint, queryParams);
       if (res) {
         setBrainList(res.results);
-                dispatch(
+        dispatch(
           setPagination({
             currentPage: res.current_page,
             nextPageUrl: res.next,
@@ -200,7 +204,7 @@ export const ConversationsProvider = ({
       GetBrainId(Number(query))
         .then((res) => {
           res && setBrainList([res]);
-          dispatch(resetPagination())
+          dispatch(resetPagination());
         })
         .catch((error) => {
           console.error("Failed to get brain ID:", error);
@@ -213,19 +217,9 @@ export const ConversationsProvider = ({
     }
   };
 
-  const fetchConversations = async () => {
-    const currentStatus = getQuestionStatusFromSideCardType(statusClicked);
-
-    const params = {
-      ...(currentStatus !== null && { status: currentStatus }),
-    };
-
-    conversationApiCall(undefined, params);
-  };
-
   const updateConvList = () => {
     if (isUpdateConversationList) {
-      fetchConversations();
+      conversationApiCall();
       getKnowledgeSummary();
       setUpdateConversationList(false);
     }
@@ -261,6 +255,18 @@ export const ConversationsProvider = ({
     updateContextList();
   }, [isUpdateContextList]);
 
+  const onPageChanged = (page: number | null) => {
+    if (!!page) {
+      if (statusClicked === SideCardType.Context) {
+        contextApiCall(undefined, page);
+      } else if (statusClicked === SideCardType.Brain) {
+        brainApiCall(undefined, undefined, page);
+      } else {
+        conversationApiCall(undefined, page);
+      }
+    }
+  };
+
   const onPrevPageClicked = (prePageUrl: string | null) => {
     if (!!prePageUrl) {
       if (statusClicked === SideCardType.Context) {
@@ -268,7 +274,7 @@ export const ConversationsProvider = ({
       } else if (statusClicked === SideCardType.Brain) {
         brainApiCall(prePageUrl);
       } else {
-        conversationApiCall(prePageUrl, {});
+        conversationApiCall(prePageUrl);
       }
     }
   };
@@ -280,7 +286,7 @@ export const ConversationsProvider = ({
       } else if (statusClicked === SideCardType.Brain) {
         brainApiCall(nextPageUrl);
       } else {
-        conversationApiCall(nextPageUrl, {});
+        conversationApiCall(nextPageUrl);
       }
     }
   };
@@ -301,7 +307,7 @@ export const ConversationsProvider = ({
   useEffect(() => {
     if (isSignedIn) {
       getCategories();
-      fetchConversations();
+      conversationApiCall();
     }
   }, [isSignedIn]);
 
@@ -313,7 +319,7 @@ export const ConversationsProvider = ({
     switch (statusClicked) {
       case SideCardType.NeedApproval:
       case SideCardType.Rejected:
-        fetchConversations();
+        conversationApiCall();
         break;
       case SideCardType.Context:
         contextApiCall();
@@ -335,6 +341,7 @@ export const ConversationsProvider = ({
         setUpdateConversationList,
         onPrevPageClicked,
         onNextPageClicked,
+        onPageChanged,
         categories,
         subCategories,
         totalKnowledgeCount,

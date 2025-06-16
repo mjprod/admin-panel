@@ -241,9 +241,16 @@ export const Logout = async (
 };
 
 export const GetContext = async (
-  endpoint: string | undefined = Endpoint.Context
+  endpoint: string | undefined = Endpoint.Context,
+  page: number | undefined = undefined
 ): Promise<ContextResponse | undefined> => {
-  return await apiGetRequest<ContextResponse>(endpoint, { status: 1 });
+  return await apiGetRequest<ContextResponse>(
+    endpoint,
+    { status: 1 },
+    {
+      page: page,
+    }
+  );
 };
 
 export const DeleteContext = async (
