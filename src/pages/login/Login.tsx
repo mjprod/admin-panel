@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, logout } = useContext(AuthContext);
+  const { login, logout, authErrors } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -68,6 +68,7 @@ const LoginPage = () => {
                 </label>
               )}
             </div>
+            {authErrors && <p className={styles['error-message']}>{authErrors.data.error}</p>}
             <button onClick={handleSubmit}>Submit</button>
           </form>
         </div>

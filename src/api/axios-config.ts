@@ -26,7 +26,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         }
       }
 
-      if(config.url?.includes("/rag-chat")) {
+      if (config.url?.includes("/rag-chat")) {
         config.timeout = 300000; // 5 minutes
       }
       return config;
@@ -49,11 +49,14 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
       showConsoleError("Response Error: ", error.response || error.message);
 
       const originalRequest = error.config;
+      const token = localStorage.getItem("refreshToken");
 
       if (
         (error?.response?.status === 401 || error?.response?.status === 403) &&
-        !originalRequest._retry
+        !originalRequest._retry &&
+        token
       ) {
+
         originalRequest._retry = true;
         try {
           const newToken = await refresh();
@@ -68,6 +71,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
           console.error("Refresh token failed:", refreshError);
           localStorage.removeItem("authToken");
           localStorage.removeItem("refreshToken");
+
           return Promise.reject(refreshError);
         }
       }

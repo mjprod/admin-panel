@@ -132,7 +132,7 @@
     color: #ff3333;
     font-size: 12px;
     margin-top: 4px;
-    display: none;
+    margin-bottom: 8px;
 }
 
 .error-message.visible {

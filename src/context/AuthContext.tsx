@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (authErrors) {
       const timeout = setTimeout(() => {
-        setAuthErrors(undefined);
+        // setAuthErrors(undefined);
       }, 5000);
       return () => clearTimeout(timeout);
     }
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       setAuthErrors({
         data: {
-          error: error?.message || "An error occurred during login",
+          error: error?.message || error.data.error || "An error occurred during login",
           status: error?.status || 500,
         },
       });
