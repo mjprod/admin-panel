@@ -28,6 +28,7 @@ import { RootState } from "../../../../../store/store";
 import AIGenerateList from "./AIGenerateList";
 import ChatDialog from "../../../../../components/popUp/popUpChatHistory/ChatDialog";
 import AssetsPack from "../../../../../util/AssetsPack";
+/* eslint-disable complexity */
 
 interface ContextCard {
   context: ContextItem;
@@ -201,7 +202,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
                     text={!isAIGenerateView ? "Finish" : t("newManager.approved")}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
-                    disabled={!checked}
+                    disabled={!checked || (isAIGenerateView && !pairs.some(it => it.selected))}
 
                   />
                 </div>
