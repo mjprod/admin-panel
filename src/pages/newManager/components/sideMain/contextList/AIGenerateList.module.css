@@ -1,8 +1,5 @@
 
-.main-container{
-  max-height: 450px;
-  overflow: scroll;
-}
+
 .spinner-container {
   display: flex;
   justify-content: center;

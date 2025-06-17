@@ -73,6 +73,7 @@
   max-height: 450px; /* or adjust as needed */
   overflow-y: auto;
   padding-right: 0.5rem; /* optional for scrollbar spacing */
+  padding-bottom: 1rem;
 }
 
 .top-container{
@@ -82,4 +83,11 @@
 .icon-reject{
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.expand-toggle{
+  width: auto;
+  align-self: flex-end;
+  border-radius: 4px;
+  padding: 4px;
 }

@@ -55,6 +55,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
   const [isAIGenerateView, setAIGenerateView] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleBack = () => {
     setAIGenerateView(false)
@@ -171,18 +172,36 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
               time={context.date_created}
               text={`ConversationId: ${conversationId} ContextId: ${context.id} `}
             />
-            {!isAIGenerateView && <div className={styles["chat-conversation-group"]}>
+            <button
+              className={styles["expand-toggle"]}
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? t("Collapse View") : t("Expand View")}
+            </button>
+            {!isAIGenerateView && <div className={styles["chat-conversation-group"]} style={{
+              maxHeight: isExpanded ? "none" : "350px",
+              overflow: isExpanded ? "hidden" : "scroll",
+              transition: "max-height 0.3s ease",
+            }}>
               {chatData?.chat_data.map((dialog, index) => {
                 return <ChatDialog key={index} {...dialog} />;
               })}
             </div>}
-            {isAIGenerateView && <AIGenerateList
-              loading={loading}
-              contextId={context.id}
-              pairs={pairs}
-              onUpdatePair={updatePair}
-              onQuestionAnswerChange={handleQuestionAnswerChange}
-            />}
+            {isAIGenerateView &&
+              <div className={styles["chat-conversation-group"]} style={{
+                maxHeight: isExpanded ? "none" : "350px",
+                overflow: isExpanded ? "hidden" : "scroll",
+                transition: "max-height 0.3s ease",
+              }}>
+                <AIGenerateList
+                  loading={loading}
+                  contextId={context.id}
+                  pairs={pairs}
+                  onUpdatePair={updatePair}
+                  onQuestionAnswerChange={handleQuestionAnswerChange}
+                />
+              </div>
+            }
 
             {!loading && (
               <div className={styles["buttons-container"]}>
@@ -198,7 +217,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
                 />}
                 <div className={styles["buttons-sub-container"]}>
                   <CustomButton
-                    text={!isAIGenerateView ? "Generate QNA" : "Regenerate QNA"}
+                    text={!isAIGenerateView ? "Generate Q&A" : "Regenerate Q&A"}
                     type={ButtonType.Regenerate}
                     onClick={handleRegenerate}
                     disabled={!checked}
