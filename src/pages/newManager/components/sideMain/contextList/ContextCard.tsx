@@ -179,7 +179,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
               {isExpanded ? t("Collapse View") : t("Expand View")}
             </button>
             {!isAIGenerateView && <div className={styles["chat-conversation-group"]} style={{
-              maxHeight: isExpanded ? "none" : "350px",
+              maxHeight: isExpanded ? "none" : "450px",
               overflow: isExpanded ? "hidden" : "scroll",
               transition: "max-height 0.3s ease",
             }}>
@@ -189,7 +189,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
             </div>}
             {isAIGenerateView &&
               <div className={styles["chat-conversation-group"]} style={{
-                maxHeight: isExpanded ? "none" : "350px",
+                maxHeight: isExpanded ? "none" : "450px",
                 overflow: isExpanded ? "hidden" : "scroll",
                 transition: "max-height 0.3s ease",
               }}>
