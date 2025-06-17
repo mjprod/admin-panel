@@ -51,7 +51,7 @@ const TopBar: React.FC<TopBarProps> = () => {
           </div>
         </div>
       </div>
-      
+   
     </div>
   );
 };
