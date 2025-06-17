@@ -178,7 +178,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
               onQuestionAnswerChange={handleQuestionAnswerChange}
             />}
 
-            {!loading && checked && (
+            {!loading && (
               <div className={styles["buttons-container"]}>
                 {/* <CustomButton
                   text={t("newManager.reject")}
@@ -192,15 +192,18 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
                 />}
                 <div className={styles["buttons-sub-container"]}>
                   <CustomButton
-                    text={!isAIGenerateView ? "AI Generate" : "Regenerate"}
+                    text={!isAIGenerateView ? "Generate QNA" : "Regenerate QNA"}
                     type={ButtonType.Regenerate}
                     onClick={handleRegenerate}
+                    disabled={!checked}
                   />
-                  {isAIGenerateView && <CustomButton
-                    text={t("newManager.approved")}
+                  <CustomButton
+                    text={!isAIGenerateView ? "Finish" : t("newManager.approved")}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
-                  />}
+                    disabled={!checked}
+
+                  />
                 </div>
               </div>
             )}
