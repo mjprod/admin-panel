@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import ChatBot from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
 import { RagChat } from "../../api/apiCalls";
 import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
 import { ragMemberSecretKey } from "../../api/contants";
 
-const MyChatBot = () => {
+interface MyChatBotProps {
+  chatWindowStyle?: CSSProperties;
+}
+
+const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
   const [thread, setThread] = useState<string>("1");
 
   const changeThread = () => {
@@ -70,10 +74,7 @@ const MyChatBot = () => {
     >
       <ChatBot
         styles={{
-          chatWindowStyle: {
-            height: "90dvh",
-            width: "100%"
-          },
+          chatWindowStyle: chatWindowStyle,
         }}
         key={thread}
         settings={{

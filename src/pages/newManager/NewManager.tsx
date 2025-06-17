@@ -1,7 +1,7 @@
 import Sidebar from "./components/sideBar/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/sideMain/bottomBar/BottomBar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SideCardType } from "../../util/QuestionStatus";
 import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
@@ -9,14 +9,16 @@ import { AuthContext } from "../../context/AuthContext";
 import SelectAllBar from "./components/sideMain/topBar/SelectAllBar";
 import TopBar from "./components/sideMain/topBar/TopBar";
 import MaxList from "./components/sideMain/contextList/ContextList";
-import ChatbotButton from "../chatbot/ChatbotButton";
+// import ChatbotButton from "../chatbot/ChatbotButton";
 import BrainList from "./components/sideMain/brainList/BrainList";
 import SearchBar from "../../components/searchBar/SearchBar";
 import CustomButton, { ButtonType } from "../../components/button/CustomButton";
+import MyChatBot from "../chatbot/MyChatBot";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
-  const{setRefreshContext} = useConversationsContext()
+  const { setRefreshContext } = useConversationsContext()
+  const [openChatBot, setOpenChatBot] = useState(false)
   if (!isSignedIn) {
     return <div>Loading Conversations...</div>;
   }
@@ -24,6 +26,9 @@ const NewManager = () => {
   const { statusClicked } = useConversationsContext();
   const handleSyncAll = () => {
     setRefreshContext(true)
+  }
+  const handleOpenChatBot = () => {
+    setOpenChatBot(prev => !prev)
   }
   return (
     <div className={styles["main-container"]}>
@@ -45,7 +50,16 @@ const NewManager = () => {
         {statusClicked == SideCardType.Brain && <BrainList />}
         <BottomBar />
       </main>
-      <ChatbotButton />
+      {
+        openChatBot && <div style={{ position: "absolute", bottom: "10rem", right: "2rem" }}>
+          <MyChatBot chatWindowStyle={{
+            height: "80dvh",
+            width: "100%"
+          }} />
+        </div>
+      }
+      <button className={styles["chatbot-button"]} onClick={handleOpenChatBot}>💬</button>
+      {/* <ChatbotButton /> */}
     </div>
   );
 };

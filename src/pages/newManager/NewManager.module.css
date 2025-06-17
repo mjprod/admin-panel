@@ -6,11 +6,11 @@
   font-family: var(--font-family01);
 }
 
-.main-container > .main-content {
+.main-container>.main-content {
   grid-template-rows: 0.11fr 3.8rem 1fr;
 }
 
-.main-container > main {
+.main-container>main {
   display: grid;
   grid-template-rows: 0.11fr 4.8fr;
   height: 98dvh;
@@ -18,10 +18,25 @@
   background: rgb(255, 255, 255);
 }
 
-.sync-all{
+.sync-all {
   margin-top: 1rem;
   align-self: flex-end;
   justify-self: flex-end;
   margin-right: 3rem;
 }
 
+.chatbot-button {
+  position: fixed;
+  bottom: 10rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 24px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
+}

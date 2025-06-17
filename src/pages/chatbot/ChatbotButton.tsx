@@ -10,12 +10,12 @@ const ChatbotButton = () => {
   };
 
   return (
-      <button
+    <button
       className={styles["chatbot-button"]}
-        onClick={toggleChatbot}
-      >
-        💬
-      </button>
+      onClick={toggleChatbot}
+    >
+      💬
+    </button>
   );
 };
 
