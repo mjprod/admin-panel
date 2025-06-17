@@ -43,11 +43,11 @@ const MyChatBot = () => {
         const result = await fetchData(param.userInput);
         const reply = result?.reply || "No title returned";
         const contexts = result?.retrieved_context || [];
-
-        if (contexts.length > 0) {
+        const nonEmptyContexts = contexts.filter(ctx => ctx && ctx.trim() !== "");
+        if (nonEmptyContexts.length > 0) {
           const contextText =
             "📚 Retrieved Contexts:\n" +
-            contexts
+            nonEmptyContexts
               .map((ctx: string, idx: number) => `${idx + 1}. ${ctx}`)
               .join("\n");
 
