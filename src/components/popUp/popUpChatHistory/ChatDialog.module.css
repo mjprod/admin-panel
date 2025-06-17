@@ -1,7 +1,6 @@
 .chat-row {
   display: flex;
   flex-direction: row;
-  opacity: 0.5;
 }
 
 .chat-user-row {

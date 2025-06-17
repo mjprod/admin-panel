@@ -112,7 +112,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
       setChatData(chat ?? undefined);
       const enhancedPairs = (res ?? []).map((item) => ({
         ...item,
-        selected: true,
+        selected: false,
       }));
       setConversationId(chat?.conversationId ?? "");
       setPairs(enhancedPairs);
@@ -166,13 +166,13 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
                 return <ChatDialog key={index} {...dialog} />;
               })}
             </div>}
-            <AIGenerateList
+           {isAIGenerateView &&  <AIGenerateList
               loading={loading}
               contextId={context.id}
               pairs={pairs}
               onUpdatePair={updatePair}
               onQuestionAnswerChange={handleQuestionAnswerChange}
-            />
+            /> }
 
             {!loading && checked && (
               <div className={styles["buttons-container"]}>
