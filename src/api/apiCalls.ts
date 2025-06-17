@@ -302,13 +302,15 @@ export const RagChat = async (
   message: string,
   threadId: string,
   memberId: string,
-  teamId: string
+  teamId: string,
+  member_secret_key: string,
 ): Promise<ChatbotResponse | null> => {
   const basePayload = {
     message: message,
     thread_id: threadId,
     member_id: memberId,
     team_id: teamId,
+    member_secret_key: member_secret_key
   };
 
   const payload = createPayload(basePayload);

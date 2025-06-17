@@ -3,6 +3,7 @@ import ChatBot from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
 import { RagChat } from "../../api/apiCalls";
 import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
+import { ragMemberSecretKey } from "../../api/contants";
 
 const MyChatBot = () => {
   const [thread, setThread] = useState<string>("1");
@@ -29,7 +30,7 @@ const MyChatBot = () => {
   }, []);
 
   async function fetchData(message: string): Promise<ChatbotResponse | null> {
-    const response = await RagChat(message, thread, "303", "10");
+    const response = await RagChat(message, thread, "303", "10", ragMemberSecretKey);
     return response;
   }
   const flow = {

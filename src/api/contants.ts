@@ -52,4 +52,5 @@ export const secretKey = String(process.env.REACT_APP_SECRET_KEY);
 export const apiKey = String(process.env.REACT_APP_API_KEY || "");
 
 export const ragKey=String(process.env.REACT_APP_RAG_API_KEY)
+export const ragMemberSecretKey=String(process.env.REACT_APP_RAG_MEMBER_SECRET_KEY)
 export const defaultLanguage = Language.ENGLISH;
