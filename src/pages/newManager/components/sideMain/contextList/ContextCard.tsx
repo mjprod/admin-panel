@@ -29,6 +29,7 @@ import AIGenerateList from "./AIGenerateList";
 import ChatDialog from "../../../../../components/popUp/popUpChatHistory/ChatDialog";
 import AssetsPack from "../../../../../util/AssetsPack";
 import { updateContextSelection } from "../../../../../store/context.slice";
+import clsx from "clsx";
 /* eslint-disable complexity */
 
 interface ContextCard {
@@ -157,7 +158,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
           <div className={styles["question-container"]}>
             <div className={styles["top-container"]}>
               <CardSelector
-                title={checked ? "On Progress" : t("newManager.mark_to_save")}
+                title={checked ? "On Progress" : "Review this chat"}
                 type={SelectorType.Write}
                 checked={checked}
                 onChecked={(checked) => {
@@ -176,23 +177,16 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
               className={styles["expand-toggle"]}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? t("Collapse View") : t("Expand View")}
+              {isExpanded ? "Collapse View" : "Expand View"}
             </button>
-            {!isAIGenerateView && <div className={styles["chat-conversation-group"]} style={{
-              maxHeight: isExpanded ? "none" : "450px",
-              overflow: isExpanded ? "hidden" : "scroll",
-              transition: "max-height 0.3s ease",
-            }}>
+
+            {!isAIGenerateView && <div className={clsx(styles["chat-conversation-group"], isExpanded && styles['expand'])}>
               {chatData?.chat_data.map((dialog, index) => {
                 return <ChatDialog key={index} {...dialog} />;
               })}
             </div>}
             {isAIGenerateView &&
-              <div className={styles["chat-conversation-group"]} style={{
-                maxHeight: isExpanded ? "none" : "450px",
-                overflow: isExpanded ? "hidden" : "scroll",
-                transition: "max-height 0.3s ease",
-              }}>
+              <div className={clsx(styles["chat-conversation-group"], isExpanded && styles['expand'])}>
                 <AIGenerateList
                   loading={loading}
                   contextId={context.id}
@@ -235,7 +229,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
