@@ -46,7 +46,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
     },
     async (error) => {
       setLoading(false);
-      showConsoleError("Response Error: ", error.response || error.message);
+      showConsoleError("Response Error: ", error);
 
       const originalRequest = error.config;
       const token = localStorage.getItem("refreshToken");
@@ -56,7 +56,6 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         !originalRequest._retry &&
         token
       ) {
-
         originalRequest._retry = true;
         try {
           const newToken = await refresh();
@@ -75,11 +74,14 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
           return Promise.reject(refreshError);
         }
       }
-
       const errorMsg: AuthErrors = {
         data: {
-          error: error.response || error.message || "Unknown error",
-          status: -1,
+          error:
+            error.response.data.detail ||
+            error.response ||
+            error.message ||
+            "Unknown error",
+          status: error.response.status || -1,
         },
       };
 

@@ -10,7 +10,7 @@ import { setupInterceptors } from "./api/axios-config";
 import { useLoading } from "./context/LoadingContext";
 import { useEffect } from "react";
 
-setupInterceptors(() => {});
+// setupInterceptors(() => {});
 
 function App() {
   const { setLoading } = useLoading();

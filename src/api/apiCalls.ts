@@ -92,7 +92,7 @@ export const KowledgeContentUpdateReject = async (
     knowledge_content: ids,
     new_status: status,
     error_code: errorCode,
-  ...(message && { reason: message })
+    ...(message && { reason: message }),
   };
 
   const payload = createPayload(basePayload);
@@ -253,6 +253,7 @@ export const Login = async (
   };
 
   const payload = createPayload(basePayload);
+
   return await apiPostRequest<AuthResponse>(Endpoint.Login, payload);
 };
 
