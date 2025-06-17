@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
 import AIGenerateList from "./AIGenerateList";
 import ChatDialog from "../../../../../components/popUp/popUpChatHistory/ChatDialog";
+import AssetsPack from "../../../../../util/AssetsPack";
 
 interface ContextCard {
   context: ContextItem;
@@ -36,10 +37,10 @@ interface ContextCard {
     pairs: EditablePair[]
   ) => void;
   checked: boolean,
-  setChecked: ()=>void
+  setChecked: () => void
 }
 
-const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setChecked}) => {
+const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setChecked }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const totalCount = useSelector(
@@ -147,15 +148,18 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
       <div className={styles["question-group-container"]}>
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
-            <CardSelector
-              title={checked ?  "On Progress": t("newManager.mark_to_save")}
-              type={SelectorType.Write}
-              checked={checked}
-              onChecked={(checked) => {
-                setChecked();
-                onChecked(checked, context.id, pairs);
-              }}
-            />
+            <div className={styles["top-container"]}>
+              <CardSelector
+                title={checked ? "On Progress" : t("newManager.mark_to_save")}
+                type={SelectorType.Write}
+                checked={checked}
+                onChecked={(checked) => {
+                  setChecked();
+                  onChecked(checked, context.id, pairs);
+                }}
+              />
+              {checked && <img className={styles["icon-reject"]} src={AssetsPack.icons.ICON_DELETE.default} onClick={handleReject} />}
+            </div>
             <Metadata
               date={context.date_created}
               time={context.date_created}
@@ -166,26 +170,26 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
                 return <ChatDialog key={index} {...dialog} />;
               })}
             </div>}
-           {isAIGenerateView &&  <AIGenerateList
+            {isAIGenerateView && <AIGenerateList
               loading={loading}
               contextId={context.id}
               pairs={pairs}
               onUpdatePair={updatePair}
               onQuestionAnswerChange={handleQuestionAnswerChange}
-            /> }
+            />}
 
             {!loading && checked && (
               <div className={styles["buttons-container"]}>
-                <CustomButton
+                {/* <CustomButton
                   text={t("newManager.reject")}
                   type={ButtonType.Reject}
                   onClick={handleReject}
-                />
+                /> */}
                 {isAIGenerateView && <CustomButton
                   text={"Back To Context"}
                   type={ButtonType.Return}
                   onClick={handleBack}
-                /> }
+                />}
                 <div className={styles["buttons-sub-container"]}>
                   <CustomButton
                     text={!isAIGenerateView ? "AI Generate" : "Regenerate"}
@@ -196,7 +200,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
                     text={t("newManager.approved")}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
-                  /> }
+                  />}
                 </div>
               </div>
             )}

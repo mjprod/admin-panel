@@ -74,3 +74,12 @@
   overflow-y: auto;
   padding-right: 0.5rem; /* optional for scrollbar spacing */
 }
+
+.top-container{
+  display: flex;
+  justify-content: space-between;
+}
+.icon-reject{
+  width: 1.5rem;
+  height: 1.5rem;
+}
