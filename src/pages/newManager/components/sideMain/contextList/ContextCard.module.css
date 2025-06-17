@@ -74,6 +74,14 @@
   overflow-y: auto;
   padding-right: 0.5rem; /* optional for scrollbar spacing */
   padding-bottom: 1rem;
+  overflow: scroll;
+}
+
+.chat-conversation-group.expand{
+  max-height: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+ 
 }
 
 .top-container{
