@@ -32,7 +32,7 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
   }
 
   return (
-    <>
+    <div className={styles['main-container']}>
       {pairs.map((pair, index) => (
         <QuestionAnswerCard
           key={`${contextId}-${pair.id}`}
@@ -53,7 +53,7 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
           }
         />
       ))}
-    </>
+    </div>
   );
 };
 

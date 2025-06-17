@@ -51,6 +51,13 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
   const [pairs, setPairs] = useState<EditablePair[]>([]);
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
+  const [isAIGenerateView, setAIGenerateView] = useState(false)
+
+  const handleBack = () => {
+    setPairs([])
+    setAIGenerateView(false)
+
+  }
 
   const handleReject = async () => {
     try {
@@ -62,6 +69,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
   };
 
   const handleRegenerate = () => {
+    setAIGenerateView(true)
     getAIResponse();
   };
 
@@ -91,6 +99,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
     );
 
     setPairs(updatedPairs);
+    setAIGenerateView(updatedPairs.length > 0)
   };
 
   const getAIResponse = async () => {
@@ -139,7 +148,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
             <CardSelector
-              title={t("newManager.mark_to_save")}
+              title={checked ?  "On Progress": t("newManager.mark_to_save")}
               type={SelectorType.Write}
               checked={checked}
               onChecked={(checked) => {
@@ -152,11 +161,11 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
               time={context.date_created}
               text={`ConversationId: ${conversationId} ContextId: ${context.id} `}
             />
-            <div className={styles["chat-conversation-group"]}>
+            {!isAIGenerateView && <div className={styles["chat-conversation-group"]}>
               {chatData?.chat_data.map((dialog, index) => {
                 return <ChatDialog key={index} {...dialog} />;
               })}
-            </div>
+            </div>}
             <AIGenerateList
               loading={loading}
               contextId={context.id}
@@ -172,17 +181,22 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setC
                   type={ButtonType.Reject}
                   onClick={handleReject}
                 />
+                {isAIGenerateView && <CustomButton
+                  text={"Back To Context"}
+                  type={ButtonType.Return}
+                  onClick={handleBack}
+                /> }
                 <div className={styles["buttons-sub-container"]}>
                   <CustomButton
-                    text={"Regenerate"}
+                    text={!isAIGenerateView ? "AI Generate" : "Regenerate"}
                     type={ButtonType.Regenerate}
                     onClick={handleRegenerate}
                   />
-                  <CustomButton
+                  {isAIGenerateView && <CustomButton
                     text={t("newManager.approved")}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
-                  />
+                  /> }
                 </div>
               </div>
             )}

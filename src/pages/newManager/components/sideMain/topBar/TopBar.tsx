@@ -51,21 +51,7 @@ const TopBar: React.FC<TopBarProps> = () => {
           </div>
         </div>
       </div>
-      {statusClicked == SideCardType.Context && (
-          <div className={styles["core-question-notes"]}>
-            <p className={styles["notes"]}>
-              <strong>Sila ambil perhatian:</strong>Sila semak soalan dan
-              jawapan berikut. Ini adalah "soalan teras" yang mungkin berubah
-              dan melibatkan perkara seperti masa keluaran dan tempoh menunggu
-              pembayaran. Selepas mengemas kini maklumat, sila pastikan anda
-              memilih kotak semak dan menekan butang{" "}
-              <span className={styles["highlight"]}>
-                "Simpan Semua yang Dipilih"
-              </span>{" "}
-              untuk mengesahkan perubahan anda.
-            </p>
-          </div>
-        )}
+      
     </div>
   );
 };
