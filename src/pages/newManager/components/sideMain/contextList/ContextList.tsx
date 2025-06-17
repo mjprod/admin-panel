@@ -8,7 +8,7 @@ interface ContextListProps { }
 
 const ContextList: React.FC<ContextListProps> = ({ }) => {
   const { context, addedPairs } = useConversationsContext();
-const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
   const handleCardSelected = (checked: boolean, contextId: number, pairs: EditablePair[]) => {
     if (checked) {
       addedPairs[contextId] = pairs;
@@ -25,7 +25,9 @@ const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
           context={context}
           onChecked={handleCardSelected}
           checked={selectedCardId === context.id}
-    setChecked={() => setSelectedCardId(context.id)}
+          setChecked={() => {
+            setSelectedCardId((prevId) => (prevId === context.id ? null : context.id))
+          }}
         />
       ))}
     </div>
