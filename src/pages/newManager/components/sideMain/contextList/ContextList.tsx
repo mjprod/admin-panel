@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./ContextList.module.css";
 import ContextCard from "./ContextCard";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { EditablePair } from "../../../../../api/responsePayload/KnowledgeResponse";
 
-interface ContextListProps {}
+interface ContextListProps { }
 
-const ContextList: React.FC<ContextListProps> = ({}) => {
+const ContextList: React.FC<ContextListProps> = ({ }) => {
   const { context, addedPairs } = useConversationsContext();
-
+const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
   const handleCardSelected = (checked: boolean, contextId: number, pairs: EditablePair[]) => {
     if (checked) {
       addedPairs[contextId] = pairs;
@@ -24,6 +24,8 @@ const ContextList: React.FC<ContextListProps> = ({}) => {
           key={context.id}
           context={context}
           onChecked={handleCardSelected}
+          checked={selectedCardId === context.id}
+    setChecked={() => setSelectedCardId(context.id)}
         />
       ))}
     </div>

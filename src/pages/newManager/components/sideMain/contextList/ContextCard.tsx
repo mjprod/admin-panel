@@ -35,9 +35,11 @@ interface ContextCard {
     contextId: number,
     pairs: EditablePair[]
   ) => void;
+  checked: boolean,
+  setChecked: ()=>void
 }
 
-const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
+const ContextCard: React.FC<ContextCard> = ({ context, onChecked , checked, setChecked}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const totalCount = useSelector(
@@ -49,7 +51,6 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
   const [pairs, setPairs] = useState<EditablePair[]>([]);
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
-  const [checked, setChecked] = useState<boolean>(false);
 
   const handleReject = async () => {
     try {
@@ -142,7 +143,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
               type={SelectorType.Write}
               checked={checked}
               onChecked={(checked) => {
-                setChecked(checked);
+                setChecked();
                 onChecked(checked, context.id, pairs);
               }}
             />

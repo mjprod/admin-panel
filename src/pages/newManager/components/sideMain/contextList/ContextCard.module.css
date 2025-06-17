@@ -70,7 +70,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-height: 600px; /* or adjust as needed */
+  max-height: 350px; /* or adjust as needed */
   overflow-y: auto;
   padding-right: 0.5rem; /* optional for scrollbar spacing */
 }
