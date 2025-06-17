@@ -27,6 +27,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
 import AIGenerateList from "./AIGenerateList";
 import ChatDialog from "../../../../../components/popUp/popUpChatHistory/ChatDialog";
+import AssetsPack from "../../../../../util/AssetsPack";
+import { updateContextSelection } from "../../../../../store/context.slice";
+/* eslint-disable complexity */
 
 interface ContextCard {
   context: ContextItem;
@@ -35,9 +38,11 @@ interface ContextCard {
     contextId: number,
     pairs: EditablePair[]
   ) => void;
+  checked: boolean,
+  setChecked: () => void
 }
 
-const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
+const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setChecked }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const totalCount = useSelector(
@@ -49,19 +54,28 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
   const [pairs, setPairs] = useState<EditablePair[]>([]);
   const [chatData, setChatData] = useState<KnowledgeContext>();
   const [conversationId, setConversationId] = useState<string>("");
-  const [checked, setChecked] = useState<boolean>(false);
+  const [isAIGenerateView, setAIGenerateView] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleBack = () => {
+    setAIGenerateView(false)
+  }
 
   const handleReject = async () => {
     try {
       await DeleteContext(context.id);
       updateList();
+
     } catch (e) {
       showConsoleError(e);
     }
   };
 
   const handleRegenerate = () => {
-    getAIResponse();
+    if (isAIGenerateView || pairs.length <= 0) {
+      getAIResponse();
+    }
+    setAIGenerateView(true);
   };
 
   const updateList = () => {
@@ -73,12 +87,15 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
       }
       return data;
     });
+    dispatch(updateContextSelection(false));
+
   };
 
   const handleApprove = async () => {
     try {
       await KowledgeContentBulkCreate({ [context.id]: pairs });
       updateList();
+
     } catch (e) {
       showConsoleError(e);
     }
@@ -90,6 +107,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
     );
 
     setPairs(updatedPairs);
+    setAIGenerateView(updatedPairs.length > 0)
   };
 
   const getAIResponse = async () => {
@@ -102,7 +120,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
       setChatData(chat ?? undefined);
       const enhancedPairs = (res ?? []).map((item) => ({
         ...item,
-        selected: true,
+        selected: false,
       }));
       setConversationId(chat?.conversationId ?? "");
       setPairs(enhancedPairs);
@@ -137,50 +155,79 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked }) => {
       <div className={styles["question-group-container"]}>
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
-            <CardSelector
-              title={t("newManager.mark_to_save")}
-              type={SelectorType.Write}
-              checked={checked}
-              onChecked={(checked) => {
-                setChecked(checked);
-                onChecked(checked, context.id, pairs);
-              }}
-            />
+            <div className={styles["top-container"]}>
+              <CardSelector
+                title={checked ? "On Progress" : t("newManager.mark_to_save")}
+                type={SelectorType.Write}
+                checked={checked}
+                onChecked={(checked) => {
+                  setChecked();
+                  onChecked(checked, context.id, pairs);
+                }}
+              />
+              {checked && <img className={styles["icon-reject"]} src={AssetsPack.icons.ICON_DELETE.default} onClick={handleReject} />}
+            </div>
             <Metadata
               date={context.date_created}
               time={context.date_created}
               text={`ConversationId: ${conversationId} ContextId: ${context.id} `}
             />
-            <div className={styles["chat-conversation-group"]}>
+            <button
+              className={styles["expand-toggle"]}
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? t("Collapse View") : t("Expand View")}
+            </button>
+            {!isAIGenerateView && <div className={styles["chat-conversation-group"]} style={{
+              maxHeight: isExpanded ? "none" : "450px",
+              overflow: isExpanded ? "hidden" : "scroll",
+              transition: "max-height 0.3s ease",
+            }}>
               {chatData?.chat_data.map((dialog, index) => {
                 return <ChatDialog key={index} {...dialog} />;
               })}
-            </div>
-            <AIGenerateList
-              loading={loading}
-              contextId={context.id}
-              pairs={pairs}
-              onUpdatePair={updatePair}
-              onQuestionAnswerChange={handleQuestionAnswerChange}
-            />
+            </div>}
+            {isAIGenerateView &&
+              <div className={styles["chat-conversation-group"]} style={{
+                maxHeight: isExpanded ? "none" : "450px",
+                overflow: isExpanded ? "hidden" : "scroll",
+                transition: "max-height 0.3s ease",
+              }}>
+                <AIGenerateList
+                  loading={loading}
+                  contextId={context.id}
+                  pairs={pairs}
+                  onUpdatePair={updatePair}
+                  onQuestionAnswerChange={handleQuestionAnswerChange}
+                />
+              </div>
+            }
 
-            {!loading && checked && (
+            {!loading && (
               <div className={styles["buttons-container"]}>
-                <CustomButton
+                {/* <CustomButton
                   text={t("newManager.reject")}
                   type={ButtonType.Reject}
                   onClick={handleReject}
-                />
+                /> */}
+                {isAIGenerateView && <CustomButton
+                  text={"Back To Context"}
+                  type={ButtonType.Return}
+                  onClick={handleBack}
+                />}
                 <div className={styles["buttons-sub-container"]}>
                   <CustomButton
-                    text={"Regenerate"}
+                    text={!isAIGenerateView ? "Generate Q&A" : "Regenerate Q&A"}
                     type={ButtonType.Regenerate}
                     onClick={handleRegenerate}
+                    disabled={!checked}
                   />
                   <CustomButton
-                    text={t("newManager.approved")}
+                    text={!isAIGenerateView ? "Finish" : t("newManager.approved")}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
+                    disabled={!checked || (isAIGenerateView && !pairs.some(it => it.selected))}
+
                   />
                 </div>
               </div>

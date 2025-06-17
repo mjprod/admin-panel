@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CreateNewButton.module.css";
 import AssetsPack from "../../../../../util/AssetsPack";
 import CustomButton, {
@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { CreateKnowledge } from "../../../../../api/apiCalls";
 import CategorySection from "../../sideMain/contextList/CategorySection";
+import { useAppSelector } from "../../../../../store/hooks";
 
 const CreateNewButton = () => {
   const [question, setQuestion] = useState("");
@@ -16,6 +17,12 @@ const CreateNewButton = () => {
   const { setUpdateConversationList } = useConversationsContext();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedSubCategory, setSubSelectedCategory] = useState<number>(0);
+
+  const reduxContextSelected = useAppSelector((state) => state.context.isContextSelected)
+
+  useEffect(() => {
+    setFormVisible(reduxContextSelected)
+  }, [reduxContextSelected])
 
   const changeFormState = (state?: boolean) => {
     state ? setFormVisible(state) : setFormVisible(!isFormVisible);

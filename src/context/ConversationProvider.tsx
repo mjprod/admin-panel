@@ -54,6 +54,7 @@ interface ConversationsContextType {
     searchType: string,
     page: number | undefined
   ) => void;
+  setRefreshContext: (refresh: boolean) => void
 }
 
 const ConversationsContext = createContext<
@@ -82,6 +83,8 @@ export const ConversationsProvider = ({
   const [brainList, setBrainList] = useState<BrainItem[]>([]);
 
   const { isSignedIn } = useContext(AuthContext);
+  const [refreshContext, setRefreshContext] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const dispatch = useAppDispatch();
 
@@ -255,8 +258,16 @@ export const ConversationsProvider = ({
     updateContextList();
   }, [isUpdateContextList]);
 
+  useEffect(() => {
+    if (refreshContext) {
+       contextApiCall(undefined, currentPage);
+      setRefreshContext(false)
+    }
+  }, [refreshContext]);
+
   const onPageChanged = (page: number | null) => {
     if (!!page) {
+      setCurrentPage(page)
       if (statusClicked === SideCardType.Context) {
         contextApiCall(undefined, page);
       } else if (statusClicked === SideCardType.Brain) {
@@ -267,8 +278,16 @@ export const ConversationsProvider = ({
     }
   };
 
+  function getPageNumber(url: string): number {
+    const parsedUrl = new URL(url);
+    const pageParam = parsedUrl.searchParams.get("page");
+    const page = parseInt(pageParam || "", 10);
+    return isNaN(page) ? 1 : page;
+  }
+
   const onPrevPageClicked = (prePageUrl: string | null) => {
     if (!!prePageUrl) {
+      setCurrentPage(getPageNumber(prePageUrl))
       if (statusClicked === SideCardType.Context) {
         contextApiCall(prePageUrl);
       } else if (statusClicked === SideCardType.Brain) {
@@ -281,6 +300,8 @@ export const ConversationsProvider = ({
 
   const onNextPageClicked = (nextPageUrl: string | null) => {
     if (!!nextPageUrl) {
+      setCurrentPage(getPageNumber(nextPageUrl))
+
       if (statusClicked === SideCardType.Context) {
         contextApiCall(nextPageUrl);
       } else if (statusClicked === SideCardType.Brain) {
@@ -351,6 +372,7 @@ export const ConversationsProvider = ({
         addedPairs,
         brainList,
         searchBrain,
+        setRefreshContext
       }}
     >
       {children}
