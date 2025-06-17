@@ -1,37 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./PopUpFeedback.module.css";
 import AssetsPack from "../../../util/AssetsPack";
 import { useTranslation } from "react-i18next";
 
 interface PopUpFeedbackProps {
-  modalRef: React.RefObject<HTMLDialogElement | null>;
-  handleSubmit: (selectOption: string, textMessage: string) => void;
+  isOpen: boolean;
+  handleSubmit: (selectOption: number, textMessage: string) => void;
+  onClose: () => void
+}
+
+enum RejetType {
+  OTHER,
+  WRONG_QUESTION,
+  WRONG_ANSWER
 }
 
 const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({
-  modalRef,
+  isOpen,
   handleSubmit,
+  onClose
 }) => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<RejetType>();
   const [textMessage, setTextMessage] = useState<string>("");
 
+  const modalRef = useRef<HTMLDialogElement | null>(null);
+
+
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.showModal();
+    } else {
+      modalRef.current?.close();
+    }
+  }, [isOpen]);
+
   const closeModal = () => {
+    onClose()
     modalRef.current?.close();
   };
 
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
+
+
+  const handleRadioChange = (event: any) => {
+    setSelectedOption(Number(event.target.value) as RejetType);
   };
 
   const onSubmit = () => {
-    handleSubmit(selectedOption, textMessage);
+    if (selectedOption === undefined) return;
+    handleSubmit(selectedOption + 1, (selectedOption == RejetType.OTHER) ? textMessage : "");
     closeModal();
   };
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   return (
-    <dialog ref={modalRef} id="modal" className={styles["dialog"]}>
+    <dialog ref={modalRef} id="modal" className={styles["dialog"]} onClose={closeModal}>
       <div className={styles["delete-modal-content-container"]}>
         <div className={styles["row01"]}>
           <h2 className={styles["title"]}>{t("popUpFeedback.provide_feedback")}</h2>
@@ -48,31 +71,35 @@ const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({
               type="radio"
               name="feedback"
               id="wrong-question"
-              value="Wrong Question"
-              checked={selectedOption === "Wrong Question"}
-              onChange={handleRadioChange}
+              value={RejetType.WRONG_QUESTION.toString()}
+              checked={selectedOption === RejetType.WRONG_QUESTION}
+              onChange={(e: any) => handleRadioChange(e)}
             />
-            <label htmlFor="wrong-question">{t("popUpFeedback.wrong_question")}</label>
+            <label htmlFor="wrong-question">
+              {t("popUpFeedback.wrong_question")}
+            </label>
           </div>
           <div className={styles["radio-input-row"]}>
             <input
               type="radio"
               name="feedback"
               id="wrong-answer"
-              value="Wrong Answer"
-              checked={selectedOption === "Wrong Answer"}
-              onChange={handleRadioChange}
+              value={RejetType.WRONG_ANSWER.toString()}
+              checked={selectedOption === RejetType.WRONG_ANSWER}
+              onChange={(e: any) => handleRadioChange(e)}
             />
-            <label htmlFor="wrong-answer">{t("popUpFeedback.wrong_answer")}</label>
+            <label htmlFor="wrong-answer">
+              {t("popUpFeedback.wrong_answer")}
+            </label>
           </div>
           <div className={styles["radio-input-row"]}>
             <input
               type="radio"
               name="feedback"
               id="other"
-              value="Other"
-              checked={selectedOption === "Other"}
-              onChange={handleRadioChange}
+              value={RejetType.OTHER.toString()}
+              checked={selectedOption === RejetType.OTHER}
+              onChange={(e: any) => handleRadioChange(e)}
             />
             <label htmlFor="other">{t("popUpFeedback.other")}</label>
           </div>
@@ -83,14 +110,17 @@ const PopUpFeedback: React.FC<PopUpFeedbackProps> = ({
               placeholder={t("popUpFeedback.explain")}
               value={textMessage}
               onChange={(e) => setTextMessage(e.target.value)}
-              disabled={selectedOption !== "Other"}
+              disabled={selectedOption !== RejetType.OTHER}
             ></textarea>
           </div>
         </div>
         <button
           className={styles["delete-submit"]}
           onClick={onSubmit}
-          disabled={!selectedOption}
+          disabled={
+            selectedOption === undefined ||
+            (selectedOption === RejetType.OTHER && !textMessage.trim())
+          }
         >
           {t("popUpFeedback.submit")}
         </button>

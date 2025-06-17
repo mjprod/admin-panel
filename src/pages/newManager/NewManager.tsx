@@ -12,24 +12,33 @@ import MaxList from "./components/sideMain/contextList/ContextList";
 import ChatbotButton from "../chatbot/ChatbotButton";
 import BrainList from "./components/sideMain/brainList/BrainList";
 import SearchBar from "../../components/searchBar/SearchBar";
+import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
-
+  const{setRefreshContext} = useConversationsContext()
   if (!isSignedIn) {
     return <div>Loading Conversations...</div>;
   }
 
   const { statusClicked } = useConversationsContext();
-
+  const handleSyncAll = () => {
+    setRefreshContext(true)
+  }
   return (
     <div className={styles["main-container"]}>
       <Sidebar />
       <main>
         <div>
           <TopBar />
-          <SelectAllBar />
+          {statusClicked == SideCardType.Rejected && <SelectAllBar />}
           {statusClicked == SideCardType.Brain && <SearchBar />}
+          {statusClicked == SideCardType.Context && <div className={styles['sync-all']}> <CustomButton
+            text={"Update Context"}
+            type={ButtonType.Normal}
+            onClick={handleSyncAll}
+          />
+          </div>}
         </div>
         {statusClicked != SideCardType.Context && statusClicked != SideCardType.Brain && <QuestionList />}
         {statusClicked == SideCardType.Context && <MaxList />}

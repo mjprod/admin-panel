@@ -1,5 +1,8 @@
 import { AxiosResponse } from "axios";
-import { showConsoleError, showConsoleMessage } from "../../util/ConsoleMessage";
+import {
+  showConsoleError,
+  showConsoleMessage,
+} from "../../util/ConsoleMessage";
 import { Request } from "../axios-config";
 
 export const createPayload = <T>(basePayload: T): string => {
@@ -10,19 +13,16 @@ export const createPayload = <T>(basePayload: T): string => {
 export const apiPostRequest = async <T>(
   endpoint: string,
   payload: string,
-  headers?: Record<string, string> 
+  headers?: Record<string, string>
 ): Promise<T | null> => {
   try {
-
     const mergedHeaders = {
-      ...headers, 
+      ...headers,
     };
-
-    const response = await Request.post(endpoint, payload,
-      {
-        headers: mergedHeaders,
-      }
-    );
+    
+    const response = await Request.post(endpoint, payload, {
+      headers: mergedHeaders,
+    });
     return response.data as T;
   } catch (error: any) {
     showConsoleError("Axios Error: ", error.data.error);
@@ -33,7 +33,7 @@ export const apiPostRequest = async <T>(
 export const apiGetRequest = async <T>(
   endpoint: string,
   pathVariables: Record<string, any> = {},
-  queryParams: Record<string, any> = {} 
+  queryParams: Record<string, any> = {}
 ): Promise<T | undefined> => {
   Object.keys(pathVariables).forEach((key) => {
     endpoint = endpoint.replace(
@@ -48,11 +48,13 @@ export const apiGetRequest = async <T>(
 
     return response.data as T;
   } catch (error: any) {
-    showConsoleMessage("Axios Error: ", error.response?.data?.error || error.message);
+    showConsoleMessage(
+      "Axios Error: ",
+      error.response?.data?.error || error.message
+    );
     return Promise.reject(error);
   }
 };
-
 
 export const apiDeleteRequest = async <T>(
   endpoint: string,
@@ -74,8 +76,6 @@ export const apiDeleteRequest = async <T>(
   }
 };
 
-
-
 export const apiPatchRequest = async (
   endpoint: string,
   pathVariables: Record<string, any> = {},
@@ -89,11 +89,10 @@ export const apiPatchRequest = async (
   });
 
   try {
-    const response = await Request.patch(endpoint, payload); 
+    const response = await Request.patch(endpoint, payload);
     return response;
   } catch (error: any) {
     showConsoleError("Axios Patch Error: ", error);
     return Promise.reject(error);
   }
 };
-

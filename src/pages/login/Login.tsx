@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AssetsPack from "../../util/AssetsPack";
 import styles from "./Login.module.css";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,8 +9,14 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, logout } = useContext(AuthContext);
+  const { login, logout, authErrors, isSignedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigate("/newManager")
+    }
+  }, [isSignedIn, navigate])
 
   const handleLogin = async () => {
     const success = await login(username, password);
@@ -68,6 +74,7 @@ const LoginPage = () => {
                 </label>
               )}
             </div>
+            {authErrors && <p className={styles['error-message']}>{authErrors.data.error}</p>}
             <button onClick={handleSubmit}>Submit</button>
           </form>
         </div>

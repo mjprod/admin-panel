@@ -26,7 +26,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
         }
       }
 
-      if(config.url?.includes("/rag-chat")) {
+      if (config.url?.includes("/rag-chat")) {
         config.timeout = 300000; // 5 minutes
       }
       return config;
@@ -46,13 +46,15 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
     },
     async (error) => {
       setLoading(false);
-      showConsoleError("Response Error: ", error.response || error.message);
+      showConsoleError("Response Error: ", error);
 
       const originalRequest = error.config;
+      const token = localStorage.getItem("refreshToken");
 
       if (
         (error?.response?.status === 401 || error?.response?.status === 403) &&
-        !originalRequest._retry
+        !originalRequest._retry &&
+        token
       ) {
         originalRequest._retry = true;
         try {
@@ -68,14 +70,18 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
           console.error("Refresh token failed:", refreshError);
           localStorage.removeItem("authToken");
           localStorage.removeItem("refreshToken");
+
           return Promise.reject(refreshError);
         }
       }
-
       const errorMsg: AuthErrors = {
         data: {
-          error: error.response || error.message || "Unknown error",
-          status: -1,
+          error:
+            error.response.data.detail ||
+            error.response ||
+            error.message ||
+            "Unknown error",
+          status: error.response.status || -1,
         },
       };
 

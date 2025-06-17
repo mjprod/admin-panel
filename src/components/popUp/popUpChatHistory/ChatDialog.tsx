@@ -49,6 +49,9 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
     [ChatType.JokerBot]: t("chatDialog.jokerBot"),
   }
 
+  if (messageType == MessageType.Good && type == ChatType.JokerBot)
+    return null
+  
   return (
     <div
       className={clsx(
@@ -67,7 +70,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
             {chatUserName[type]}
           </div>
           <p className={styles[`${messageType}`]}>{message}</p>
-          { image && <img className={styles["chat-image"]} src={image} alt="chat-image"/> }
+          {image && <img className={styles["chat-image"]} src={image} alt="chat-image" />}
         </div>
       </div>
     </div>
