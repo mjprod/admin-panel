@@ -34,7 +34,7 @@ const NewManager = () => {
           {statusClicked == SideCardType.Rejected && <SelectAllBar />}
           {statusClicked == SideCardType.Brain && <SearchBar />}
           {statusClicked == SideCardType.Context && <div className={styles['sync-all']}> <CustomButton
-            text={"Sync All"}
+            text={"Update Context"}
             type={ButtonType.Normal}
             onClick={handleSyncAll}
           />

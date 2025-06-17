@@ -55,9 +55,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   const [isAIGenerateView, setAIGenerateView] = useState(false)
 
   const handleBack = () => {
-    setPairs([])
     setAIGenerateView(false)
-
   }
 
   const handleReject = async () => {
@@ -70,8 +68,10 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   };
 
   const handleRegenerate = () => {
-    setAIGenerateView(true)
-    getAIResponse();
+    if (isAIGenerateView || pairs.length <= 0) {
+      getAIResponse();
+    }
+    setAIGenerateView(true);
   };
 
   const updateList = () => {
