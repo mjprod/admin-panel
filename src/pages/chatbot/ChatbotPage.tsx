@@ -1,16 +1,19 @@
 import MyChatBot from "./MyChatBot";
+import PromptManager from "./promptManager/PromptManager";
 
 
 const ChatbotPage = () => {
   return (
-    <div 
-    style={{
-      display: "flex",
-      width: "100vw",
-      height: "100vh"
-    }}
-    >
-      <MyChatBot />
+    <div
+      style={{
+        flex: "1",
+        display: "flex",
+        fontFamily: "sans-serif"
+      }}>
+      <PromptManager />
+      <div style={{ display: "flex", flex: "1", width: "100%", padding: "16px" }}>
+        <MyChatBot />
+      </div>
     </div>
   );
 };

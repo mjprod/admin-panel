@@ -1,0 +1,62 @@
+.container {
+    align-items: center;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    background-color: #C9C2C2;
+    flex-direction: row;
+}
+
+.header .title {
+    display: flex;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.buttonsContainer {
+    display: flex;
+    gap: 8px;
+}
+
+.buttonsContainer .button {
+    color: #000;
+    border-radius: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.header .button.primary {
+    color: white;
+    background-color: #298BFA;
+}
+
+.header .button.warning {
+    color: white;
+    background-color: #D99F33;
+}
+
+.header .button.normal {
+    color: white;
+    background-color: #787575;
+}
+
+.content {
+    color: var(--black);
+    padding: 16px;
+    background-color: var(--black-200);
+}
+
+.sectionTitle {
+    display: block;
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: bold;
+}

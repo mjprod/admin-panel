@@ -65,17 +65,14 @@ const MyChatBot = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "1rem",
-        padding: "1rem",
-        width: "100%",
-        height: "100%",
+        margin: "0 auto"
       }}
     >
       <ChatBot
         styles={{
           chatWindowStyle: {
-            width: "80vw",
-            height: "80vh",
+            height: "90dvh",
+            width: "100%"
           },
         }}
         key={thread}
@@ -85,9 +82,6 @@ const MyChatBot = () => {
         }}
         flow={flow}
       />
-      <button className="rcb-bot-message" onClick={changeThread}>
-        Refresh Thread
-      </button>
     </div>
   );
 };
