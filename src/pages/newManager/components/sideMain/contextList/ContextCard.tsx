@@ -28,6 +28,7 @@ import { RootState } from "../../../../../store/store";
 import AIGenerateList from "./AIGenerateList";
 import ChatDialog from "../../../../../components/popUp/popUpChatHistory/ChatDialog";
 import AssetsPack from "../../../../../util/AssetsPack";
+import { updateContextSelection } from "../../../../../store/context.slice";
 /* eslint-disable complexity */
 
 interface ContextCard {
@@ -63,6 +64,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
     try {
       await DeleteContext(context.id);
       updateList();
+
     } catch (e) {
       showConsoleError(e);
     }
@@ -84,12 +86,15 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
       }
       return data;
     });
+    dispatch(updateContextSelection(false));
+
   };
 
   const handleApprove = async () => {
     try {
       await KowledgeContentBulkCreate({ [context.id]: pairs });
       updateList();
+
     } catch (e) {
       showConsoleError(e);
     }
