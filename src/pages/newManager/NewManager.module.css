@@ -25,3 +25,7 @@
   margin-right: 3rem;
 }
 
+.body-view{
+  overflow-y: scroll;
+}
+

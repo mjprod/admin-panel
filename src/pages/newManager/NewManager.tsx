@@ -1,7 +1,7 @@
 import Sidebar from "./components/sideBar/Sidebar";
 import styles from "./NewManager.module.css";
 import BottomBar from "./components/sideMain/bottomBar/BottomBar";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { SideCardType } from "../../util/QuestionStatus";
 import QuestionList from "./components/sideMain/questionList/QuestionList";
 import { useConversationsContext } from "../../context/ConversationProvider";
@@ -16,6 +16,8 @@ import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
+  const bodyRef = useRef<HTMLDivElement>(null); 
+
   const{setRefreshContext} = useConversationsContext()
   if (!isSignedIn) {
     return <div>Loading Conversations...</div>;
@@ -40,9 +42,11 @@ const NewManager = () => {
           />
           </div>}
         </div>
+        <div id="body-view" className={styles['body-view']} ref={bodyRef}>
         {statusClicked != SideCardType.Context && statusClicked != SideCardType.Brain && <QuestionList />}
         {statusClicked == SideCardType.Context && <MaxList />}
         {statusClicked == SideCardType.Brain && <BrainList />}
+        </div>
         <BottomBar />
       </main>
       <ChatbotButton />
