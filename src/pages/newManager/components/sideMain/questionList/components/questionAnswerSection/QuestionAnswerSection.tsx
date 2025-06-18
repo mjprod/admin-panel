@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "./QuestionAnswerSection.module.css";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
 
 interface QuestionAnswerSectionProps {
   questionTitle?: string;
@@ -20,14 +19,12 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
   question,
   answer,
   isEditing = false,
-  onChange = () => {},
+  onChange = () => { },
   color,
   classNameStyle,
 }) => {
   const [editedQuestion, setEditedQuestion] = useState(question);
   const [editedAnswer, setEditedAnswer] = useState(answer);
-
-  const { t } = useTranslation();
 
   const handleQuestionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -50,7 +47,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
       <div className={styles["question-block-container"]}>
         <div className={styles["inline-container"]}>
           <p className={styles["question-title"]}>
-            {questionTitle? questionTitle : t("newManager.user_question")}
+            {questionTitle && questionTitle}
           </p>
           {isEditing ? (
             <textarea
@@ -67,7 +64,7 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
       <div className={styles["answer-block-container"]}>
         <div className={styles["inline-container"]}>
           <p className={styles["answer-title"]}>
-            {answerTitle ? answerTitle : t("newManager.suggested_answer")}
+            {answerTitle && answerTitle}
           </p>
           {isEditing ? (
             <textarea

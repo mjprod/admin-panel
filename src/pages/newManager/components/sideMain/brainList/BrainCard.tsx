@@ -20,6 +20,22 @@ interface BrainCard {
 const BrainCard: React.FC<BrainCard> = ({ data }) => {
   const { t } = useTranslation();
   const { searchBrain } = useConversationsContext();
+  const localData = data;
+
+  if (data.knowledge_type === KnowledgeType.FAQ) {
+
+    const question = data.chunk_text.match(
+      /Q:\s*([\s\S]*?)(?=\s*A:)/
+    )
+
+    localData.section_heading = question ? question[1].trim() : "";
+
+    const answer = data.chunk_text.match(
+      /A:\s*([\s\S]*)/
+    )
+
+    localData.chunk_text = answer ? answer[1].trim() : "";
+  }
 
   const { currentPage } = useSelector(
     (state: RootState) => state.pagination
@@ -40,17 +56,17 @@ const BrainCard: React.FC<BrainCard> = ({ data }) => {
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
             <Metadata
-              text={`Id: ${data.id}  KnowledgeContentId: ${data.knowledge_content} `}
+              text={`Id: ${localData.id}  KnowledgeContentId: ${localData.knowledge_content} `}
             />
             <QuestionAnswerSection
-              questionTitle="Section Heading"
-              answerTitle="Chunk Text"
-              question={data.section_heading}
-              answer={data.chunk_text}
+              questionTitle={localData.knowledge_type !== KnowledgeType.FAQ ? "Section Heading" : "Question"}
+              answerTitle={localData.knowledge_type !== KnowledgeType.FAQ ? "Chunk Text" : "Answer"}
+              question={localData.section_heading}
+              answer={localData.chunk_text}
               color={"#fff"}
               classNameStyle={styles["remove-padding"]}
             />
-            {data.knowledge_type !== KnowledgeType.DOCUMENT && <div className={styles["buttons-container"]}>
+            {localData.knowledge_type !== KnowledgeType.DOCUMENT && <div className={styles["buttons-container"]}>
               <CustomButton
                 text={t("newManager.reject")}
                 type={ButtonType.Reject}
