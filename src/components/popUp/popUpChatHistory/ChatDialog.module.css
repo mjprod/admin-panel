@@ -74,6 +74,14 @@
 .chat-bubble.active{
   scale: 1.1;
 }
+.chat-row.failure{
+    border: 2px dashed var(--color08-dark);
+    background-color: var(--color08-light);
+    border-radius: 0.5rem;
+    padding: 3rem;
+    box-shadow: var
+}
+
 .bad {
   background: var(--color10-dark);
   border: 1px solid var(--color10-border);

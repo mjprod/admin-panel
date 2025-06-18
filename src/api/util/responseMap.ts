@@ -13,6 +13,7 @@ import {
   KnowledgeContext,
   ChatResponse,
 } from "../responsePayload/KnowledgeResponse";
+/* eslint-disable complexity */
 
 export const mapKnowledgeConversationData = (
   response: KnowledgeResponse
@@ -157,6 +158,9 @@ export const mapToChatDialogProps = (
       datetime: chat.CreateDate,
       message: message,
       isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg : false,
+      isChatFailure: chat.IsService
+        ? chat.AdminAction == 0 && chat.RobotMsg != ""
+        : false,
       ...(image ? { image: `${image}` } : {}),
     };
 
@@ -167,6 +171,9 @@ export const mapToChatDialogProps = (
           datetime: chat.CreateDate,
           message: robotMsg,
           isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg : false,
+          isChatFailure: chat.IsService
+            ? chat.AdminAction == 0 && chat.RobotMsg != ""
+            : false,
           messageType: messageTyep(),
         }
       : null;
