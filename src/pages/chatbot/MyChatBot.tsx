@@ -67,10 +67,11 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
   return (
     <div
       style={{
+        position: "fixed",
+        right: "16px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        margin: "0 auto"
       }}
     >
       <ChatBot

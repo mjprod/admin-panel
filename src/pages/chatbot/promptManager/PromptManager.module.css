@@ -1,9 +1,10 @@
 .container {
     font-family: var(--font-family01);
-    flex: 1 1 100%;
     display: flex;
     flex-direction: column;
     padding: 16px;
+    margin-bottom: 100px;
+    flex-grow: 1;
 }
 
 .stepContainer {

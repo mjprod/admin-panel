@@ -27,15 +27,15 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     return (
         <div className={styles.container}>
             <div className={styles.stepContainer}>
-                <div className={styles.step}>
-                    <div className={styles.circle}>Agent</div>
-                </div>
-                <div className={styles.step}>
-                    <div className={styles.circle}>OCR</div>
-                </div>
-                <div className={styles.step}>
-                    <div className={styles.circle}>Generate</div>
-                </div>
+                {prompts ? (
+                    prompts.map(prompt => (
+                        <div className={styles.step}>
+                            <div className={styles.circle}>{prompt.node_name}</div>
+                        </div>
+                    ))
+                ) : (
+                    <p>Loading prompts...</p>
+                )}
             </div>
             <div className={styles.promptCardContainer}>
                 {prompts ? (

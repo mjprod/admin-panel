@@ -15,6 +15,7 @@ import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 import MyChatBot from "../chatbot/MyChatBot";
 import SearchBar from "../../components/searchBar/SearchBar";
 import TabBar from "../../components/tabBar/TabBar";
+import ChatbotButton from "../chatbot/ChatbotButton";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -69,8 +70,8 @@ const NewManager = () => {
           </div>
         </div>
       }
-      <button className={styles["chatbot-button"]} onClick={handleOpenChatBot}>💬</button>
-      {/* <ChatbotButton /> */}
+      {/* <button className={styles["chatbot-button"]} onClick={handleOpenChatBot}>💬</button> */}
+      <ChatbotButton />
     </div>
   );
 };
