@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
-  const { user, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
@@ -21,10 +21,10 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
     <aside className={styles["sidebar"]}>
       <div className={styles["list-container"]}>
         <div className={styles["tools-heading"]}>Cipta/Edit</div>
-        {user?.is_superuser && <CreateNewButton />}
-        {user?.is_superuser && <SideCard type={SideCardType.Brain} classNameStyle={styles["timeline-card"]}/>}
+         <CreateNewButton />
+         <SideCard type={SideCardType.Brain} classNameStyle={styles["timeline-card"]}/>
         <div className={styles["tools-heading"]}>Aliran Kelulusan</div>
-        {user?.is_superuser && (
+        {(
           <SideCard
             type={SideCardType.Context}
             classNameStyle={styles["timeline-card"]}
@@ -34,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
           type={SideCardType.NeedApproval}
           classNameStyle={styles["timeline-card"]}
         />
-        {user?.is_superuser && (
+        { (
           <SideCard
             type={SideCardType.Rejected}
             classNameStyle={styles["timeline-card"]}
