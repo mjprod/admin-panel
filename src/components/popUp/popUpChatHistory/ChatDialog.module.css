@@ -12,7 +12,7 @@
 }
 
 .chat-robot-row {
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .chat-bubble {

@@ -49,9 +49,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
     [ChatType.JokerBot]: t("chatDialog.jokerBot"),
   }
 
-  if (messageType == MessageType.Good && type == ChatType.JokerBot)
-    return null
-  
+
   return (
     <div
       className={clsx(
