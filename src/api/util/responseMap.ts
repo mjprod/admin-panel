@@ -157,7 +157,7 @@ export const mapToChatDialogProps = (
       type: chat.IsService ? ChatType.CustomerSupport : ChatType.User,
       datetime: chat.CreateDate,
       message: message,
-      isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg : false,
+      isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg && chat.AdminReply != "" && chat.RobotMsg != "" : false,
       isChatFailure: chat.IsService
         ? chat.AdminAction == 0 && chat.RobotMsg != ""
         : false,
@@ -170,7 +170,11 @@ export const mapToChatDialogProps = (
           type: ChatType.JokerBot,
           datetime: chat.CreateDate,
           message: robotMsg,
-          isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg : false,
+          isActive: chat.IsService
+            ? chat.AdminReply == chat.RobotMsg &&
+              chat.AdminReply != "" &&
+              chat.RobotMsg != ""
+            : false,
           isChatFailure: chat.IsService
             ? chat.AdminAction == 0 && chat.RobotMsg != ""
             : false,
