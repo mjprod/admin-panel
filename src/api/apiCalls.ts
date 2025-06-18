@@ -23,6 +23,7 @@ import { mapKnowledgeConversationData } from "./util/responseMap";
 import { BrainItem, BrainResponse } from "./responsePayload/BrainResponse";
 import { ChatbotResponse } from "./responsePayload/ChatbotResponse";
 import { PromptsGetResponse } from "./responsePayload/PromptResponse";
+import { KnowledgeType } from "../util/KnowledgeType";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -305,6 +306,7 @@ export const GetContextAI = async (
 
 export const GetBrain = async (
   endpoint: string | undefined = Endpoint.Brain,
+  knowledgeType: KnowledgeType | undefined = undefined,
   brainId: number | undefined = undefined,
   page: number | undefined = undefined
 ): Promise<BrainResponse | undefined> => {
@@ -315,6 +317,7 @@ export const GetBrain = async (
     },
     {
       page: page,
+      knowledge_type: knowledgeType
     }
   );
 };

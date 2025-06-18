@@ -154,7 +154,7 @@ export const ConversationsProvider = ({
   ) => {
     try {
       if (!isSignedIn) return;
-      const res = await GetBrain(endpoint, id, page);
+      const res = await GetBrain(endpoint, knowledgeType, id, page);
       if (res) {
         setBrainList(res.results);
         dispatch(
@@ -217,6 +217,7 @@ export const ConversationsProvider = ({
         });
     } else {
       const queryParams = {
+        knowledge_type: knowledgeType,
         ...(searchType == "query" && { query: query }),
       };
       searchBrainApiCall(undefined, queryParams);
@@ -252,7 +253,9 @@ export const ConversationsProvider = ({
       showConsoleError(e);
     }
   };
-
+  useEffect(() => {
+    brainApiCall();
+  }, [knowledgeType])
   useEffect(() => {
     updateConvList();
   }, [isUpdateConversationList]);

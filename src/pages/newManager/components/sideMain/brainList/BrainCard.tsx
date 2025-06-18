@@ -11,6 +11,7 @@ import { BrainBulkDelete } from "../../../../../api/apiCalls";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
+import { KnowledgeType } from "../../../../../util/KnowledgeType";
 
 interface BrainCard {
   data: BrainItem;
@@ -18,9 +19,9 @@ interface BrainCard {
 
 const BrainCard: React.FC<BrainCard> = ({ data }) => {
   const { t } = useTranslation();
-  const {searchBrain} = useConversationsContext();
+  const { searchBrain } = useConversationsContext();
 
-    const { currentPage } = useSelector(
+  const { currentPage } = useSelector(
     (state: RootState) => state.pagination
   );
 
@@ -49,13 +50,13 @@ const BrainCard: React.FC<BrainCard> = ({ data }) => {
               color={"#fff"}
               classNameStyle={styles["remove-padding"]}
             />
-            <div className={styles["buttons-container"]}>
+            {data.knowledge_type !== KnowledgeType.DOCUMENT && <div className={styles["buttons-container"]}>
               <CustomButton
                 text={t("newManager.reject")}
                 type={ButtonType.Reject}
                 onClick={handleReject}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </div>
