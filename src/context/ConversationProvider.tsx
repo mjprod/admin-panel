@@ -268,6 +268,13 @@ export const ConversationsProvider = ({
     }
   }, [refreshContext]);
 
+  const scrollToTop = () => {
+    const el = document.getElementById("body-view");
+    if (el) {
+      el.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const onPageChanged = (page: number | null) => {
     if (!!page) {
       setCurrentPage(page)
@@ -278,6 +285,7 @@ export const ConversationsProvider = ({
       } else {
         conversationApiCall(undefined, page);
       }
+      scrollToTop()
     }
   };
 
@@ -298,6 +306,7 @@ export const ConversationsProvider = ({
       } else {
         conversationApiCall(prePageUrl);
       }
+      scrollToTop()
     }
   };
 
@@ -312,6 +321,7 @@ export const ConversationsProvider = ({
       } else {
         conversationApiCall(nextPageUrl);
       }
+      scrollToTop()
     }
   };
 
