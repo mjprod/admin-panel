@@ -23,6 +23,7 @@ export interface ChatDialogProps {
   datetime: string;
   message: string;
   isActive?: boolean;
+  isChatFailure? :boolean
   messageType?: MessageType;
   image?: string;
 }
@@ -33,6 +34,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   message,
   isActive = false,
   messageType = MessageType.Normal,
+  isChatFailure,
   image
 }) => {
   const { t } = useTranslation();
@@ -55,7 +57,8 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
       className={clsx(
         styles["chat-row"],
         styles[`chat-${type}-row`],
-        isActive && styles["active-question"]
+        isActive && styles["active-question"],
+        isChatFailure && styles['failure']
       )}
     >
       <div className={clsx(styles[`chat-bubble`], isActive && styles["active"])}>
