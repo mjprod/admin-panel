@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { CSSProperties, useEffect, useState } from "react";
 import ChatBot from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
@@ -6,7 +7,7 @@ import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
 import { ragMemberSecretKey } from "../../api/contants";
 
 interface MyChatBotProps {
-  chatWindowStyle?: CSSProperties;
+  chatWindowStyle: CSSProperties;
 }
 
 const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {

@@ -51,9 +51,9 @@ const NewManager = () => {
         <BottomBar />
       </main>
       {
-        openChatBot && <div style={{ position: "absolute", bottom: "10rem", right: "2rem" }}>
+        openChatBot && <div style={{ position: "absolute", bottom: "12.5rem", right: "5rem" }}>
           <MyChatBot chatWindowStyle={{
-            height: "80dvh",
+            height: "70dvh",
             width: "100%"
           }} />
         </div>
