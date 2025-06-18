@@ -11,6 +11,7 @@ import { BrainBulkDelete } from "../../../../../api/apiCalls";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
+import { KnowledgeType } from "../../../../../util/KnowledgeType";
 
 interface BrainCard {
   data: BrainItem;
@@ -18,9 +19,25 @@ interface BrainCard {
 
 const BrainCard: React.FC<BrainCard> = ({ data }) => {
   const { t } = useTranslation();
-  const {searchBrain} = useConversationsContext();
+  const { searchBrain } = useConversationsContext();
+  const localData = data;
 
-    const { currentPage } = useSelector(
+  if (data.knowledge_type === KnowledgeType.FAQ) {
+
+    const question = data.chunk_text.match(
+      /Q:\s*([\s\S]*?)(?=\s*A:)/
+    )
+
+    localData.section_heading = question ? question[1].trim() : "";
+
+    const answer = data.chunk_text.match(
+      /A:\s*([\s\S]*)/
+    )
+
+    localData.chunk_text = answer ? answer[1].trim() : "";
+  }
+
+  const { currentPage } = useSelector(
     (state: RootState) => state.pagination
   );
 
@@ -39,23 +56,23 @@ const BrainCard: React.FC<BrainCard> = ({ data }) => {
         <div className={styles["question-group-main"]}>
           <div className={styles["question-container"]}>
             <Metadata
-              text={`Id: ${data.id}  KnowledgeContentId: ${data.knowledge_content} `}
+              text={`Id: ${localData.id}  KnowledgeContentId: ${localData.knowledge_content} `}
             />
             <QuestionAnswerSection
-              questionTitle="Section Heading"
-              answerTitle="Chunk Text"
-              question={data.section_heading}
-              answer={data.chunk_text}
+              questionTitle={localData.knowledge_type !== KnowledgeType.FAQ ? "Section Heading" : "Question"}
+              answerTitle={localData.knowledge_type !== KnowledgeType.FAQ ? "Chunk Text" : "Answer"}
+              question={localData.section_heading}
+              answer={localData.chunk_text}
               color={"#fff"}
               classNameStyle={styles["remove-padding"]}
             />
-            <div className={styles["buttons-container"]}>
+            {localData.knowledge_type !== KnowledgeType.DOCUMENT && <div className={styles["buttons-container"]}>
               <CustomButton
                 text={t("newManager.reject")}
                 type={ButtonType.Reject}
                 onClick={handleReject}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </div>
