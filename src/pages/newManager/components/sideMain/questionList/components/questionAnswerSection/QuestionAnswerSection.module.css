@@ -46,8 +46,7 @@
 
 .qc-editing-mode {
   position: relative;
-  background: linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0)
-      repeat-x,
+  background: linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-x,
     linear-gradient(90deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-x,
     linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y,
     linear-gradient(0deg, hsl(197, 42%, 60%, 1) 50%, transparent 0) repeat-y;
@@ -73,7 +72,7 @@
 .inline-container {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   gap: 0.5rem;
   width: 100%;
 }

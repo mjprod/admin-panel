@@ -30,6 +30,7 @@ import { showConsoleError } from "../util/ConsoleMessage";
 import { BrainItem } from "../api/responsePayload/BrainResponse";
 import { useAppDispatch } from "../store/hooks";
 import { resetPagination, setPagination } from "../store/pagination.slice";
+import { KnowledgeType } from "../util/KnowledgeType";
 
 // Define the context type
 interface ConversationsContextType {
@@ -54,7 +55,9 @@ interface ConversationsContextType {
     searchType: string,
     page: number | undefined
   ) => void;
-  setRefreshContext: (refresh: boolean) => void
+  setRefreshContext: (refresh: boolean) => void;
+  knowledgeType: KnowledgeType;
+  setKnowledgeType: (knowledgeType: KnowledgeType) => void;
 }
 
 const ConversationsContext = createContext<
@@ -69,7 +72,7 @@ export const ConversationsProvider = ({
 }) => {
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
   const [statusClicked, setStatusClicked] = useState<SideCardType>(
-    SideCardType.NeedApproval
+    SideCardType.Context
   );
   const [isUpdateConversationList, setUpdateConversationList] = useState(false);
   const [isUpdateContextList, setUpdateContextList] = useState(false);
@@ -85,7 +88,7 @@ export const ConversationsProvider = ({
   const { isSignedIn } = useContext(AuthContext);
   const [refreshContext, setRefreshContext] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [knowledgeType, setKnowledgeType] = useState(KnowledgeType.DOCUMENT)
   const dispatch = useAppDispatch();
 
   const contextApiCall = async (
@@ -151,7 +154,7 @@ export const ConversationsProvider = ({
   ) => {
     try {
       if (!isSignedIn) return;
-      const res = await GetBrain(endpoint, id, page);
+      const res = await GetBrain(endpoint, knowledgeType, id, page);
       if (res) {
         setBrainList(res.results);
         dispatch(
@@ -214,6 +217,7 @@ export const ConversationsProvider = ({
         });
     } else {
       const queryParams = {
+        knowledge_type: knowledgeType,
         ...(searchType == "query" && { query: query }),
       };
       searchBrainApiCall(undefined, queryParams);
@@ -249,7 +253,9 @@ export const ConversationsProvider = ({
       showConsoleError(e);
     }
   };
-
+  useEffect(() => {
+    brainApiCall();
+  }, [knowledgeType])
   useEffect(() => {
     updateConvList();
   }, [isUpdateConversationList]);
@@ -260,7 +266,7 @@ export const ConversationsProvider = ({
 
   useEffect(() => {
     if (refreshContext) {
-       contextApiCall(undefined, currentPage);
+      contextApiCall(undefined, currentPage);
       setRefreshContext(false)
     }
   }, [refreshContext]);
@@ -382,7 +388,9 @@ export const ConversationsProvider = ({
         addedPairs,
         brainList,
         searchBrain,
-        setRefreshContext
+        setRefreshContext,
+        knowledgeType,
+        setKnowledgeType
       }}
     >
       {children}

@@ -11,9 +11,10 @@ import TopBar from "./components/sideMain/topBar/TopBar";
 import MaxList from "./components/sideMain/contextList/ContextList";
 // import ChatbotButton from "../chatbot/ChatbotButton";
 import BrainList from "./components/sideMain/brainList/BrainList";
-import SearchBar from "../../components/searchBar/SearchBar";
 import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 import MyChatBot from "../chatbot/MyChatBot";
+import SearchBar from "../../components/searchBar/SearchBar";
+import TabBar from "../../components/tabBar/TabBar";
 
 const NewManager = () => {
   const { isSignedIn } = useContext(AuthContext);
@@ -39,7 +40,7 @@ const NewManager = () => {
         <div>
           <TopBar />
           {statusClicked == SideCardType.Rejected && <SelectAllBar />}
-          {statusClicked == SideCardType.Brain && <SearchBar />}
+          {statusClicked == SideCardType.Brain && <><TabBar /><SearchBar /></>}
           {statusClicked == SideCardType.Context && <div className={styles['sync-all']}> <CustomButton
             text={"Update Context"}
             type={ButtonType.Normal}

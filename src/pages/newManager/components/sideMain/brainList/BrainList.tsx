@@ -3,9 +3,9 @@ import styles from "./BrainList.module.css";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
 import BrainCard from "./BrainCard";
 
-interface BrainList {}
+interface BrainList { }
 
-const BrainList: React.FC<BrainList> = ({}) => {
+const BrainList: React.FC<BrainList> = ({ }) => {
   const { brainList } = useConversationsContext();
 
   return (
