@@ -1,5 +1,4 @@
 .question-group-scroll-container {
-    overflow-y: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 0fr;

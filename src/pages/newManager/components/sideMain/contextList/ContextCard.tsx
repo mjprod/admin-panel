@@ -208,6 +208,8 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
                   text={"Back To Context"}
                   type={ButtonType.Return}
                   onClick={handleBack}
+                  disabled={!checked}
+
                 />}
                 <div className={styles["buttons-sub-container"]}>
                   <CustomButton
