@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { CSSProperties, useEffect, useState } from "react";
-import ChatBot from "react-chatbotify";
+import ChatBot, { Button } from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
 import { RagChat } from "../../api/apiCalls";
 import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
@@ -80,6 +80,7 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
         key={thread}
         settings={{
           general: { embedded: true },
+          header: { title: "Joker Bot", buttons: [Button.CLOSE_CHAT_BUTTON] },
           chatHistory: { storageKey: "example_smart_conversation" },
         }}
         flow={flow}
