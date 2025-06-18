@@ -7,12 +7,12 @@ import { useConversationsContext } from "../../../../../context/ConversationProv
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
 
-interface TopBarProps {}
+interface TopBarProps { }
 
 const TopBar: React.FC<TopBarProps> = () => {
   const { statusClicked } = useConversationsContext();
 
-    const totalCount = useSelector(
+  const totalCount = useSelector(
     (state: RootState) => state.pagination.totalCount
   );
 
@@ -45,13 +45,12 @@ const TopBar: React.FC<TopBarProps> = () => {
         </div>
         <div className={styles["rightcol"]}>
           <div className={styles["question-count"]}>
-            <p>
+            <p translate="no">
               {t("newManager.total")} {totalCount}
             </p>
           </div>
         </div>
       </div>
-   
     </div>
   );
 };

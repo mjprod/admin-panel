@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { } from "react";
 import styles from "./BrainCard.module.css";
 import Metadata from "../questionList/components/metaData/Metadata";
 import { BrainItem } from "../../../../../api/responsePayload/BrainResponse";
@@ -21,18 +21,22 @@ const BrainCard: React.FC<BrainCard> = ({ data }) => {
   const { t } = useTranslation();
   const { searchBrain } = useConversationsContext();
   const localData = data;
-  useEffect(() => {
-    if (data.knowledge_type === KnowledgeType.FAQ) {
-      const question = data.chunk_text.match(
-        /Q:\s*([\s\S]*?)(?=\s*A:)/
-      )
-      localData.section_heading = question ? question[1].trim() : "";
-      const answer = data.chunk_text.match(
-        /A:\s*([\s\S]*)/
-      )
-      localData.chunk_text = answer ? answer[1].trim() : "";
-    }
-  }, [data])
+
+  if (data.knowledge_type === KnowledgeType.FAQ) {
+
+    const question = data.chunk_text.match(
+      /Q:\s*([\s\S]*?)(?=\s*A:)/
+    )
+
+    localData.section_heading = question ? question[1].trim() : "";
+
+    const answer = data.chunk_text.match(
+      /A:\s*([\s\S]*)/
+    )
+
+    localData.chunk_text = answer ? answer[1].trim() : "";
+  }
+
 
   const { currentPage } = useSelector(
     (state: RootState) => state.pagination

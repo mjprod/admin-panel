@@ -10,6 +10,7 @@ import {
   ContextAIResponse,
   TopicItem,
   EditablePair,
+  Language,
 } from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
@@ -224,6 +225,7 @@ export const CreateKnowledge = async (
     subcategory: subCategoryId,
     question: question,
     answer: answer,
+    language: Language.MALAYSIAN.id
   };
 
   const payload = createPayload(basePayload);

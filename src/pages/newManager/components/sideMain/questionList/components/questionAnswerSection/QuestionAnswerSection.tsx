@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./QuestionAnswerSection.module.css";
 import clsx from "clsx";
 
@@ -25,6 +25,13 @@ const QuestionAnswerSection: React.FC<QuestionAnswerSectionProps> = ({
 }) => {
   const [editedQuestion, setEditedQuestion] = useState(question);
   const [editedAnswer, setEditedAnswer] = useState(answer);
+
+  useEffect(() => {
+    setEditedQuestion(question)
+    setEditedAnswer(answer)
+
+  }, [question, answer])
+
 
   const handleQuestionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
