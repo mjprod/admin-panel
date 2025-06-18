@@ -115,9 +115,8 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
     try {
       setLoading(true);
       const res = await GetContextAI(context.id);
-      const messages: string[] =
-        res?.flatMap((item) => [item.question, item.answer]) ?? [];
-      const chat = mapToKnowledgeContext(context.context, messages);
+      
+      const chat = mapToKnowledgeContext(context.context);
       setChatData(chat ?? undefined);
       const enhancedPairs = (res ?? []).map((item) => ({
         ...item,
@@ -128,7 +127,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
       setLoading(false);
     } catch (e) {
       showConsoleError(e);
-      const chat = mapToKnowledgeContext(context.context, []);
+      const chat = mapToKnowledgeContext(context.context);
       setChatData(chat ?? undefined);
       setLoading(false);
     }
@@ -143,7 +142,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   };
 
   useEffect(() => {
-    const chat = mapToKnowledgeContext(context.context, []);
+    const chat = mapToKnowledgeContext(context.context);
     setChatData(chat ?? undefined);
   }, [context]);
 

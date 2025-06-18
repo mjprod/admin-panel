@@ -58,10 +58,7 @@ export const mapKnowledgeConversationData = (
           }
         : null;
 
-      const context = mapToKnowledgeContext(item.context?.context, [
-        ...(knowledgeContent.question ? [knowledgeContent.question] : []),
-        ...(knowledgeContent.answer ? [knowledgeContent.answer] : []),
-      ]);
+      const context = mapToKnowledgeContext(item.context?.context);
 
       knowledgeinfo.push({
         knowledgeId: item.id,
@@ -91,15 +88,11 @@ export const mapKnowledgeConversationData = (
 };
 
 export const mapToKnowledgeContext = (
-  context: string | undefined,
-  messages: string[]
+  context: string | undefined
 ): KnowledgeContext | null => {
   const contextJsonArray = mapToChatResponse(context);
 
-  const chatData: ChatDialogProps[] = mapToChatDialogProps(
-    contextJsonArray,
-    messages
-  );
+  const chatData: ChatDialogProps[] = mapToChatDialogProps(contextJsonArray);
 
   return contextJsonArray.length > 0
     ? {
@@ -137,8 +130,7 @@ export const mapToChatResponse = (
 };
 
 export const mapToChatDialogProps = (
-  context: ChatResponse[],
-  messages: string[]
+  context: ChatResponse[]
 ): ChatDialogProps[] => {
   const chatData: ChatDialogProps[] = context.flatMap((chat) => {
     const message = chat.IsService ? chat.AdminReply : chat.UserMsg;
@@ -164,7 +156,7 @@ export const mapToChatDialogProps = (
       type: chat.IsService ? ChatType.CustomerSupport : ChatType.User,
       datetime: chat.CreateDate,
       message: message,
-      isActive: messages.some((msg) => msg === message),
+      isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg : false,
       ...(image ? { image: `${image}` } : {}),
     };
 
@@ -174,7 +166,7 @@ export const mapToChatDialogProps = (
           type: ChatType.JokerBot,
           datetime: chat.CreateDate,
           message: robotMsg,
-          isActive: messages.some((msg) => msg === robotMsg),
+          isActive: chat.IsService ? chat.AdminReply == chat.RobotMsg : false,
           messageType: messageTyep(),
         }
       : null;
