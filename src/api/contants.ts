@@ -5,8 +5,8 @@ import { Language } from "./responsePayload/KnowledgeResponse";
 // export const apiDomainName = "api-staging.mjproapps.com/api";
 // export const BASE_URI = `https://${apiDomainName}`;
 
-export const apiDomainName = "localhost:8000/api";
-export const BASE_URI = `http://${apiDomainName}`;
+export const apiDomainName = "api.mjproapps.com/api";
+export const BASE_URI = `https://${apiDomainName}`;
 
 export const getBaseUri = () => {
   showConsoleMessage("Using Default API URL:", BASE_URI);
@@ -54,6 +54,8 @@ export const sha256Salt = String(process.env.REACT_APP_SHA256SALT);
 export const secretKey = String(process.env.REACT_APP_SECRET_KEY);
 export const apiKey = String(process.env.REACT_APP_API_KEY || "");
 
-export const ragKey = String(process.env.REACT_APP_RAG_API_KEY)
-export const ragMemberSecretKey = String(process.env.REACT_APP_RAG_MEMBER_SECRET_KEY)
+export const ragKey = String(process.env.REACT_APP_RAG_API_KEY);
+export const ragMemberSecretKey = String(
+  process.env.REACT_APP_RAG_MEMBER_SECRET_KEY
+);
 export const defaultLanguage = Language.ENGLISH;
