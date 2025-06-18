@@ -16,13 +16,13 @@ const BottomBar: React.FC = () => {
   const [inputPage, setInputPage] = useState(currentPage);
 
   useEffect(() => {
-    setInputPage(currentPage); 
+    setInputPage(currentPage);
   }, [currentPage]);
 
   const handlePageChange = () => {
     if (!isNaN(inputPage) && inputPage >= 1 && inputPage <= totalPages && inputPage !== currentPage) {
       onPageChanged(inputPage)
-    } 
+    }
   };
 
   return (

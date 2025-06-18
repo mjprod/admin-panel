@@ -20,8 +20,12 @@
 
 .sync-all{
   margin-top: 1rem;
-  align-self: flex-end;
-  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
   margin-right: 3rem;
+}
+
+.body-view{
+  overflow-y: scroll;
 }
 

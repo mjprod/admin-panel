@@ -4,10 +4,7 @@ import {
   ChatType,
 } from "../../components/popUp/popUpChatHistory/ChatDialog";
 import { Category } from "../../util/ExampleData";
-import {
-  updateHslaValues,
-  hexToHsla,
-} from "../../util/ExtensionFunction";
+import { updateHslaValues, hexToHsla } from "../../util/ExtensionFunction";
 import {
   KnowledgeResponse,
   ConversationKnowledge,
@@ -78,7 +75,7 @@ export const mapKnowledgeConversationData = (
         isEdited: knowledgeContent.is_edited,
         inBrain: knowledgeContent.in_brain,
         status: status,
-        context: context
+        context: context,
       });
     });
   });
@@ -143,11 +140,12 @@ export const mapToChatDialogProps = (
   context: ChatResponse[],
   messages: string[]
 ): ChatDialogProps[] => {
-  const chatData: ChatDialogProps[] = context.flatMap((chat, index, array) => {
+  const chatData: ChatDialogProps[] = context.flatMap((chat) => {
     const message = chat.IsService ? chat.AdminReply : chat.UserMsg;
     const robotMsg = chat.RobotMsg;
-    const nextAdminAction = array[index + 1]?.AdminAction;
-    const image = chat.ImgUrl
+    const nextAdminAction = chat.AdminAction;
+    // const nextAdminAction = array[index + 1]?.AdminAction;
+    const image = chat.ImgUrl;
     const messageTyep = () => {
       switch (nextAdminAction) {
         case 0:
@@ -167,7 +165,7 @@ export const mapToChatDialogProps = (
       datetime: chat.CreateDate,
       message: message,
       isActive: messages.some((msg) => msg === message),
-      ...(image ? { image: `${image}` } : {})
+      ...(image ? { image: `${image}` } : {}),
     };
 
     const robotMessageObj: ChatDialogProps | null = robotMsg

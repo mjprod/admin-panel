@@ -49,9 +49,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
     [ChatType.JokerBot]: t("chatDialog.jokerBot"),
   }
 
-  if (messageType == MessageType.Good && type == ChatType.JokerBot)
-    return null
-  
+
   return (
     <div
       className={clsx(
@@ -60,7 +58,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
         isActive && styles["active-question"]
       )}
     >
-      <div className={styles[`chat-bubble`]}>
+      <div className={clsx(styles[`chat-bubble`], isActive && styles["active"])}>
         <div className={styles["chat-bubble-date"]}>{datetime}</div>
         <div className={styles[`chat-message`]}>
           <div className={styles[`chat-name-avatar`]}>
