@@ -2,6 +2,7 @@ import { Endpoint } from "./contants";
 import { createPayload } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
 import { RefreshRequest } from "./axios-config";
+import { triggerGlobalLogout } from "../util/logoutHandlex";
 
 const useRefreshToken = () => {
   const refresh = async () => {
@@ -36,6 +37,7 @@ const useRefreshToken = () => {
       console.error("Refresh failed:", err);
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
+      triggerGlobalLogout()
       return null;
     }
   };

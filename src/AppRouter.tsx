@@ -65,7 +65,7 @@ const AppRouter = () => {
         />
 
         {/* Default redirect route */}
-        <Route path="*" element={<Navigate to="/newManager" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </div>
   );

@@ -3,6 +3,7 @@ import { showConsoleError, showConsoleMessage } from "../util/ConsoleMessage";
 import { AuthErrors } from "../context/AuthContext.js";
 import useRefreshToken from "./RefreshToken";
 import { ragKey } from "./contants";
+import { triggerGlobalLogout } from "../util/logoutHandlex";
 /* eslint-disable complexity */
 
 export const setupInterceptors = (setLoading: (value: boolean) => void) => {
@@ -51,29 +52,30 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
       const originalRequest = error.config;
       const token = localStorage.getItem("refreshToken");
 
-      if (
-        (error?.response?.status === 401 || error?.response?.status === 403) &&
-        !originalRequest._retry &&
-        token
-      ) {
-        originalRequest._retry = true;
-        try {
-          const newToken = await refresh();
-          if (newToken) {
-            originalRequest.headers["Authorization"] = `${newToken}`;
-            return Request(originalRequest);
-          } else {
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        if (token && !originalRequest._retry) {
+          originalRequest._retry = true;
+          try {
+            const newToken = await refresh();
+            if (newToken) {
+              originalRequest.headers["Authorization"] = `${newToken}`;
+              return Request(originalRequest);
+            } else {
+              localStorage.removeItem("authToken");
+              localStorage.removeItem("refreshToken");
+            }
+          } catch (refreshError) {
+            console.error("Refresh token failed:", refreshError);
             localStorage.removeItem("authToken");
             localStorage.removeItem("refreshToken");
+            triggerGlobalLogout();
+            return Promise.reject(refreshError);
           }
-        } catch (refreshError) {
-          console.error("Refresh token failed:", refreshError);
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("refreshToken");
-
-          return Promise.reject(refreshError);
+        } else {
+          triggerGlobalLogout();
         }
       }
+
       const errorMsg: AuthErrors = {
         data: {
           error:
