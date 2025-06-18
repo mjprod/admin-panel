@@ -30,6 +30,7 @@ import { showConsoleError } from "../util/ConsoleMessage";
 import { BrainItem } from "../api/responsePayload/BrainResponse";
 import { useAppDispatch } from "../store/hooks";
 import { resetPagination, setPagination } from "../store/pagination.slice";
+import { KnowledgeType } from "../util/KnowledgeType";
 
 // Define the context type
 interface ConversationsContextType {
@@ -54,7 +55,9 @@ interface ConversationsContextType {
     searchType: string,
     page: number | undefined
   ) => void;
-  setRefreshContext: (refresh: boolean) => void
+  setRefreshContext: (refresh: boolean) => void;
+  knowledgeType: KnowledgeType;
+  setKnowledgeType: (knowledgeType: KnowledgeType) => void;
 }
 
 const ConversationsContext = createContext<
@@ -85,7 +88,7 @@ export const ConversationsProvider = ({
   const { isSignedIn } = useContext(AuthContext);
   const [refreshContext, setRefreshContext] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [knowledgeType, setKnowledgeType] = useState(KnowledgeType.DOCUMENT)
   const dispatch = useAppDispatch();
 
   const contextApiCall = async (
@@ -260,7 +263,7 @@ export const ConversationsProvider = ({
 
   useEffect(() => {
     if (refreshContext) {
-       contextApiCall(undefined, currentPage);
+      contextApiCall(undefined, currentPage);
       setRefreshContext(false)
     }
   }, [refreshContext]);
@@ -372,7 +375,9 @@ export const ConversationsProvider = ({
         addedPairs,
         brainList,
         searchBrain,
-        setRefreshContext
+        setRefreshContext,
+        knowledgeType,
+        setKnowledgeType
       }}
     >
       {children}
