@@ -1,8 +1,9 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import { GetUser, Login, Logout } from "../api/apiCalls";
 import useRefreshToken from "../api/RefreshToken";
 import { UserResponse } from "../api/responsePayload/AuthResponse";
 import { showConsoleError } from "../util/ConsoleMessage";
+import { setGlobalLogout } from "../util/logoutHandlex";
 
 export interface AuthContextType {
   accessToken: string | undefined;
@@ -102,20 +103,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = async () => {
+  const logout = useCallback(async (callback?: () => void) => {
     try {
       const token = localStorage.getItem("refreshToken");
-      if (!token) {
-        return;
+      if (token) {
+        await Logout(token);
       }
-      await Logout(token);
       setIsSignedIn(false);
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
     } catch (e) {
       showConsoleError(e);
     }
-  };
+    if (callback) callback();
+  }, []);
+
+  useEffect(() => {
+    setGlobalLogout(logout);
+  }, [logout]);
+
 
   return (
     <AuthContext.Provider
