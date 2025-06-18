@@ -362,7 +362,6 @@ export const ConversationsProvider = ({
         contextApiCall();
         break;
       case SideCardType.Brain:
-        setKnowledgeType(KnowledgeType.DOCUMENT)
         brainApiCall();
       default:
         break;
