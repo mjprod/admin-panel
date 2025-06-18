@@ -51,11 +51,17 @@ const NewManager = () => {
         <BottomBar />
       </main>
       {
-        openChatBot && <div style={{ position: "absolute", bottom: "12.5rem", right: "5rem" }}>
-          <MyChatBot chatWindowStyle={{
-            height: "70dvh",
-            width: "100%"
-          }} />
+        openChatBot && <div
+          style={{ backgroundColor: "#00000045", position: "absolute", width: "100%", height: "100%" }}
+          onClick={handleOpenChatBot}>
+          <div
+            style={{ position: "absolute", bottom: "12.5rem", right: "5rem" }}
+            onClick={(e) => e.stopPropagation()}>
+            <MyChatBot chatWindowStyle={{
+              height: "70dvh",
+              width: "100%"
+            }} />
+          </div>
         </div>
       }
       <button className={styles["chatbot-button"]} onClick={handleOpenChatBot}>💬</button>
