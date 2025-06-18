@@ -22,6 +22,7 @@ import { AuthResponse, UserResponse } from "./responsePayload/AuthResponse";
 import { mapKnowledgeConversationData } from "./util/responseMap";
 import { BrainItem, BrainResponse } from "./responsePayload/BrainResponse";
 import { ChatbotResponse } from "./responsePayload/ChatbotResponse";
+import { PromptsGetResponse } from "./responsePayload/PromptResponse";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -334,13 +335,15 @@ export const RagChat = async (
   message: string,
   threadId: string,
   memberId: string,
-  teamId: string
+  teamId: string,
+  member_secret_key: string,
 ): Promise<ChatbotResponse | null> => {
   const basePayload = {
     message: message,
     thread_id: threadId,
     member_id: memberId,
     team_id: teamId,
+    member_secret_key: member_secret_key
   };
 
   const payload = createPayload(basePayload);
@@ -363,4 +366,16 @@ export const BrainBulkDelete = async (
 
   const payload = createPayload(basePayload);
   return await apiPostRequest(Endpoint.BrainBulkRemove, payload);
+};
+
+
+/**
+ * Prompt Manager
+ */
+
+export const GetPrompts = async (
+  pathVariables: Record<string, any> = {},
+  queryParams: Record<string, any> = {}
+): Promise<PromptsGetResponse | undefined> => {
+  return await apiGetRequest<PromptsGetResponse>(Endpoint.PromptsGet, pathVariables, queryParams);
 };

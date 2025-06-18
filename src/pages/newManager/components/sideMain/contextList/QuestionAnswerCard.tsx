@@ -55,7 +55,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
     setChecked(checked);
     onCheckedChange(checked);
   };
-  
+
   return (
     <div>
       <CategorySection

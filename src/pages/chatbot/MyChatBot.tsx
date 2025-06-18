@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
-import ChatBot from "react-chatbotify";
+/* eslint-disable react/prop-types */
+import { CSSProperties, useEffect, useState } from "react";
+import ChatBot, { Button } from "react-chatbotify";
 import { Params } from "react-chatbotify/dist/types/Params";
 import { RagChat } from "../../api/apiCalls";
 import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
+import { ragMemberSecretKey } from "../../api/contants";
 
-const MyChatBot = () => {
+interface MyChatBotProps {
+  chatWindowStyle: CSSProperties;
+}
+
+const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
   const [thread, setThread] = useState<string>("1");
 
   const changeThread = () => {
@@ -29,7 +35,7 @@ const MyChatBot = () => {
   }, []);
 
   async function fetchData(message: string): Promise<ChatbotResponse | null> {
-    const response = await RagChat(message, thread, "303", "10");
+    const response = await RagChat(message, thread, "303", "10", ragMemberSecretKey);
     return response;
   }
   const flow = {
@@ -42,11 +48,11 @@ const MyChatBot = () => {
         const result = await fetchData(param.userInput);
         const reply = result?.reply || "No title returned";
         const contexts = result?.retrieved_context || [];
-
-        if (contexts.length > 0) {
+        const nonEmptyContexts = contexts.filter(ctx => ctx && ctx.trim() !== "");
+        if (nonEmptyContexts.length > 0) {
           const contextText =
             "📚 Retrieved Contexts:\n" +
-            contexts
+            nonEmptyContexts
               .map((ctx: string, idx: number) => `${idx + 1}. ${ctx}`)
               .join("\n");
 
@@ -64,29 +70,21 @@ const MyChatBot = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "1rem",
-        padding: "1rem",
-        width: "100%",
-        height: "100%",
+        margin: "0 auto"
       }}
     >
       <ChatBot
         styles={{
-          chatWindowStyle: {
-            width: "80vw",
-            height: "80vh",
-          },
+          chatWindowStyle: chatWindowStyle,
         }}
         key={thread}
         settings={{
           general: { embedded: true },
+          header: { title: "Joker Bot", buttons: [Button.CLOSE_CHAT_BUTTON] },
           chatHistory: { storageKey: "example_smart_conversation" },
         }}
         flow={flow}
       />
-      <button className="rcb-bot-message" onClick={changeThread}>
-        Refresh Thread
-      </button>
     </div>
   );
 };
