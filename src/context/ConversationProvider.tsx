@@ -72,7 +72,7 @@ export const ConversationsProvider = ({
 }) => {
   const [conversations, setConversations] = useState<KnowledgeCard[]>([]);
   const [statusClicked, setStatusClicked] = useState<SideCardType>(
-    SideCardType.Context
+    SideCardType.NeedApproval
   );
   const [isUpdateConversationList, setUpdateConversationList] = useState(false);
   const [isUpdateContextList, setUpdateContextList] = useState(false);
