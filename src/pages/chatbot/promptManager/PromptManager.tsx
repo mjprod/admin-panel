@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PromptPatch } from '../../../api/apiCalls';
-import ConfirmationDialog from './ConfirmationDialog';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
@@ -18,12 +17,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         (state: RootState) => state.prompt.isConfirmationDialog
     );
 
-    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetchChat = async () => {
             try {
-                const response = await GetPrompts(undefined, { node_name: "ocr, agent, generate" })
+                const response = await GetPrompts(undefined, { node_name: "ocr, agent, generate", is_active: true })
                 console.log("GetPrompt response:", response?.results);
                 response?.results && setPrompts(response.results)
             } catch (error) {
@@ -42,15 +40,13 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
 
     }
     const handleUpdatePrompt = async (id: number, nodeName?: string, prompt?: string, isActive?: boolean, isDefault?: boolean) => {
-        if (!isDefault) {
+        if (isDefault) {
             try {
                 const response = await PromptPatch(id, nodeName, prompt, isActive);
                 console.log("Prompt Patch Response:", response)
             } catch (error) {
                 console.error("Failed to patch data:", error);
             }
-        } else {
-            dispatch(updateConfirmationDialog(true))
         }
     }
 
@@ -79,13 +75,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.bottomContainer}>
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
             </div>
-            <ConfirmationDialog
-                isOpen={showDialogConfirm}
-                title='Cannot edit default prompt. Want to create new?'
-                onCancel={() => { dispatch(updateConfirmationDialog(false)) }}
-                onConfirm={() => { dispatch(updateConfirmationDialog(false)) }} />
         </div>
-
     );
 };
 
