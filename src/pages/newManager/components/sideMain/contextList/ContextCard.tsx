@@ -4,7 +4,6 @@ import Metadata from "../questionList/components/metaData/Metadata";
 import CustomButton, {
   ButtonType,
 } from "../../../../../components/button/CustomButton";
-import { useTranslation } from "react-i18next";
 import {
   ContextItem,
   EditablePair,
@@ -44,7 +43,6 @@ interface ContextCard {
 }
 
 const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setChecked }) => {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const totalCount = useSelector(
     (state: RootState) => state.pagination.totalCount
@@ -218,7 +216,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
                     disabled={!checked}
                   />
                   <CustomButton
-                    text={!isAIGenerateView ? "Finish" : t("newManager.approved")}
+                    text={"Finish"}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
                     disabled={!checked || (isAIGenerateView && !pairs.some(it => it.selected))}
