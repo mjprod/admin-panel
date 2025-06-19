@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import styles from "./ActionButtons.module.css";
 import { useTranslation } from "react-i18next";
 import {
@@ -68,6 +68,15 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
 
   const handleReturn = async () => {
+    try {
+      await KowledgeContentBulkUpdateStatus([id], QuestionStatus.NeedApproval);
+      setUpdateConversationList(true);
+    } catch (e) {
+      showConsoleError(e);
+    }
+  };
+
+  const handleBackToNeedApproval = async () => {
     try {
       await KowledgeContentBulkUpdateStatus([id], QuestionStatus.NeedApproval);
       setUpdateConversationList(true);
@@ -186,19 +195,31 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   const buttonConfig: Partial<
     Record<
       KnowledgeStatus,
-      { text: string; type: ButtonType; onClick: () => void }
+      { text: string; type: ButtonType; onClick: () => void }[]
     >
   > = {
-    [KnowledgeStatus.Rejected]: {
-      text: t("newManager.permanently_delete"),
-      type: ButtonType.Delete,
-      onClick: handleDelete,
-    },
+    [KnowledgeStatus.Rejected]: [
+      {
+        text: "Back to Approval",
+        type: ButtonType.Return,
+        onClick: handleBackToNeedApproval,
+      },
+      {
+        text: t("newManager.permanently_delete"),
+        type: ButtonType.Delete,
+        onClick: handleDelete,
+      },
+    ]
   };
 
   return buttonConfig[status] ? (
-    <CustomButton {...buttonConfig[status]} />
-  ) : null;
+    <div
+      style={{ display: "flex", justifyContent: "space-between", flex: 1 }}
+    >
+      {buttonConfig[status]!.map((config, index) => (
+        <CustomButton key={index} {...config} />
+      ))}
+    </div>) : null;
 };
 
 export default ActionButtons;
