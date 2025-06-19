@@ -4,14 +4,21 @@ import PromptCard from './PromptCard';
 import { GetPrompts, PromptPatch } from '../../../api/apiCalls';
 import ConfirmationDialog from './ConfirmationDialog';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { useAppDispatch } from '../../../store/hooks';
+import { updateConfirmationDialog } from '../../../store/prompt.slice';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const [prompts, setPrompts] = useState<any[] | null>(null);
+    const showDialogConfirm = useSelector(
+        (state: RootState) => state.prompt.isConfirmationDialog
+    );
 
-    const [showDialogConfirm, setShowDialogConfirm] = useState(false);
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -43,7 +50,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
                 console.error("Failed to patch data:", error);
             }
         } else {
-            setShowDialogConfirm(true)
+            dispatch(updateConfirmationDialog(true))
         }
     }
 
@@ -75,8 +82,8 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <ConfirmationDialog
                 isOpen={showDialogConfirm}
                 title='Cannot edit default prompt. Want to create new?'
-                onCancel={() => { setShowDialogConfirm(false) }}
-                onConfirm={() => { setShowDialogConfirm(false) }} />
+                onCancel={() => { dispatch(updateConfirmationDialog(false)) }}
+                onConfirm={() => { dispatch(updateConfirmationDialog(false)) }} />
         </div>
 
     );
