@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts } from '../../../api/apiCalls';
+import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
 
 interface PromptManagerProps {
 }
@@ -26,6 +27,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         alert('Reset all prompts');
     };
 
+    const getInstruction = ( node_name: string) => {
+
+        return (node_name == "ocr") ?  ocrInstructions : (node_name == "agent") ? agentInstructions : generateInstructions
+        
+    }
     return (
         <div className={styles.container}>
             <div className={styles.stepContainer}>
@@ -42,7 +48,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} title={prompt.node_name} content={prompt.prompt} />
+                        <PromptCard key={prompt.id} title={prompt.node_name} content={prompt.prompt} instruction={getInstruction(prompt.node_name)}/>
                     ))
                 ) : (
                     <p>Loading prompts...</p>

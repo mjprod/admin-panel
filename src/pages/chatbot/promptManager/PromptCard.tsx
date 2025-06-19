@@ -7,9 +7,10 @@ import ConfirmationDialog from './ConfirmationDialog';
 interface PromptCardProps {
     title: string;
     content?: string;
+    instruction?: string;
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ title, content, instruction }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
 
@@ -49,7 +50,8 @@ const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
                 onClose={() => { setIsModalOpen(false) }}
                 onSave={() => { }}
                 title={title}
-                initialValue={content} />
+                initialValue={content}
+                instruction={instruction} />
             <ConfirmationDialog
                 title="Are you sure you want to set the prompt to default?"
                 isOpen={showDialogConfirm}
