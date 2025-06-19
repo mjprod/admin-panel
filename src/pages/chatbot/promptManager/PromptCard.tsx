@@ -14,9 +14,10 @@ interface PromptCardProps {
     ) => void
     resetToDefault: (nodeName: string) => void;
     instruction?: string;
+    setRefresh: (value: boolean) => void;
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, resetToDefault }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, resetToDefault, setRefresh }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
@@ -84,9 +85,9 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
                 isOpen={showHistoryDialog}
                 onClose={() => { setShowHistoryDialog(false) }}
                 onSave={() => { }}
-                isAction= {false}
+                isAction={false}
                 title={`${prompt.node_name} Node History`} >
-                <History nodeName={prompt.node_name} />
+                <History nodeName={prompt.node_name} setRefresh={setRefresh} />
             </PromptModal>
             <ConfirmationDialog
                 title="Are you sure you want to set the prompt to default?"

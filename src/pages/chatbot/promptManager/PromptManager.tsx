@@ -89,7 +89,13 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} prompt={prompt} instruction={getInstruction(prompt.node_name)} onCreate={handleCreatePrompt} resetToDefault={handleResetToDefault} />
+                        <PromptCard
+                            key={prompt.id}
+                            prompt={prompt}
+                            instruction={getInstruction(prompt.node_name)}
+                            onCreate={handleCreatePrompt}
+                            resetToDefault={handleResetToDefault}
+                            setRefresh={setRefresh} />
                     ))
                 ) : (
                     <p>Loading prompts...</p>

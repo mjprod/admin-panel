@@ -22,6 +22,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, setAction }) => {
         try {
             const response = await PromptPatch(chat.id, undefined, undefined, true);
             console.log("Prompt Patch Response:", response)
+            setAction(true)
         } catch (error) {
             console.error("Failed to patch data:", error);
         }
