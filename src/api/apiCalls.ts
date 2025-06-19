@@ -397,6 +397,14 @@ export const PostPrompt = async (
   return await apiPostRequest(Endpoint.Prompt, payload);
 };
 
+export const PromptResetToDefault = async (nodeNames: string[]) => {
+  const basePayload = {
+    node_names: nodeNames,
+  };
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.PromptBathDefaultUpdate, payload);
+}
+
 export const PromptPatch = async (
   id: number,
   updatedNodeName?: string,
