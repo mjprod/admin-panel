@@ -7,13 +7,23 @@ const ChatbotPage = () => {
     <div
       style={{
         display: "flex",
+        height: "100dvh", 
         fontFamily: "sans-serif",
+        overflow: "hidden",
       }}>
-      <PromptManager />
-      <div style={{ padding: "16px" }}>
+      <div
+        style={{
+          flexGrow: 1,
+          overflowY: "auto",
+          padding: "16px",
+        }}
+      >
+        <PromptManager />
+      </div>
+      <div style={{ width: "40%", padding: "16px" }}>
         <MyChatBot chatWindowStyle={{
-          height: "90dvh",
-          width: "100%"
+          height: "90vh",
+          width: "90%"
         }} />
       </div>
     </div>
