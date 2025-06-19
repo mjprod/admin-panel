@@ -29,7 +29,7 @@ const History: React.FC<HistoryProps> = ({ nodeName, setRefresh }) => {
         const fetchChat = async () => {
             try {
                 const response = await GetPrompts(undefined, { node_name: nodeName })
-                response?.results && setPrompts(response.results)
+                response?.results && setPrompts(response.results.reverse())
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
