@@ -58,6 +58,8 @@
 
 .modalBody {
     margin-bottom: 12px;
+    height: 95%;
+    overflow-y: scroll;
 }
 
 .modalFooter {

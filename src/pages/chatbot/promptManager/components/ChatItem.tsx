@@ -3,6 +3,7 @@ import styles from "./ChatItem.module.css";
 import clsx from "clsx";
 import { PromptDataModel } from "./History";
 import { PromptPatch } from "../../../../api/apiCalls";
+import { utcToLocalDate, utcToLocalTime } from "../../../../util/ExtensionFunction";
 
 interface ChatItemProps {
     chat: PromptDataModel;
@@ -13,7 +14,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
 
     const applyApicall = async () => {
         try {
-            const response = await PromptPatch(chat.id, chat.node_name, chat.prompt, true);
+            const response = await PromptPatch(chat.id, undefined, undefined, true);
             console.log("Prompt Patch Response:", response)
         } catch (error) {
             console.error("Failed to patch data:", error);
@@ -30,18 +31,17 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
 
 
     return (
-        <div className={styles.card}>
-
-            <div className={styles.info}>
-                {expanded ? chat.prompt : `${chat.prompt.slice(0, 1000)}...`}
-            </div>
-            <div className={styles.actions}>
-                <button className={clsx(styles.button, styles.apply)} onClick={handleApply}>Apply</button>
-                <button className={clsx(styles.button, styles.edit)} onClick={handleEdit}>Edit</button>
-                <button className={clsx(styles.button, styles.expand)} onClick={() => setExpanded((prev) => !prev)}>   {expanded ? "Collapse" : "Expand"}</button>
-
-
-
+        <div className={styles.container}>
+            <div>{`Date: ${utcToLocalDate(chat.last_updated)} ${utcToLocalTime(chat.last_updated)}`}</div>
+            <div className={styles.card}>
+                <div className={clsx(styles.info, styles.codeBlock)}>
+                    {expanded ? chat.prompt : `${chat.prompt.slice(0, 1000)}...`}
+                </div>
+                <div className={styles.actions}>
+                    <button className={clsx(styles.button, styles.apply)} onClick={handleApply}>Apply</button>
+                    <button className={clsx(styles.button, styles.edit)} onClick={handleEdit}>Edit</button>
+                    <button className={clsx(styles.button, styles.expand)} onClick={() => setExpanded((prev) => !prev)}>   {expanded ? "Collapse" : "Expand"}</button>
+                </div>
             </div>
         </div>
     );

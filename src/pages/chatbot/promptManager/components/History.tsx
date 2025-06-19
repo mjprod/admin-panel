@@ -10,7 +10,7 @@ interface HistoryProps {
 
 export interface PromptDataModel {
     date_created: string;
-    id : number;
+    id: number;
     is_active: boolean;
     is_default: boolean;
     last_updated: string;
@@ -58,9 +58,7 @@ const History: React.FC<HistoryProps> = ({ nodeName }) => {
                 <button className={clsx(styles.button)}> Search</button>
 
             </div>
-            <div>
-                Today
-            </div>
+
             <div className={styles.chatList}>
                 {filteredChats.length > 0 ? (
                     filteredChats.map((chat) => (

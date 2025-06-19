@@ -47,7 +47,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.stepContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <div className={styles.step}>
+                        <div className={styles.step} key={prompt.id}>
                             <div className={styles.circle}>{prompt.node_name}</div>
                         </div>
                     ))
