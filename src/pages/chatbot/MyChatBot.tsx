@@ -38,6 +38,7 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
     const response = await RagChat(message, thread, "303", "10", ragMemberSecretKey);
     return response;
   }
+
   const flow = {
     start: {
       message: "Hey! How can I help you!",
@@ -67,7 +68,6 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
   return (
     <div
       style={{
-        position: "fixed",
         right: "16px",
         display: "flex",
         flexDirection: "column",

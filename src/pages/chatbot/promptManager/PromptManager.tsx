@@ -21,9 +21,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         };
         fetchChat();
     }, []);
+
     const handleResetAll = () => {
         alert('Reset all prompts');
     };
+
     return (
         <div className={styles.container}>
             <div className={styles.stepContainer}>
