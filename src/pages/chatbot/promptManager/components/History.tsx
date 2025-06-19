@@ -20,9 +20,9 @@ export interface PromptDataModel {
 
 const History: React.FC<HistoryProps> = ({ nodeName }) => {
     const [prompts, setPrompts] = useState<PromptDataModel[]>([]);
-
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [isAction ,setActionUpdate] = useState(true)
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -32,9 +32,12 @@ const History: React.FC<HistoryProps> = ({ nodeName }) => {
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
+            setActionUpdate(false)
         };
+
+        if(isAction)
         fetchChat();
-    }, [])
+    }, [isAction])
 
     const filteredChats = prompts.filter((item) => {
         if (!startDate && !endDate) return true;
@@ -62,7 +65,7 @@ const History: React.FC<HistoryProps> = ({ nodeName }) => {
             <div className={styles.chatList}>
                 {filteredChats.length > 0 ? (
                     filteredChats.map((chat) => (
-                        <ChatItem key={chat.id} chat={chat} />
+                        <ChatItem key={chat.id} chat={chat} setAction={(isAction) => setActionUpdate(isAction)}/>
                     ))
                 ) : (
                     <div>No chats found for the selected date range.</div>

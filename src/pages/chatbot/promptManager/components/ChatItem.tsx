@@ -9,9 +9,10 @@ import ConfirmationDialog from "../ConfirmationDialog";
 
 interface ChatItemProps {
     chat: PromptDataModel;
+    setAction: (isAction: boolean) => void
 }
 
-const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
+const ChatItem: React.FC<ChatItemProps> = ({ chat, setAction }) => {
     const [expanded, setExpanded] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showCreateNewDialogConfirm, setShowCreateNewDialogConfirm] = useState(false);
@@ -42,6 +43,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
     const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
         try {
             const response = await PostPrompt(newNodeName, newPromptValue);
+            setAction(true)
             console.log("PostPrompt Response:", response)
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
