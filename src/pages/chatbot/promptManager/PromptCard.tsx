@@ -5,6 +5,7 @@ import PromptModal from './PromptModal';
 import ConfirmationDialog from './ConfirmationDialog';
 import History from './components/History';
 import { Prompt } from '../../../api/responsePayload/PromptResponse';
+import { PostPrompt } from '../../../api/apiCalls';
 
 interface PromptCardProps {
     prompt: Prompt;
@@ -21,7 +22,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
-
+    const [showCreateNewDialogConfirm, setShowCreateNewDialogConfirm] = useState(false);
     const [promptValue, setPromptValue] = useState(prompt.prompt);
 
     const handleDefaultButton = () => {
@@ -38,6 +39,22 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
 
     const handleShowConfirmDialog = () => {
         setShowDialogConfirm(prev => !prev)
+    }
+    const handleUpdatePrompt = () => {
+        if (!prompt.is_default) {
+            onUpdate && onUpdate(prompt.id, undefined, promptValue, undefined, prompt.is_default)
+        } else {
+            setShowCreateNewDialogConfirm(true)
+        }
+
+    }
+    const handleCreateNewConfirmDialogButton = async () => {
+        try {
+            const response = await PostPrompt(prompt.node_name, promptValue);
+            console.log("Prompt Patch Response:", response)
+        } catch (error) {
+            console.error("Failed to patch data:", error);
+        }
     }
 
     return (
@@ -58,7 +75,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
             <PromptModal
                 isOpen={isModalOpen}
                 onClose={() => { setIsModalOpen(false) }}
-                onSave={() => { onUpdate && onUpdate(prompt.id, undefined, promptValue, undefined, prompt.is_default) }}
+                onSave={handleUpdatePrompt}
                 title={prompt.node_name} >
                 <textarea
                     onChange={e => setPromptValue(e.target.value)}
@@ -80,6 +97,13 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
                 onCancel={() => { setShowDialogConfirm(false) }}
                 onConfirm={handleShowConfirmDialog}
             />
+            <ConfirmationDialog
+                isOpen={showCreateNewDialogConfirm}
+                title='Cannot edit default prompt. Want to create new?'
+                onCancel={() => {
+                    setShowCreateNewDialogConfirm(false)
+                }}
+                onConfirm={handleCreateNewConfirmDialogButton} />
         </>
     );
 };

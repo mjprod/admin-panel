@@ -394,7 +394,7 @@ export const PostPrompt = async (
     prompt: prompt
   };
   const payload = createPayload(basePayload);
-  return await apiPostRequest(Endpoint.BrainBulkRemove, payload);
+  return await apiPostRequest(Endpoint.Prompt, payload);
 };
 
 export const PromptPatch = async (
