@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
-import { GetPrompts, PromptPatch } from '../../../api/apiCalls';
+import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
 
 interface PromptManagerProps {
@@ -31,14 +31,22 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         return (node_name == "ocr") ? ocrInstructions : (node_name == "agent") ? agentInstructions : generateInstructions
 
     }
-    const handleUpdatePrompt = async (id: number, nodeName?: string, prompt?: string, isActive?: boolean, isDefault?: boolean) => {
-        if (isDefault) {
-            try {
-                const response = await PromptPatch(id, nodeName, prompt, isActive);
-                console.log("Prompt Patch Response:", response)
-            } catch (error) {
-                console.error("Failed to patch data:", error);
-            }
+
+    const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
+        try {
+            const response = await PostPrompt(newNodeName, newPromptValue);
+            console.log("PostPrompt Response:", response)
+        } catch (error) {
+            console.error("Failed to PostPrompt data:", error);
+        }
+    }
+
+    const handleResetToDefault = async (nodeName: string) => {
+        try {
+            const response = await PromptResetToDefault([nodeName]);
+            console.log("PostPrompt Response:", response)
+        } catch (error) {
+            console.error("Failed to PostPrompt data:", error);
         }
     }
 
@@ -58,7 +66,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} prompt={prompt} onUpdate={handleUpdatePrompt} instruction={getInstruction(prompt.node_name)} />
+                        <PromptCard key={prompt.id} prompt={prompt} instruction={getInstruction(prompt.node_name)} onCreate={handleCreatePrompt} resetToDefault={handleResetToDefault} />
                     ))
                 ) : (
                     <p>Loading prompts...</p>

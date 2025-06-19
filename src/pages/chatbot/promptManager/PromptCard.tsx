@@ -5,21 +5,18 @@ import PromptModal from './PromptModal';
 import ConfirmationDialog from './ConfirmationDialog';
 import History from './components/History';
 import { Prompt } from '../../../api/responsePayload/PromptResponse';
-import { PostPrompt } from '../../../api/apiCalls';
 
 interface PromptCardProps {
     prompt: Prompt;
-    onUpdate?: (
-        id: number,
-        updatedNodeName?: string,
-        updatedPrompt?: string,
-        updatedIsActive?: boolean,
-        updatedIsDefault?: boolean
+    onCreate?: (
+        newNodeName: string,
+        newPromptValue: string
     ) => void
+    resetToDefault: (nodeName: string) => void;
     instruction?: string;
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate, instruction }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, resetToDefault }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
@@ -40,22 +37,17 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate, instruction }
 
     const handleShowConfirmDialog = () => {
         setShowDialogConfirm(prev => !prev)
+        resetToDefault(prompt.node_name)
     }
-    const handleUpdatePrompt = () => {
-        if (!prompt.is_default) {
-            onUpdate && onUpdate(prompt.id, undefined, promptValue, undefined, prompt.is_default)
-        } else {
-            setShowCreateNewDialogConfirm(true)
-        }
 
+    const handleUpdatePrompt = () => {
+        setShowCreateNewDialogConfirm(true)
     }
+
     const handleCreateNewConfirmDialogButton = async () => {
-        try {
-            const response = await PostPrompt(prompt.node_name, promptValue);
-            console.log("Prompt Patch Response:", response)
-        } catch (error) {
-            console.error("Failed to patch data:", error);
-        }
+        setShowCreateNewDialogConfirm(false)
+        onCreate && onCreate(prompt.node_name, promptValue)
+        handleEditButton()
     }
 
     return (
@@ -70,7 +62,9 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate, instruction }
                     </div>
                 </div>
                 <div className={styles.content}>
-                    {prompt.prompt}
+                    <pre className={styles.codeBlock}>
+                        {prompt.prompt}
+                    </pre>
                 </div>
             </div>
             <PromptModal
@@ -102,7 +96,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate, instruction }
             />
             <ConfirmationDialog
                 isOpen={showCreateNewDialogConfirm}
-                title='Cannot edit default prompt. Want to create new?'
+                title='Are you sure you want to update this prompt?'
                 onCancel={() => {
                     setShowCreateNewDialogConfirm(false)
                 }}
