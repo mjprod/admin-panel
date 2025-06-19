@@ -14,6 +14,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const navigate = useNavigate()
     const [prompts, setPrompts] = useState<any[] | null>(null);
     const [showResetAllToDefaultDialog, setShowResetAllToDefaultDialog] = useState(false);
+    const [refresh, setRefresh] = useState(true);
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -24,9 +25,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
+            setRefresh(false)
         };
-        fetchChat();
-    }, []);
+        if (refresh)
+            fetchChat();
+    }, [refresh]);
 
     const handleResetAllApiCall = async () => {
         try {
@@ -35,6 +38,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
         }
+        setRefresh(true)
     }
 
     const handleResetAll = async () => {
@@ -48,6 +52,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
         }
+        setRefresh(true)
     }
 
     const handleResetToDefault = async (nodeName: string) => {
@@ -57,10 +62,13 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
         }
+        setRefresh(true)
     }
+
     const handleBackButtonPress = () => {
         navigate(-1)
     }
+
     return (
         <div className={styles.container}>
             <div className={styles.backButtonContainer} onClick={handleBackButtonPress}>
