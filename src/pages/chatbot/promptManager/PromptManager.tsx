@@ -3,14 +3,14 @@ import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
+import ConfirmationDialog from './ConfirmationDialog';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const [prompts, setPrompts] = useState<any[] | null>(null);
-
-
+    const [showResetAllToDefaultDialog, setShowResetAllToDefaultDialog] = useState(false);
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -25,13 +25,21 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         fetchChat();
     }, []);
 
-    const handleResetAll = () => {
-        alert('Reset all prompts');
+    const handleResetAllApiCall = async () => {
+        try {
+            const response = await PromptResetToDefault(["ocr, agent, generate"]);
+            console.log("PostPrompt Response:", response)
+        } catch (error) {
+            console.error("Failed to PostPrompt data:", error);
+        }
+    }
+
+    const handleResetAll = async () => {
+        setShowResetAllToDefaultDialog(true)
     };
+
     const getInstruction = (node_name: string) => {
-
         return (node_name == "ocr") ? ocrInstructions : (node_name == "agent") ? agentInstructions : generateInstructions
-
     }
 
     const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
@@ -77,6 +85,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.bottomContainer}>
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
             </div>
+            <ConfirmationDialog isOpen={showResetAllToDefaultDialog} onCancel={() => { setShowResetAllToDefaultDialog(false) }} onConfirm={handleResetAllApiCall} />
         </div>
     );
 };
