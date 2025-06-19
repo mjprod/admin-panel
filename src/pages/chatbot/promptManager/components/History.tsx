@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from './History.module.css'
 import ChatItem from "./ChatItem";
 import clsx from "clsx";
-import AssetsPack from "../../../../util/AssetsPack";
+// import AssetsPack from "../../../../util/AssetsPack";
 
 const History = () => {
 
@@ -32,14 +32,14 @@ const History = () => {
 
     return (
         <div className={styles.container}>
-            <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} />
+            {/* <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> */}
             <div className={styles.header}>
                 <div className={styles.dates_container}>
                     <label>Start Date:</label>
                     <input type="date" placeholder="dd/mm/yyyy" className={styles.date} value={startDate} onChange={(e) => setStartDate(e.target.value)} />
                     <label>-</label>
                     <label>End Date:</label>
-                    <input type="date" value={endDate} placeholder="dd/mm/yyyy" className={styles.date}  onChange={(e) => setEndDate(e.target.value)} />
+                    <input type="date" value={endDate} placeholder="dd/mm/yyyy" className={styles.date} onChange={(e) => setEndDate(e.target.value)} />
                 </div>
 
                 <button className={clsx(styles.button)}> Search</button>

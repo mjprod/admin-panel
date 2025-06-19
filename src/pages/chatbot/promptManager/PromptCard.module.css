@@ -61,3 +61,10 @@
     margin-bottom: 8px;
     font-weight: bold;
 }
+
+.input {
+    display: flex;
+    margin: 0 auto;
+    width: 98%;
+    min-height: 65dvh;
+}
