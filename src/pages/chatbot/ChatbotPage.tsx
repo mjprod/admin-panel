@@ -10,9 +10,10 @@ const ChatbotPage = () => {
         fontFamily: "sans-serif",
       }}>
       <PromptManager />
-      <div style={{ padding: "16px", backgroundColor: "red" }}>
+      <div style={{ padding: "16px" }}>
         <MyChatBot chatWindowStyle={{
           height: "90dvh",
+          width: "100%"
         }} />
       </div>
     </div>

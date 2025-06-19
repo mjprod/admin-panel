@@ -2,25 +2,33 @@ import React, { useState } from 'react';
 import styles from "./PromptCard.module.css"
 import clsx from 'clsx';
 import PromptModal from './PromptModal';
+import ConfirmationDialog from './ConfirmationDialog';
 
 interface PromptCardProps {
     title: string;
     content?: string;
-
 }
 
 const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showDialogConfirm, setShowDialogConfirm] = useState(false);
 
     const handleDefaultButton = () => {
-        alert('Default action for ' + title);
+        setShowDialogConfirm(prev => !prev)
     };
+
     const handleHistoryButton = () => {
-        alert('History action for ' + title);
+        setShowDialogConfirm(prev => !prev)
     };
+
     const handleEditButton = () => {
         setIsModalOpen((prev) => !prev);
     };
+
+    const handleShowConfirmDialog = () => {
+        setShowDialogConfirm(prev => !prev)
+    }
+
     return (
         <>
             <div className={styles.container}>
@@ -36,7 +44,18 @@ const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
                     {content}
                 </div>
             </div>
-            <PromptModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false) }} onSave={() => { }} title={title} initialValue={content} />
+            <PromptModal
+                isOpen={isModalOpen}
+                onClose={() => { setIsModalOpen(false) }}
+                onSave={() => { }}
+                title={title}
+                initialValue={content} />
+            <ConfirmationDialog
+                title="Are you sure you want to set the prompt to default?"
+                isOpen={showDialogConfirm}
+                onCancel={() => { setShowDialogConfirm(false) }}
+                onConfirm={handleShowConfirmDialog}
+            />
         </>
     );
 };
