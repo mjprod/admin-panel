@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
-import { GetPrompts, PostPrompt } from '../../../api/apiCalls';
+import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
 
 interface PromptManagerProps {
@@ -43,6 +43,15 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         }
     }
 
+    const handleResetToDefault = async (nodeName: string) => {
+        try {
+            const response = await PromptResetToDefault([nodeName]);
+            console.log("PostPrompt Response:", response)
+        } catch (error) {
+            console.error("Failed to PostPrompt data:", error);
+        }
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.stepContainer}>
@@ -59,7 +68,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} prompt={prompt} instruction={getInstruction(prompt.node_name)} onCreate={handleCreatePrompt} />
+                        <PromptCard key={prompt.id} prompt={prompt} instruction={getInstruction(prompt.node_name)} onCreate={handleCreatePrompt} resetToDefault={handleResetToDefault} />
                     ))
                 ) : (
                     <p>Loading prompts...</p>

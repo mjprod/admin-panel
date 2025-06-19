@@ -12,10 +12,11 @@ interface PromptCardProps {
         newNodeName: string,
         newPromptValue: string
     ) => void
+    resetToDefault: (nodeName: string) => void;
     instruction?: string;
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, resetToDefault }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
@@ -36,7 +37,9 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate }
 
     const handleShowConfirmDialog = () => {
         setShowDialogConfirm(prev => !prev)
+        resetToDefault(prompt.node_name)
     }
+
     const handleUpdatePrompt = () => {
         setShowCreateNewDialogConfirm(true)
     }
@@ -59,7 +62,9 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate }
                     </div>
                 </div>
                 <div className={styles.content}>
-                    {prompt.prompt}
+                    <pre className={styles.codeBlock}>
+                        {prompt.prompt}
+                    </pre>
                 </div>
             </div>
             <PromptModal
