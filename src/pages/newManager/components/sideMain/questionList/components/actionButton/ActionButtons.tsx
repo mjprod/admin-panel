@@ -146,7 +146,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             text={
               isEditSelected
                 ? t("newManager.save")
-                : t("newManager.approved")
+                : t("newManager.preApproval")
             }
             type={isEditSelected ? ButtonType.Done : ButtonType.Approve}
             onClick={handlePreApprove}
