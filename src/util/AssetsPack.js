@@ -23,8 +23,8 @@ const AssetsPack = {
     ICON_REGENERATE: await import("../assets/regenerate.svg"),
     ICON_CORE: await import("../assets/coreIcon.svg"),
     ICON_MAX: await import("../assets/maxIcon.svg"),
-    ICON_DELETE: await import("../assets/delete.svg")
-
+    ICON_DELETE: await import("../assets/delete.svg"),
+    ICON_BACK: await import("../assets/back_arrow.svg")
   },
   logos: {
     LOGIN_PAGE_LOGO: await import("../assets/ai_brain.svg"),
