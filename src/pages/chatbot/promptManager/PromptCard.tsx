@@ -4,16 +4,25 @@ import clsx from 'clsx';
 import PromptModal from './PromptModal';
 import ConfirmationDialog from './ConfirmationDialog';
 import History from './components/History';
+import { Prompt } from '../../../api/responsePayload/PromptResponse';
 
 interface PromptCardProps {
-    title: string;
-    content?: string;
+    prompt: Prompt;
+    onUpdate?: (
+        id: number,
+        updatedNodeName?: string,
+        updatedPrompt?: string,
+        updatedIsActive?: boolean,
+        updatedIsDefault?: boolean
+    ) => void
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
+
+    const [promptValue, setPromptValue] = useState(prompt.prompt);
 
     const handleDefaultButton = () => {
         setShowDialogConfirm(prev => !prev)
@@ -35,7 +44,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
         <>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <div className={clsx(styles.title)}>{title}</div>
+                    <div className={clsx(styles.title)}>{prompt.node_name}</div>
                     <div className={styles.buttonsContainer}>
                         <button className={clsx(styles.button, styles.warning)} onClick={handleDefaultButton}>Default</button>
                         <button className={clsx(styles.button, styles.normal)} onClick={handleHistoryButton}>History</button>
@@ -43,16 +52,17 @@ const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
                     </div>
                 </div>
                 <div className={styles.content}>
-                    {content}
+                    {prompt.prompt}
                 </div>
             </div>
             <PromptModal
                 isOpen={isModalOpen}
                 onClose={() => { setIsModalOpen(false) }}
-                onSave={() => { }}
-                title={title} >
+                onSave={() => { onUpdate && onUpdate(prompt.id, undefined, promptValue, undefined, prompt.is_default) }}
+                title={prompt.node_name} >
                 <textarea
-                    value={content}
+                    onChange={e => setPromptValue(e.target.value)}
+                    value={promptValue}
                     className={styles.input}
                     rows={20}
                 />
@@ -61,7 +71,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
                 isOpen={showHistoryDialog}
                 onClose={() => { setShowHistoryDialog(false) }}
                 onSave={() => { }}
-                title={`${title} Node History`} >
+                title={`${prompt.node_name} Node History`} >
                 <History />
             </PromptModal>
             <ConfirmationDialog

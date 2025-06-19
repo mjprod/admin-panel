@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
-import { GetPrompts } from '../../../api/apiCalls';
+import { GetPrompts, PromptPatch } from '../../../api/apiCalls';
+import ConfirmationDialog from './ConfirmationDialog';
 
 interface PromptManagerProps {
 }
@@ -9,14 +10,16 @@ interface PromptManagerProps {
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const [prompts, setPrompts] = useState<any[] | null>(null);
 
+    const [showDialogConfirm, setShowDialogConfirm] = useState(false);
+
     useEffect(() => {
         const fetchChat = async () => {
             try {
                 const response = await GetPrompts(undefined, { node_name: "ocr, agent, generate" })
-                console.log("RagChat response:", response?.results);
+                console.log("GetPrompt response:", response?.results);
                 response?.results && setPrompts(response.results)
             } catch (error) {
-                console.error("Failed to fetch chat data:", error);
+                console.error("Failed to fetch data:", error);
             }
         };
         fetchChat();
@@ -25,6 +28,19 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const handleResetAll = () => {
         alert('Reset all prompts');
     };
+
+    const handleUpdatePrompt = async (id: number, nodeName?: string, prompt?: string, isActive?: boolean, isDefault?: boolean) => {
+        if (!isDefault) {
+            try {
+                const response = await PromptPatch(id, nodeName, prompt, isActive);
+                console.log("Prompt Patch Response:", response)
+            } catch (error) {
+                console.error("Failed to patch data:", error);
+            }
+        } else {
+            setShowDialogConfirm(true)
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -42,7 +58,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} title={prompt.node_name} content={prompt.prompt} />
+                        <PromptCard key={prompt.id} prompt={prompt} onUpdate={handleUpdatePrompt} />
                     ))
                 ) : (
                     <p>Loading prompts...</p>
@@ -51,7 +67,13 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.bottomContainer}>
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
             </div>
+            <ConfirmationDialog
+                isOpen={showDialogConfirm}
+                title='Cannot edit default prompt. Want to create new?'
+                onCancel={() => { setShowDialogConfirm(false) }}
+                onConfirm={() => { setShowDialogConfirm(false) }} />
         </div>
+
     );
 };
 

@@ -56,7 +56,6 @@ const PromptModal: React.FC<PromptModalProps> = ({
                     <button
                         onClick={() => {
                             onSave();
-                            onClose();
                         }}
                         className={clsx(styles.button, styles.primary)}>
                         Save

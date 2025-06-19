@@ -70,7 +70,8 @@
     color: #000;
     padding: 8px 12px;
     border: none;
-    font-size: large;
+    font-size: x-large;
+    font-weight: bolder;
     padding: 0;
     background-color: transparent;
     cursor: pointer;
