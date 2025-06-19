@@ -20,6 +20,7 @@
     box-sizing: border-box;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     animation: modalFadeIn 0.3s ease-out forwards;
+    overflow-y: scroll;
 }
 
 .modalHeader {
@@ -66,18 +67,12 @@
     gap: 8px;
 }
 
-.input {
-    display: flex;
-    margin: 0 auto;
-    width: 98%;
-    min-height: 65dvh;
-}
-
-.promptInstructionsButton {
+.topRightButton {
     color: #000;
     padding: 8px 12px;
     border: none;
-    font-size: large;
+    font-size: x-large;
+    font-weight: bolder;
     padding: 0;
     background-color: transparent;
     cursor: pointer;
@@ -93,4 +88,11 @@
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+}
+
+.input {
+    display: flex;
+    margin: 0 auto;
+    width: 98%;
+    min-height: 65dvh;
 }

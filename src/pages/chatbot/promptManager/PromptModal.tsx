@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styles from "./PromptModal.module.css"
 import clsx from 'clsx';
 
@@ -6,22 +6,39 @@ interface PromptModalProps {
     isOpen: boolean;
     onClose: () => void;
     title?: string;
-    initialValue?: string;
-    onSave: (value: string) => void;
+    children?: ReactNode;
+    onSave: (value?: string) => void;
+    isAction?: boolean,
+    instruction?: string;
 }
 
 const PromptModal: React.FC<PromptModalProps> = ({
     isOpen,
     onClose,
     title = 'Editing',
-    initialValue = '',
+    children = '',
     onSave,
+    isAction = true,
+    instruction
 }) => {
-    const [value, setValue] = useState(initialValue);
+    const [isInstructionOpen, setIsInstructionOpen] = useState(false);
 
     useEffect(() => {
-        setValue(initialValue);
-    }, [initialValue, isOpen]);
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onClose]);
+
+
+    const handleInstruction = () => {
+        setIsInstructionOpen((prev) => !prev);
+    };
 
     if (!isOpen) {
         return null;
@@ -33,7 +50,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
                 <div className={styles.modalHeader}>
                     <div style={{ flex: 1, flexDirection: "row", display: "flex", gap: "16px" }}>
                         <h2>{title}</h2>
-                        <button className={styles.promptInstructionsButton}>?</button>
+                        <button className={styles.topRightButton} onClick={handleInstruction}>?</button>
                     </div>
 
                     <button onClick={onClose} className={styles.closeButton}>
@@ -41,27 +58,34 @@ const PromptModal: React.FC<PromptModalProps> = ({
                     </button>
                 </div>
                 <div className={styles.modalBody}>
-                    <textarea
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        className={styles.input}
-                        rows={20}
-                    />
+                    {children}
                 </div>
-                <div className={styles.modalFooter}>
+                {isAction && <div className={styles.modalFooter}>
                     <button onClick={onClose} className={clsx(styles.button, styles.warning)}>
                         Cancel
                     </button>
                     <button
                         onClick={() => {
-                            onSave(value);
-                            onClose();
+                            onSave();
                         }}
                         className={clsx(styles.button, styles.primary)}>
                         Save
                     </button>
-                </div>
+                </div>}
             </div>
+
+            <PromptModal
+                isOpen={isInstructionOpen}
+                onClose={() => { setIsInstructionOpen(false) }}
+                onSave={() => { }}
+                isAction={false}
+                title={`${title} prompt instruction`}
+
+            ><textarea
+                    value={instruction}
+                    className={styles.input}
+                    rows={20}
+                /></PromptModal>
         </div>
     );
 };

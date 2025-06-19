@@ -43,7 +43,9 @@ export const Endpoint = {
   User: `${getBaseUri()}/user/`,
   Logout: `${getBaseUri()}/logout/`,
 
-  PromptsGet: `${getBaseUri()}/prompt/`,
+  Prompt: `${getBaseUri()}/prompt/`,
+  PromptPatch: `${getBaseUri()}/prompt/{id}`,
+  PromptBathDefaultUpdate: `${getBaseUri()}/prompt/bulk-reset-defaults/`,
 };
 
 //API Constants
