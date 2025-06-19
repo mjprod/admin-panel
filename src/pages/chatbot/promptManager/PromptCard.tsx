@@ -16,9 +16,10 @@ interface PromptCardProps {
         updatedIsActive?: boolean,
         updatedIsDefault?: boolean
     ) => void
+    instruction?: string;
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate, instruction }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
@@ -76,7 +77,8 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onUpdate }) => {
                 isOpen={isModalOpen}
                 onClose={() => { setIsModalOpen(false) }}
                 onSave={handleUpdatePrompt}
-                title={prompt.node_name} >
+                title={prompt.node_name}
+                instruction={instruction}>
                 <textarea
                     onChange={e => setPromptValue(e.target.value)}
                     value={promptValue}
