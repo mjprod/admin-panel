@@ -3,6 +3,7 @@ import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PromptPatch } from '../../../api/apiCalls';
 import ConfirmationDialog from './ConfirmationDialog';
+import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
 
 interface PromptManagerProps {
 }
@@ -28,7 +29,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const handleResetAll = () => {
         alert('Reset all prompts');
     };
+    const getInstruction = (node_name: string) => {
 
+        return (node_name == "ocr") ? ocrInstructions : (node_name == "agent") ? agentInstructions : generateInstructions
+
+    }
     const handleUpdatePrompt = async (id: number, nodeName?: string, prompt?: string, isActive?: boolean, isDefault?: boolean) => {
         if (!isDefault) {
             try {
@@ -58,7 +63,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} prompt={prompt} onUpdate={handleUpdatePrompt} />
+                        <PromptCard key={prompt.id} prompt={prompt} onUpdate={handleUpdatePrompt} instruction={getInstruction(prompt.node_name)} />
                     ))
                 ) : (
                     <p>Loading prompts...</p>
