@@ -4,11 +4,14 @@ import PromptCard from './PromptCard';
 import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
 import ConfirmationDialog from './ConfirmationDialog';
+import AssetsPack from '../../../util/AssetsPack';
+import { useNavigate } from 'react-router-dom';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
+    const navigate = useNavigate()
     const [prompts, setPrompts] = useState<any[] | null>(null);
     const [showResetAllToDefaultDialog, setShowResetAllToDefaultDialog] = useState(false);
 
@@ -59,9 +62,15 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             console.error("Failed to PostPrompt data:", error);
         }
     }
-
+    const handleBackButtonPress = () => {
+        navigate(-1)
+    }
     return (
         <div className={styles.container}>
+            <div className={styles.backButtonContainer} onClick={handleBackButtonPress}>
+                <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> Go Back
+            </div>
+
             <div className={styles.stepContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
@@ -85,7 +94,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.bottomContainer}>
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
             </div>
-            <ConfirmationDialog isOpen={showResetAllToDefaultDialog} onCancel={() => { setShowResetAllToDefaultDialog(false) }} onConfirm={handleResetAllApiCall} />
+            <ConfirmationDialog
+                title='Are you sure you want to reset all nodes to default?'
+                isOpen={showResetAllToDefaultDialog}
+                onCancel={() => { setShowResetAllToDefaultDialog(false) }}
+                onConfirm={handleResetAllApiCall} />
         </div>
     );
 };
