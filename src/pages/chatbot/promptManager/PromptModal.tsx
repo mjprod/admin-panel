@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import styles from "./PromptModal.module.css"
 import clsx from 'clsx';
 
@@ -6,22 +6,28 @@ interface PromptModalProps {
     isOpen: boolean;
     onClose: () => void;
     title?: string;
-    initialValue?: string;
-    onSave: (value: string) => void;
+    children?: ReactNode;
+    onSave: (value?: string) => void;
 }
 
 const PromptModal: React.FC<PromptModalProps> = ({
     isOpen,
     onClose,
     title = 'Editing',
-    initialValue = '',
+    children = '',
     onSave,
 }) => {
-    const [value, setValue] = useState(initialValue);
-
     useEffect(() => {
-        setValue(initialValue);
-    }, [initialValue, isOpen]);
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onClose]);
 
     if (!isOpen) {
         return null;
@@ -33,7 +39,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
                 <div className={styles.modalHeader}>
                     <div style={{ flex: 1, flexDirection: "row", display: "flex", gap: "16px" }}>
                         <h2>{title}</h2>
-                        <button className={styles.promptInstructionsButton}>?</button>
+                        <button className={styles.topRightButton}>?</button>
                     </div>
 
                     <button onClick={onClose} className={styles.closeButton}>
@@ -41,12 +47,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
                     </button>
                 </div>
                 <div className={styles.modalBody}>
-                    <textarea
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        className={styles.input}
-                        rows={20}
-                    />
+                    {children}
                 </div>
                 <div className={styles.modalFooter}>
                     <button onClick={onClose} className={clsx(styles.button, styles.warning)}>
@@ -54,7 +55,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
                     </button>
                     <button
                         onClick={() => {
-                            onSave(value);
+                            onSave();
                             onClose();
                         }}
                         className={clsx(styles.button, styles.primary)}>

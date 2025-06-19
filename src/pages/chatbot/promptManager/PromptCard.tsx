@@ -3,6 +3,7 @@ import styles from "./PromptCard.module.css"
 import clsx from 'clsx';
 import PromptModal from './PromptModal';
 import ConfirmationDialog from './ConfirmationDialog';
+import History from './components/History';
 
 interface PromptCardProps {
     title: string;
@@ -12,13 +13,14 @@ interface PromptCardProps {
 const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDialogConfirm, setShowDialogConfirm] = useState(false);
+    const [showHistoryDialog, setShowHistoryDialog] = useState(false);
 
     const handleDefaultButton = () => {
         setShowDialogConfirm(prev => !prev)
     };
 
     const handleHistoryButton = () => {
-        setShowDialogConfirm(prev => !prev)
+        setShowHistoryDialog(prev => !prev)
     };
 
     const handleEditButton = () => {
@@ -48,8 +50,20 @@ const PromptCard: React.FC<PromptCardProps> = ({ title, content }) => {
                 isOpen={isModalOpen}
                 onClose={() => { setIsModalOpen(false) }}
                 onSave={() => { }}
-                title={title}
-                initialValue={content} />
+                title={title} >
+                <textarea
+                    value={content}
+                    className={styles.input}
+                    rows={20}
+                />
+            </PromptModal>
+            <PromptModal
+                isOpen={showHistoryDialog}
+                onClose={() => { setShowHistoryDialog(false) }}
+                onSave={() => { }}
+                title={`${title} Node History`} >
+                <History />
+            </PromptModal>
             <ConfirmationDialog
                 title="Are you sure you want to set the prompt to default?"
                 isOpen={showDialogConfirm}
