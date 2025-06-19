@@ -21,14 +21,14 @@
     align-items: center;
 }
 
-.step:not(:last-child)::after {
+/* .step:not(:last-child)::after {
     content: '→';
     margin: 0 16px;
     font-size: 24px;
     color: #333;
     justify-self: center;
     align-self: center;
-}
+} */
 
 .circle {
     width: 100px;
@@ -77,4 +77,17 @@
 
 .resetButton:hover {
     background-color: #c0392b;
+}
+
+.backButtonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.back {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.3rem;
+    align-self: flex-start;
 }

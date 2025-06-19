@@ -5,7 +5,8 @@ import clsx from "clsx";
 import { GetPrompts } from "../../../../api/apiCalls";
 
 interface HistoryProps {
-    nodeName: string
+    nodeName: string;
+    setRefresh: (value: boolean) => void;
 }
 
 export interface PromptDataModel {
@@ -18,11 +19,11 @@ export interface PromptDataModel {
     prompt: string;
 }
 
-const History: React.FC<HistoryProps> = ({ nodeName }) => {
+const History: React.FC<HistoryProps> = ({ nodeName, setRefresh }) => {
     const [prompts, setPrompts] = useState<PromptDataModel[]>([]);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [isAction ,setActionUpdate] = useState(true)
+    const [isAction, setActionUpdate] = useState(true)
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -35,8 +36,10 @@ const History: React.FC<HistoryProps> = ({ nodeName }) => {
             setActionUpdate(false)
         };
 
-        if(isAction)
-        fetchChat();
+        if (isAction) {
+            setRefresh(isAction)
+            fetchChat();
+        }
     }, [isAction])
 
     const filteredChats = prompts.filter((item) => {
@@ -65,7 +68,7 @@ const History: React.FC<HistoryProps> = ({ nodeName }) => {
             <div className={styles.chatList}>
                 {filteredChats.length > 0 ? (
                     filteredChats.map((chat) => (
-                        <ChatItem key={chat.id} chat={chat} setAction={(isAction) => setActionUpdate(isAction)}/>
+                        <ChatItem key={chat.id} chat={chat} setAction={(isAction) => setActionUpdate(isAction)} />
                     ))
                 ) : (
                     <div>No chats found for the selected date range.</div>

@@ -3,12 +3,18 @@ import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
 import { getInstruction } from '../../../util/ExtensionFunction';
+import ConfirmationDialog from './ConfirmationDialog';
+import AssetsPack from '../../../util/AssetsPack';
+import { useNavigate } from 'react-router-dom';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
+    const navigate = useNavigate()
     const [prompts, setPrompts] = useState<any[] | null>(null);
+    const [showResetAllToDefaultDialog, setShowResetAllToDefaultDialog] = useState(false);
+    const [refresh, setRefresh] = useState(true);
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -19,12 +25,24 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
+            setRefresh(false)
         };
-        fetchChat();
-    }, []);
+        if (refresh)
+            fetchChat();
+    }, [refresh]);
 
-    const handleResetAll = () => {
-        alert('Reset all prompts');
+    const handleResetAllApiCall = async () => {
+        try {
+            const response = await PromptResetToDefault(["ocr, agent, generate"]);
+            console.log("PostPrompt Response:", response)
+        } catch (error) {
+            console.error("Failed to PostPrompt data:", error);
+        }
+        setRefresh(true)
+    }
+
+    const handleResetAll = async () => {
+        setShowResetAllToDefaultDialog(true)
     };
 
     const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
@@ -34,6 +52,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
         }
+        setRefresh(true)
     }
 
     const handleResetToDefault = async (nodeName: string) => {
@@ -43,10 +62,19 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
         }
+        setRefresh(true)
+    }
+
+    const handleBackButtonPress = () => {
+        navigate(-1)
     }
 
     return (
         <div className={styles.container}>
+            <div className={styles.backButtonContainer} onClick={handleBackButtonPress}>
+                <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> Go Back
+            </div>
+
             <div className={styles.stepContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
@@ -61,7 +89,13 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.promptCardContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <PromptCard key={prompt.id} prompt={prompt} instruction={getInstruction(prompt.node_name)} onCreate={handleCreatePrompt} resetToDefault={handleResetToDefault} />
+                        <PromptCard
+                            key={prompt.id}
+                            prompt={prompt}
+                            instruction={getInstruction(prompt.node_name)}
+                            onCreate={handleCreatePrompt}
+                            resetToDefault={handleResetToDefault}
+                            setRefresh={setRefresh} />
                     ))
                 ) : (
                     <p>Loading prompts...</p>
@@ -70,6 +104,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.bottomContainer}>
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
             </div>
+            <ConfirmationDialog
+                title='Are you sure you want to reset all nodes to default?'
+                isOpen={showResetAllToDefaultDialog}
+                onCancel={() => { setShowResetAllToDefaultDialog(false) }}
+                onConfirm={handleResetAllApiCall} />
         </div>
     );
 };
