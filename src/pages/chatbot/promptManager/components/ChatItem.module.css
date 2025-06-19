@@ -58,3 +58,10 @@
     font-family: ‘Source Code Pro’, monospace;
     overflow-x: auto;
 }
+
+.input {
+    display: flex;
+    margin: 0 auto;
+    width: 98%;
+    min-height: 65dvh;
+}

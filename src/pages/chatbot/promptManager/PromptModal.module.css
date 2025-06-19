@@ -20,6 +20,7 @@
     box-sizing: border-box;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     animation: modalFadeIn 0.3s ease-out forwards;
+    overflow-y: scroll;
 }
 
 .modalHeader {
@@ -58,8 +59,6 @@
 
 .modalBody {
     margin-bottom: 12px;
-    height: 95%;
-    overflow-y: scroll;
 }
 
 .modalFooter {
