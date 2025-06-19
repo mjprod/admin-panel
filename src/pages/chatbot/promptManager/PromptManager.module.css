@@ -1,9 +1,10 @@
 .container {
     font-family: var(--font-family01);
-    flex: 1 1 100%;
     display: flex;
     flex-direction: column;
     padding: 16px;
+    margin-bottom: 100px;
+    width: 90%;
 }
 
 .stepContainer {
@@ -20,14 +21,14 @@
     align-items: center;
 }
 
-.step:not(:last-child)::after {
+/* .step:not(:last-child)::after {
     content: '→';
     margin: 0 16px;
     font-size: 24px;
     color: #333;
     justify-self: center;
     align-self: center;
-}
+} */
 
 .circle {
     width: 100px;
@@ -46,6 +47,8 @@
     justify-content: space-around;
     align-items: start;
     gap: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .bottomContainer {
@@ -74,4 +77,17 @@
 
 .resetButton:hover {
     background-color: #c0392b;
+}
+
+.backButtonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.back {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.3rem;
+    align-self: flex-start;
 }

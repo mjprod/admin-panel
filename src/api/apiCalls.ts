@@ -382,5 +382,40 @@ export const GetPrompts = async (
   pathVariables: Record<string, any> = {},
   queryParams: Record<string, any> = {}
 ): Promise<PromptsGetResponse | undefined> => {
-  return await apiGetRequest<PromptsGetResponse>(Endpoint.PromptsGet, pathVariables, queryParams);
+  return await apiGetRequest<PromptsGetResponse>(Endpoint.Prompt, pathVariables, queryParams);
+};
+
+export const PostPrompt = async (
+  node_name: string,
+  prompt: string
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    node_name: node_name,
+    prompt: prompt
+  };
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.Prompt, payload);
+};
+
+export const PromptResetToDefault = async (nodeNames: string[]) => {
+  const basePayload = {
+    node_names: nodeNames,
+  };
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.PromptBathDefaultUpdate, payload);
+}
+
+export const PromptPatch = async (
+  id: number,
+  updatedNodeName?: string,
+  updatedPrompt?: string,
+  updatedIsActive?: boolean
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    ...(updatedNodeName && { node_name: updatedNodeName }),
+    ...(updatedPrompt && { prompt: updatedPrompt }),
+    ...(updatedIsActive && { is_active: updatedIsActive })
+  };
+  const payload = createPayload(basePayload);
+  return await apiPatchRequest(Endpoint.PromptPatch, { id: id }, payload);
 };
