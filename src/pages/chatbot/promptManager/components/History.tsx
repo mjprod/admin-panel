@@ -1,30 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './History.module.css'
 import ChatItem from "./ChatItem";
 import clsx from "clsx";
-// import AssetsPack from "../../../../util/AssetsPack";
+import { GetPrompts } from "../../../../api/apiCalls";
 
-const History = () => {
+interface HistoryProps {
+    nodeName: string
+}
+
+export interface PromptDataModel {
+    date_created: string;
+    id : number;
+    is_active: boolean;
+    is_default: boolean;
+    last_updated: string;
+    node_name: string;
+    prompt: string;
+}
+
+const History: React.FC<HistoryProps> = ({ nodeName }) => {
+    const [prompts, setPrompts] = useState<PromptDataModel[]>([]);
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
-    const chatData = [
-        {
-            id: 1,
-            chat: "This is a sample history prompt",
-            date: "2025-06-15",
-        },
-        {
-            id: 2,
-            chat: "This is a sample history prompt",
-            date: "2025-06-16",
-        },
-    ];
+    useEffect(() => {
+        const fetchChat = async () => {
+            try {
+                const response = await GetPrompts(undefined, { node_name: nodeName })
+                response?.results && setPrompts(response.results)
+            } catch (error) {
+                console.error("Failed to fetch data:", error);
+            }
+        };
+        fetchChat();
+    }, [])
 
-    const filteredChats = chatData.filter((item) => {
+    const filteredChats = prompts.filter((item) => {
         if (!startDate && !endDate) return true;
-        const itemDate = new Date(item.date).getTime();
+        const itemDate = new Date(item.last_updated).getTime();
         const from = startDate ? new Date(startDate).getTime() : -Infinity;
         const to = endDate ? new Date(endDate).getTime() : Infinity;
         return itemDate >= from && itemDate <= to;
@@ -32,7 +46,6 @@ const History = () => {
 
     return (
         <div className={styles.container}>
-            {/* <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> */}
             <div className={styles.header}>
                 <div className={styles.dates_container}>
                     <label>Start Date:</label>
@@ -51,7 +64,7 @@ const History = () => {
             <div className={styles.chatList}>
                 {filteredChats.length > 0 ? (
                     filteredChats.map((chat) => (
-                        <ChatItem key={chat.id} chat={chat.chat} />
+                        <ChatItem key={chat.id} chat={chat} />
                     ))
                 ) : (
                     <div>No chats found for the selected date range.</div>

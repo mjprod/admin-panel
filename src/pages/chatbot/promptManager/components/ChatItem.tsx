@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styles from "./ChatItem.module.css";
 import clsx from "clsx";
+import { PromptDataModel } from "./History";
 
 interface ChatItemProps {
-    chat: string;
+    chat: PromptDataModel;
 }
 
 const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
@@ -13,7 +14,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
         <div className={styles.card}>
 
             <div className={styles.info}>
-                {expanded ? chat : `${chat.slice(0, 50)}...`}
+                {expanded ? chat.prompt : `${chat.prompt.slice(0, 1000)}...`}
             </div>
             <div className={styles.actions}>
                 <button className={clsx(styles.button, styles.apply)} >Apply</button>
