@@ -3,8 +3,6 @@ import styles from "./ChatItem.module.css";
 import clsx from "clsx";
 import { PromptDataModel } from "./History";
 import { PromptPatch } from "../../../../api/apiCalls";
-import { useAppDispatch } from "../../../../store/hooks";
-import { updateConfirmationDialog } from "../../../../store/prompt.slice";
 
 interface ChatItemProps {
     chat: PromptDataModel;
@@ -12,21 +10,13 @@ interface ChatItemProps {
 
 const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
     const [expanded, setExpanded] = useState(false);
-    const dispatch = useAppDispatch()
 
     const applyApicall = async () => {
-        if (!chat.is_default) {
-            try {
-                const response = await PromptPatch(chat.id, chat.node_name, chat.prompt, true);
-                console.log("Prompt Patch Response:", response)
-            } catch (error) {
-                console.error("Failed to patch data:", error);
-            }
-        } else {
-            // dispatch(updateConfirmationDialog(true))
-            console.error("Default---");
-
-            // setShowDialogConfirm(true)
+        try {
+            const response = await PromptPatch(chat.id, chat.node_name, chat.prompt, true);
+            console.log("Prompt Patch Response:", response)
+        } catch (error) {
+            console.error("Failed to patch data:", error);
         }
     };
     const handleApply = () => {
