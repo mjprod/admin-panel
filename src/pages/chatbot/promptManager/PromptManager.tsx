@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
-import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
+import { getInstruction } from '../../../util/ExtensionFunction';
 import ConfirmationDialog from './ConfirmationDialog';
 import AssetsPack from '../../../util/AssetsPack';
 import { useNavigate } from 'react-router-dom';
@@ -41,10 +41,6 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         setShowResetAllToDefaultDialog(true)
     };
 
-    const getInstruction = (node_name: string) => {
-        return (node_name == "ocr") ? ocrInstructions : (node_name == "agent") ? agentInstructions : generateInstructions
-    }
-
     const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
         try {
             const response = await PostPrompt(newNodeName, newPromptValue);
@@ -74,7 +70,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.stepContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <div className={styles.step}>
+                        <div className={styles.step} key={prompt.id}>
                             <div className={styles.circle}>{prompt.node_name}</div>
                         </div>
                     ))
