@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
-import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
+import { getInstruction } from '../../../util/ExtensionFunction';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const [prompts, setPrompts] = useState<any[] | null>(null);
-
-
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -28,11 +26,6 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const handleResetAll = () => {
         alert('Reset all prompts');
     };
-    const getInstruction = (node_name: string) => {
-
-        return (node_name == "ocr") ? ocrInstructions : (node_name == "agent") ? agentInstructions : generateInstructions
-
-    }
 
     const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
         try {
@@ -57,7 +50,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
             <div className={styles.stepContainer}>
                 {prompts ? (
                     prompts.map(prompt => (
-                        <div className={styles.step}>
+                        <div className={styles.step} key={prompt.id}>
                             <div className={styles.circle}>{prompt.node_name}</div>
                         </div>
                     ))

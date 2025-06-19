@@ -1,9 +1,16 @@
-.card {
+.container {
     background:  #F4F4F4;    
     border: 1px solid #F4F4F4;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.card{
     display: flex;
     justify-content: space-between;
 }
@@ -41,4 +48,20 @@
  .button.apply {
     color: white;
     background-color: #9798F9;
+}
+
+.codeBlock {
+    white-space: pre-wrap;
+    background-color: #F5F5F5;
+    padding: 16px;
+    border-radius: 4px;
+    font-family: ‘Source Code Pro’, monospace;
+    overflow-x: auto;
+}
+
+.input {
+    display: flex;
+    margin: 0 auto;
+    width: 98%;
+    min-height: 65dvh;
 }

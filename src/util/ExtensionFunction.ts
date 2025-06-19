@@ -1,41 +1,43 @@
 import { defaultLanguage } from "../api/contants";
 import { Language } from "../api/responsePayload/KnowledgeResponse";
+import {
+  agentInstructions,
+  generateInstructions,
+  ocrInstructions,
+} from "../pages/chatbot/promptManager/components/Instructions";
 
 export const utcToLocalDate = (utcDateString: string): string => {
   const date = new Date(utcDateString);
-  
-  const day = String(date.getDate()).padStart(2, "0"); 
-  const month = String(date.getMonth() + 1).padStart(2, "0"); 
-  const year = date.getFullYear(); 
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
 };
 
-
 export const utcToLocalTime = (utcDateString: string): string => {
   const date = new Date(utcDateString);
 
-  let hours = date.getHours(); 
-  const minutes = String(date.getMinutes()).padStart(2, "0"); 
-  const seconds = String(date.getSeconds()).padStart(2, "0"); 
-  const ampm = hours >= 12 ? "PM" : "AM"; 
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  const ampm = hours >= 12 ? "PM" : "AM";
 
-  hours = hours % 12 || 12; 
+  hours = hours % 12 || 12;
 
   return `${hours}:${minutes}:${seconds} ${ampm}`;
 };
 
+export const getLanguageByCode = (code: string) =>
+  Object.values(Language).find((lang) => lang.code === code) || defaultLanguage;
 
-export const getLanguageByCode = (code: string) => 
-      Object.values(Language).find(lang => lang.code === code) || defaultLanguage;
-    
-export const getLanguageById = (id: number) => 
-  Object.values(Language).find(lang => lang.id === id) || defaultLanguage;
+export const getLanguageById = (id: number) =>
+  Object.values(Language).find((lang) => lang.id === id) || defaultLanguage;
 
-    
 export function hexToHsla(hex: string): string {
   // Remove the hash at the start if it's there
-  if (hex.startsWith('#')) {
+  if (hex.startsWith("#")) {
     hex = hex.slice(1);
   }
 
@@ -72,10 +74,16 @@ export function hexToHsla(hex: string): string {
   }
 
   // Return the HSLA string
-  return `hsla(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%, 1)`;
+  return `hsla(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(
+    l * 100
+  )}%, 1)`;
 }
 
-export function updateHslaValues(hsla: string, newS: number, newL: number): string {
+export function updateHslaValues(
+  hsla: string,
+  newS: number,
+  newL: number
+): string {
   // Regular expression to match HSLA string and extract H, S, L, A values
   const regex = /^hsla\((\d+),\s*(\d+)%?,\s*(\d+)%?,\s*(\d(\.\d+)?)\)$/i;
 
@@ -83,15 +91,23 @@ export function updateHslaValues(hsla: string, newS: number, newL: number): stri
   const match = hsla.match(regex);
 
   if (!match) {
-    throw new Error('Invalid HSLA format');
+    throw new Error("Invalid HSLA format");
   }
 
   // Extract the H, S, L, and A values from the matched HSLA string
-  const h = match[1];  // Hue (unchanged)
-  const s = newS;      // New Saturation
-  const l = newL;      // New Lightness
-  const a = 1;      // New Alpha
+  const h = match[1]; // Hue (unchanged)
+  const s = newS; // New Saturation
+  const l = newL; // New Lightness
+  const a = 1; // New Alpha
 
   // Return the updated HSLA string with modified values
   return `hsla(${h}, ${s}%, ${l}%, ${a})`;
 }
+
+export const getInstruction = (node_name: string) => {
+  return node_name == "ocr"
+    ? ocrInstructions
+    : node_name == "agent"
+    ? agentInstructions
+    : generateInstructions;
+};
