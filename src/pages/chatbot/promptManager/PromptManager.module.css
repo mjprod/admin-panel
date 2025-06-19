@@ -4,7 +4,7 @@
     flex-direction: column;
     padding: 16px;
     margin-bottom: 100px;
-    flex-grow: 1;
+    width: 90%;
 }
 
 .stepContainer {
@@ -47,6 +47,8 @@
     justify-content: space-around;
     align-items: start;
     gap: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .bottomContainer {
