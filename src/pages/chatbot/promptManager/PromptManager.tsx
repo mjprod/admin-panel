@@ -3,20 +3,12 @@ import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PromptPatch } from '../../../api/apiCalls';
 import { agentInstructions, generateInstructions, ocrInstructions } from './components/Instructions';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { useAppDispatch } from '../../../store/hooks';
-import { updateConfirmationDialog } from '../../../store/prompt.slice';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const [prompts, setPrompts] = useState<any[] | null>(null);
-    const showDialogConfirm = useSelector(
-        (state: RootState) => state.prompt.isConfirmationDialog
-    );
-
 
     useEffect(() => {
         const fetchChat = async () => {
