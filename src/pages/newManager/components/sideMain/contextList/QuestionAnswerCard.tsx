@@ -3,6 +3,7 @@ import styles from "./QuestionAnswerCard.module.css";
 import Checkbox from "../../../../../components/button/Checkbox";
 import QuestionAnswerSection from "../questionList/components/questionAnswerSection/QuestionAnswerSection";
 import CategorySection from "./CategorySection";
+import CustomButton, { ButtonType } from "../../../../../components/button/CustomButton";
 
 interface QuestionAnswerCardProps {
   question: string;
@@ -65,22 +66,24 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
         defaultSelectedCategory={defaultSelectedCategory}
         defaultSelectedSubCategory={defaultSelectedSubCategory}
       />
-      <div className={styles["question-answer-container-view"]}>
-        <Checkbox checked={checked} onChange={onCheckChange} />
-        <div
-          ref={containerRef}
-          className={styles["question-answer-sub-con"]}
-          onClick={() => setIsEditing(true)}
-        >
-          <QuestionAnswerSection
-            question={question}
-            answer={answer}
-            isEditing={isEditing}
-            onChange={onQuestionAnswerChanged}
-            color={"#fff"}
-            classNameStyle={styles["remove-padding"]}
-          />
+      <div className={styles["question-answer-main-container"]}>
+        <div className={styles["question-answer-container-view"]}>
+          <Checkbox checked={checked} onChange={onCheckChange} />
+          <div
+            ref={containerRef}
+            className={styles["question-answer-sub-con"]}
+            onClick={() => setIsEditing(true)}>
+            <QuestionAnswerSection
+              question={question}
+              answer={answer}
+              isEditing={isEditing}
+              onChange={onQuestionAnswerChanged}
+              color={"#fff"}
+              classNameStyle={styles["remove-padding"]}
+            />
+          </div>
         </div>
+        <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} />
       </div>
     </div>
   );

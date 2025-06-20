@@ -21,6 +21,7 @@ export const Endpoint = {
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
   KowledgeContentBulkCreate: `${getBaseUri()}/knowledge-content/bulk-create/`,
   knowledgeContentUpdateReject: `${getBaseUri()}/knowledge-content/update-to-reject/`,
+  KnowledgeContentCheckSimilarKnowledge: `${getBaseUri()}/knowledge-content/check-similar-knowledge/`,
 
   Brain: `${getBaseUri()}/brain/{id}`,
   BrainSearch: `${getBaseUri()}/brain/search/`,

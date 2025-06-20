@@ -247,6 +247,25 @@ export const KowledgeSummary = async (
   );
 };
 
+export const KnowledgeContentCheckSimilarKnowledge = async (
+  type: number = 1, // only type 1 (FAQ) is supported for now!!
+  question: number,
+  answer: string,
+  top_n?: string,
+  rerank_top_n?: string
+): Promise<AxiosResponse | null> => {
+  const basePayload = {
+    type: type,
+    question: question,
+    answer: answer,
+    top_n: top_n,
+    rerank_top_n: rerank_top_n
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentCheckSimilarKnowledge, payload);
+};
+
 export const Login = async (
   username: string,
   password: string
