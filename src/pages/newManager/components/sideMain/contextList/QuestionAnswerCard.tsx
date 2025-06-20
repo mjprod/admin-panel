@@ -15,6 +15,7 @@ interface QuestionAnswerCardProps {
   defaultChecked: boolean;
   onCheckedChange: (checked: boolean) => void;
   onQuestionAnswerChanged: (question: string, answer: string) => void;
+  approveCallback: () => void
 }
 
 const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
@@ -27,6 +28,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   defaultChecked,
   onCheckedChange,
   onQuestionAnswerChanged,
+  approveCallback
 }) => {
   const [checked, setChecked] = useState<boolean>(defaultChecked);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -58,7 +60,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   };
 
   const handleApproveButtonClick = () => {
-
+    approveCallback()
   }
 
   return (
@@ -87,7 +89,10 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
             />
           </div>
         </div>
-        <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} onClick={handleApproveButtonClick} />
+        <div className={styles["buttons-container"]}>
+          <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} onClick={handleApproveButtonClick} />
+          <CustomButton type={ButtonType.Edit} text={"Edit"} disabled={!checked} onClick={() => setIsEditing(true)} />
+        </div>
       </div>
     </div>
   );

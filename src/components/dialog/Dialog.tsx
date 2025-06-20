@@ -1,6 +1,8 @@
-import React from "react";
-import "./Dialog.css";
+import React, { useEffect } from "react";
+import styles from "./Dialog.module.css";
 import SimilarFaq from "./SimilarFaq";
+import clsx from "clsx";
+import AssetsPack from "../../util/AssetsPack";
 
 export enum DialogStyle {
   Success,
@@ -32,35 +34,45 @@ const Dialog: React.FC<Props> = ({
   setShowDialog,
   dialogShownFromType
 }) => {
-  //const [isSwapped, setIsSwapped] = useState(false);
-
   const closeDialog = () => {
     setShowDialog(false);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeDialog();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const getColorClass = () => {
     switch (dialogStyle) {
       case DialogStyle.Success:
-        return "dialog-success";
+        return styles["dialog-success"];
       case DialogStyle.Error:
-        return "dialog-error";
+        return styles["dialog-error"];
       default:
-        return "dialog-default";
+        return styles["dialog-default"];
     }
   };
 
   if (!isShowing) return null;
 
   return (
-    <div className="dialog-wrapper" onClick={closeDialog}>
-      <button className="dialog-close-icon" onClick={closeDialog}>
-        ✖
-      </button>
+    <div className={styles["dialog-wrapper"]} onClick={closeDialog}>
       <div
-        className={`dialog-box ${getColorClass()}`}
+        className={clsx(styles["dialog-box"], getColorClass())}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="dialog-content">
+        <button className={styles["dialog-close-icon"]} onClick={closeDialog}>
+          <img src={AssetsPack.icons.ICON_CLOSE.default} className={styles.closeIcon} />
+        </button>
+        <div className={styles["dialog-content"]}>
           <SimilarFaq
             dialogShownFromType={dialogShownFromType}
             question={question}
@@ -68,7 +80,6 @@ const Dialog: React.FC<Props> = ({
             id={id}
 
           />
-          {/* SWAP BUTTON in the middle */}
         </div>
       </div>
     </div>

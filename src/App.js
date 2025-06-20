@@ -7,7 +7,6 @@ import "./App.css";
 import AppRouter from "./AppRouter.tsx";
 import Loading from "./components/loading/Loading";
 import { AuthProvider } from "./context/AuthContext.tsx";
-import { DialogProvider } from './context/DialogContext';
 import { useLoading } from "./context/LoadingContext";
 import store from "./store/store";
 
@@ -23,12 +22,12 @@ function App() {
   return (
     <AuthProvider>
       <Provider store={store}>
-        <DialogProvider>
+       
           <Router>
             <Loading />
             <AppRouter />
           </Router>
-        </DialogProvider>
+       
       </Provider>
     </AuthProvider>
   );

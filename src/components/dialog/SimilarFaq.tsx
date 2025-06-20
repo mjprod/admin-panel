@@ -5,11 +5,13 @@ import WarningPanel from "./WarningPanel";
 import { DialogShownFromType } from "./Dialog";
 import PopUpFeedback from "../popUp/popUpRejectFeedback/PopUpFeedback";
 import { showConsoleError, showConsoleMessage } from "../../util/ConsoleMessage";
-import { KowledgeContentUpdateReject } from "../../api/apiCalls";
+import { BrainBulkDelete, KowledgeContentUpdateReject } from "../../api/apiCalls";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import { DialogContext } from "../../context/DialogContext";
 import { KnowledgeContentCheckSimilarKnowledge } from "../../api/apiCalls";
 import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
+import LoadingSpinner from "../loading/LoadingSpinner";
+import { useConversationsContext } from "../../context/ConversationProvider";
 /* eslint-disable react/prop-types */
 
 interface DeleteWarningPanelProps {
@@ -44,7 +46,6 @@ interface SimilarFaqProps {
     id: number;
     question: string;
     answer?: string;
-
 }
 
 
@@ -52,16 +53,20 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
     const [swapped, setSwapped] = useState(false);
     const { dismissDialog } = useContext(DialogContext);
     const [faqs, setFaqs] = useState<SimilarKnowledge[]>([]);
+    const { setUpdateConversationList } = useConversationsContext();
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         const fetchSimilarQuestions = async () => {
             try {
                 const response = await KnowledgeContentCheckSimilarKnowledge(
-                    "Apa yang perlu saya lakukan setelah membuat kesilapan dalam pengisian jumlah?",
-                    "Anda perlu mengisi semula dengan jumlah yang betul, iaitu RM11, setelah membuat silap mengisi RM10. Pastikan untuk submit semula. Terima kasih Bosskuu ~ ❤️"
+                    question,
+                    answer ?? ""
                 )
                 console.log("KnowledgeContentCheckSimilarKnowledge response:", response?.detail);
                 response && setFaqs(response.detail)
+                setLoading(false)
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
@@ -70,17 +75,24 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
     }, [])
 
     const [deletingId, setDeletingId] = useState<number>(0);
-
-    const handleConfirmDelete = (id: number) => {
-        setFaqs((prev) => prev.filter((item) => item.knowledge_content_id !== id));
-        setDeletingId(0);
-    };
-
     const handleCancel = () => setDeletingId(0);
     const [open, setOpen] = useState(false);
     const handleReject = () => {
         setOpen(true)
     }
+    const handleConfirmDelete = (id: number) => {
+        setFaqs((prev) => prev.filter((item) => item.knowledge_content_id !== id));
+        setDeletingId(0);
+        handleDeleteFromBrain(id)
+    };
+
+    const handleDeleteFromBrain = async (id: number) => {
+        try {
+            await BrainBulkDelete([id]);
+        } catch (e) {
+            console.log(e)
+        }
+    };
 
     const handleRejectModalSubmit = async (
         selectOption: number,
@@ -95,8 +107,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                 textMessage
             );
 
-            //TODO: please refresh page
-            // setUpdateConversationList(true);
+            setUpdateConversationList(true);
             dismissDialog()
         } catch (e) {
             showConsoleError(e);
@@ -132,14 +143,8 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
 
                 < hr style={{ margin: "2rem 0" }} />
 
-                <div
-                    style={{
-                        maxHeight: "350px",
-                        overflowY: "auto",
-                        marginBottom: "1rem",
-                    }}
-                >
-                    {faqs.map((faq) =>
+                <div className={styles["faqList"]}>
+                    {faqs.map((faq, index) =>
                         deletingId === faq.knowledge_content_id ? (
                             <DeleteWarningPanel
                                 key={faq.knowledge_content_id}
@@ -147,9 +152,10 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                                 onConfirm={() => handleConfirmDelete(faq.knowledge_content_id)}
                             />
                         ) : (
-                            <FaqCard key={faq.knowledge_content_id} faq={faq} onDelete={(id) => setDeletingId(id)} />
+                            <FaqCard index={index + 1} key={faq.knowledge_content_id} faq={faq} onDelete={(id) => setDeletingId(id)} />
                         )
                     )}
+                    {isLoading && <LoadingSpinner />}
                 </div>
             </div>
             {open && (

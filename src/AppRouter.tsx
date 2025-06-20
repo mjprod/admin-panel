@@ -7,6 +7,7 @@ import TestPage from "./pages/TestPage";
 import LoginPage from "./pages/login/Login";
 import NewManager from "./pages/newManager/NewManager";
 import ChatbotPage from "./pages/chatbot/ChatbotPage";
+import { DialogProvider } from "./context/DialogContext";
 
 const AppRouter = () => {
   const { loadingAuth } = useContext(AuthContext);
@@ -40,7 +41,9 @@ const AppRouter = () => {
           element={
             <PrivateRoute>
               <ConversationsProvider>
-                <NewManager />
+                <DialogProvider>
+                  <NewManager />
+                </DialogProvider>
               </ConversationsProvider>
             </PrivateRoute>
           }

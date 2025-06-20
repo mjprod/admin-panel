@@ -92,6 +92,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
 
   const handleApprove = async () => {
     try {
+
       await KowledgeContentBulkCreate({ [context.id]: pairs });
       updateList();
 
@@ -100,20 +101,29 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
     }
   };
 
-  const updatePair = (index: number, updatedFields: Partial<EditablePair>) => {
+  const updatePair = (index: number, updatedFields: Partial<EditablePair>, removePair?: EditablePair) => {
     const updatedPairs = pairs.map((pair, i) =>
       i === index ? { ...pair, ...updatedFields } : pair
     );
 
-    setPairs(updatedPairs);
-    setAIGenerateView(updatedPairs.length > 0)
+    const finalPairs = removePair
+      ? updatedPairs.filter(pair => pair.id !== removePair.id)
+      : updatedPairs;
+
+    setPairs(finalPairs);
+
+
+    setAIGenerateView(finalPairs.length > 0)
+    if (finalPairs.length <= 0) {
+      updateList()
+    }
   };
 
   const getAIResponse = async () => {
     try {
       setLoading(true);
       const res = await GetContextAI(context.id);
-      
+
       const chat = mapToKnowledgeContext(context.context);
       setChatData(chat ?? undefined);
       const enhancedPairs = (res ?? []).map((item) => ({
