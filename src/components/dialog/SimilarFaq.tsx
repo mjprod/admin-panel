@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import styles from './SimilarFaq.module.css'
 import FaqCard from "./FaqCard";
 import WarningPanel from "./WarningPanel";
@@ -8,6 +8,8 @@ import { showConsoleError, showConsoleMessage } from "../../util/ConsoleMessage"
 import { KowledgeContentUpdateReject } from "../../api/apiCalls";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import { DialogContext } from "../../context/DialogContext";
+import { KnowledgeContentCheckSimilarKnowledge } from "../../api/apiCalls";
+import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
 /* eslint-disable react/prop-types */
 
 interface DeleteWarningPanelProps {
@@ -49,29 +51,28 @@ interface SimilarFaqProps {
 const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogShownFromType }) => {
     const [swapped, setSwapped] = useState(false);
     const { dismissDialog } = useContext(DialogContext);
+    const [faqs, setFaqs] = useState<SimilarKnowledge[]>([]);
 
-    const [faqs, setFaqs] = useState([
-        {
-            id: 1,
-            question: "Question 1 will be here",
-            answer: "Answer will be here this is the stuff that needs to go in",
-        },
-        {
-            id: 2,
-            question: "Another question here",
-            answer: "Another answer for testing.",
-        },
-        {
-            id: 3,
-            question: "One more?",
-            answer: "Yes, why not.",
-        },
-    ]);
+    useEffect(() => {
+        const fetchSimilarQuestions = async () => {
+            try {
+                const response = await KnowledgeContentCheckSimilarKnowledge(
+                    "Apa yang perlu saya lakukan setelah membuat kesilapan dalam pengisian jumlah?",
+                    "Anda perlu mengisi semula dengan jumlah yang betul, iaitu RM11, setelah membuat silap mengisi RM10. Pastikan untuk submit semula. Terima kasih Bosskuu ~ ❤️"
+                )
+                console.log("KnowledgeContentCheckSimilarKnowledge response:", response?.detail);
+                response && setFaqs(response.detail)
+            } catch (error) {
+                console.error("Failed to fetch data:", error);
+            }
+        };
+        fetchSimilarQuestions();
+    }, [])
 
     const [deletingId, setDeletingId] = useState<number>(0);
 
     const handleConfirmDelete = (id: number) => {
-        setFaqs((prev) => prev.filter((item) => item.id !== id));
+        setFaqs((prev) => prev.filter((item) => item.knowledge_content_id !== id));
         setDeletingId(0);
     };
 
@@ -139,14 +140,14 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                     }}
                 >
                     {faqs.map((faq) =>
-                        deletingId === faq.id ? (
+                        deletingId === faq.knowledge_content_id ? (
                             <DeleteWarningPanel
-                                key={faq.id}
+                                key={faq.knowledge_content_id}
                                 onCancel={handleCancel}
-                                onConfirm={() => handleConfirmDelete(faq.id)}
+                                onConfirm={() => handleConfirmDelete(faq.knowledge_content_id)}
                             />
                         ) : (
-                            <FaqCard key={faq.id} faq={faq} onDelete={(id) => setDeletingId(id)} />
+                            <FaqCard key={faq.knowledge_content_id} faq={faq} onDelete={(id) => setDeletingId(id)} />
                         )
                     )}
                 </div>
