@@ -3,12 +3,13 @@ import { createPayload } from "./util/apiUtils";
 import { AuthResponse } from "./responsePayload/AuthResponse";
 import { RefreshRequest } from "./axios-config";
 import { triggerGlobalLogout } from "../util/logoutHandlex";
+import { showConsoleError } from "../util/ConsoleMessage";
 
 const useRefreshToken = () => {
   const refresh = async () => {
     const token = localStorage.getItem("refreshToken");
     if (!token) {
-      console.error("No refresh token found.");
+      showConsoleError("No refresh token found.");
       return null;
     }
 
@@ -34,7 +35,7 @@ const useRefreshToken = () => {
 
       return newToken;
     } catch (err) {
-      console.error("Refresh failed:", err);
+      showConsoleError("Refresh failed:", err);
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
       triggerGlobalLogout()

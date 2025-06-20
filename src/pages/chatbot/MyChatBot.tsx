@@ -26,7 +26,6 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
       );
     }
 
-    console.log("thread", result);
     setThread(result);
     localStorage.removeItem("example_smart_conversation");
   };

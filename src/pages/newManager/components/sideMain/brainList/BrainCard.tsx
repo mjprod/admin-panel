@@ -12,6 +12,7 @@ import { useConversationsContext } from "../../../../../context/ConversationProv
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/store";
 import { KnowledgeType } from "../../../../../util/KnowledgeType";
+import { showConsoleError } from "../../../../../util/ConsoleMessage";
 
 interface BrainCard {
   data: BrainItem;
@@ -47,7 +48,7 @@ const BrainCard: React.FC<BrainCard> = ({ data }) => {
       await BrainBulkDelete([data.knowledge_content]);
       searchBrain("", "", currentPage)
     } catch (e) {
-      console.log(e)
+      showConsoleError(e)
     }
   };
 

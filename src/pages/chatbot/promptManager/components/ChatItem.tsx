@@ -7,6 +7,7 @@ import { utcToLocalDate, utcToLocalTime } from "../../../../util/ExtensionFuncti
 import PromptModal from "../PromptModal";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { NODE_INSTRUCTIONS } from "../PromptManager";
+import { showConsoleError, showConsoleMessage } from "../../../../util/ConsoleMessage";
 
 interface ChatItemProps {
     chat: PromptDataModel;
@@ -22,10 +23,10 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, setAction }) => {
     const applyApicall = async () => {
         try {
             const response = await PromptPatch(chat.id, undefined, undefined, true);
-            console.log("Prompt Patch Response:", response)
+            showConsoleMessage("Prompt Patch Response:", response)
             setAction(true)
         } catch (error) {
-            console.error("Failed to patch data:", error);
+            showConsoleError("Failed to patch data:", error);
         }
     };
     const handleApply = () => {
@@ -45,9 +46,9 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, setAction }) => {
         try {
             const response = await PostPrompt(newNodeName, newPromptValue);
             setAction(true)
-            console.log("PostPrompt Response:", response)
+            showConsoleMessage("PostPrompt Response:", response)
         } catch (error) {
-            console.error("Failed to PostPrompt data:", error);
+            showConsoleError("Failed to PostPrompt data:", error);
         }
     }
 

@@ -42,27 +42,6 @@
     gap: 1rem;
 }
 
-.confirm {
-    background: #d2fad7;
-    color: #144421;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.75rem 1.5rem;
-    cursor: pointer;
-}
-
-.reject {
-    background: #fae0e0;
-    color: #b23c3c;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.75rem 1.5rem;
-    cursor: pointer;
-}
 
 .dangerBox {
     background: repeating-linear-gradient(135deg, #fba3a0, #fa6b6b 20px, #fba3a0 40px);
