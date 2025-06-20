@@ -1,6 +1,6 @@
 import React from "react";
 import "./Dialog.css";
-import FAQSwapDemo from "./FAQSwapDemo";
+import SimilarFaq from "./SimilarFaq";
 
 export enum DialogStyle {
   Success,
@@ -52,7 +52,7 @@ const Dialog: React.FC<Props> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="dialog-content">
-          <FAQSwapDemo />
+          <SimilarFaq />
           {/* SWAP BUTTON in the middle */}
         </div>
       </div>
