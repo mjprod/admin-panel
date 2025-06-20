@@ -4,15 +4,16 @@ import { DialogContext } from "../../context/DialogContext";
 import { KowledgeContentBulkUpdateStatus } from "../../api/apiCalls";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import { useConversationsContext } from "../../context/ConversationProvider";
+import CustomButton, { ButtonType } from "../button/CustomButton";
 
 interface WarningPanelProps {
     id: number
-    question:string
-    answer:string
+    question: string
+    answer: string
     setSwapped: (value: boolean) => void
 }
 
-const WarningPanel: React.FC<WarningPanelProps> = ({ id, question, answer ,setSwapped }) => {
+const WarningPanel: React.FC<WarningPanelProps> = ({ id, question, answer, setSwapped }) => {
     const { dismissDialog } = useContext(DialogContext);
     const { setUpdateConversationList } = useConversationsContext();
 
@@ -44,7 +45,7 @@ const WarningPanel: React.FC<WarningPanelProps> = ({ id, question, answer ,setSw
                     <button onClick={() => setSwapped(false)} className={styles.cancel}>
                         Cancel
                     </button>
-                    <button className={styles.confirm} onClick={handleConfirm}>Confirm Add</button>
+                    <CustomButton type={ButtonType.Approve} onClick={handleConfirm} text="Add to Brain" />
                 </div>
             </div>
         </div>

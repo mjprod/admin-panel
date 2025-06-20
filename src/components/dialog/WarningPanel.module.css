@@ -63,15 +63,3 @@
     border-radius: 1.5rem;
     cursor: pointer;
 }
-
-
-.confirm {
-    background: #d2fad7;
-    color: #144421;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.75rem 1.5rem;
-    cursor: pointer;
-}

@@ -2,6 +2,7 @@
 import React from "react";
 import styles from './FaqCard.module.css'
 import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
+import CustomButton, { ButtonType } from "../button/CustomButton";
 
 interface FaqCardProps {
     index: number;
@@ -19,9 +20,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ index, faq, onDelete }) => {
                 <div style={{ fontWeight: 600 }}>{question}</div>
                 <div>{answer}</div>
             </div>
-            <button className={styles.deleteBtn} onClick={() => onDelete(faq.knowledge_content_id)}>
-                Delete
-            </button>
+            <CustomButton type={ButtonType.Reject} onClick={() => onDelete(faq.knowledge_content_id)} text="Delete" />
         </div>
     );
 
