@@ -57,6 +57,10 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
     onCheckedChange(checked);
   };
 
+  const handleApproveButtonClick = () => {
+
+  }
+
   return (
     <div>
       <CategorySection
@@ -83,7 +87,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
             />
           </div>
         </div>
-        <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} />
+        <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} onClick={handleApproveButtonClick} />
       </div>
     </div>
   );

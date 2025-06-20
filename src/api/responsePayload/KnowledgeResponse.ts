@@ -42,6 +42,10 @@ export interface KnowledgeResponse {
   results: KnowledgeItem[];
 }
 
+export interface SimilarKnowledgeResponse {
+  detail: SimilarKnowledge[]
+}
+
 export interface ChatResponse {
   ChatId: number;
   UserMsg: string;
@@ -61,6 +65,13 @@ export interface KnowledgeContext {
   conversationId: string;
   date_time: string;
   chat_data: ChatDialogProps[];
+}
+
+export interface SimilarKnowledge {
+  retrieve_content: string;
+  score: number;
+  knowledge_content_id: number;
+  brain_knowledge_id: number;
 }
 
 export interface ConversationKnowledge {
