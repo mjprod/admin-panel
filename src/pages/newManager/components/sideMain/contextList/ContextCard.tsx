@@ -12,7 +12,6 @@ import {
 import {
   DeleteContext,
   GetContextAI,
-  KowledgeContentBulkCreate,
 } from "../../../../../api/apiCalls";
 import { mapToKnowledgeContext } from "../../../../../api/util/responseMap";
 import { useConversationsContext } from "../../../../../context/ConversationProvider";
@@ -93,7 +92,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   const handleApprove = async () => {
     try {
 
-      await KowledgeContentBulkCreate({ [context.id]: pairs });
+      // await KowledgeContentBulkCreate({ [context.id]: pairs });
       updateList();
 
     } catch (e) {
@@ -102,10 +101,6 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   };
 
   const updatePair = (index: number, updatedFields: Partial<EditablePair>, removePair?: EditablePair) => {
-    // const updatedPairs = pairs.map((pair, i) =>
-    //   i === index ? { ...pair, ...updatedFields } : pair
-    // );
-
     let updatedPairs: EditablePair[];
     // If selected is being set to true, make all others false
     if (updatedFields.selected === true) {
@@ -120,8 +115,6 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
         i === index ? { ...pair, ...updatedFields } : pair
       );
     }
-
-    console.log("---------updatedPairs-----", updatedPairs)
 
     const finalPairs = removePair
       ? updatedPairs.filter(pair => pair.id !== removePair.id)
@@ -246,7 +239,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
                     text={"Finish"}
                     type={ButtonType.Approve}
                     onClick={handleApprove}
-                    disabled={!checked || (isAIGenerateView && !pairs.some(it => it.selected))}
+                    disabled={!checked}
 
                   />
                 </div>
