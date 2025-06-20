@@ -2,9 +2,10 @@
     font-family: var(--font-family01);
     display: flex;
     flex-direction: column;
+}
+
+.topContainer {
     padding: 16px;
-    margin-bottom: 100px;
-    width: 90%;
 }
 
 .stepContainer {
@@ -20,15 +21,6 @@
     flex-direction: row;
     align-items: center;
 }
-
-/* .step:not(:last-child)::after {
-    content: '→';
-    margin: 0 16px;
-    font-size: 24px;
-    color: #333;
-    justify-self: center;
-    align-self: center;
-} */
 
 .circle {
     width: 100px;
@@ -52,12 +44,12 @@
 }
 
 .bottomContainer {
-    position: fixed;
-    bottom: 0;
+    position: sticky;
+    top: 0;
     left: 0;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     padding: 16px;
     background-color: #fff;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);

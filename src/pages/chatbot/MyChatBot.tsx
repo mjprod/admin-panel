@@ -5,6 +5,7 @@ import { Params } from "react-chatbotify/dist/types/Params";
 import { RagChat } from "../../api/apiCalls";
 import { ChatbotResponse } from "../../api/responsePayload/ChatbotResponse";
 import { ragMemberSecretKey } from "../../api/contants";
+import CustomButton, { ButtonType } from "../../components/button/CustomButton";
 
 interface MyChatBotProps {
   chatWindowStyle: CSSProperties;
@@ -66,14 +67,7 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
     },
   };
   return (
-    <div
-      style={{
-        right: "16px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <>
       <ChatBot
         styles={{
           chatWindowStyle: chatWindowStyle,
@@ -86,7 +80,8 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
         }}
         flow={flow}
       />
-    </div>
+      <CustomButton type={ButtonType.Submit} text="Start New Chat" onClick={changeThread} />
+    </>
   );
 };
 
