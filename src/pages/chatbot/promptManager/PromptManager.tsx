@@ -7,22 +7,26 @@ import ConfirmationDialog from './ConfirmationDialog';
 import AssetsPack from '../../../util/AssetsPack';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../../components/loading/LoadingSpinner';
+import { Prompt } from '../../../api/responsePayload/PromptResponse';
 
 interface PromptManagerProps {
 }
 
 const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const navigate = useNavigate()
-    const [prompts, setPrompts] = useState<any[] | null>(null);
+    const [prompts, setPrompts] = useState<Prompt[] | null>(null);
     const [showResetAllToDefaultDialog, setShowResetAllToDefaultDialog] = useState(false);
     const [refresh, setRefresh] = useState(true);
+    const NODE_ORDER = ["agent", "ocr", "generate"];
 
     useEffect(() => {
         const fetchChat = async () => {
             try {
-                const response = await GetPrompts(undefined, { node_name: "ocr, agent, generate", is_active: true })
+                const response = await GetPrompts(undefined, { node_name: "agent, ocr, generate", is_active: true })
                 console.log("GetPrompt response:", response?.results);
-                response?.results && setPrompts(response.results)
+                response?.results && setPrompts(response.results.sort((a, b) => {
+                    return NODE_ORDER.indexOf(a.node_name) - NODE_ORDER.indexOf(b.node_name);
+                }))
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
