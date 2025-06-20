@@ -213,7 +213,7 @@ export const ConversationsProvider = ({
           dispatch(resetPagination());
         })
         .catch((error) => {
-          console.error("Failed to get brain ID:", error);
+          showConsoleError("Failed to get brain ID:", error);
         });
     } else {
       const queryParams = {

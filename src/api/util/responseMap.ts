@@ -3,6 +3,7 @@ import {
   MessageType,
   ChatType,
 } from "../../components/popUp/popUpChatHistory/ChatDialog";
+import { showConsoleError } from "../../util/ConsoleMessage";
 import { Category } from "../../util/ExampleData";
 import { updateHslaValues, hexToHsla } from "../../util/ExtensionFunction";
 import {
@@ -118,7 +119,7 @@ export const mapToChatResponse = (
       ? []
       : JSON.parse(cleanedStr);
   } catch (error) {
-    console.error(
+    showConsoleError(
       "JSON parse error:",
       error,
       "\n\nCleaned string\n\n",

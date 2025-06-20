@@ -26,6 +26,7 @@ import { BrainItem, BrainResponse } from "./responsePayload/BrainResponse";
 import { ChatbotResponse } from "./responsePayload/ChatbotResponse";
 import { PromptsGetResponse } from "./responsePayload/PromptResponse";
 import { KnowledgeType } from "../util/KnowledgeType";
+import { showConsoleError } from "../util/ConsoleMessage";
 /* eslint-disable complexity */
 
 export const AllConversation = async (
@@ -80,7 +81,7 @@ export const KowledgeContentBulkUpdateStatus = async (
     }
     return res;
   } catch (error) {
-    console.error("Error during bulk update:", error);
+    showConsoleError("Error during bulk update:", error);
 
     return null;
   }
@@ -111,7 +112,7 @@ export const KowledgeContentUpdateReject = async (
     }
     return res;
   } catch (error) {
-    console.error("Error during bulk update:", error);
+    showConsoleError("Error during bulk update:", error);
 
     return null;
   }
@@ -146,7 +147,7 @@ export const KowledgeContentBulkCreate = async (data: {
 
     return res;
   } catch (error) {
-    console.error("Error during bulk update:", error);
+    showConsoleError("Error during bulk update:", error);
 
     return null;
   }
@@ -194,7 +195,7 @@ export const getAllCategories = async (): Promise<Category[] | undefined> => {
     });
     return res;
   } catch (error) {
-    console.error("Error in All Categories:", error);
+    showConsoleError("Error in All Categories:", error);
     return undefined;
   }
 };
@@ -210,7 +211,7 @@ export const getSubCategories = async (
       queryParams
     );
   } catch (error) {
-    console.error("Error in All Categories:", error);
+    showConsoleError("Error in All Categories:", error);
     return undefined;
   }
 };

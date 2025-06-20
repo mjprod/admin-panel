@@ -12,6 +12,7 @@ import { KnowledgeContentCheckSimilarKnowledge } from "../../api/apiCalls";
 import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import { useConversationsContext } from "../../context/ConversationProvider";
+import CustomButton, { ButtonType } from "../button/CustomButton";
 /* eslint-disable react/prop-types */
 
 interface DeleteWarningPanelProps {
@@ -64,11 +65,10 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                     question,
                     answer ?? ""
                 )
-                console.log("KnowledgeContentCheckSimilarKnowledge response:", response?.detail);
                 response && setFaqs(response.detail)
                 setLoading(false)
             } catch (error) {
-                console.error("Failed to fetch data:", error);
+                showConsoleError("Failed to fetch data:", error);
             }
         };
         fetchSimilarQuestions();
@@ -90,7 +90,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
         try {
             await BrainBulkDelete([id]);
         } catch (e) {
-            console.log(e)
+            showConsoleError(e)
         }
     };
 
@@ -133,10 +133,12 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                             <div>{answer}</div>
                         </div>
                         <div className={styles.actionCol}>
-                            <button className={styles.confirm} onClick={() => setSwapped(true)}>
-                                Confirm Add
-                            </button>
-                            {dialogShownFromType != DialogShownFromType.Context && <button className={styles.reject} onClick={handleReject}>Reject</button>}
+
+                            <CustomButton type={ButtonType.Approve} onClick={() => setSwapped(true)} text="Confirm Add" />
+
+                            {dialogShownFromType != DialogShownFromType.Context &&
+                                <CustomButton type={ButtonType.Reject} onClick={handleReject} text="Reject" />
+                            }
                         </div>
                     </div>
                 )}

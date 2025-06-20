@@ -65,7 +65,7 @@ export const setupInterceptors = (setLoading: (value: boolean) => void) => {
               localStorage.removeItem("refreshToken");
             }
           } catch (refreshError) {
-            console.error("Refresh token failed:", refreshError);
+            showConsoleError("Refresh token failed:", refreshError);
             localStorage.removeItem("authToken");
             localStorage.removeItem("refreshToken");
             triggerGlobalLogout();
