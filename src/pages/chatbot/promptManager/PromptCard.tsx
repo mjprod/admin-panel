@@ -88,7 +88,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
                 onSave={() => { }}
                 isAction={false}
                 title={`${NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name} - Node History`} >
-                <History nodeName={NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name} setRefresh={setRefresh} />
+                <History nodeName={prompt.node_name} setRefresh={setRefresh} />
             </PromptModal>
             <ConfirmationDialog
                 title="Are you sure you want to set the prompt to default?"
