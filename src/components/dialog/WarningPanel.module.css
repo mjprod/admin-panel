@@ -1,0 +1,77 @@
+.warningBox {
+    background: repeating-linear-gradient(135deg, #eae49b, #fbf3b2 20px, #eae49b 40px);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #eae49b;
+}
+
+.warningInner {
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.warningTitle {
+    color: #b99a0a;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.warningText {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.questionAns {
+    display: flex;
+    color: #666;
+    margin-bottom: 0.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: start;
+}
+
+.warningActions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.cancel {
+    border: 2px solid #444;
+    background: #fff;
+    color: #222;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+}
+
+.swapBtn {
+    display: block;
+    margin: 0 auto 2rem auto;
+    background: #dedede;
+    border: 1px solid #999;
+    color: #444;
+    padding: 0.3rem 1.3rem;
+    font-size: 1.2rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+}
+
+
+.confirm {
+    background: #d2fad7;
+    color: #144421;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+}

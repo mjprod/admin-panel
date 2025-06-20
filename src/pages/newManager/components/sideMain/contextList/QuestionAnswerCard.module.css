@@ -1,3 +1,12 @@
+.question-answer-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--black-200);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
 .question-answer-container-view {
   display: flex;
   flex-direction: row;
@@ -5,9 +14,6 @@
   justify-content: flex-start;
   align-items: start;
   max-width: 100%;
-  border-bottom: 1px solid var(--black-200);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
 }
 
 .question-answer-sub-con {
@@ -19,4 +25,12 @@
 
 .remove-padding {
   gap: unset;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  gap: 16px;
 }

@@ -11,6 +11,7 @@ import {
   TopicItem,
   EditablePair,
   Language,
+  SimilarKnowledgeResponse,
 } from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
@@ -245,6 +246,25 @@ export const KowledgeSummary = async (
     pathVariables,
     query
   );
+};
+
+export const KnowledgeContentCheckSimilarKnowledge = async (
+  question: string,
+  answer: string,
+  type: number = 1, // only type 1 (FAQ) is supported for now!!
+  top_n?: string,
+  rerank_top_n?: string
+): Promise<SimilarKnowledgeResponse | null> => {
+  const basePayload = {
+    type: type,
+    question: question,
+    answer: answer,
+    top_n: top_n,
+    rerank_top_n: rerank_top_n
+  };
+
+  const payload = createPayload(basePayload);
+  return await apiPostRequest(Endpoint.KnowledgeContentCheckSimilarKnowledge, payload);
 };
 
 export const Login = async (

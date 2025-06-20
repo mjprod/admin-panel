@@ -1,14 +1,16 @@
 // AIGenerateList.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AIGenerateList.module.css";
 import QuestionAnswerCard from "./QuestionAnswerCard";
 import { EditablePair } from "../../../../../api/responsePayload/KnowledgeResponse";
+import { showConsoleError } from "../../../../../util/ConsoleMessage";
+import { KowledgeContentBulkCreate } from "../../../../../api/apiCalls";
 
 interface AIGenerateListProps {
   loading: boolean;
   contextId: number;
   pairs: EditablePair[];
-  onUpdatePair: (index: number, updatedFields: Partial<EditablePair>) => void;
+  onUpdatePair: (index: number, updatedFields: Partial<EditablePair>, removePair?: EditablePair) => void;
   onQuestionAnswerChange: (
     index: number,
     question: string,
@@ -23,6 +25,12 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
   onUpdatePair,
   onQuestionAnswerChange,
 }) => {
+  const [pairsValue, setPairsValue] = useState<EditablePair[]>(pairs);
+
+  useEffect(() => {
+    setPairsValue(pairs)
+  }, [pairs])
+
   if (loading) {
     return (
       <div className={styles["spinner-container"]}>
@@ -31,9 +39,18 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
     );
   }
 
+  const handleApprove = async (index: number, selectedPairs: EditablePair) => {
+    try {
+      await KowledgeContentBulkCreate({ [contextId]: [selectedPairs] });
+      onUpdatePair(index, {}, selectedPairs)
+    } catch (e) {
+      showConsoleError(e);
+    }
+  };
+
   return (
     <div className={styles['main-container']}>
-      {pairs.map((pair, index) => (
+      {pairsValue.map((pair, index) => (
         <QuestionAnswerCard
           key={`${contextId}-${pair.id}`}
           question={pair.question}
@@ -51,6 +68,7 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
           onQuestionAnswerChanged={(question, answer) =>
             onQuestionAnswerChange(index, question, answer)
           }
+          approveCallback={() => handleApprove(index, pair)}
         />
       ))}
     </div>

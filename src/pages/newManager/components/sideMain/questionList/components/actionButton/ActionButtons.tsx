@@ -1,23 +1,25 @@
-import React, { useState } from "react";
-import styles from "./ActionButtons.module.css";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  KowledgeContentStatusPatch,
   KowledgeContentBulkUpdateStatus,
   KowledgeContentDelete,
+  KowledgeContentStatusPatch,
   KowledgeContentUpdateReject,
 } from "../../../../../../../api/apiCalls";
 import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
 import CustomButton, {
   ButtonType,
 } from "../../../../../../../components/button/CustomButton";
+import { DialogShownFromType, DialogStyle } from "../../../../../../../components/dialog/Dialog";
 import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
 import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
+import { DialogContext } from "../../../../../../../context/DialogContext";
 import {
   showConsoleError,
   showConsoleMessage,
 } from "../../../../../../../util/ConsoleMessage";
 import { QuestionStatus } from "../../../../../../../util/QuestionStatus";
+import styles from "./ActionButtons.module.css";
 
 interface ActionButtonsProps {
   id: number;
@@ -38,13 +40,16 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 }) => {
   const { t } = useTranslation();
   const { setUpdateConversationList } = useConversationsContext();
+  const { showDialog } = useContext(DialogContext);
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const handleEdit = () => {
     setEditSelected(!isEditSelected);
   };
 
   const handlePreApprove = async () => {
+
+    
     try {
       if (isEditSelected) {
         await KowledgeContentStatusPatch(
@@ -54,18 +59,21 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         );
         setEditSelected(!isEditSelected);
       } else {
-        await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
-        setUpdateConversationList(true);
+
+        showDialog(DialogStyle.Default, id, updatedQuestion ?? "", updatedAnswer, DialogShownFromType.NeedApproval);
+
+        // await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
+        // setUpdateConversationList(true);
       }
     } catch (e) {
       showConsoleError(e);
     }
+      
   };
 
   const handleReject = () => {
-    setOpen(true)
+    setOpen(true);
   };
-
 
   const handleReturn = async () => {
     try {
@@ -153,12 +161,14 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           />
         </div>
 
-        {open && <PopUpFeedback
-          key={id}
-          isOpen={open}
-          handleSubmit={handleRejectModalSubmit}
-          onClose={() => setOpen(false)}
-        />}
+        {open && (
+          <PopUpFeedback
+            key={id}
+            isOpen={open}
+            handleSubmit={handleRejectModalSubmit}
+            onClose={() => setOpen(false)}
+          />
+        )}
       </>
     );
   }
@@ -168,17 +178,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     type: ButtonType;
     onClick: () => void;
   }[] = [
-      {
-        text: t("newManager.return_to_approval"),
-        type: ButtonType.Return,
-        onClick: handleReturn,
-      },
-      {
-        text: t("newManager.approved"),
-        type: ButtonType.Approve,
-        onClick: handleApprove,
-      },
-    ];
+    {
+      text: t("newManager.return_to_approval"),
+      type: ButtonType.Return,
+      onClick: handleReturn,
+    },
+    {
+      text: t("newManager.approved"),
+      type: ButtonType.Approve,
+      onClick: handleApprove,
+    },
+  ];
 
   if (status === KnowledgeStatus.PreApproved) {
     return (
@@ -209,17 +219,16 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         type: ButtonType.Delete,
         onClick: handleDelete,
       },
-    ]
+    ],
   };
 
   return buttonConfig[status] ? (
-    <div
-      style={{ display: "flex", justifyContent: "space-between", flex: 1 }}
-    >
+    <div style={{ display: "flex", justifyContent: "space-between", flex: 1 }}>
       {buttonConfig[status]!.map((config, index) => (
         <CustomButton key={index} {...config} />
       ))}
-    </div>) : null;
+    </div>
+  ) : null;
 };
 
 export default ActionButtons;

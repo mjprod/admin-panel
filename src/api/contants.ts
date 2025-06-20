@@ -5,8 +5,11 @@ import { Language } from "./responsePayload/KnowledgeResponse";
 // export const apiDomainName = "api-staging.mjproapps.com/api";
 // export const BASE_URI = `https://${apiDomainName}`;
 
-export const apiDomainName = "api.mjproapps.com/api";
-export const BASE_URI = `https://${apiDomainName}`;
+// export const apiDomainName = "api.mjproapps.com/api";
+// export const BASE_URI = `https://${apiDomainName}`;
+
+export const apiDomainName = "127.0.0.1:8000";
+export const BASE_URI = `http://${apiDomainName}`;
 
 export const getBaseUri = () => {
   showConsoleMessage("Using Default API URL:", BASE_URI);
@@ -21,6 +24,7 @@ export const Endpoint = {
   KnowledgeContentBulkDelete: `${getBaseUri()}/knowledge-content/bulk-delete/`,
   KowledgeContentBulkCreate: `${getBaseUri()}/knowledge-content/bulk-create/`,
   knowledgeContentUpdateReject: `${getBaseUri()}/knowledge-content/update-to-reject/`,
+  KnowledgeContentCheckSimilarKnowledge: `${getBaseUri()}/knowledge-content/check-similar-knowledge/`,
 
   Brain: `${getBaseUri()}/brain/{id}`,
   BrainSearch: `${getBaseUri()}/brain/search/`,

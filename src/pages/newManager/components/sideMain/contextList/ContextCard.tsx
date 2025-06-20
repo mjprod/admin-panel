@@ -92,6 +92,7 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
 
   const handleApprove = async () => {
     try {
+
       await KowledgeContentBulkCreate({ [context.id]: pairs });
       updateList();
 
@@ -100,20 +101,46 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
     }
   };
 
-  const updatePair = (index: number, updatedFields: Partial<EditablePair>) => {
-    const updatedPairs = pairs.map((pair, i) =>
-      i === index ? { ...pair, ...updatedFields } : pair
-    );
+  const updatePair = (index: number, updatedFields: Partial<EditablePair>, removePair?: EditablePair) => {
+    // const updatedPairs = pairs.map((pair, i) =>
+    //   i === index ? { ...pair, ...updatedFields } : pair
+    // );
 
-    setPairs(updatedPairs);
-    setAIGenerateView(updatedPairs.length > 0)
+    let updatedPairs: EditablePair[];
+    // If selected is being set to true, make all others false
+    if (updatedFields.selected === true) {
+      updatedPairs = pairs.map((pair, i) =>
+        i === index
+          ? { ...pair, ...updatedFields, selected: true }
+          : { ...pair, selected: false }
+      );
+    } else {
+      // Normal update, apply only to matching index
+      updatedPairs = pairs.map((pair, i) =>
+        i === index ? { ...pair, ...updatedFields } : pair
+      );
+    }
+
+    console.log("---------updatedPairs-----", updatedPairs)
+
+    const finalPairs = removePair
+      ? updatedPairs.filter(pair => pair.id !== removePair.id)
+      : updatedPairs;
+
+    setPairs(finalPairs);
+
+
+    setAIGenerateView(finalPairs.length > 0)
+    if (finalPairs.length <= 0) {
+      updateList()
+    }
   };
 
   const getAIResponse = async () => {
     try {
       setLoading(true);
       const res = await GetContextAI(context.id);
-      
+
       const chat = mapToKnowledgeContext(context.context);
       setChatData(chat ?? undefined);
       const enhancedPairs = (res ?? []).map((item) => ({

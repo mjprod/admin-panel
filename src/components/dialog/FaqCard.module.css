@@ -1,0 +1,25 @@
+.qa {
+    flex: 1;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+.deleteBtn {
+    background: #fae0e0;
+    color: #a12222;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+}
