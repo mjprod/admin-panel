@@ -72,10 +72,14 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.topContainer}>
+            <div className={styles.bottomContainer}>
                 <div className={styles.backButtonContainer} onClick={handleBackButtonPress}>
                     <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> Go Back
                 </div>
+                <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
+            </div>
+            <div className={styles.topContainer}>
+
 
                 <div className={styles.stepContainer}>
                     {prompts ? (
@@ -104,9 +108,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
                     )}
                 </div>
             </div>
-            <div className={styles.bottomContainer}>
-                <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
-            </div>
+
             <ConfirmationDialog
                 title='Are you sure you want to reset all nodes to default?'
                 isOpen={showResetAllToDefaultDialog}
