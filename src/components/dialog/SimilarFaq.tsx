@@ -10,6 +10,7 @@ import { QuestionStatus } from "../../util/QuestionStatus";
 import { DialogContext } from "../../context/DialogContext";
 import { KnowledgeContentCheckSimilarKnowledge } from "../../api/apiCalls";
 import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
+import { useConversationsContext } from "../../context/ConversationProvider";
 /* eslint-disable react/prop-types */
 
 interface DeleteWarningPanelProps {
@@ -52,6 +53,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
     const [swapped, setSwapped] = useState(false);
     const { dismissDialog } = useContext(DialogContext);
     const [faqs, setFaqs] = useState<SimilarKnowledge[]>([]);
+    const { setUpdateConversationList } = useConversationsContext();
 
     useEffect(() => {
         const fetchSimilarQuestions = async () => {
@@ -102,8 +104,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                 textMessage
             );
 
-            //TODO: please refresh page
-            // setUpdateConversationList(true);
+            setUpdateConversationList(true);
             dismissDialog()
         } catch (e) {
             showConsoleError(e);
