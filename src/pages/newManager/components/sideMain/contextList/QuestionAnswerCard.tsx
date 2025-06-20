@@ -36,6 +36,10 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setChecked(defaultChecked)
+  }, [defaultChecked])
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
