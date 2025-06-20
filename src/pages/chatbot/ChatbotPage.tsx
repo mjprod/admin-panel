@@ -19,12 +19,11 @@ const ChatbotPage = () => {
       >
         <PromptManager />
       </div>
-      <div style={{ flex: "1", display: "flex", padding: "16px", margin: "0 auto", flexDirection: "column" }}>
+      <div style={{ flex: "1", display: "flex", padding: "16px", margin: "0 auto", flexDirection: "column", gap: "16px" }}>
         <MyChatBot chatWindowStyle={{
           height: "90dvh",
           width: "100%"
         }} />
-        <button>Start New Thread</button>
       </div>
     </div>
   );
