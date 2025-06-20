@@ -1,7 +1,7 @@
 .warningBox {
     background: repeating-linear-gradient(135deg, #eae49b, #fbf3b2 20px, #eae49b 40px);
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1rem;
     margin-bottom: 2rem;
     text-align: center;
     font-weight: 500;
@@ -22,13 +22,23 @@
 
 .warningText {
     color: #666;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.questionAns {
+    display: flex;
+    color: #666;
+    margin-bottom: 0.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: start;
 }
 
 .warningActions {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
+    margin-top: 1rem;
 }
 
 .cancel {

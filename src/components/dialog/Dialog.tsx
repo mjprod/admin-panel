@@ -19,7 +19,7 @@ interface Props {
   dialogStyle: DialogStyle;
   id: number;
   question: string;
-  answer?: string;
+  answer: string;
   isShowing: boolean;
   setShowDialog: (isShowing: boolean) => void;
   dialogShownFromType: DialogShownFromType

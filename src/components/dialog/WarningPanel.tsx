@@ -7,10 +7,12 @@ import { useConversationsContext } from "../../context/ConversationProvider";
 
 interface WarningPanelProps {
     id: number
+    question:string
+    answer:string
     setSwapped: (value: boolean) => void
 }
 
-const WarningPanel: React.FC<WarningPanelProps> = ({ id, setSwapped }) => {
+const WarningPanel: React.FC<WarningPanelProps> = ({ id, question, answer ,setSwapped }) => {
     const { dismissDialog } = useContext(DialogContext);
     const { setUpdateConversationList } = useConversationsContext();
 
@@ -31,6 +33,12 @@ const WarningPanel: React.FC<WarningPanelProps> = ({ id, setSwapped }) => {
                 </div>
                 <div className={styles.warningText}>
                     Please check similarities of other FAQs below
+                </div>
+                <div className={styles.questionAns}>
+                    {`Question: ${question}`}
+                </div>
+                <div className={styles.questionAns}>
+                    {`Answer: ${answer}`}
                 </div>
                 <div className={styles.warningActions}>
                     <button onClick={() => setSwapped(false)} className={styles.cancel}>

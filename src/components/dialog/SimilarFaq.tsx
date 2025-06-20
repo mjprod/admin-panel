@@ -45,7 +45,7 @@ interface SimilarFaqProps {
     dialogShownFromType: DialogShownFromType
     id: number;
     question: string;
-    answer?: string;
+    answer: string;
 }
 
 
@@ -122,7 +122,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                 </h2>
 
                 {swapped ? (
-                    <WarningPanel id={id} setSwapped={setSwapped} />
+                    <WarningPanel id={id} question={question} answer={answer} setSwapped={setSwapped} />
                 ) : (
                     <div className={styles.card}>
                         <div className={styles.badge}>New</div>
