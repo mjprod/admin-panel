@@ -10,6 +10,7 @@ import { QuestionStatus } from "../../util/QuestionStatus";
 import { DialogContext } from "../../context/DialogContext";
 import { KnowledgeContentCheckSimilarKnowledge } from "../../api/apiCalls";
 import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
+import LoadingSpinner from "../loading/LoadingSpinner";
 import { useConversationsContext } from "../../context/ConversationProvider";
 /* eslint-disable react/prop-types */
 
@@ -45,7 +46,6 @@ interface SimilarFaqProps {
     id: number;
     question: string;
     answer?: string;
-
 }
 
 
@@ -54,16 +54,19 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
     const { dismissDialog } = useContext(DialogContext);
     const [faqs, setFaqs] = useState<SimilarKnowledge[]>([]);
     const { setUpdateConversationList } = useConversationsContext();
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         const fetchSimilarQuestions = async () => {
             try {
                 const response = await KnowledgeContentCheckSimilarKnowledge(
-                    "Apa yang perlu saya lakukan setelah membuat kesilapan dalam pengisian jumlah?",
-                    "Anda perlu mengisi semula dengan jumlah yang betul, iaitu RM11, setelah membuat silap mengisi RM10. Pastikan untuk submit semula. Terima kasih Bosskuu ~ ❤️"
+                    question,
+                    answer ?? ""
                 )
                 console.log("KnowledgeContentCheckSimilarKnowledge response:", response?.detail);
                 response && setFaqs(response.detail)
+                setLoading(false)
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
@@ -158,6 +161,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                             <FaqCard key={faq.knowledge_content_id} faq={faq} onDelete={(id) => setDeletingId(id)} />
                         )
                     )}
+                    {isLoading && <LoadingSpinner />}
                 </div>
             </div>
             {open && (

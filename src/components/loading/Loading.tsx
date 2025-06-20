@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Loading.module.css";
 import { useLoading } from "../../context/LoadingContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Loading: React.FC = () => {
   const { isLoading } = useLoading();
@@ -9,7 +10,7 @@ const Loading: React.FC = () => {
 
   return (
     <div className={styles.loadingContainer}>
-      <div className={styles.spinner}></div>
+      <LoadingSpinner />
       <span className={styles.loadingText}>Loading...</span>
     </div>
   );
