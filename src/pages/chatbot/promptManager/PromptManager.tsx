@@ -9,6 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import { Prompt } from '../../../api/responsePayload/PromptResponse';
 
+export const NODE_ORDER = ["clarify_or_rewrite_question", "ocr", "generate"];
+export const NODE_DISPLAY_NAMES: { [key: string]: string } = {
+    clarify_or_rewrite_question: 'Clarify or Rewrite Question',
+    ocr: 'OCR',
+    generate: 'Generate',
+};
 interface PromptManagerProps {
 }
 
@@ -17,12 +23,11 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const [prompts, setPrompts] = useState<Prompt[] | null>(null);
     const [showResetAllToDefaultDialog, setShowResetAllToDefaultDialog] = useState(false);
     const [refresh, setRefresh] = useState(true);
-    const NODE_ORDER = ["agent", "ocr", "generate"];
 
     useEffect(() => {
         const fetchChat = async () => {
             try {
-                const response = await GetPrompts(undefined, { node_name: "agent, ocr, generate", is_active: true })
+                const response = await GetPrompts(undefined, { node_name: "clarify_or_rewrite_question, ocr, generate", is_active: true })
                 console.log("GetPrompt response:", response?.results);
                 response?.results && setPrompts(response.results.sort((a, b) => {
                     return NODE_ORDER.indexOf(a.node_name) - NODE_ORDER.indexOf(b.node_name);
@@ -38,7 +43,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
 
     const handleResetAllApiCall = async () => {
         try {
-            const response = await PromptResetToDefault(["ocr, agent, generate"]);
+            const response = await PromptResetToDefault(["ocr, clarify_or_rewrite_question, generate"]);
             console.log("PostPrompt Response:", response)
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
@@ -89,7 +94,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
                     {prompts ? (
                         prompts.map(prompt => (
                             <div className={styles.step} key={prompt.id}>
-                                <div className={styles.circle}>{prompt.node_name}</div>
+                                <div className={styles.circle}>{NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name}</div>
                             </div>
                         ))
                     ) : (
