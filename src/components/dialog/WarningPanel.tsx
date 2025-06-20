@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from './WarningPanel.module.css'
+import { DialogContext } from "../../context/DialogContext";
+import { KowledgeContentBulkUpdateStatus } from "../../api/apiCalls";
+import { QuestionStatus } from "../../util/QuestionStatus";
 
 interface WarningPanelProps {
     id: number
@@ -7,9 +10,17 @@ interface WarningPanelProps {
 }
 
 const WarningPanel: React.FC<WarningPanelProps> = ({ id, setSwapped }) => {
-    console.log("---id", id)
+    const { dismissDialog } = useContext(DialogContext);
 
-    return (
+    const handleConfirm = async () => {
+        await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
+        setSwapped(false)
+        dismissDialog()
+    }
+
+ 
+
+    return (<>
         <div className={styles.warningBox}>
             <div className={styles.warningInner}>
                 <div className={styles.warningTitle}>
@@ -22,10 +33,12 @@ const WarningPanel: React.FC<WarningPanelProps> = ({ id, setSwapped }) => {
                     <button onClick={() => setSwapped(false)} className={styles.cancel}>
                         Cancel
                     </button>
-                    <button className={styles.confirm}>Confirm Add</button>
+                    <button className={styles.confirm} onClick={handleConfirm}>Confirm Add</button>
                 </div>
             </div>
         </div>
+       
+    </>
     );
 }
 
