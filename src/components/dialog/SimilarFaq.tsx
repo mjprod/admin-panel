@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from './SimilarFaq.module.css'
 import FaqCard from "./FaqCard";
 import WarningPanel from "./WarningPanel";
+import { DialogShownFromType } from "./Dialog";
 /* eslint-disable react/prop-types */
 
 interface DeleteWarningPanelProps {
@@ -31,14 +32,16 @@ const DeleteWarningPanel: React.FC<DeleteWarningPanelProps> = ({ onCancel, onCon
 }
 
 
-interface SimilarFaqProps{
+interface SimilarFaqProps {
+    dialogShownFromType: DialogShownFromType
     id: number;
     question: string;
     answer?: string;
+
 }
 
 
-const SimilarFaq: React.FC<SimilarFaqProps> = ({id, question, answer}) => {
+const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogShownFromType }) => {
     const [swapped, setSwapped] = useState(false);
 
     const [faqs, setFaqs] = useState([
@@ -76,7 +79,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({id, question, answer}) => {
             </h2>
 
             {swapped ? (
-                <WarningPanel id = {id} setSwapped={setSwapped} />
+                <WarningPanel id={id} setSwapped={setSwapped} />
             ) : (
                 <div className={styles.card}>
                     <div className={styles.badge}>New</div>
@@ -90,7 +93,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({id, question, answer}) => {
                         <button className={styles.confirm} onClick={() => setSwapped(true)}>
                             Confirm Add
                         </button>
-                        <button className={styles.reject}>Reject</button>
+                            {dialogShownFromType  != DialogShownFromType.Context && <button className={styles.reject}>Reject</button>}
                     </div>
                 </div>
             )}

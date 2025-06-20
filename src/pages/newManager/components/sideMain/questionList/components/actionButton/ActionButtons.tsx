@@ -10,7 +10,7 @@ import { KnowledgeStatus } from "../../../../../../../api/responsePayload/Knowle
 import CustomButton, {
   ButtonType,
 } from "../../../../../../../components/button/CustomButton";
-import { DialogStyle } from "../../../../../../../components/dialog/Dialog";
+import { DialogShownFromType, DialogStyle } from "../../../../../../../components/dialog/Dialog";
 import PopUpFeedback from "../../../../../../../components/popUp/popUpRejectFeedback/PopUpFeedback";
 import { useConversationsContext } from "../../../../../../../context/ConversationProvider";
 import { DialogContext } from "../../../../../../../context/DialogContext";
@@ -60,7 +60,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         setEditSelected(!isEditSelected);
       } else {
 
-        showDialog(DialogStyle.Default, id, updatedQuestion ?? "", updatedAnswer);
+        showDialog(DialogStyle.Default, id, updatedQuestion ?? "", updatedAnswer, DialogShownFromType.NeedApproval);
 
         // await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
         // setUpdateConversationList(true);

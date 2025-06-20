@@ -1,8 +1,9 @@
 import { createContext, useState } from "react";
-import Dialog, { DialogStyle } from "../components/dialog/Dialog";
+import Dialog, { DialogShownFromType, DialogStyle } from "../components/dialog/Dialog";
 
 export interface DialogContextType {
-  showDialog: (style: DialogStyle, id: number, question: string, answer?: string,) => void;
+  showDialog: (style: DialogStyle, id: number, question: string, answer?: string,  dialogShownFromType?: DialogShownFromType
+  ) => void;
 }
 
 export const DialogContext = createContext<DialogContextType>(
@@ -14,6 +15,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [dialogQuestion, setDialogQuestion] = useState("");
   const [dialogAnswer, setDialogAnswer] = useState<string>();
   const [dialogId, setDialogId] = useState<number>(0);
+  const [dialogShownFromType, setdialogShownFromType] = useState<DialogShownFromType>(0);
 
   const [dialogStyle, setDialogStyle] = useState<DialogStyle>(
     DialogStyle.Default
@@ -24,6 +26,8 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     id: number,
     question: string,
     answer?: string,
+    dialogShownFromType?: DialogShownFromType
+
 
   ) => {
     setDialogQuestion(question);
@@ -31,6 +35,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     setDialogStyle(style);
     setShowingDialog(true);
     setDialogId(id)
+    setdialogShownFromType(dialogShownFromType ? dialogShownFromType : DialogShownFromType.Context)
   };
 
   const value = {
@@ -47,6 +52,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         id={dialogId}
         isShowing={showingDialog}
         setShowDialog={setShowingDialog}
+        dialogShownFromType={dialogShownFromType}
       />
     </DialogContext.Provider>
   );
