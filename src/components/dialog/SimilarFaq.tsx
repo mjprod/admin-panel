@@ -143,13 +143,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
 
                 < hr style={{ margin: "2rem 0" }} />
 
-                <div
-                    style={{
-                        maxHeight: "350px",
-                        overflowY: "auto",
-                        marginBottom: "1rem",
-                    }}
-                >
+                <div className={styles["faqList"]}>
                     {faqs.map((faq) =>
                         deletingId === faq.knowledge_content_id ? (
                             <DeleteWarningPanel

@@ -1,13 +1,8 @@
 .container {
-    background: #efefefb3;
-    border-radius: 1rem;
-    box-shadow: 0 2px 12px #0002;
-    border: 1px solid #fff;
-    margin: 40px auto;
     padding: 2rem;
-    width: 70vw;
-    min-width: 400px;
-    max-width: 900px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     font-family: "Inter", sans-serif;
 }
 
@@ -35,6 +30,10 @@
 
 .qa {
     flex: 1;
+}
+
+.faqList {
+    overflow-y: auto;
 }
 
 .actionCol {
@@ -70,6 +69,8 @@
     border-radius: 8px;
     border: 2px solid #fa6b6b;
     margin-bottom: 2rem;
+    flex: 1;
+    display: flex;
     padding: 2rem;
     text-align: center;
 }

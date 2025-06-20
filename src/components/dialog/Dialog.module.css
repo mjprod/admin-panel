@@ -12,17 +12,21 @@
 }
 
 .dialog-box {
+  display: flex;
+  background: #efefefb3;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px #0002;
+  border: 1px solid #fff;
+  font-family: "Inter", sans-serif;
   width: 95vw;
   height: 95vh;
-  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   position: relative;
 }
 
 .dialog-success {
-  background-color: #ecfdf5;
+  background: #efefefb3;
   color: #065f46;
 }
 
@@ -74,7 +78,7 @@
 
 .dialog-content {
   display: flex;
-  align-items: center;
+  flex: 1 1 100%;
   gap: 12px;
   padding: 20px;
 }
@@ -84,7 +88,12 @@
   border: none;
   background: none;
   cursor: pointer;
-  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.dialog-close-icon>img {
+  width: 45px;
+  height: 45px;
 }
 
 .dialog-swap-btn {
