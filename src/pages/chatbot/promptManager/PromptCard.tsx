@@ -73,7 +73,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
                 isOpen={isModalOpen}
                 onClose={() => { setIsModalOpen(false) }}
                 onSave={handleUpdatePrompt}
-                title={prompt.node_name}
+                title={`Edit: ${NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name}`}
                 instruction={instruction}>
                 <textarea
                     onChange={e => setPromptValue(e.target.value)}
@@ -87,8 +87,8 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
                 onClose={() => { setShowHistoryDialog(false) }}
                 onSave={() => { }}
                 isAction={false}
-                title={`${prompt.node_name} Node History`} >
-                <History nodeName={prompt.node_name} setRefresh={setRefresh} />
+                title={`${NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name} - Node History`} >
+                <History nodeName={NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name} setRefresh={setRefresh} />
             </PromptModal>
             <ConfirmationDialog
                 title="Are you sure you want to set the prompt to default?"

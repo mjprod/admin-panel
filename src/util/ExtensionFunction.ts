@@ -1,10 +1,5 @@
 import { defaultLanguage } from "../api/contants";
 import { Language } from "../api/responsePayload/KnowledgeResponse";
-import {
-  agentInstructions,
-  generateInstructions,
-  ocrInstructions,
-} from "../pages/chatbot/promptManager/components/Instructions";
 
 export const utcToLocalDate = (utcDateString: string): string => {
   const date = new Date(utcDateString);
@@ -103,11 +98,3 @@ export function updateHslaValues(
   // Return the updated HSLA string with modified values
   return `hsla(${h}, ${s}%, ${l}%, ${a})`;
 }
-
-export const getInstruction = (node_name: string) => {
-  return node_name == "ocr"
-    ? ocrInstructions
-    : node_name == "agent"
-    ? agentInstructions
-    : generateInstructions;
-};

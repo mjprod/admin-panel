@@ -50,7 +50,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
                 <div className={styles.modalHeader}>
                     <div style={{ flex: 1, flexDirection: "row", display: "flex", gap: "16px" }}>
                         <h2>{title}</h2>
-                        <button className={styles.topRightButton} onClick={handleInstruction}>?</button>
+                        {instruction && <button className={styles.topRightButton} onClick={handleInstruction}>?</button>}
                     </div>
 
                     <button onClick={onClose} className={styles.closeButton}>
@@ -79,14 +79,14 @@ const PromptModal: React.FC<PromptModalProps> = ({
                 onClose={() => { setIsInstructionOpen(false) }}
                 onSave={() => { }}
                 isAction={false}
-                title={`${title} prompt instruction`}
-
-            ><textarea
+                title={`${title} prompt instruction`}>
+                <textarea
                     value={instruction}
                     className={styles.input}
                     rows={20}
-                /></PromptModal>
-        </div>
+                />
+            </PromptModal>
+        </div >
     );
 };
 

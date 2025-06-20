@@ -2,19 +2,26 @@ import React, { useEffect, useState } from 'react';
 import styles from "./PromptManager.module.css"
 import PromptCard from './PromptCard';
 import { GetPrompts, PostPrompt, PromptResetToDefault } from '../../../api/apiCalls';
-import { getInstruction } from '../../../util/ExtensionFunction';
 import ConfirmationDialog from './ConfirmationDialog';
 import AssetsPack from '../../../util/AssetsPack';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import { Prompt } from '../../../api/responsePayload/PromptResponse';
+import { clarify_or_rewrite_question, generateInstructions, ocrInstructions } from './components/Instructions';
 
-export const NODE_ORDER = ["clarify_or_rewrite_question", "ocr", "generate"];
+export const NODE_ORDER = ["ocr", "clarify_or_rewrite_question", "generate"];
 export const NODE_DISPLAY_NAMES: { [key: string]: string } = {
     clarify_or_rewrite_question: 'Clarify or Rewrite Question',
     ocr: 'OCR',
     generate: 'Generate',
 };
+export const NODES_TO_FETCH = "clarify_or_rewrite_question, ocr, generate"
+
+export const NODE_INSTRUCTIONS: { [key: string]: string } = {
+    clarify_or_rewrite_question: clarify_or_rewrite_question,
+    ocr: ocrInstructions,
+    generate: generateInstructions
+}
 interface PromptManagerProps {
 }
 
@@ -27,7 +34,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     useEffect(() => {
         const fetchChat = async () => {
             try {
-                const response = await GetPrompts(undefined, { node_name: "clarify_or_rewrite_question, ocr, generate", is_active: true })
+                const response = await GetPrompts(undefined, { node_name: NODES_TO_FETCH, is_active: true })
                 console.log("GetPrompt response:", response?.results);
                 response?.results && setPrompts(response.results.sort((a, b) => {
                     return NODE_ORDER.indexOf(a.node_name) - NODE_ORDER.indexOf(b.node_name);
@@ -43,7 +50,7 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
 
     const handleResetAllApiCall = async () => {
         try {
-            const response = await PromptResetToDefault(["ocr, clarify_or_rewrite_question, generate"]);
+            const response = await PromptResetToDefault([NODES_TO_FETCH]);
             console.log("PostPrompt Response:", response)
         } catch (error) {
             console.error("Failed to PostPrompt data:", error);
@@ -88,8 +95,6 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>
             </div>
             <div className={styles.topContainer}>
-
-
                 <div className={styles.stepContainer}>
                     {prompts ? (
                         prompts.map(prompt => (
@@ -103,15 +108,15 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
                 </div>
                 <div className={styles.promptCardContainer}>
                     {prompts ? (
-                        prompts.map(prompt => (
-                            <PromptCard
+                        prompts.map(prompt => {
+                            return <PromptCard
                                 key={prompt.id}
                                 prompt={prompt}
-                                instruction={getInstruction(prompt.node_name)}
+                                instruction={NODE_INSTRUCTIONS[prompt.node_name]}
                                 onCreate={handleCreatePrompt}
                                 resetToDefault={handleResetToDefault}
                                 setRefresh={setRefresh} />
-                        ))
+                        })
                     ) : (
                         <LoadingSpinner />
                     )}
