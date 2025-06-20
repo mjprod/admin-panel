@@ -15,7 +15,7 @@ interface QuestionAnswerCardProps {
   defaultChecked: boolean;
   onCheckedChange: (checked: boolean) => void;
   onQuestionAnswerChanged: (question: string, answer: string) => void;
-  approveCallback:()=>void
+  approveCallback: () => void
 }
 
 const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
@@ -34,6 +34,10 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setChecked(defaultChecked)
+  }, [defaultChecked])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -102,9 +102,26 @@ const ContextCard: React.FC<ContextCard> = ({ context, onChecked, checked, setCh
   };
 
   const updatePair = (index: number, updatedFields: Partial<EditablePair>, removePair?: EditablePair) => {
-    const updatedPairs = pairs.map((pair, i) =>
-      i === index ? { ...pair, ...updatedFields } : pair
-    );
+    // const updatedPairs = pairs.map((pair, i) =>
+    //   i === index ? { ...pair, ...updatedFields } : pair
+    // );
+
+    let updatedPairs: EditablePair[];
+    // If selected is being set to true, make all others false
+    if (updatedFields.selected === true) {
+      updatedPairs = pairs.map((pair, i) =>
+        i === index
+          ? { ...pair, ...updatedFields, selected: true }
+          : { ...pair, selected: false }
+      );
+    } else {
+      // Normal update, apply only to matching index
+      updatedPairs = pairs.map((pair, i) =>
+        i === index ? { ...pair, ...updatedFields } : pair
+      );
+    }
+
+    console.log("---------updatedPairs-----", updatedPairs)
 
     const finalPairs = removePair
       ? updatedPairs.filter(pair => pair.id !== removePair.id)

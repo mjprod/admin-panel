@@ -1,5 +1,5 @@
 // AIGenerateList.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AIGenerateList.module.css";
 import QuestionAnswerCard from "./QuestionAnswerCard";
 import { EditablePair } from "../../../../../api/responsePayload/KnowledgeResponse";
@@ -25,6 +25,12 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
   onUpdatePair,
   onQuestionAnswerChange,
 }) => {
+  const [pairsValue, setPairsValue] = useState<EditablePair[]>(pairs);
+
+  useEffect(() => {
+    setPairsValue(pairs)
+  }, [pairs])
+
   if (loading) {
     return (
       <div className={styles["spinner-container"]}>
@@ -44,7 +50,7 @@ const AIGenerateList: React.FC<AIGenerateListProps> = ({
 
   return (
     <div className={styles['main-container']}>
-      {pairs.map((pair, index) => (
+      {pairsValue.map((pair, index) => (
         <QuestionAnswerCard
           key={`${contextId}-${pair.id}`}
           question={pair.question}
