@@ -8,20 +8,29 @@ export enum DialogStyle {
   Default,
 }
 
+export enum DialogShownFromType {
+  Context,
+  NeedApproval,
+}
+
 interface Props {
   dialogStyle: DialogStyle;
-  textTitle: string;
-  textBody?: string;
+  id: number;
+  question: string;
+  answer?: string;
   isShowing: boolean;
   setShowDialog: (isShowing: boolean) => void;
+  dialogShownFromType: DialogShownFromType
 }
 
 const Dialog: React.FC<Props> = ({
   dialogStyle,
-  //textTitle,
-  //textBody,
+  id,
+  question,
+  answer,
   isShowing,
   setShowDialog,
+  dialogShownFromType
 }) => {
   //const [isSwapped, setIsSwapped] = useState(false);
 
@@ -52,7 +61,13 @@ const Dialog: React.FC<Props> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="dialog-content">
-          <SimilarFaq />
+          <SimilarFaq
+            dialogShownFromType={dialogShownFromType}
+            question={question}
+            answer={answer}
+            id={id}
+
+          />
           {/* SWAP BUTTON in the middle */}
         </div>
       </div>
