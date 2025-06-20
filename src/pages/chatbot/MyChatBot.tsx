@@ -50,6 +50,12 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
         const reply = result?.reply || "No title returned";
         const contexts = result?.retrieved_context || [];
         const question = result?.rewrite_question;
+
+        if (question) {
+          const questionDisplay = "❓ Question:\n" + question;
+          await param.injectMessage(questionDisplay, "bot");
+        }
+
         const nonEmptyContexts = contexts.filter(ctx => ctx && ctx.trim() !== "");
         if (nonEmptyContexts.length > 0) {
           const contextText =
@@ -60,11 +66,6 @@ const MyChatBot: React.FC<MyChatBotProps> = ({ chatWindowStyle }) => {
 
           await param.injectMessage(contextText, "bot");
         }
-        if (question) {
-          const questionDisplay = "❓ Question:\n" + question;
-          await param.injectMessage(questionDisplay, "bot");
-        }
-
         return reply;
       },
       path: "loop",
