@@ -5,7 +5,7 @@ import WarningPanel from "./WarningPanel";
 import { DialogShownFromType } from "./Dialog";
 import PopUpFeedback from "../popUp/popUpRejectFeedback/PopUpFeedback";
 import { showConsoleError, showConsoleMessage } from "../../util/ConsoleMessage";
-import { KowledgeContentUpdateReject } from "../../api/apiCalls";
+import { BrainBulkDelete, KowledgeContentUpdateReject } from "../../api/apiCalls";
 import { QuestionStatus } from "../../util/QuestionStatus";
 import { DialogContext } from "../../context/DialogContext";
 import { KnowledgeContentCheckSimilarKnowledge } from "../../api/apiCalls";
@@ -70,17 +70,24 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
     }, [])
 
     const [deletingId, setDeletingId] = useState<number>(0);
-
-    const handleConfirmDelete = (id: number) => {
-        setFaqs((prev) => prev.filter((item) => item.knowledge_content_id !== id));
-        setDeletingId(0);
-    };
-
     const handleCancel = () => setDeletingId(0);
     const [open, setOpen] = useState(false);
     const handleReject = () => {
         setOpen(true)
     }
+    const handleConfirmDelete = (id: number) => {
+        setFaqs((prev) => prev.filter((item) => item.knowledge_content_id !== id));
+        setDeletingId(0);
+        handleDeleteFromBrain(id)
+    };
+
+    const handleDeleteFromBrain = async (id: number) => {
+        try {
+            await BrainBulkDelete([id]);
+        } catch (e) {
+            console.log(e)
+        }
+    };
 
     const handleRejectModalSubmit = async (
         selectOption: number,
