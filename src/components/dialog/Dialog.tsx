@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Dialog.module.css";
 import SimilarFaq from "./SimilarFaq";
 import clsx from "clsx";
@@ -37,6 +37,18 @@ const Dialog: React.FC<Props> = ({
   const closeDialog = () => {
     setShowDialog(false);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeDialog();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const getColorClass = () => {
     switch (dialogStyle) {

@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./QuestionAnswerCard.module.css";
 import Checkbox from "../../../../../components/button/Checkbox";
 import QuestionAnswerSection from "../questionList/components/questionAnswerSection/QuestionAnswerSection";
 import CategorySection from "./CategorySection";
 import CustomButton, { ButtonType } from "../../../../../components/button/CustomButton";
-import { DialogStyle, DialogShownFromType } from "../../../../../components/dialog/Dialog";
-import { DialogContext } from "../../../../../context/DialogContext";
 
 interface QuestionAnswerCardProps {
   question: string;
@@ -34,7 +32,6 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
 }) => {
   const [checked, setChecked] = useState<boolean>(defaultChecked);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { showDialog } = useContext(DialogContext);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -92,7 +89,10 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
             />
           </div>
         </div>
-        <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} onClick={handleApproveButtonClick} />
+        <div className={styles["buttons-container"]}>
+          <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} onClick={handleApproveButtonClick} />
+          <CustomButton type={ButtonType.Edit} text={"Edit"} disabled={!checked} onClick={() => setIsEditing(true)} />
+        </div>
       </div>
     </div>
   );

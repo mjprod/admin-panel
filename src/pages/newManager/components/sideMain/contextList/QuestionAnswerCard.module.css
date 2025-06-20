@@ -26,3 +26,11 @@
 .remove-padding {
   gap: unset;
 }
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  gap: 16px;
+}

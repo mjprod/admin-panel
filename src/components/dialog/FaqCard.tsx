@@ -4,16 +4,17 @@ import styles from './FaqCard.module.css'
 import { SimilarKnowledge } from "../../api/responsePayload/KnowledgeResponse";
 
 interface FaqCardProps {
+    index: number;
     faq: SimilarKnowledge;
     onDelete: (id: number) => void;
 }
 
-const FaqCard: React.FC<FaqCardProps> = ({ faq, onDelete }) => {
+const FaqCard: React.FC<FaqCardProps> = ({ index, faq, onDelete }) => {
     const { question, answer } = extractQA(faq.retrieve_content)
 
     return (
         <div className={styles.card}>
-            <div>[]</div>
+            <div>{index}</div>
             <div className={styles.qa}>
                 <div style={{ fontWeight: 600 }}>{question}</div>
                 <div>{answer}</div>

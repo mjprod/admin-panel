@@ -144,7 +144,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                 < hr style={{ margin: "2rem 0" }} />
 
                 <div className={styles["faqList"]}>
-                    {faqs.map((faq) =>
+                    {faqs.map((faq, index) =>
                         deletingId === faq.knowledge_content_id ? (
                             <DeleteWarningPanel
                                 key={faq.knowledge_content_id}
@@ -152,7 +152,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                                 onConfirm={() => handleConfirmDelete(faq.knowledge_content_id)}
                             />
                         ) : (
-                            <FaqCard key={faq.knowledge_content_id} faq={faq} onDelete={(id) => setDeletingId(id)} />
+                            <FaqCard index={index + 1} key={faq.knowledge_content_id} faq={faq} onDelete={(id) => setDeletingId(id)} />
                         )
                     )}
                     {isLoading && <LoadingSpinner />}
