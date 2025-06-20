@@ -6,6 +6,7 @@ import { getInstruction } from '../../../util/ExtensionFunction';
 import ConfirmationDialog from './ConfirmationDialog';
 import AssetsPack from '../../../util/AssetsPack';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 
 interface PromptManagerProps {
 }
@@ -71,35 +72,37 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.backButtonContainer} onClick={handleBackButtonPress}>
-                <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> Go Back
-            </div>
+            <div className={styles.topContainer}>
+                <div className={styles.backButtonContainer} onClick={handleBackButtonPress}>
+                    <img src={AssetsPack.icons.ICON_BACK.default} className={styles.back} /> Go Back
+                </div>
 
-            <div className={styles.stepContainer}>
-                {prompts ? (
-                    prompts.map(prompt => (
-                        <div className={styles.step} key={prompt.id}>
-                            <div className={styles.circle}>{prompt.node_name}</div>
-                        </div>
-                    ))
-                ) : (
-                    <p>Loading prompts...</p>
-                )}
-            </div>
-            <div className={styles.promptCardContainer}>
-                {prompts ? (
-                    prompts.map(prompt => (
-                        <PromptCard
-                            key={prompt.id}
-                            prompt={prompt}
-                            instruction={getInstruction(prompt.node_name)}
-                            onCreate={handleCreatePrompt}
-                            resetToDefault={handleResetToDefault}
-                            setRefresh={setRefresh} />
-                    ))
-                ) : (
-                    <p>Loading prompts...</p>
-                )}
+                <div className={styles.stepContainer}>
+                    {prompts ? (
+                        prompts.map(prompt => (
+                            <div className={styles.step} key={prompt.id}>
+                                <div className={styles.circle}>{prompt.node_name}</div>
+                            </div>
+                        ))
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </div>
+                <div className={styles.promptCardContainer}>
+                    {prompts ? (
+                        prompts.map(prompt => (
+                            <PromptCard
+                                key={prompt.id}
+                                prompt={prompt}
+                                instruction={getInstruction(prompt.node_name)}
+                                onCreate={handleCreatePrompt}
+                                resetToDefault={handleResetToDefault}
+                                setRefresh={setRefresh} />
+                        ))
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </div>
             </div>
             <div className={styles.bottomContainer}>
                 <button className={styles.resetButton} onClick={handleResetAll}>Revert all to Default</button>

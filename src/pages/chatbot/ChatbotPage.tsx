@@ -7,7 +7,7 @@ const ChatbotPage = () => {
     <div
       style={{
         display: "flex",
-        height: "100dvh", 
+        height: "100dvh",
         fontFamily: "sans-serif",
         overflow: "hidden",
       }}>
@@ -15,16 +15,16 @@ const ChatbotPage = () => {
         style={{
           flexGrow: 1,
           overflowY: "auto",
-          padding: "16px",
         }}
       >
         <PromptManager />
       </div>
-      <div style={{ width: "40%", padding: "16px" }}>
+      <div style={{ flex: "1", display: "flex", padding: "16px", margin: "0 auto", flexDirection: "column" }}>
         <MyChatBot chatWindowStyle={{
-          height: "90vh",
-          width: "90%"
+          height: "90dvh",
+          width: "100%"
         }} />
+        <button>Start New Thread</button>
       </div>
     </div>
   );

@@ -1,1 +1,0 @@
-export const CHAT_BOT_TEST_VSRSION = 1
