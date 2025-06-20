@@ -15,6 +15,7 @@ interface QuestionAnswerCardProps {
   defaultChecked: boolean;
   onCheckedChange: (checked: boolean) => void;
   onQuestionAnswerChanged: (question: string, answer: string) => void;
+  approveCallback:()=>void
 }
 
 const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
@@ -27,6 +28,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   defaultChecked,
   onCheckedChange,
   onQuestionAnswerChanged,
+  approveCallback
 }) => {
   const [checked, setChecked] = useState<boolean>(defaultChecked);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -58,7 +60,7 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
   };
 
   const handleApproveButtonClick = () => {
-
+    approveCallback()
   }
 
   return (
