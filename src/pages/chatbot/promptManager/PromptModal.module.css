@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     z-index: 1000;
 }
 
@@ -17,6 +18,7 @@
     padding: 20px;
     width: 90%;
     height: 80%;
+    overflow: hidden;
     box-sizing: border-box;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     animation: modalFadeIn 0.3s ease-out forwards;

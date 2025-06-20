@@ -5,6 +5,7 @@ import PromptModal from './PromptModal';
 import ConfirmationDialog from './ConfirmationDialog';
 import History from './components/History';
 import { Prompt } from '../../../api/responsePayload/PromptResponse';
+import { NODE_DISPLAY_NAMES } from './PromptManager';
 
 interface PromptCardProps {
     prompt: Prompt;
@@ -55,7 +56,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
         <>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <div className={clsx(styles.title)}>{prompt.node_name}</div>
+                    <div className={clsx(styles.title)}>{NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name}</div>
                     <div className={styles.buttonsContainer}>
                         <button className={clsx(styles.button, styles.warning)} onClick={handleDefaultButton}>Default</button>
                         <button className={clsx(styles.button, styles.normal)} onClick={handleHistoryButton}>History</button>
@@ -72,7 +73,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
                 isOpen={isModalOpen}
                 onClose={() => { setIsModalOpen(false) }}
                 onSave={handleUpdatePrompt}
-                title={prompt.node_name}
+                title={`Edit: ${NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name}`}
                 instruction={instruction}>
                 <textarea
                     onChange={e => setPromptValue(e.target.value)}
@@ -86,8 +87,8 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, instruction, onCreate, 
                 onClose={() => { setShowHistoryDialog(false) }}
                 onSave={() => { }}
                 isAction={false}
-                title={`${prompt.node_name} Node History`} >
-                <History nodeName={prompt.node_name} setRefresh={setRefresh} />
+                title={`${NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name} - Node History`} >
+                <History nodeName={NODE_DISPLAY_NAMES[prompt.node_name] || prompt.node_name} setRefresh={setRefresh} />
             </PromptModal>
             <ConfirmationDialog
                 title="Are you sure you want to set the prompt to default?"

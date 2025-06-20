@@ -3,9 +3,10 @@ import styles from "./ChatItem.module.css";
 import clsx from "clsx";
 import { PromptDataModel } from "./History";
 import { PostPrompt, PromptPatch } from "../../../../api/apiCalls";
-import { getInstruction, utcToLocalDate, utcToLocalTime } from "../../../../util/ExtensionFunction";
+import { utcToLocalDate, utcToLocalTime } from "../../../../util/ExtensionFunction";
 import PromptModal from "../PromptModal";
 import ConfirmationDialog from "../ConfirmationDialog";
+import { NODE_INSTRUCTIONS } from "../PromptManager";
 import { showConsoleError, showConsoleMessage } from "../../../../util/ConsoleMessage";
 
 interface ChatItemProps {
@@ -36,7 +37,6 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, setAction }) => {
         setIsModalOpen((prev) => !prev);
 
     }
-
 
     const handleUpdatePrompt = () => {
         setShowCreateNewDialogConfirm(true)
@@ -78,7 +78,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, setAction }) => {
                 onClose={() => { setIsModalOpen(false) }}
                 onSave={handleUpdatePrompt}
                 title={chat.node_name}
-                instruction={getInstruction(chat.node_name)}
+                instruction={NODE_INSTRUCTIONS[chat.node_name]}
             >
                 <textarea
                     onChange={e => setPromptValue(e.target.value)}

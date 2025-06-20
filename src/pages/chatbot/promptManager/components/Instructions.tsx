@@ -1,4 +1,4 @@
-export const agentInstructions = `
+export const clarify_or_rewrite_question = `
 Tool Use Logic
 - Use \`retrieve\` if the input came from OCR or a knowledge base query is needed.
 - Use \`balance\` if the user mentions checking funds, amount received, or available balance.
