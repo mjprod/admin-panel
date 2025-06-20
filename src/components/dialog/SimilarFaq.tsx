@@ -64,11 +64,10 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
                     question,
                     answer ?? ""
                 )
-                console.log("KnowledgeContentCheckSimilarKnowledge response:", response?.detail);
                 response && setFaqs(response.detail)
                 setLoading(false)
             } catch (error) {
-                console.error("Failed to fetch data:", error);
+                showConsoleError("Failed to fetch data:", error);
             }
         };
         fetchSimilarQuestions();
@@ -90,7 +89,7 @@ const SimilarFaq: React.FC<SimilarFaqProps> = ({ id, question, answer, dialogSho
         try {
             await BrainBulkDelete([id]);
         } catch (e) {
-            console.log(e)
+            showConsoleError(e)
         }
     };
 

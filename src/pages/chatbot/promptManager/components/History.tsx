@@ -3,6 +3,7 @@ import styles from './History.module.css'
 import ChatItem from "./ChatItem";
 import clsx from "clsx";
 import { GetPrompts } from "../../../../api/apiCalls";
+import { showConsoleError } from "../../../../util/ConsoleMessage";
 
 interface HistoryProps {
     nodeName: string;
@@ -31,7 +32,7 @@ const History: React.FC<HistoryProps> = ({ nodeName, setRefresh }) => {
                 const response = await GetPrompts(undefined, { node_name: nodeName })
                 response?.results && setPrompts(response.results.reverse())
             } catch (error) {
-                console.error("Failed to fetch data:", error);
+                showConsoleError("Failed to fetch data:", error);
             }
             setActionUpdate(false)
         };

@@ -8,6 +8,7 @@ import AssetsPack from '../../../util/AssetsPack';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import { Prompt } from '../../../api/responsePayload/PromptResponse';
+import { showConsoleError, showConsoleMessage } from '../../../util/ConsoleMessage';
 
 interface PromptManagerProps {
 }
@@ -23,12 +24,12 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
         const fetchChat = async () => {
             try {
                 const response = await GetPrompts(undefined, { node_name: "agent, ocr, generate", is_active: true })
-                console.log("GetPrompt response:", response?.results);
+                showConsoleMessage("GetPrompt response:", response?.results);
                 response?.results && setPrompts(response.results.sort((a, b) => {
                     return NODE_ORDER.indexOf(a.node_name) - NODE_ORDER.indexOf(b.node_name);
                 }))
             } catch (error) {
-                console.error("Failed to fetch data:", error);
+                showConsoleError("Failed to fetch data:", error);
             }
             setRefresh(false)
         };
@@ -39,9 +40,9 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const handleResetAllApiCall = async () => {
         try {
             const response = await PromptResetToDefault(["ocr, agent, generate"]);
-            console.log("PostPrompt Response:", response)
+            showConsoleMessage("PostPrompt Response:", response)
         } catch (error) {
-            console.error("Failed to PostPrompt data:", error);
+            showConsoleError("Failed to PostPrompt data:", error);
         }
         setRefresh(true)
     }
@@ -53,9 +54,9 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const handleCreatePrompt = async (newNodeName: string, newPromptValue: string) => {
         try {
             const response = await PostPrompt(newNodeName, newPromptValue);
-            console.log("PostPrompt Response:", response)
+            showConsoleMessage("PostPrompt Response:", response)
         } catch (error) {
-            console.error("Failed to PostPrompt data:", error);
+            showConsoleError("Failed to PostPrompt data:", error);
         }
         setRefresh(true)
     }
@@ -63,9 +64,9 @@ const PromptManager: React.FC<PromptManagerProps> = ({ }) => {
     const handleResetToDefault = async (nodeName: string) => {
         try {
             const response = await PromptResetToDefault([nodeName]);
-            console.log("PostPrompt Response:", response)
+            showConsoleMessage("PostPrompt Response:", response)
         } catch (error) {
-            console.error("Failed to PostPrompt data:", error);
+            showConsoleError("Failed to PostPrompt data:", error);
         }
         setRefresh(true)
     }
