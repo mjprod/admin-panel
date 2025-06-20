@@ -95,7 +95,8 @@ const QuestionAnswerCard: React.FC<QuestionAnswerCardProps> = ({
         </div>
         <div className={styles["buttons-container"]}>
           <CustomButton type={ButtonType.Approve} text={"Approve"} disabled={!checked} onClick={handleApproveButtonClick} />
-          <CustomButton type={ButtonType.Edit} text={"Edit"} disabled={!checked} onClick={() => setIsEditing(true)} />
+
+          {isEditing ? <CustomButton type={ButtonType.Done} text={"Save"} disabled={!checked} onClick={() => setIsEditing(true)} /> : <CustomButton type={ButtonType.Edit} text={"Edit"} disabled={!checked} onClick={() => setIsEditing(true)} />}
         </div>
       </div>
     </div>
