@@ -11,6 +11,7 @@ import {
   TopicItem,
   EditablePair,
   Language,
+  SimilarKnowledgeResponse,
 } from "./responsePayload/KnowledgeResponse";
 import {
   apiDeleteRequest,
@@ -248,12 +249,12 @@ export const KowledgeSummary = async (
 };
 
 export const KnowledgeContentCheckSimilarKnowledge = async (
-  type: number = 1, // only type 1 (FAQ) is supported for now!!
-  question: number,
+  question: string,
   answer: string,
+  type: number = 1, // only type 1 (FAQ) is supported for now!!
   top_n?: string,
   rerank_top_n?: string
-): Promise<AxiosResponse | null> => {
+): Promise<SimilarKnowledgeResponse | null> => {
   const basePayload = {
     type: type,
     question: question,
