@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-family: Inter;
   font-weight: var(--font-weight400);
   gap: 0.5rem;
   border-radius: 0.5rem;
@@ -84,7 +83,8 @@
 .cancel-edit {
   background-color: #fff;
 }
-.icon-cancel-edit > svg {
+
+.icon-cancel-edit>svg {
   width: 0.75rem;
 }
 
@@ -94,6 +94,7 @@
   color: var(--white);
   border: none;
   border-color: var(--color11-dark);
+
   & path {
     stroke: var(--color12-dark);
   }
@@ -108,7 +109,7 @@
   background-color: var(--white);
 }
 
-.disabled{
+.disabled {
   opacity: 0.5;
   pointer-events: none;
   user-select: none;
