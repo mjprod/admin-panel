@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import {
   KowledgeContentBulkUpdateStatus,
   KowledgeContentDelete,
+  KowledgeContentStatusPatch,
   KowledgeContentUpdateReject,
 } from "../../../../../../../api/apiCalls";
 import { KnowledgeStatus } from "../../../../../../../api/responsePayload/KnowledgeResponse";
@@ -47,9 +48,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const handlePreApprove = async () => {
-    showDialog(DialogStyle.Default, updatedQuestion ?? "", updatedAnswer);
 
-    /*
+    
     try {
       if (isEditSelected) {
         await KowledgeContentStatusPatch(
@@ -59,13 +59,16 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         );
         setEditSelected(!isEditSelected);
       } else {
-        await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
-        setUpdateConversationList(true);
+
+        showDialog(DialogStyle.Default, id, updatedQuestion ?? "", updatedAnswer);
+
+        // await KowledgeContentBulkUpdateStatus([id], QuestionStatus.Approved);
+        // setUpdateConversationList(true);
       }
     } catch (e) {
       showConsoleError(e);
     }
-      */
+      
   };
 
   const handleReject = () => {

@@ -2,10 +2,13 @@ import React from "react";
 import styles from './WarningPanel.module.css'
 
 interface WarningPanelProps {
+    id: number
     setSwapped: (value: boolean) => void
 }
 
-const WarningPanel: React.FC<WarningPanelProps> = ({ setSwapped }) => {
+const WarningPanel: React.FC<WarningPanelProps> = ({ id, setSwapped }) => {
+    console.log("---id", id)
+
     return (
         <div className={styles.warningBox}>
             <div className={styles.warningInner}>

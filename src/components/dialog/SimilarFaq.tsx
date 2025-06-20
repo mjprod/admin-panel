@@ -30,7 +30,15 @@ const DeleteWarningPanel: React.FC<DeleteWarningPanelProps> = ({ onCancel, onCon
     );
 }
 
-const SimilarFaq = () => {
+
+interface SimilarFaqProps{
+    id: number;
+    question: string;
+    answer?: string;
+}
+
+
+const SimilarFaq: React.FC<SimilarFaqProps> = ({id, question, answer}) => {
     const [swapped, setSwapped] = useState(false);
 
     const [faqs, setFaqs] = useState([
@@ -68,15 +76,15 @@ const SimilarFaq = () => {
             </h2>
 
             {swapped ? (
-                <WarningPanel setSwapped={setSwapped} />
+                <WarningPanel id = {id} setSwapped={setSwapped} />
             ) : (
                 <div className={styles.card}>
                     <div className={styles.badge}>New</div>
                     <div className={styles.qa}>
                         <div style={{ fontWeight: 600, marginBottom: 8 }}>
-                            Question will be here
+                            {question}
                         </div>
-                        <div>Answer will be here this is the stuff that needs to go in</div>
+                        <div>{answer}</div>
                     </div>
                     <div className={styles.actionCol}>
                         <button className={styles.confirm} onClick={() => setSwapped(true)}>

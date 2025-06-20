@@ -10,16 +10,18 @@ export enum DialogStyle {
 
 interface Props {
   dialogStyle: DialogStyle;
-  textTitle: string;
-  textBody?: string;
+  id: number;
+  question: string;
+  answer?: string;
   isShowing: boolean;
   setShowDialog: (isShowing: boolean) => void;
 }
 
 const Dialog: React.FC<Props> = ({
   dialogStyle,
-  //textTitle,
-  //textBody,
+  id,
+  question,
+  answer,
   isShowing,
   setShowDialog,
 }) => {
@@ -52,7 +54,11 @@ const Dialog: React.FC<Props> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="dialog-content">
-          <SimilarFaq />
+          <SimilarFaq 
+            question={question}
+            answer={answer}
+            id={id}
+          />
           {/* SWAP BUTTON in the middle */}
         </div>
       </div>
