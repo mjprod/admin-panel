@@ -5,11 +5,11 @@ import { Language } from "./responsePayload/KnowledgeResponse";
 // export const apiDomainName = "api-staging.mjproapps.com/api";
 // export const BASE_URI = `https://${apiDomainName}`;
 
-// export const apiDomainName = "api.mjproapps.com/api";
-// export const BASE_URI = `https://${apiDomainName}`;
+export const apiDomainName = "api.mjproapps.com/api";
+export const BASE_URI = `https://${apiDomainName}`;
 
-export const apiDomainName = "127.0.0.1:8000/api";
-export const BASE_URI = `http://${apiDomainName}`;
+// export const apiDomainName = "127.0.0.1:8000/api";
+// export const BASE_URI = `http://${apiDomainName}`;
 
 export const getBaseUri = () => {
   showConsoleMessage("Using Default API URL:", BASE_URI);
